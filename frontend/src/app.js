@@ -23,6 +23,7 @@ function App() {
   return (
     <div>
       <h1>Test: {message}</h1>
+      <input type="text" id="idk" name="idk"/>
     </div>
   );
 }
