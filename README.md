@@ -9,8 +9,16 @@ pip install -r requirements.txt
 Run ```python app.py``` in ```/backend```.
 
 ### Development - Running the frontend
+Sync/install all dependencies for the ```/frontend```:
+```
+npm i
+```
+or
+```
+npm install
+```
 
-- Bruh
+Run ```npm start``` in ```/frontend```.
 
 
 # Docker Containerising
