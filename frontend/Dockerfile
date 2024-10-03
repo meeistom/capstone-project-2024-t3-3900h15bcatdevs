@@ -4,6 +4,6 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN yarn install --no-cache-dir -r requirements.txt
+RUN npm install
 
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
