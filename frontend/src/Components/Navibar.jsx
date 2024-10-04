@@ -5,6 +5,7 @@ import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
+import "../index.css";
 
 export { Navibar };
 
@@ -37,10 +38,9 @@ function Navibar() {
 
   return (
     <>
-      <Navbar style={{ backgroundColor: "#7F48A3", color: "#FFF" }}>
+      <Navbar className="navbar">
         <Container className="d-flex flex-column align-items-start mx-2">
           <Navbar.Brand onClick={goToHome}>Milk Guard</Navbar.Brand>
-          <Navbar.Toggle />
           <Nav className="flex-row" variant="underline">
             <Nav.Link onClick={goToHome}>Home</Nav.Link>
             <Nav.Link onClick={goToMothers}>View Mothers</Nav.Link>
