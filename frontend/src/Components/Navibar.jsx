@@ -4,6 +4,13 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { faPersonDress } from "@fortawesome/free-solid-svg-icons";
+import { faBaby } from "@fortawesome/free-solid-svg-icons";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import "../index.css";
 
@@ -42,12 +49,24 @@ function Navibar() {
         <Container className="d-flex flex-column align-items-start mx-2">
           <Navbar.Brand onClick={goToHome}>Milk Guard</Navbar.Brand>
           <Nav className="flex-row" variant="underline">
-            <Nav.Link onClick={goToHome}>Home</Nav.Link>
-            <Nav.Link onClick={goToMothers}>View Mothers</Nav.Link>
-            <Nav.Link onClick={goToBabies}>View Babies</Nav.Link>
-            <Nav.Link onClick={goToSubmitFeed}>Submit Feed</Nav.Link>
-            <Nav.Link onClick={goToHistory}>History Log</Nav.Link>
-            <Button onClick={goToVerify}>Verify Feed</Button>
+            <Nav.Link onClick={goToHome}>
+              <FontAwesomeIcon icon={faHouse} /> Home
+            </Nav.Link>
+            <Nav.Link onClick={goToMothers}>
+              <FontAwesomeIcon icon={faPersonDress} /> View Mothers
+            </Nav.Link>
+            <Nav.Link onClick={goToBabies}>
+              <FontAwesomeIcon icon={faBaby} /> View Babies
+            </Nav.Link>
+            <Nav.Link onClick={goToSubmitFeed}>
+              <FontAwesomeIcon icon={faPaperPlane} /> Submit Feed
+            </Nav.Link>
+            <Nav.Link onClick={goToHistory}>
+              <FontAwesomeIcon icon={faClockRotateLeft} /> History Log
+            </Nav.Link>
+            <Button onClick={goToVerify}>
+              <FontAwesomeIcon icon={faCircleCheck} /> Verify Feed
+            </Button>
           </Nav>
         </Container>
       </Navbar>
