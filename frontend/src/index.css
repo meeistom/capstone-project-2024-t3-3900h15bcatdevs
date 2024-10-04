@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --brandColor: #7f48a3;
+  --navTextColor: #fff;
+  --textColor: #000;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  color: var(--textColor);
+}
+
+.navbar {
+  background-image: linear-gradient(to bottom right, #7f48a3, #502e66);
+}
+
+.navbar .nav-link {
+  color: var(--navTextColor);
+}
+
+.navbar .navbar-brand {
+  color: var(--navTextColor);
+  font-weight: bold;
+  font-size: 30px;
+}
