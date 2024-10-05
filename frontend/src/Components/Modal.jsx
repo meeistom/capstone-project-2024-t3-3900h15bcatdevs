@@ -27,7 +27,6 @@ function Modal({ closeModal }) {
 				</div>
 			</div>
 		</>
-	)
-};
+	)};
 
 export default Modal
