@@ -24,3 +24,70 @@ body {
   font-weight: bold;
   font-size: 30px;
 }
+
+.modal-background {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(2px);
+}
+
+.modal-container {
+  position: relative;
+  width: 500px;
+  height: 620px;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 37vw;
+  margin-top: 3%;
+}
+
+.modal-container .title {
+  font-size: xx-large;
+  color: #7f48a3;
+  text-align: center;
+  margin-top: 15%;
+}
+
+.modal-container .footer {
+  display: flex;
+  position: fixed;
+  margin-left: 15%;
+  bottom: 7%;
+}
+
+.modal-container img {
+  width: 60%;
+  margin-top: 5%;
+  margin-left: 20%;
+}
+
+.modal-container button {
+  margin: 2%;
+  position: absolute;
+  width: 8%;
+  height: 6%;
+  display: flex;
+  background: none;
+  border: none;
+  border-radius: 9px;
+  right: 0;
+}
+
+.modal-container button:hover {
+  background-color: #efe0f8;
+}
+
+.modal-container .close-btn {
+  color: #502e66;
+  align-self: center;
+  margin: 23%;
+}
+
+.scanner-input {
+  display: none;
+}
