@@ -4,6 +4,8 @@ import scanner from "../Assets/scanner.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
+export { Modal };
+
 function Modal({ closeModal }) {
   return (
     <>
@@ -28,5 +30,3 @@ function Modal({ closeModal }) {
       </div>
     </>
   )};
-
-export default Modal

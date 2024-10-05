@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
@@ -14,16 +14,13 @@ import { faBaby } from "@fortawesome/free-solid-svg-icons";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { faPlus } from "@fortawesome/free-solid-svg-icons"
 
 import "../index.css";
-import Modal from "./Modal";
 
 export { Navibar };
 
 function Navibar() {
   const navigate = useNavigate();
-  const [openModal, setOpenModal] = useState(false);
 
   const goToHome = () => {
     navigate("/");
@@ -73,13 +70,9 @@ function Navibar() {
             <Button onClick={goToVerify}>
               <FontAwesomeIcon icon={faCircleCheck} /> Verify Feed
             </Button>
-            <Button onClick={() => setOpenModal(true)}>
-              <FontAwesomeIcon icon={faPlus} /> New Milk Entry
-            </Button>
           </Nav>
         </Container>
       </Navbar>
-      {openModal && <Modal closeModal={setOpenModal}/>}
     </>
   );
 }
