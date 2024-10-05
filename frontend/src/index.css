@@ -12,6 +12,7 @@ body {
 }
 
 .navbar {
+  z-index: 100;
   background-image: linear-gradient(to bottom right, #7f48a3, #502e66);
 }
 
@@ -26,11 +27,15 @@ body {
 }
 
 .modal-background {
+  left: 0;
+  top: 0;
   position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(2px);
+  width: 100vw;
+  height: 100vh;
 }
 
 .modal-container {
@@ -42,8 +47,6 @@ body {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: column;
-  margin-left: 37vw;
-  margin-top: 3%;
 }
 
 .modal-container .title {
@@ -55,9 +58,7 @@ body {
 
 .modal-container .footer {
   display: flex;
-  position: fixed;
-  margin-left: 15%;
-  bottom: 7%;
+  align-self: center;
 }
 
 .modal-container img {
@@ -66,16 +67,20 @@ body {
   margin-left: 20%;
 }
 
-.modal-container button {
-  margin: 2%;
-  position: absolute;
-  width: 8%;
-  height: 6%;
-  display: flex;
+.modal-container .modal-close-btn {
+  position: absolute; 
+  top: 10px;
+  right: 10px;
+}
+
+.modal-container .modal-close-btn button {
   background: none;
   border: none;
   border-radius: 9px;
-  right: 0;
+  cursor: pointer;
+  padding: 5px;
+  width: 40px;
+  font-size: 25px;
 }
 
 .modal-container button:hover {
@@ -84,8 +89,6 @@ body {
 
 .modal-container .close-btn {
   color: #502e66;
-  align-self: center;
-  margin: 23%;
 }
 
 .scanner-input {

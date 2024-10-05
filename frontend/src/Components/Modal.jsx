@@ -9,14 +9,16 @@ function Modal({ closeModal }) {
 		<>
 			<div className='modal-background'>
 				<div className='modal-container'>
-					<button onClick={() => closeModal(false)}>
-						<input type="text" className="scanner-input" disabled></input>
-						<FontAwesomeIcon className='close-btn' icon={faXmark} />
-					</button>
+					<div className='modal-close-btn'>
+						<button onClick={() => closeModal(false)}>
+							<FontAwesomeIcon className='close-btn' icon={faXmark} />
+						</button>
+					</div>
 					<div className='title'>
 						<p>Please scan the mother's barcode</p>
 					</div>
 					<div className='body'>
+						<input type="text" className="scanner-input" disabled></input>
 						<img src={scanner} alt="scanner" />
 					</div>
 					<div className='footer'>
