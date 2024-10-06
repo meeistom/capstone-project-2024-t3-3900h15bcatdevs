@@ -34,8 +34,8 @@ function Navibar() {
     navigate("/view_babies");
   };
 
-  const goToSubmitFeed = () => {
-    navigate("/submit_feed");
+  const gotoRegister = () => {
+    navigate("/register");
   };
 
   const goToHistory = () => {
@@ -61,8 +61,8 @@ function Navibar() {
             <Nav.Link onClick={goToBabies}>
               <FontAwesomeIcon icon={faBaby} /> View Babies
             </Nav.Link>
-            <Nav.Link onClick={goToSubmitFeed}>
-              <FontAwesomeIcon icon={faPaperPlane} /> Submit Feed
+            <Nav.Link onClick={gotoRegister}>
+              <FontAwesomeIcon icon={faPaperPlane} /> Register
             </Nav.Link>
             <Nav.Link onClick={goToHistory}>
               <FontAwesomeIcon icon={faClockRotateLeft} /> History Log
