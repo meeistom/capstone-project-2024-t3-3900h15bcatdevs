@@ -10,15 +10,17 @@ import "../index.css";
 export { Home };
 
 function Home() {
+  
   const [openModal, setOpenModal] = useState(false);
+  
   return (
     <>
       <section id="Home">
         <Navibar />
-        <Button onClick={() => setOpenModal(true)}>
+        <Button id="scan-btn" onClick={() => {setOpenModal(true)}}>
           <FontAwesomeIcon icon={faPlus} /> New Milk Entry
         </Button>
-        {openModal && <Modal closeModal={setOpenModal}/>}
+        {openModal && <Modal closeModal={setOpenModal} version="addMilk1"/>}
         this is da home
       </section>
     </>

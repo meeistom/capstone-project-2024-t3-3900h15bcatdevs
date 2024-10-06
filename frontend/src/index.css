@@ -57,6 +57,13 @@ body {
   margin-top: 15%;
 }
 
+.modal-container .body {
+  display: flex;
+  justify-content: center; /* Center child elements horizontally */
+  align-items: center; /* Center child elements vertically (optional) */
+  flex-direction: column;
+}
+
 .modal-container .footer {
   display: flex;
   align-self: center;
@@ -64,8 +71,6 @@ body {
 
 .modal-container img {
   width: 60%;
-  margin-top: 5%;
-  margin-left: 20%;
 }
 
 .modal-container .modal-close-btn {
@@ -92,6 +97,9 @@ body {
   color: #502e66;
 }
 
-.scanner-input {
-  display: none;
+.modal-container .scanner-input {
+  display: flex;
+  border: 0;
+  outline: 0;
+
 }
