@@ -4,7 +4,7 @@ import { Home } from "./Pages/Home";
 import { ViewMothers } from "./Pages/ViewMothers";
 import { ViewBabies } from "./Pages/ViewBabies";
 import { Register } from "./Pages/Register";
-import { RegisterMother } from "./Pages/RegisterMother";
+import { RegisterMother } from "./Pages/RegisterMotherBabyMilk";
 import { HistoryLog } from "./Pages/HistoryLog";
 import { VerifyFeed } from "./Pages/VerifyFeed";
 

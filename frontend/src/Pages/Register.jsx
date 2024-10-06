@@ -1,4 +1,6 @@
 import { React, useState} from "react";
+import { useNavigate } from "react-router-dom";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../index.css";
 
@@ -12,6 +14,8 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 export { Register };
 
 function Register() {
+  const navigate = useNavigate();
+  
   const title = "What would you like to register?";
   const [checked, setChecked] = useState([false, false, false]);
 
@@ -26,6 +30,9 @@ function Register() {
     <>
       <section id="Home">
         <Navibar />
+        <div className="register-title">
+            <h1>{"Register"}</h1>
+        </div>
         <div className="register-selection-container">
           <div className='title'>
               <h2>{title}</h2>
@@ -79,15 +86,22 @@ function Register() {
               <span style={{ marginLeft: '10px' }}>Milk</span>
             </ToggleButton>
           </div>
-          <div className='button-container'>
-            <Button 
-              variant="primary"
-              size="lg"
-              >
-              <span style={{ marginRight: '10px' }}>Next</span>
-              <FontAwesomeIcon icon={faArrowRight} />
-            </Button>
-          </div>
+        </div>
+        <div className='next-button-container'>
+          <Button 
+            variant="primary"
+            size="lg"
+            onClick={() => { // Check if at least one is checked
+              if (checked[0] || checked[1] || checked[2]) {
+                navigate("/register_mother");
+              } else {
+                alert("Please select at least one option.");
+              }
+          }}
+            >
+            <span style={{ marginRight: '10px' }}>Next</span>
+            <FontAwesomeIcon icon={faArrowRight} />
+          </Button>
         </div>
       </section>
     </>

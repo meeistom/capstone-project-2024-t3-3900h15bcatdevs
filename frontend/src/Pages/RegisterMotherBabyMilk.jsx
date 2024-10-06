@@ -16,6 +16,10 @@ function RegisterMother() {
     <>
       <section id="Home">
         <Navibar />
+        <div className="register-title">
+            <h1>{"Register"}</h1>
+        </div>
+
       </section>
     </>
   );
