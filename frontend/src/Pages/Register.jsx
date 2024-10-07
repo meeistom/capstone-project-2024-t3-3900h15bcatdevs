@@ -1,4 +1,4 @@
-import { React, useState} from "react";
+import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,11 +10,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare, faCheckSquare } from "@fortawesome/free-regular-svg-icons";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-
 export { Register };
 
 function Register() {
-  const [currentRenderedPage, setCurrentRenderedPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(null);
+  const [registerStarted, setRegisterStarted] = useState(false);
   // Page 0: Choose Mother/Baby/Milk to register
   // Page 1: Mother Registration
   // Page 2: Baby Registration
@@ -22,202 +22,177 @@ function Register() {
   // Page 4: Confirm details
   // Page 5: Preview generated label
   // Page 6: Print label
-  
-  var pagesToVisit = [0];
-  var currentPage = 0;
+
   const nextPageToVisit = () => {
-    currentPage += 1;
-    console.log("Next Page: " + pagesToVisit[currentPage]);
-    setCurrentRenderedPage(pagesToVisit[currentPage]);
+    console.log(`Next Page: ${currentPage + 1}`);
+    setCurrentPage((currentPage) => currentPage + 1);
   };
-  
+
   const prevPageToVisit = () => {
-    currentPage -= 1;
-    console.log("Prev Page: " + pagesToVisit[currentPage]);
-    setCurrentRenderedPage(pagesToVisit[currentPage]);
+    console.log(`Prev Page: ${currentPage - 1}`);
+    setCurrentPage((currentPage) => currentPage - 1);
   };
-  
+
   // Registration Type - Mother, Baby, Milk
-  const [checked, setChecked] = useState([false, false, false]);
-  
-  const renderPage = () => {
-    console.log("Current Page: " + pagesToVisit[currentPage]);
-    switch (currentRenderedPage) {
-      case 0:
-        return <ChooseRegistrationTypePage
-        checked={checked}
-        setChecked={setChecked}
-        />
-      case 1:
-        return <MotherRegistrationPage />;
-      case 2:
-        return <BabyRegistrationPage />;
-      case 3:
-        return <MilkRegistrationPage />;
+  const [checked, setChecked] = useState({
+    momPage: false,
+    babyPage: false,
+    milkPage: false,
+  });
+
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.currentTarget;
+    console.log(name, checked);
+    setChecked((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
+    console.log(checked);
+  };
+
+  const startRegistration = () => {
+    const selectedPages = Object.keys(checked).filter((key) => checked[key]);
+
+    if (selectedPages.length > 0) {
+      setRegisterStarted(true);
+      setCurrentPage(0);
     }
-  }
-          
+  };
+
+  const selectedPages = [];
+
+  if (checked.momPage) selectedPages.push(<MotherRegistrationPage />);
+  if (checked.babyPage) selectedPages.push(<BabyRegistrationPage />);
+  if (checked.milkPage) selectedPages.push(<MilkRegistrationPage />);
+
   return (
     <>
-      <section id="Home">
+      <section id="Register">
         <Navibar />
         <div className="register-title">
-          <h1>{"Register"}</h1>
+          <h1>Register</h1>
         </div>
-        {renderPage()}
-        <div className='nav-button-container'>
-          <div className='back-button'>
-            {currentRenderedPage > 0 && (
-              <Button 
-                variant="primary"
-                size="lg"
-                onClick={() => {
-                  prevPageToVisit();
-                }}
-                >
-                <FontAwesomeIcon icon={faArrowLeft} />
-                <span style={{ marginLeft: '10px' }}>Back</span>
-              </Button>
-            )}  
-          </div>
-          <div className='next-button'>
-            <Button 
-              variant="primary"
-              size="lg"
-              onClick={() => {
-                if (currentPage == 0) {
-                  checked.forEach((type, index) => { // Add pages to visit based on what was checked
-                    if (type) {
-                      pagesToVisit.push(index + 1);
-                    }
-                  });
-                }
-                nextPageToVisit();
-                console.log(pagesToVisit);
-                // if (checked[0] && !visited[0]) { // Move to Mother Registration Page
-                //   setCurrentPage(1);
-                //   visited[0] = true;
-                //   console.log("Moving to Mother Registration Page");
-                // } else if (checked[1] && !visited[1]) { // Move to Baby Registration Page
-                //   setCurrentPage(2);
-                //   visited[1] = true; 
-                //   console.log("Moving to Baby Registration Page");
-                // } else if (checked[2] && !visited[2]) { // Move to Milk Registration Page
-                //   setCurrentPage(3);
-                //   visited[2] = true;
-                //   console.log("Moving to Milk Registration Page");
-                // } else {
-                //   alert("Please select at least one option.");
-                // }
-              }}
+
+        {!registerStarted && (
+          <div className="register-selection-container">
+            <div className="title">
+              <h2>{"What would you like to register?"}</h2>
+            </div>
+            <div className="checkbox-container">
+              {/* TODO: Create checkbox component */}
+              <ToggleButton
+                id="toggle-check-mom"
+                type="checkbox"
+                name="momPage"
+                className={checked.momPage ? "check" : "uncheck"}
+                checked={checked.momPage}
+                onChange={handleCheckboxChange}
               >
-              <span style={{ marginRight: '10px' }}>Next</span>
-              <FontAwesomeIcon icon={faArrowRight} />
-            </Button>
+                {checked.momPage ? (
+                  <FontAwesomeIcon icon={faCheckSquare} />
+                ) : (
+                  <FontAwesomeIcon icon={faSquare} />
+                )}
+                <span style={{ marginLeft: "10px" }}>Mother</span>
+              </ToggleButton>
+              <ToggleButton
+                id="toggle-check-baby"
+                type="checkbox"
+                name="babyPage"
+                className={checked.babyPage ? "check" : "uncheck"}
+                checked={checked.babyPage}
+                onChange={handleCheckboxChange}
+              >
+                {checked.babyPage ? (
+                  <FontAwesomeIcon icon={faCheckSquare} />
+                ) : (
+                  <FontAwesomeIcon icon={faSquare} />
+                )}
+                <span style={{ marginLeft: "10px" }}>Baby</span>
+              </ToggleButton>
+            </div>
+            <div className="checkbox-container">
+              <ToggleButton
+                id="toggle-check-milk"
+                type="checkbox"
+                name="milkPage"
+                className={checked.milkPage ? "check" : "uncheck"}
+                checked={checked.milkPage}
+                onChange={handleCheckboxChange}
+              >
+                {checked.milkPage ? (
+                  <FontAwesomeIcon icon={faCheckSquare} />
+                ) : (
+                  <FontAwesomeIcon icon={faSquare} />
+                )}
+                <span style={{ marginLeft: "10px" }}>Milk</span>
+              </ToggleButton>
+            </div>
+            <div className="footer">
+              <Button variant="primary" size="lg" onClick={startRegistration}>
+                Next
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Navigation buttons */}
+        {/* TODO: Make nav buttons */}
+        {registerStarted && currentPage !== null && (
+          <>
+            <div>{selectedPages[currentPage]}</div>
+            <div className="nav-button-container">
+              {currentPage > 0 && (
+                <Button variant="primary" size="lg" onClick={prevPageToVisit}>
+                  <FontAwesomeIcon icon={faArrowLeft} />
+                  <span style={{ marginLeft: "10px" }}>Back</span>
+                </Button>
+              )}
+              {currentPage < selectedPages.length - 1 && (
+                <Button variant="primary" size="lg" onClick={nextPageToVisit}>
+                  <span style={{ marginRight: "10px" }}>Next</span>
+                  <FontAwesomeIcon icon={faArrowRight} />
+                </Button>
+              )}
+            </div>
+          </>
+        )}
       </section>
     </>
   );
 }
 
-const ChooseRegistrationTypePage = ({checked, setChecked}) => {
-  const handleToggle = (index) => {
-    const newChecked = [...checked];
-    newChecked[index] = !newChecked[index];
-    setChecked(newChecked);
-  }
-
-  return (
-    <div className="register-selection-container">
-      <div className='title'>
-          <h2>{"What would you like to register?"}</h2>
-      </div>
-      <div className='checkbox-container'>
-        <ToggleButton // Mother Checkbox
-          className={checked[0] ? 'check' : 'uncheck'}
-          id="toggle-check"
-          type="checkbox"
-          checked={checked[0]}
-          value="1"
-          onClick={() => handleToggle(0)}
-          >
-          {checked[0] ? (
-            <FontAwesomeIcon icon={faCheckSquare} />
-          ) : (
-            <FontAwesomeIcon icon={faSquare} />
-          )}
-          <span style={{ marginLeft: '10px' }}>Mother</span>
-        </ToggleButton>
-        <ToggleButton // Baby Checkbox
-          className={checked[1] ? 'check' : 'uncheck'}
-          id="toggle-check"
-          type="checkbox"
-          checked={checked[1]}
-          value="1"
-          onClick={() => handleToggle(1)}
-          >
-          {checked[1] ? (
-            <FontAwesomeIcon icon={faCheckSquare} />
-          ) : (
-            <FontAwesomeIcon icon={faSquare} />
-          )}
-          <span style={{ marginLeft: '10px' }}>Baby</span>
-        </ToggleButton>
-      </div>
-      <div className='checkbox-container'>
-        <ToggleButton // Mother Checkbox
-          className={checked[2] ? 'check' : 'uncheck'}
-          id="toggle-check"
-          type="checkbox"
-          checked={checked[2]}
-          value="1"
-          onClick={() => handleToggle(2)}
-          >
-          {checked[2] ? (
-            <FontAwesomeIcon icon={faCheckSquare} />
-          ) : (
-            <FontAwesomeIcon icon={faSquare} />
-          )}
-          <span style={{ marginLeft: '10px' }}>Milk</span>
-        </ToggleButton>
-      </div>
-    </div>
-  )
-}
-
 const MotherRegistrationPage = () => (
   <div className="register-selection-container">
     {/* Render the progress bar at mother details stage */}
-    <div className='title'>
+    <div className="title">
       <h2>{"Mother Details"}</h2>
     </div>
-
   </div>
 );
 
 const BabyRegistrationPage = () => (
   <div className="register-selection-container">
-    {/* Render the progress bar at mother details stage */}
-    <div className='title'>
+    {/* Render the progress bar at baby details stage */}
+    <div className="title">
       <h2>{"Baby Details"}</h2>
     </div>
   </div>
 );
-           
+
 const MilkRegistrationPage = () => (
   <div className="register-selection-container">
-    {/* Render the progress bar at mother details stage */}
-    <div className='title'>
+    {/* Render the progress bar at milk details stage */}
+    <div className="title">
       <h2>{"Milk Details"}</h2>
     </div>
   </div>
 );
-           
+
 const ConfirmDetailsPage = () => (
   <div className="register-selection-container">
     {/* Render the progress bar at mother details stage */}
-    <div className='title'>
+    <div className="title">
       <h2>{"Confirm Details"}</h2>
     </div>
   </div>
@@ -226,18 +201,17 @@ const ConfirmDetailsPage = () => (
 const PreviewGeneratedLabelPage = () => (
   <div className="register-selection-container">
     {/* Render the progress bar at mother details stage */}
-    <div className='title'>
+    <div className="title">
       <h2>{"Preview Details"}</h2>
     </div>
   </div>
-);  
+);
 
 const PrintLabelPage = () => (
   <div className="register-selection-container">
     {/* Render the progress bar at mother details stage */}
-    <div className='title'>
+    <div className="title">
       <h2>{"Print Label"}</h2>
     </div>
   </div>
 );
-      
