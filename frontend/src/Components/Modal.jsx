@@ -32,8 +32,9 @@ function Modal({ closeModal, version }) {
 
   const handleSubmitMilkInfo = () => {
     if (!expiryDate || !expressDate) {
-      console.log(expiryDate)
-      console.log(expressDate)
+      // for debug
+      // console.log(expiryDate)
+      // console.log(expressDate)
       alert("Please fill in all relevant infomations^ ^");
     } else {
       setModalVersion("addMilk3");
