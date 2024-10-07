@@ -51,20 +51,23 @@ function Modal({ closeModal, version }) {
       footer = (
         <>
           <div>and this will be two btns</div>
-          <Button onClick={() => setModalVersion("addMilkComplete")}>
-            Next
-          </Button>
+          <Button onClick={() => setModalVersion("addMilk4")}>Next</Button>
         </>
       );
       break;
-    case "addMilkComplete":
+    // Confirmation Page
+    case "addMilk4":
       title = "Added Milk Successfully";
       body = (
         <>
           <div>
             Milk from the Mother was added. You may close the pop up now.
           </div>
-          <img src={confirmCheck} alt="Confirmation Icon" />
+          <img
+            src={confirmCheck}
+            alt="Confirmation Icon"
+            className="confirm-img"
+          />
         </>
       );
       footer = <Button onClick={() => closeModal(false)}>Return Home</Button>;

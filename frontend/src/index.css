@@ -64,6 +64,7 @@ body {
   align-items: center; /* Center child elements vertically (optional) */
   flex-direction: column;
   gap: 1rem;
+  text-align: center;
 }
 
 .modal-container .footer {
@@ -74,6 +75,12 @@ body {
 
 .modal-container img {
   width: 60%;
+}
+
+.modal-container .confirm-img {
+  width: 100px;
+  height: 100px;
+  margin-top: 5rem;
 }
 
 .modal-container .modal-close-btn {
