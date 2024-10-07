@@ -101,5 +101,24 @@ body {
   display: flex;
   border: 0;
   outline: 0;
+}
 
+.form-container {
+  width: 90%;
+}
+
+.form-mother-detail {
+  align-self: flex-start;
+}
+
+.form-mother-detail p {
+  margin: 0;
+}
+
+.form-container .col {
+  margin-top: 10px;
+}
+
+.form-container .container {
+  padding: 0;
 }
