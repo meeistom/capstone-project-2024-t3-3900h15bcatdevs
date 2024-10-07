@@ -1,6 +1,7 @@
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
-from database.get_mother import fetch_mother_data
+from database.fetch_mother import fetch_mother_data
+from database.insert_mother import insert_mother_data
 
 """
 Basic Skeleton for a Flask app that you can use in a docker container.
@@ -17,6 +18,12 @@ def passes():
 def get_mother_data():
     data = fetch_mother_data()
     return jsonify(data)
+
+@app.route('/database/insert_mother', methods=['POST'])
+def insert_mother():
+    data = request.get_json()
+    result = insert_mother_data(data)
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
