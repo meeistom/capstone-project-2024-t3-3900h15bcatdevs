@@ -1,7 +1,7 @@
 import json
 import psycopg2
 
-def insert_mother_details(json_filepath):
+def load_data(json_filepath):
     try:
         # Connect to the PostgreSQL database
         conn = psycopg2.connect(
@@ -12,21 +12,11 @@ def insert_mother_details(json_filepath):
             port=5432
         )
         cur = conn.cursor()
-        # Create the table if it doesn't already exist
-        cur.execute('''
-            CREATE TABLE IF NOT EXISTS mother (
-                id SERIAL PRIMARY KEY,
-                first_name VARCHAR(50),
-                last_name VARCHAR(50),
-                mrn INT,
-                barcode VARCHAR(50)
-            );
-        ''')
 
         # Open and load the JSON file
         with open(json_filepath, 'r') as file:
             data = json.load(file)
-            
+
             # Loop through each record in the JSON object
             for entry in data:
                 cur.execute('''
@@ -36,14 +26,14 @@ def insert_mother_details(json_filepath):
                 
                 # Commit the transaction for each row
                 conn.commit()
-        
-        print("Data inserted successfully.")
+
+        print("Data loaded successfully.")
 
         # Close the cursor and connection
         cur.close()
         conn.close()
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred while loading data: {e}")
 
 if __name__ == "__main__":
-    insert_mother_details('data/mother_details.json')
+    load_data('data/mother_details.json')
