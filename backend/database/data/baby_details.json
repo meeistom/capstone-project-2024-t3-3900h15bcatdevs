@@ -1,0 +1,14 @@
+[
+        {
+            "first_name": "Penny",
+            "last_name": "Doe",
+            "mrn": 12342,
+            "barcode": "ABC123"
+        },
+        {
+            "first_name": "Milo",
+            "last_name": "Smith",
+            "mrn": 67891,
+            "barcode": "XYZ789"
+        }
+    ]
