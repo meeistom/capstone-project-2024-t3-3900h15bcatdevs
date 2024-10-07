@@ -60,8 +60,15 @@ body {
 
 .modal-container .body {
   display: flex;
-  justify-content: center; /* Center child elements horizontally */
-  align-items: center; /* Center child elements vertically (optional) */
+  justify-content: center; 
+  align-items: center; 
+  flex-direction: column;
+}
+
+.modal-container .body .milk-confirmed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   gap: 1rem;
   text-align: center;
@@ -99,7 +106,7 @@ body {
   font-size: 25px;
 }
 
-.modal-container button:hover {
+.modal-container .modal-close-btn button:hover {
   background-color: #efe0f8;
 }
 
@@ -114,7 +121,7 @@ body {
 }
 
 .form-container {
-  width: 90%;
+  width: 100%;
 }
 
 .form-mother-detail {

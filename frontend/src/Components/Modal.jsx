@@ -38,7 +38,7 @@ function Modal({ closeModal, version }) {
       // for debug
       // console.log(expiryDate)
       // console.log(expressDate)
-      alert("Please fill in all relevant infomations^ ^");
+      alert("Please fill in all relevant infomation");
     } else {
       setModalVersion("addMilk3");
     }
@@ -69,10 +69,10 @@ function Modal({ closeModal, version }) {
         </>
       )
       footer = (
-        <>
+        <div className="btn-group">
          <button onClick={() => closeModal(false)} type="button" class="btn btn-outline-primary">Cancel</button>
          <button type="button" class="btn btn-primary" onClick={handleSubmitMilkInfo}>Confirm</button>
-        </>
+        </div>
       )
       break;
     case "addMilk3":
@@ -85,7 +85,7 @@ function Modal({ closeModal, version }) {
     case "addMilk4":
       title = "Added Milk Successfully";
       body = (
-        <>
+        <div className="milk-confirmed">
           <div>
             Milk from the Mother was added. You may close the pop up now.
           </div>
@@ -94,7 +94,7 @@ function Modal({ closeModal, version }) {
             alt="Confirmation Icon"
             className="confirm-img"
           />
-        </>
+        </div>
       );
       footer = <Button onClick={() => closeModal(false)}>Return Home</Button>;
       break;
