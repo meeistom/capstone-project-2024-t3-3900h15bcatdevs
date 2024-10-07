@@ -69,7 +69,7 @@ function Modal({ closeModal, version }) {
         </>
       )
       footer = (
-        <div className="btn-group">
+        <div id="btn-group">
          <button onClick={() => closeModal(false)} type="button" class="btn btn-outline-primary">Cancel</button>
          <button type="button" class="btn btn-primary" onClick={handleSubmitMilkInfo}>Confirm</button>
         </div>

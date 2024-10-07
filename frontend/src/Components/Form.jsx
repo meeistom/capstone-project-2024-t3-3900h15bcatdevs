@@ -18,7 +18,7 @@ function Form({ mrn, expressDate, setExpressDate, expiryDate, setExpiryDate}) {
         <div class="container">
           <div class="row row-cols-2">
             <div class="col">
-              <label htmlFor="milk-type" class="form-label">Milk Type</label>
+              <label htmlFor="milk-type" class="form-label">Milk Type*</label>
               <select id="milk-type" class="form-select form-select-sm" defaultValue="option-ehm">
                 <option value="ehm">EHM</option>
                 <option value="pdhm">PDHM</option>
@@ -28,7 +28,7 @@ function Form({ mrn, expressDate, setExpressDate, expiryDate, setExpiryDate}) {
               </select>
             </div>
             <div class="col">
-              <label htmlFor="milk-storage" class="form-label">Storage Type</label>
+              <label htmlFor="milk-storage" class="form-label">Storage Type*</label>
               <select id="milk-storage" class="form-select form-select-sm" defaultValue="option-fidge">
                 <option value="fridge">Fridge</option>
                 <option value="fresh">Fresh</option>
@@ -36,11 +36,11 @@ function Form({ mrn, expressDate, setExpressDate, expiryDate, setExpiryDate}) {
               </select>
             </div>
             <div class="col">
-              <label htmlFor="express-date" class="form-label">Expressed Date</label>
+              <label htmlFor="express-date" class="form-label">Expressed Date*</label>
               <input value={expressDate} onChange={(e) => {setExpressDate(e.target.value)}} class="form-control" id="express-date" type="datetime-local"/>
             </div>
             <div class="col">
-              <label htmlFor="expiry-date" class="form-label">Expiry Date</label>
+              <label htmlFor="expiry-date" class="form-label">Expiry Date*</label>
               <input value={expiryDate} onChange={(e) => {setExpiryDate(e.target.value)}} class="form-control" id="expiry-date" type="datetime-local"/>
             </div>
           </div>
