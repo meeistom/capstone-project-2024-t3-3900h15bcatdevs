@@ -22,6 +22,13 @@ def get_mother_data():
     data = fetch_mother_data()
     return jsonify(data)
 
+# returns the mothers details with matching barcode
+@app.route('/database/fetch_mother/<barcode>', methods=['GET'])
+def get_mother_data_by_barcode(barcode):
+    data = fetch_mother_data_by_barcode(barcode)
+    return jsonify(data)
+
+
 # inserts mother's details
 @app.route('/database/insert_mother', methods=['POST'])
 def insert_mother():
