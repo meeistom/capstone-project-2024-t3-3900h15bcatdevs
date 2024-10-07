@@ -161,9 +161,21 @@ body {
   margin-top: 5%;
 }
 
-.next-button-container {
+.nav-button-container {
   display: flex;
-  justify-content: right;
   margin-right: 10%;
-  align-items: end;
+  margin-left: 10%;
+  justify-content: space-between;
+}
+
+.back-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.next-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
 }

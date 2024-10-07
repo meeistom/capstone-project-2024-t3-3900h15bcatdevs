@@ -17,7 +17,6 @@ function App() {
           <Route path="/view_mothers" element={<ViewMothers />} />
           <Route path="/view_babies" element={<ViewBabies />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/register_mother" element={<RegisterMother />} />
           <Route path="/history_log" element={<HistoryLog />} />
           <Route path="/verify_feed" element={<VerifyFeed />} />
         </Routes>
