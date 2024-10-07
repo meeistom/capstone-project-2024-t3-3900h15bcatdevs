@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import "../index.css";
 import scanner from "../Assets/scanner.png";
 import { Form } from "./Form.jsx";
+import confirmCheck from "../Assets/confirm-check.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import Button from "react-bootstrap/Button";
 
 export { Modal };
 
@@ -20,15 +22,16 @@ function Modal({ closeModal, version }) {
       scannerInputRef.current.focus();
       // console.log("Input field focused"); // for debug
     }
-  }, [])
-  
+  }, []);
+
   const handleInput = () => {
     setScannedValue(scannerInputRef.current.value);
     // console.log(scannedValue); // for debug
-    if (scannedValue.length >= 8) { // this will be changed later on to data matching
+    if (scannedValue.length >= 8) {
+      // this will be changed later on to data matching
       setModalVersion("addMilk2");
     }
-  }
+  };
 
   const handleSubmitMilkInfo = () => {
     if (!expiryDate || !expressDate) {
@@ -47,7 +50,12 @@ function Modal({ closeModal, version }) {
       title = "Please scan the mother's barcode";
       body = (
         <>
-          <input type="text" className="scanner-input" ref={scannerInputRef} onChange={handleInput}></input>
+          <input
+            type="text"
+            className="scanner-input"
+            ref={scannerInputRef}
+            onChange={handleInput}
+          ></input>
           <img src={scanner} alt="scanner" />
         </>
       );
@@ -70,30 +78,43 @@ function Modal({ closeModal, version }) {
     case "addMilk3":
       title = "sticker preview";
       body = "pretend im a picture";
-      footer = "pretend im two btns";
+      footer = (
+        <Button onClick={() => setModalVersion("addMilk4")}>Print</Button>
+      )
       break;
     case "addMilk4":
-      // prepared for merge conflict
+      title = "Added Milk Successfully";
+      body = (
+        <>
+          <div>
+            Milk from the Mother was added. You may close the pop up now.
+          </div>
+          <img
+            src={confirmCheck}
+            alt="Confirmation Icon"
+            className="confirm-img"
+          />
+        </>
+      );
+      footer = <Button onClick={() => closeModal(false)}>Return Home</Button>;
+      break;
   }
   return (
     <>
-      <div className='modal-background'>
-        <div className='modal-container'>
-          <div className='modal-close-btn'>
+      <div className="modal-background">
+        <div className="modal-container">
+          <div className="modal-close-btn">
             <button onClick={() => closeModal(false)}>
-              <FontAwesomeIcon className='close-btn' icon={faXmark} />
+              <FontAwesomeIcon className="close-btn" icon={faXmark} />
             </button>
           </div>
-          <div className='title'>
+          <div className="title">
             <p>{title}</p>
           </div>
-          <div className='body'>
-            {body}
-          </div>
-          <div className='footer'>
-            {footer}
-          </div>
+          <div className="body">{body}</div>
+          <div className="footer">{footer}</div>
         </div>
       </div>
     </>
-  )};
+  );
+}
