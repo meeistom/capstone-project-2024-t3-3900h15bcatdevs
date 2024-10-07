@@ -6,8 +6,8 @@ def insert_mother_details(json_filepath):
         # Connect to the PostgreSQL database
         conn = psycopg2.connect(
             dbname="milk_checker",
-            user="aolinxu",
-            password="your_password",
+            user="username",
+            password="password",
             host="localhost",
             port=5432
         )
