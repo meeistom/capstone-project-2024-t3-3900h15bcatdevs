@@ -18,13 +18,17 @@ def fetch_mother_data():
         # Fetch all rows from the query result
         rows = cur.fetchall()
 
+        results = []
         # Print the result
         for row in rows:
             print(row)
+            results.append(row)
 
         # Close the cursor and connection
         cur.close()
         conn.close()
+
+        return results
 
     except Exception as e:
         print(f"An error occurred: {e}")
