@@ -122,6 +122,7 @@ body {
   font-size: large;
   color: #7f48a3;
   text-align: center;
+  position: relative;
   margin-top: 5%;
 }
 
@@ -130,8 +131,8 @@ body {
   font-size: xx-large;
   /* color: #7f48a3; */
   justify-content: center;
-  gap: 50px;
-  margin-top: 4%;
+  gap: 100px;
+  margin-top: 5%;
 }
 
 .register-selection-container .uncheck {
@@ -140,7 +141,6 @@ body {
   color: #7f48a3;
   font-size: xx-large;
   text-align: center;
-  margin-top: 5%;
 }
 
 .register-selection-container .uncheck:hover {
@@ -149,7 +149,6 @@ body {
   color: #ffffff;
   font-size: xx-large;
   text-align: center;
-  margin-top: 5%;
 }
 
 .register-selection-container .check {
@@ -158,24 +157,52 @@ body {
   font-size: xx-large;
   color: #ffffff;
   text-align: center;
-  margin-top: 5%;
 }
 
 .nav-button-container {
+  /* position: fixed; */
+  position: absolute;
+  bottom: 10%;
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   margin-right: 10%;
   margin-left: 10%;
-  justify-content: space-between;
+  /* align-content: flex-end; */
+  width: 80%;
 }
 
-.back-button {
-  display: flex;
-  flex-direction: column;
+.back-button-container {
   justify-content: left;
 }
 
-.next-button {
-  display: flex;
-  flex-direction: column;
+.next-button-container {
   justify-content: right;
+}
+
+.mother-details-container {
+  border-color: #7f48a3 !important;
+  font-size: xx-large;
+  color: #7f48a3;
+  text-align: center;
+  margin-top: 5%;
+  justify-items: baseline;
+  width: 350px;
+}
+
+.mrn {
+  font-size: medium;
+  color: #000000;
+  text-align: left;
+  margin-top: 10%;
+  justify-items: baseline;
+}
+
+.register-container {
+  display: grid;
+  /* flex-direction: column; */
+  align-items: center;
+  justify-items: center;
+  /* align-content: center; */
+  /* position: relative; */
 }
