@@ -44,6 +44,18 @@ function Modal({ closeModal, version }) {
     }
   }
 
+  const printImage = () => {
+    const printWindow = window.open("", "_blank");
+    printWindow.document.write(`<img src="${scanner}" alt="scanner" style="max-width: 100%;" />`);
+    printWindow.document.close();
+    printWindow.print();
+  };
+
+  const handlePrintAndMovePage = () => {
+    printImage();
+    setModalVersion("addMilk4");
+  }
+
   // handle which version of modal is rendered
   switch (modalVersion) {
     case "addMilk1":
@@ -71,19 +83,22 @@ function Modal({ closeModal, version }) {
       footer = (
         <div id="btn-group">
          <button onClick={() => closeModal(false)} type="button" class="btn btn-outline-primary">Cancel</button>
-         <button type="button" class="btn btn-primary" onClick={handleSubmitMilkInfo}>Confirm</button>
+         <button type="button" class="btn btn-primary" onClick={handleSubmitMilkInfo}>Preview Sticker</button>
         </div>
       )
       break;
     case "addMilk3":
-      title = "sticker preview";
-      body = "pretend im a picture";
+      title = "Sticker Preview"
+      body = <img src={scanner} alt="scanner" />
       footer = (
-        <Button onClick={() => setModalVersion("addMilk4")}>Print</Button>
+        <div id="btn-group">
+          <button onClick={() => setModalVersion("addMilk4")} type="button" class="btn btn-outline-primary">Back to Edit</button>
+          <button type="button" class="btn btn-primary" onClick={handlePrintAndMovePage}>Confirm and Print</button>
+        </div>
       )
       break;
     case "addMilk4":
-      title = "Added Milk Successfully";
+      title = "Milk Added Successfully";
       body = (
         <div className="milk-confirmed">
           <div>
@@ -96,9 +111,15 @@ function Modal({ closeModal, version }) {
           />
         </div>
       );
-      footer = <Button onClick={() => closeModal(false)}>Return Home</Button>;
+      footer = (
+        <div id="btn-group">
+          <button onClick={printImage} type="button" class="btn btn-outline-primary">Reprint</button>
+          <Button onClick={() => closeModal(false)}>Return Home</Button>
+        </div>
+      )
       break;
   }
+
   return (
     <>
       <div className="modal-background">
