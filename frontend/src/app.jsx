@@ -3,8 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from "./Pages/Home";
 import { ViewMothers } from "./Pages/ViewMothers";
 import { ViewBabies } from "./Pages/ViewBabies";
-import { Register } from "./Pages/Register";
-import { RegisterMother } from "./Pages/RegisterMotherBabyMilk";
+import { Register } from "./Pages/Register/Register";
 import { HistoryLog } from "./Pages/HistoryLog";
 import { VerifyFeed } from "./Pages/VerifyFeed";
 

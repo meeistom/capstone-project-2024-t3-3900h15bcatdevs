@@ -2,14 +2,19 @@ import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../index.css";
+import "../../index.css";
 
-import { Navibar } from "../Components/Navibar";
+import { Navibar } from "../../Components/Navibar";
 import { Button, ToggleButton } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare, faCheckSquare } from "@fortawesome/free-regular-svg-icons";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import Form from "react-bootstrap/Form";
+import { MotherRegistration } from "./MotherRegistration";
+import { BabyRegistration } from "./BabyRegistration";
+import { MilkRegistration } from "./MilkRegistration";
+import { ConfirmDetails } from "./ConfirmDetails";
+import { PreviewGeneratedLabel } from "./PreviewGeneratedLabel";
+import { PrintLabel } from "./PrintLabel";
 
 export { Register };
 
@@ -171,6 +176,7 @@ function Register() {
                     <FontAwesomeIcon icon={faArrowRight} />
                   </Button>
                 )}
+                {/* Create return home button on last page */}
               </div>
             </div>
           </>
@@ -179,63 +185,3 @@ function Register() {
     </>
   );
 }
-
-const MotherRegistration = () => (
-  <div className="mother-details-container">
-    <h1>{"Mother Details"}</h1>
-    <div className="mrn">MRN</div>
-    <Form.Control type="email" placeholder="Enter MRN" />
-    <Form.Text className="text-muted"></Form.Text>
-    <div className="mrn">First Name</div>
-    <Form.Control type="email" placeholder="Enter First Name" />
-    <Form.Text className="text-muted"></Form.Text>
-    <div className="mrn">Last Name</div>
-    <Form.Control type="email" placeholder="Enter Last Name" />
-    <Form.Text className="text-muted"></Form.Text>
-  </div>
-);
-
-const BabyRegistration = () => (
-  <div className="input-details-container">
-    {/* Render the progress bar at mother details stage */}
-    <div className="title">
-      <h2>{"Baby Details"}</h2>
-    </div>
-  </div>
-);
-
-const MilkRegistration = () => (
-  <div className="input-details-container">
-    {/* Render the progress bar at mother details stage */}
-    <div className="title">
-      <h2>{"Milk Details"}</h2>
-    </div>
-  </div>
-);
-
-const ConfirmDetails = () => (
-  <div className="register-selection-container">
-    {/* Render the progress bar at mother details stage */}
-    <div className="title">
-      <h2>{"Confirm Details"}</h2>
-    </div>
-  </div>
-);
-
-const PreviewGeneratedLabel = () => (
-  <div className="register-selection-container">
-    {/* Render the progress bar at mother details stage */}
-    <div className="title">
-      <h2>{"Preview Details"}</h2>
-    </div>
-  </div>
-);
-
-const PrintLabel = () => (
-  <div className="register-selection-container">
-    {/* Render the progress bar at mother details stage */}
-    <div className="title">
-      <h2>{"Print Label"}</h2>
-    </div>
-  </div>
-);

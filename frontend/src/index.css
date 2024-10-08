@@ -52,7 +52,7 @@ body {
 
 .modal-container .title {
   font-size: xx-large;
-  color: #7f48a3;
+  color: var(--brandColor);
   text-align: center;
   margin-top: 15%;
 }
@@ -130,7 +130,7 @@ body {
 
 .register-selection-container .title {
   font-size: large;
-  color: #7f48a3;
+  color: var(--brandColor);
   text-align: center;
   position: relative;
   /* margin-top: 5%; */
@@ -139,7 +139,7 @@ body {
 .register-selection-container .checkbox-container {
   display: flex;
   font-size: xx-large;
-  /* color: #7f48a3; */
+  /* color: var(--brandColor); */
   justify-content: center;
   gap: 100px;
   /* margin-top: 5%; */
@@ -147,23 +147,23 @@ body {
 
 .register-selection-container .uncheck {
   background-color: #ffffff;
-  border-color: #7f48a3;
-  color: #7f48a3;
+  border-color: var(--brandColor);
+  color: var(--brandColor);
   font-size: xx-large;
   text-align: center;
 }
 
 .register-selection-container .uncheck:hover {
-  background-color: #7f48a3;
-  border-color: #7f48a3;
+  background-color: var(--brandColor);
+  border-color: var(--brandColor);
   color: #ffffff;
   font-size: xx-large;
   text-align: center;
 }
 
 .register-selection-container .check {
-  background-color: #7f48a3 !important;
-  border-color: #7f48a3 !important;
+  background-color: var(--brandColor) !important;
+  border-color: var(--brandColor) !important;
   font-size: xx-large;
   color: #ffffff;
   text-align: center;
@@ -192,9 +192,9 @@ body {
 }
 
 .mother-details-container {
-  border-color: #7f48a3 !important;
+  border-color: var(--brandColor) !important;
   font-size: xx-large;
-  color: #7f48a3;
+  color: var(--brandColor);
   text-align: center;
   margin-top: 5%;
   justify-items: baseline;
