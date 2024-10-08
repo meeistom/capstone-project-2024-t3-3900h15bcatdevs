@@ -104,7 +104,16 @@ body {
 }
 
 #Register {
-  padding: 5rem 20rem;
+  height: 90vh;
+}
+
+.register-page-container {
+  padding-inline: 20%;
+  padding-block-start: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
 }
 
 .register-title {
@@ -176,11 +185,11 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-right: 10%;
-  margin-left: 10%;
+  margin-inline: 30%;
   /* align-content: flex-end; */
   width: 80%;
-  margin-top: auto;
+  margin-block-start: auto;
+  margin-block-end: 10rem;
 }
 
 .back-button-container {
@@ -189,9 +198,10 @@ body {
 
 .next-button-container {
   justify-content: right;
+  align-self: flex-end;
 }
 
-.mother-details-container {
+.register-details-container {
   border-color: var(--brandColor) !important;
   font-size: xx-large;
   color: var(--brandColor);
@@ -201,7 +211,7 @@ body {
   width: 350px;
 }
 
-.mrn {
+.form-label {
   font-size: medium;
   color: #000000;
   text-align: left;

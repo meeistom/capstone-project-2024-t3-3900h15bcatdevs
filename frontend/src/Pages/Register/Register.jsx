@@ -5,16 +5,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
 
 import { Navibar } from "../../Components/Navibar";
-import { Button, ToggleButton } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSquare, faCheckSquare } from "@fortawesome/free-regular-svg-icons";
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { MotherRegistration } from "./MotherRegistration";
 import { BabyRegistration } from "./BabyRegistration";
 import { MilkRegistration } from "./MilkRegistration";
 import { ConfirmDetails } from "./ConfirmDetails";
 import { PreviewGeneratedLabel } from "./PreviewGeneratedLabel";
 import { PrintLabel } from "./PrintLabel";
+import { Button, ToggleButton } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSquare, faCheckSquare } from "@fortawesome/free-regular-svg-icons";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 export { Register };
 
@@ -84,103 +84,119 @@ function Register() {
     <>
       <Navibar />
       <section id="Register">
-        <div className="register-title">
-          <h1>Register</h1>
-        </div>
-
-        {!registerStarted && (
-          <div className="register-selection-container">
-            <div className="title">
-              <h2>{"What would you like to register?"}</h2>
-            </div>
-            <div className="checkbox-container">
-              {/* TODO: Create checkbox component */}
-              <ToggleButton
-                id="toggle-check-mom"
-                type="checkbox"
-                name="momPage"
-                className={checked.momPage ? "check" : "uncheck"}
-                checked={checked.momPage}
-                onChange={handleCheckboxChange}
-              >
-                {checked.momPage ? (
-                  <FontAwesomeIcon icon={faCheckSquare} />
-                ) : (
-                  <FontAwesomeIcon icon={faSquare} />
-                )}
-                <span style={{ marginLeft: "10px" }}>Mother</span>
-              </ToggleButton>
-              <ToggleButton
-                id="toggle-check-baby"
-                type="checkbox"
-                name="babyPage"
-                className={checked.babyPage ? "check" : "uncheck"}
-                checked={checked.babyPage}
-                onChange={handleCheckboxChange}
-              >
-                {checked.babyPage ? (
-                  <FontAwesomeIcon icon={faCheckSquare} />
-                ) : (
-                  <FontAwesomeIcon icon={faSquare} />
-                )}
-                <span style={{ marginLeft: "10px" }}>Baby</span>
-              </ToggleButton>
-            </div>
-            <div className="checkbox-container">
-              <ToggleButton
-                id="toggle-check-milk"
-                type="checkbox"
-                name="milkPage"
-                className={checked.milkPage ? "check" : "uncheck"}
-                checked={checked.milkPage}
-                onChange={handleCheckboxChange}
-              >
-                {checked.milkPage ? (
-                  <FontAwesomeIcon icon={faCheckSquare} />
-                ) : (
-                  <FontAwesomeIcon icon={faSquare} />
-                )}
-                <span style={{ marginLeft: "10px" }}>Milk</span>
-              </ToggleButton>
-            </div>
-            <div className="footer">
-              <Button variant="primary" size="lg" onClick={startRegistration}>
-                Next
-              </Button>
-            </div>
+        <div className="register-page-container">
+          <div className="register-title">
+            <h1>Register</h1>
           </div>
-        )}
 
-        {/* Navigation buttons */}
-        {/* TODO: Make nav buttons */}
-        {registerStarted && currentPage !== null && (
-          <>
-            <div>{selectedPages[currentPage]}</div>
-            <div className="nav-button-container">
-              <div className="back-button-container">
-                {currentPage > 0 && (
-                  <Button
-                    variant="secondary"
-                    size="lg"
-                    onClick={prevPageToVisit}
+          {!registerStarted && (
+            <>
+              <div className="register-selection-container">
+                <div className="title">
+                  <h2>{"What would you like to register?"}</h2>
+                </div>
+                <div className="checkbox-container">
+                  {/* TODO: Create checkbox component */}
+                  <ToggleButton
+                    id="toggle-check-mom"
+                    type="checkbox"
+                    name="momPage"
+                    className={checked.momPage ? "check" : "uncheck"}
+                    checked={checked.momPage}
+                    onChange={handleCheckboxChange}
                   >
-                    <FontAwesomeIcon icon={faArrowLeft} />
-                    <span style={{ marginLeft: "10px" }}>Back</span>
-                  </Button>
-                )}
+                    {checked.momPage ? (
+                      <FontAwesomeIcon icon={faCheckSquare} />
+                    ) : (
+                      <FontAwesomeIcon icon={faSquare} />
+                    )}
+                    <span style={{ marginLeft: "10px" }}>Mother</span>
+                  </ToggleButton>
+                  <ToggleButton
+                    id="toggle-check-baby"
+                    type="checkbox"
+                    name="babyPage"
+                    className={checked.babyPage ? "check" : "uncheck"}
+                    checked={checked.babyPage}
+                    onChange={handleCheckboxChange}
+                  >
+                    {checked.babyPage ? (
+                      <FontAwesomeIcon icon={faCheckSquare} />
+                    ) : (
+                      <FontAwesomeIcon icon={faSquare} />
+                    )}
+                    <span style={{ marginLeft: "10px" }}>Baby</span>
+                  </ToggleButton>
+                </div>
+                <div className="checkbox-container">
+                  <ToggleButton
+                    id="toggle-check-milk"
+                    type="checkbox"
+                    name="milkPage"
+                    className={checked.milkPage ? "check" : "uncheck"}
+                    checked={checked.milkPage}
+                    onChange={handleCheckboxChange}
+                  >
+                    {checked.milkPage ? (
+                      <FontAwesomeIcon icon={faCheckSquare} />
+                    ) : (
+                      <FontAwesomeIcon icon={faSquare} />
+                    )}
+                    <span style={{ marginLeft: "10px" }}>Milk</span>
+                  </ToggleButton>
+                </div>
               </div>
-              <div className="next-button-container">
-                {currentPage < selectedPages.length - 1 && (
-                  <Button variant="primary" size="lg" onClick={nextPageToVisit}>
+              <div className="nav-button-container">
+                <div className="back-button-container"></div>
+                <div className="next-button-container">
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    onClick={startRegistration}
+                  >
                     <span style={{ marginRight: "10px" }}>Next</span>
                     <FontAwesomeIcon icon={faArrowRight} />
                   </Button>
-                )}
-                {/* Create return home button on last page */}
+                </div>
               </div>
-            </div>
-          </>
-        )}
+            </>
+          )}
+
+          {/* Navigation buttons */}
+          {/* TODO: Make nav buttons */}
+          {registerStarted && currentPage !== null && (
+            <>
+              <div>{selectedPages[currentPage]}</div>
+              <div className="nav-button-container">
+                <div className="back-button-container">
+                  {currentPage > 0 && (
+                    <Button
+                      variant="outline-secondary"
+                      size="lg"
+                      onClick={prevPageToVisit}
+                    >
+                      <FontAwesomeIcon icon={faArrowLeft} />
+                      <span style={{ marginLeft: "10px" }}>Back</span>
+                    </Button>
+                  )}
+                </div>
+                <div className="next-button-container">
+                  {currentPage < selectedPages.length - 1 && (
+                    <Button
+                      variant="primary"
+                      size="lg"
+                      onClick={nextPageToVisit}
+                    >
+                      <span style={{ marginRight: "10px" }}>Next</span>
+                      <FontAwesomeIcon icon={faArrowRight} />
+                    </Button>
+                  )}
+                  {/* Create return home button on last page */}
+                </div>
+              </div>
+            </>
+          )}
+        </div>
       </section>
     </>
   );
