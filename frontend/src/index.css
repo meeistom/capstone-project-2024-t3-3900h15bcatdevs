@@ -113,48 +113,51 @@ body {
   outline: 0;
 }
 
-.verify-container {
+.verification-page {
   display: flex;
   row-gap: 30px;
-  padding: 5%;
+  padding: 3.5%;
   flex-direction: column;
 }
 
-.verify-container .title {
+.verification-page .title {
   font-size: 2.5rem;
   text-align: center;
 }
 
-.verify-container .subtitle {
+.verification-page .subtitle {
   font-size: x-large;
   color: #7f48a3;
   text-align: center;
 }
 
-.verify-container .text {
-  text-align: center;
-  font-size: large;
-}
-
-.verify-container .img {
+.verification-page .scanner-input {
+  border: 1;
   width: 15%;
   align-self: center;
+  text-align: center;
+}
+
+.verification-page .text {
+  text-align: center;
+  font-size: large;
 }
 
 .checkbox-container {
   display: flex;
   justify-content: center;
-  column-gap: 40px;
+  column-gap: 50px;
 }
 
 .checkbox-container .checkbox {
   display: flex;
   flex-direction: column;
+  row-gap: 10px;
 }
 
-.checkbox-container .empty-check {
-  height: 70px;
-  width: 70px;
+.empty-check {
+  height: 80px;
+  width: 80px;
   border-radius: 50%;
   display: inline-block;
   border: solid 5px;
@@ -166,3 +169,28 @@ body {
   font-size: medium;
 }
 
+.checkbox-container .img {
+  width: 80px;
+  margin-bottom: 6px;
+}
+
+.prompt-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}
+
+.prompt-container .img {
+  width: 10%;
+  align-self: center;
+}
+
+.prompt-container .home-button {
+  width: 140px;
+  align-self: center;
+  margin-top: 25px
+}
+
+.prompt-container .br {
+  height: 10px;
+}
