@@ -7,10 +7,10 @@ export { PreviewGeneratedLabel };
 function PreviewGeneratedLabel() {
   return (
     <>
-      <div className="register-selection-container">
+      <div className="register-details-container">
         {/* Render the progress bar at mother details stage */}
         <div className="title">
-          <h2>{"Preview Details"}</h2>
+          <h2>{"Preview Label"}</h2>
         </div>
       </div>
     </>

@@ -7,7 +7,7 @@ export { ConfirmDetails };
 function ConfirmDetails() {
   return (
     <>
-      <div className="register-selection-container">
+      <div className="register-details-container">
         {/* Render the progress bar at mother details stage */}
         <div className="title">
           <h2>{"Confirm Details"}</h2>
