@@ -9,12 +9,14 @@ import { Button, ToggleButton } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare, faCheckSquare } from "@fortawesome/free-regular-svg-icons";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import Form from "react-bootstrap/Form";
 
 export { Register };
 
 function Register() {
   const [currentPage, setCurrentPage] = useState(null);
   const [registerStarted, setRegisterStarted] = useState(false);
+  const [selectedPages, setSelectedPages] = useState([]);
   // Page 0: Choose Mother/Baby/Milk to register
   // Page 1: Mother Registration
   // Page 2: Baby Registration
@@ -51,24 +53,32 @@ function Register() {
   };
 
   const startRegistration = () => {
-    const selectedPages = Object.keys(checked).filter((key) => checked[key]);
+    const allSelectedPages = [];
 
-    if (selectedPages.length > 0) {
+    if (checked.momPage) allSelectedPages.push(<MotherRegistration />);
+    if (checked.babyPage) allSelectedPages.push(<BabyRegistration />);
+    if (checked.milkPage) allSelectedPages.push(<MilkRegistration />);
+
+    const finalPages = [
+      <ConfirmDetails />,
+      <PreviewGeneratedLabel />,
+      <PrintLabel />,
+    ];
+
+    const combinedPages = allSelectedPages.concat(finalPages);
+
+    setSelectedPages(combinedPages);
+
+    if (combinedPages.length > 3) {
       setRegisterStarted(true);
       setCurrentPage(0);
     }
   };
 
-  const selectedPages = [];
-
-  if (checked.momPage) selectedPages.push(<MotherRegistrationPage />);
-  if (checked.babyPage) selectedPages.push(<BabyRegistrationPage />);
-  if (checked.milkPage) selectedPages.push(<MilkRegistrationPage />);
-
   return (
     <>
+      <Navibar />
       <section id="Register">
-        <Navibar />
         <div className="register-title">
           <h1>Register</h1>
         </div>
@@ -142,18 +152,26 @@ function Register() {
           <>
             <div>{selectedPages[currentPage]}</div>
             <div className="nav-button-container">
-              {currentPage > 0 && (
-                <Button variant="primary" size="lg" onClick={prevPageToVisit}>
-                  <FontAwesomeIcon icon={faArrowLeft} />
-                  <span style={{ marginLeft: "10px" }}>Back</span>
-                </Button>
-              )}
-              {currentPage < selectedPages.length - 1 && (
-                <Button variant="primary" size="lg" onClick={nextPageToVisit}>
-                  <span style={{ marginRight: "10px" }}>Next</span>
-                  <FontAwesomeIcon icon={faArrowRight} />
-                </Button>
-              )}
+              <div className="back-button-container">
+                {currentPage > 0 && (
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    onClick={prevPageToVisit}
+                  >
+                    <FontAwesomeIcon icon={faArrowLeft} />
+                    <span style={{ marginLeft: "10px" }}>Back</span>
+                  </Button>
+                )}
+              </div>
+              <div className="next-button-container">
+                {currentPage < selectedPages.length - 1 && (
+                  <Button variant="primary" size="lg" onClick={nextPageToVisit}>
+                    <span style={{ marginRight: "10px" }}>Next</span>
+                    <FontAwesomeIcon icon={faArrowRight} />
+                  </Button>
+                )}
+              </div>
             </div>
           </>
         )}
@@ -162,34 +180,40 @@ function Register() {
   );
 }
 
-const MotherRegistrationPage = () => (
-  <div className="register-selection-container">
-    {/* Render the progress bar at mother details stage */}
-    <div className="title">
-      <h2>{"Mother Details"}</h2>
-    </div>
+const MotherRegistration = () => (
+  <div className="mother-details-container">
+    <h1>{"Mother Details"}</h1>
+    <div className="mrn">MRN</div>
+    <Form.Control type="email" placeholder="Enter MRN" />
+    <Form.Text className="text-muted"></Form.Text>
+    <div className="mrn">First Name</div>
+    <Form.Control type="email" placeholder="Enter First Name" />
+    <Form.Text className="text-muted"></Form.Text>
+    <div className="mrn">Last Name</div>
+    <Form.Control type="email" placeholder="Enter Last Name" />
+    <Form.Text className="text-muted"></Form.Text>
   </div>
 );
 
-const BabyRegistrationPage = () => (
-  <div className="register-selection-container">
-    {/* Render the progress bar at baby details stage */}
+const BabyRegistration = () => (
+  <div className="input-details-container">
+    {/* Render the progress bar at mother details stage */}
     <div className="title">
       <h2>{"Baby Details"}</h2>
     </div>
   </div>
 );
 
-const MilkRegistrationPage = () => (
-  <div className="register-selection-container">
-    {/* Render the progress bar at milk details stage */}
+const MilkRegistration = () => (
+  <div className="input-details-container">
+    {/* Render the progress bar at mother details stage */}
     <div className="title">
       <h2>{"Milk Details"}</h2>
     </div>
   </div>
 );
 
-const ConfirmDetailsPage = () => (
+const ConfirmDetails = () => (
   <div className="register-selection-container">
     {/* Render the progress bar at mother details stage */}
     <div className="title">
@@ -198,7 +222,7 @@ const ConfirmDetailsPage = () => (
   </div>
 );
 
-const PreviewGeneratedLabelPage = () => (
+const PreviewGeneratedLabel = () => (
   <div className="register-selection-container">
     {/* Render the progress bar at mother details stage */}
     <div className="title">
@@ -207,7 +231,7 @@ const PreviewGeneratedLabelPage = () => (
   </div>
 );
 
-const PrintLabelPage = () => (
+const PrintLabel = () => (
   <div className="register-selection-container">
     {/* Render the progress bar at mother details stage */}
     <div className="title">
