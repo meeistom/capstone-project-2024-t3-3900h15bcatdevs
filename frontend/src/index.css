@@ -1,0 +1,154 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --brandColor: #7f48a3;
+  --navTextColor: #fff;
+  --textColor: #000;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  color: var(--textColor);
+}
+
+.navbar {
+  z-index: 100;
+  background-image: linear-gradient(to bottom right, #7f48a3, #502e66);
+}
+
+.navbar .nav-link {
+  color: var(--navTextColor);
+}
+
+.navbar .navbar-brand {
+  color: var(--navTextColor);
+  font-weight: bold;
+  font-size: 30px;
+}
+
+/* modal styling */
+.modal-background {
+  left: 0;
+  top: 0;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(2px);
+  width: 100vw;
+  height: 100vh;
+}
+
+.modal-container {
+  position: relative;
+  width: 500px;
+  height: 620px;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.modal-container .title {
+  font-size: xx-large;
+  color: #7f48a3;
+  text-align: center;
+  margin-top: 15%;
+}
+
+.modal-container .body {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  flex-direction: column;
+}
+
+.modal-container .body .milk-confirmed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: center;
+}
+
+.modal-container .footer {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  margin-top: auto;
+  width: 100%;
+}
+
+.modal-container img {
+  width: 60%;
+}
+
+.modal-container .confirm-img {
+  width: 100px;
+  height: 100px;
+  margin-top: 5rem;
+}
+
+.modal-container .modal-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.modal-container .modal-close-btn button {
+  background: none;
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  padding: 5px;
+  width: 40px;
+  font-size: 25px;
+}
+
+.modal-container .modal-close-btn button:hover {
+  background-color: #efe0f8;
+}
+
+.modal-container .close-btn {
+  color: #502e66;
+}
+
+.modal-container .scanner-input {
+  display: flex;
+  border: 0;
+  outline: 0;
+}
+
+.form-container {
+  width: 100%;
+}
+
+.form-mother-detail {
+  align-self: flex-start;
+}
+
+.form-mother-detail p {
+  margin: 0;
+}
+
+.form-container .col {
+  margin-top: 10px;
+}
+
+.form-container .container {
+  margin-top: 1rem;
+  padding: 0;
+}
+
+#btn-group {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+#btn-group button {
+  display: flex;
+}

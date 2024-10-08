@@ -9,8 +9,24 @@ pip install -r requirements.txt
 Run ```python app.py``` in ```/backend```.
 
 ### Development - Running the frontend
+This project is using node 16. Using ```nvm``` is highly recommended.
 
-- Bruh
+Install node 16:
+```nvm install 16```
+
+Use node 16 (should be automatic if just installed):
+```nvm use 16```
+
+Sync/install all dependencies for the ```/frontend```:
+```
+npm i
+```
+or
+```
+npm install
+```
+
+Run ```npm start``` in ```/frontend```.
 
 
 # Docker Containerising
