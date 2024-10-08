@@ -48,7 +48,7 @@ function Navibar() {
 
   return (
     <>
-      <Navbar className="navbar">
+      <Navbar className="navbar" sticky="top">
         <Container className="d-flex flex-column align-items-start mx-2">
           <Navbar.Brand onClick={goToHome}>Milk Guard</Navbar.Brand>
           <Nav className="flex-row" variant="underline">

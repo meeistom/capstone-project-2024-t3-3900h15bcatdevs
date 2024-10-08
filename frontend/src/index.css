@@ -48,6 +48,7 @@ body {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: column;
+  padding: 2rem;
 }
 
 .modal-container .title {
@@ -59,18 +60,36 @@ body {
 
 .modal-container .body {
   display: flex;
-  justify-content: center; /* Center child elements horizontally */
-  align-items: center; /* Center child elements vertically (optional) */
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
+}
+
+.modal-container .body .milk-confirmed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: center;
 }
 
 .modal-container .footer {
   display: flex;
   align-self: center;
+  justify-content: center;
+  margin-top: auto;
+  width: 100%;
 }
 
 .modal-container img {
   width: 60%;
+}
+
+.modal-container .confirm-img {
+  width: 100px;
+  height: 100px;
+  margin-top: 5rem;
 }
 
 .modal-container .modal-close-btn {
@@ -89,7 +108,7 @@ body {
   font-size: 25px;
 }
 
-.modal-container button:hover {
+.modal-container .modal-close-btn button:hover {
   background-color: #efe0f8;
 }
 
@@ -226,4 +245,34 @@ body {
   justify-items: center;
   /* align-content: center; */
   /* position: relative; */
+}
+.form-container {
+  width: 100%;
+}
+
+.form-mother-detail {
+  align-self: flex-start;
+}
+
+.form-mother-detail p {
+  margin: 0;
+}
+
+.form-container .col {
+  margin-top: 10px;
+}
+
+.form-container .container {
+  margin-top: 1rem;
+  padding: 0;
+}
+
+#btn-group {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+#btn-group button {
+  display: flex;
 }
