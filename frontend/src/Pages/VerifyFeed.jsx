@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navibar } from "../Components/Navibar";
+import { useNavigate } from "react-router-dom";
 import scanner from "../Assets/scanner.png";
 import confirmCheck from "../Assets/confirm-check.png"
 
@@ -8,6 +9,7 @@ export { VerifyFeed };
 
 function VerifyFeed() {
   const scannerInputRef = useRef(null);
+  const navigate = useNavigate();
   const [milkCheck, setMilkCheck] = useState(<span className={"empty-check"}></span>);
   const [babyCheck, setBabyCheck] = useState(<span className={"empty-check"}></span>);
   const [promptMessage, setPromptMessage] = useState("Please scan the barcode on the baby or milk.");
@@ -44,6 +46,10 @@ function VerifyFeed() {
     }
   };
 
+  const goToHome = () => {
+    navigate("/");
+  };
+
   switch (promptType) {
     case "verificationPrompt":
       promptPage = (
@@ -67,7 +73,10 @@ function VerifyFeed() {
           <div className="subtitle">Verification Complete!</div>
           <div className="text" style={{marginTop: "10px"}}>Feed has been recorded.</div>
         </div>
-        <button type="button" class="btn btn-primary home-button">Return Home</button>
+        <button 
+          type="button" 
+          class="btn btn-primary home-button"
+          onClick={goToHome}>Return Home</button>
         </>
       )
       break;
