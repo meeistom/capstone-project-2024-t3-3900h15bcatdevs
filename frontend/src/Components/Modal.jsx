@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../index.css";
 import scanner from "../Assets/scanner.png";
+import { Form } from "./Form.jsx";
 import confirmCheck from "../Assets/confirm-check.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -11,7 +12,11 @@ export { Modal };
 function Modal({ closeModal, version }) {
   const scannerInputRef = useRef(null);
   const [modalVersion, setModalVersion] = useState(version);
+  const [scannedValue, setScannedValue] = useState(0);
+  const [expiryDate, setExpiryDate] = useState("");
+  const [expressDate, setExpressDate] = useState("")
   let title, body, footer;
+
   useEffect(() => {
     if (scannerInputRef.current) {
       scannerInputRef.current.focus();
@@ -20,13 +25,36 @@ function Modal({ closeModal, version }) {
   }, []);
 
   const handleInput = () => {
-    const scannedValue = scannerInputRef.current.value;
+    setScannedValue(scannerInputRef.current.value);
     // console.log(scannedValue); // for debug
     if (scannedValue.length >= 8) {
       // this will be changed later on to data matching
       setModalVersion("addMilk2");
     }
   };
+
+  const handleSubmitMilkInfo = () => {
+    if (!expiryDate || !expressDate) {
+      // for debug
+      // console.log(expiryDate)
+      // console.log(expressDate)
+      alert("Please fill in all relevant infomation");
+    } else {
+      setModalVersion("addMilk3");
+    }
+  }
+
+  const printImage = () => {
+    const printWindow = window.open("", "_blank");
+    printWindow.document.write(`<img src="${scanner}" alt="scanner" style="max-width: 100%;" />`);
+    printWindow.document.close();
+    printWindow.print();
+  };
+
+  const handlePrintAndMovePage = () => {
+    printImage();
+    setModalVersion("addMilk4");
+  }
 
   // handle which version of modal is rendered
   switch (modalVersion) {
@@ -47,19 +75,32 @@ function Modal({ closeModal, version }) {
       break;
     case "addMilk2":
       title = "Confirm Infomation";
-      body = "this will be a form";
-      footer = (
-        <>
-          <div>and this will be two btns</div>
-          <Button onClick={() => setModalVersion("addMilk4")}>Next</Button>
-        </>
-      );
-      break;
-    // Confirmation Page
-    case "addMilk4":
-      title = "Added Milk Successfully";
       body = (
         <>
+          <Form mrn={scannedValue} expiryDate={expiryDate} expressDate={expressDate} setExpressDate={setExpressDate} setExpiryDate={setExpiryDate}/>
+        </>
+      )
+      footer = (
+        <div id="btn-group">
+         <button onClick={() => closeModal(false)} type="button" class="btn btn-outline-primary">Cancel</button>
+         <button type="button" class="btn btn-primary" onClick={handleSubmitMilkInfo}>Preview Sticker</button>
+        </div>
+      )
+      break;
+    case "addMilk3":
+      title = "Sticker Preview"
+      body = <img src={scanner} alt="scanner" />
+      footer = (
+        <div id="btn-group">
+          <button onClick={() => setModalVersion("addMilk4")} type="button" class="btn btn-outline-primary">Back to Edit</button>
+          <button type="button" class="btn btn-primary" onClick={handlePrintAndMovePage}>Confirm and Print</button>
+        </div>
+      )
+      break;
+    case "addMilk4":
+      title = "Milk Added Successfully";
+      body = (
+        <div className="milk-confirmed">
           <div>
             Milk from the Mother was added. You may close the pop up now.
           </div>
@@ -68,11 +109,17 @@ function Modal({ closeModal, version }) {
             alt="Confirmation Icon"
             className="confirm-img"
           />
-        </>
+        </div>
       );
-      footer = <Button onClick={() => closeModal(false)}>Return Home</Button>;
+      footer = (
+        <div id="btn-group">
+          <button onClick={printImage} type="button" class="btn btn-outline-primary">Reprint</button>
+          <Button onClick={() => closeModal(false)}>Return Home</Button>
+        </div>
+      )
       break;
   }
+
   return (
     <>
       <div className="modal-background">
