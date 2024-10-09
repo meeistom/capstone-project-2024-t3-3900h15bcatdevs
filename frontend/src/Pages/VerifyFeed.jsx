@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Navibar } from "../Components/Navibar";
+import { Navibar} from "../Components/Navibar";
 import { useNavigate } from "react-router-dom";
 import scanner from "../Assets/scanner.png";
 import confirmCheck from "../Assets/confirm-check.png"
+import Alert from "react-bootstrap/Button";
 
 export { VerifyFeed };
 
@@ -13,7 +14,10 @@ function VerifyFeed() {
   const [milkCheck, setMilkCheck] = useState(<span className={"empty-check"}></span>);
   const [babyCheck, setBabyCheck] = useState(<span className={"empty-check"}></span>);
   const [promptMessage, setPromptMessage] = useState("Please scan the barcode on the baby or milk.");
-  const [promptType, setPromptType] = useState("verificationPrompt");
+  const [promptType, setPromptType] = useState("scan");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [filter, setFilter] = useState("");
+  const [display, setDisplay] = useState("none")
   let promptPage;
 
   useEffect(() => {
@@ -24,24 +28,28 @@ function VerifyFeed() {
 
   const handleInput = () => {
     const scannedValue = scannerInputRef.current.value;
-    if (scannedValue.length >= 0) {
+    if (scannedValue.length == 4) {
       if (scannedValue === "milk") {
         // Will need to check expiry
         setMilkCheck(<img className="img" src={confirmCheck}></img>)
         if (babyCheck.type === 'img') {
+          console.log(babyCheck.className)
           // Will need to check for match
-          setPromptType("confirmation")
+          setPromptType("confirmation");
         } else {
-          setPromptMessage("Please scan the barcode on the baby.")
+          setPromptMessage("Please scan the barcode on the baby.");
         }
       } else if (scannedValue === "baby") {
-        setBabyCheck(<img className="img" src={confirmCheck}></img>)
+        setBabyCheck(<img className="img" src={confirmCheck}></img>);
+        console.log(milkCheck)
         if (milkCheck.type === 'img') {
           // Will need to check for match
-          setPromptType("confirmation")
+          setPromptType("confirmation");
         } else {
-          setPromptMessage("Please scan the barcode on the milk.")
+          setPromptMessage("Please scan the barcode on the milk.");
         }
+      } else {
+        openAlert("The scanned milk does not match the scanned baby")
       }
     }
   };
@@ -50,8 +58,19 @@ function VerifyFeed() {
     navigate("/");
   };
 
+  const closeAlert = () => {
+    setFilter("")
+    setDisplay("none")
+  }
+
+  const openAlert = (message) => {
+    setAlertMessage(message)
+    setFilter("blur(2px)")
+    setDisplay("")
+  }
+
   switch (promptType) {
-    case "verificationPrompt":
+    case "scan":
       promptPage = (
         <>
           <div className="subtitle">{promptMessage}</div>
@@ -75,7 +94,7 @@ function VerifyFeed() {
         </div>
         <button 
           type="button" 
-          class="btn btn-primary home-button"
+          className="btn btn-primary home-button"
           onClick={goToHome}>Return Home</button>
         </>
       )
@@ -84,9 +103,17 @@ function VerifyFeed() {
 
   return (
     <>
-      <section id="Home">
+      <section id="Home" >
         <Navibar />
-        <div className="verification-page">
+        <div className="alert-container">
+          <div className="alert alert-danger alert-popup alert-dismissable fade show" style={{display}}>
+            <h4 className="alert-heading">Error</h4>
+            <button type="button" className="btn-close alert-close" onClick={closeAlert}></button>
+            <hr></hr>
+            <div className="text">{alertMessage}</div>
+          </div>
+        </div>
+        <div className="verification-page" style={{filter}}>
           <div className="title">Verify Feed</div>
           <div className="checkbox-container">
             <div className="checkbox">
