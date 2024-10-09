@@ -246,6 +246,84 @@ body {
   /* align-content: center; */
   /* position: relative; */
 }
+.verification-page {
+  display: flex;
+  row-gap: 30px;
+  padding: 3.5%;
+  flex-direction: column;
+}
+
+.verification-page .title {
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+.verification-page .subtitle {
+  font-size: x-large;
+  color: #7f48a3;
+  text-align: center;
+}
+
+.verification-page .scanner-input {
+  border: 1;
+  width: 15%;
+  align-self: center;
+  text-align: center;
+}
+
+.verification-page .text {
+  text-align: center;
+  font-size: large;
+}
+
+.checkbox-container {
+  display: flex;
+  justify-content: center;
+  column-gap: 50px;
+}
+
+.checkbox-container .checkbox {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.empty-check {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  display: inline-block;
+  border: solid 5px;
+  color: #b4b4b4;
+}
+
+.checkbox-container .text {
+  text-align: center;
+  font-size: medium;
+}
+
+.checkbox-container .img {
+  width: 80px;
+  margin-bottom: 6px;
+}
+
+.prompt-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}
+
+.prompt-container .img {
+  width: 10%;
+  align-self: center;
+}
+
+.prompt-container .home-button {
+  width: 140px;
+  align-self: center;
+  margin-top: 25px;
+}
+
 .form-container {
   width: 100%;
 }
