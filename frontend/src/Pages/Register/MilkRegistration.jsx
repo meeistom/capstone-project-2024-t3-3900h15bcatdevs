@@ -26,7 +26,7 @@ function MilkRegistration({
           <div class="container">
             <div class="row row-cols-2">
               <div class="col">
-                <label htmlFor="milk-type" class="form-label">
+                <label htmlFor="milk-type" class="register-form-label">
                   Milk Type*
                 </label>
                 <select
@@ -43,7 +43,7 @@ function MilkRegistration({
                 </select>
               </div>
               <div class="col">
-                <label htmlFor="milk-storage" class="form-label">
+                <label htmlFor="milk-storage" class="register-form-label">
                   Storage Type*
                 </label>
                 <select
@@ -58,7 +58,7 @@ function MilkRegistration({
                 </select>
               </div>
               <div class="col">
-                <label htmlFor="express-date" class="form-label">
+                <label htmlFor="express-date" class="register-form-label">
                   Expressed Date*
                 </label>
                 <input
@@ -72,7 +72,7 @@ function MilkRegistration({
                 />
               </div>
               <div class="col">
-                <label htmlFor="expiry-date" class="form-label">
+                <label htmlFor="expiry-date" class="register-form-label">
                   Expiry Date*
                 </label>
                 <input
@@ -89,7 +89,7 @@ function MilkRegistration({
           </div>
         </div>
         <div class="mb-3">
-          <label htmlFor="milk-notes" class="form-label">
+          <label htmlFor="milk-notes" class="register-form-label">
             Notes
           </label>
           <textarea

@@ -19,7 +19,7 @@ function BabyRegistration({
         <div className="title">
           <h2>{"Baby Details"}</h2>
         </div>
-        <div className="form-label">MRN</div>
+        <div className="register-form-label">MRN</div>
         <Form.Control
           type="text"
           placeholder="Enter MRN"
@@ -27,7 +27,7 @@ function BabyRegistration({
           onChange={(e) => setBabyMRN(e.target.value)}
         />
         <Form.Text className="text-muted"></Form.Text>
-        <div className="form-label">First Name</div>
+        <div className="register-form-label">First Name</div>
         <Form.Control
           type="text"
           placeholder="Enter First Name"
@@ -35,7 +35,7 @@ function BabyRegistration({
           onChange={(e) => setBabyFirstName(e.target.value)}
         />
         <Form.Text className="text-muted"></Form.Text>
-        <div className="form-label">Last Name</div>
+        <div className="register-form-label">Last Name</div>
         <Form.Control
           type="text"
           placeholder="Enter Last Name"
