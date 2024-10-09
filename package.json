@@ -1,0 +1,15 @@
+{
+  "name": "comp3900",
+  "version": "1.0.0",
+  "scripts": {
+    "start-both": "concurrently \"npm run start-frontend\" \"npm run start-backend\"",
+    "start-frontend": "npm start --prefix frontend",
+    "start-backend": "cd backend && python app.py"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}
