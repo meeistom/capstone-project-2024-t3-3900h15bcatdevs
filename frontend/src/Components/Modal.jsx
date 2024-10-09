@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import axios from 'axios'; 
 import "../index.css";
 import scanner from "../Assets/scanner.png";
 import { Form } from "./Form.jsx";
@@ -15,6 +16,7 @@ function Modal({ closeModal, version }) {
   const [scannedValue, setScannedValue] = useState(0);
   const [expiryDate, setExpiryDate] = useState("");
   const [expressDate, setExpressDate] = useState("")
+  const [motherData, setMotherData] = useState(null);
   let title, body, footer;
 
   useEffect(() => {
@@ -24,14 +26,32 @@ function Modal({ closeModal, version }) {
     }
   }, []);
 
-  const handleInput = () => {
-    setScannedValue(scannerInputRef.current.value);
-    // console.log(scannedValue); // for debug
-    if (scannedValue.length >= 8) {
-      // this will be changed later on to data matching
-      setModalVersion("addMilk2");
-    }
+  const fetchMotherDetails = barcode => {
+    const url = `http://localhost:5001/database/fetch_mother/${barcode}`;
+    axios.get(url)
+      .then(response => {
+        setMotherData(response.data);
+        console.log('Mother data fetched:', response.data);
+        setModalVersion("addMilk2"); 
+      })
+      .catch(error => console.error('Error fetching mother data:', error));
   };
+
+  const handleInput = (event) => {
+    const barcode = event.target.value;
+    setScannedValue(barcode);
+    fetchMotherDetails(barcode);
+  };
+
+
+  // const handleInput = () => {
+  //   setScannedValue(scannerInputRef.current.value);
+  //   // console.log(scannedValue); // for debug
+  //   if (scannedValue.length >= 8) {
+  //     // this will be changed later on to data matching
+  //     setModalVersion("addMilk2");
+  //   }
+  // };
 
   const handleSubmitMilkInfo = () => {
     if (!expiryDate || !expressDate) {
@@ -77,7 +97,7 @@ function Modal({ closeModal, version }) {
       title = "Confirm Infomation";
       body = (
         <>
-          <Form mrn={scannedValue} expiryDate={expiryDate} expressDate={expressDate} setExpressDate={setExpressDate} setExpiryDate={setExpiryDate}/>
+          <Form motherData={motherData} expiryDate={expiryDate} expressDate={expressDate} setExpressDate={setExpressDate} setExpiryDate={setExpiryDate}/>
         </>
       )
       footer = (
