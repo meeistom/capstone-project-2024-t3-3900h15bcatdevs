@@ -4,6 +4,7 @@ from database.fetch_mother import fetch_mother_data, fetch_mother_data_by_barcod
 from database.insert_mother import insert_mother_data
 from database.fetch_baby import fetch_baby_data
 from database.insert_baby import insert_baby_data
+from database.insert_bottle import insert_bottle_data
 
 """
 Basic Skeleton for a Flask app that you can use in a docker container.
@@ -47,6 +48,13 @@ def get_baby_data():
 def insert_baby():
     data = request.get_json()
     result = insert_baby_data(data)
+    return jsonify(result)
+
+# inserts milk bottle details
+@app.route('/database/insert_bottle', methods=['POST'])
+def insert_bottle():
+    data = request.get_json()
+    result = insert_bottle_data(data)
     return jsonify(result)
 
 if __name__ == '__main__':
