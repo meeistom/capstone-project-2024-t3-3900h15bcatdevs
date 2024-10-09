@@ -262,7 +262,7 @@ function Register() {
                   )}
                   {currentPage === selectedPages.length - 1 && (
                     <Button variant="primary" size="lg" onClick={goToHome}>
-                      <span style={{ marginRight: "10px" }}>Return Home</span>
+                      <span>Return Home</span>
                     </Button>
                   )}
                 </div>
