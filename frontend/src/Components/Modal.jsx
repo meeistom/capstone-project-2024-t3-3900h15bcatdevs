@@ -36,7 +36,10 @@ function Modal({ closeModal, version }) {
         console.log('Mother data fetched:', response.data);
         setModalVersion("addMilk2"); 
       })
-      .catch(error => console.error('Error fetching mother data:', error));
+      .catch((error) => {
+        console.log('Error fetching mother data:', error)
+        alert("Failed to fetch mother details with corresponding barcode. Please try again.");
+      });
   };
 
   const handleInput = (event) => {
@@ -76,10 +79,23 @@ function Modal({ closeModal, version }) {
     printWindow.print();
   };
 
+  const handleCheckInput = () => {
+    if (!expiryDate || !expressDate) {
+      // for debug
+      // console.log(expiryDate)
+      // console.log(expressDate)
+      alert("Please fill in all relevant infomation");
+    } else {
+      handleSubmitMilkInfo()
+    }
+  }
+
   const handlePrintAndMovePage = () => {
     printImage();
     setModalVersion("addMilk4");
   }
+
+  
 
   // handle which version of modal is rendered
   switch (modalVersion) {
@@ -114,7 +130,7 @@ function Modal({ closeModal, version }) {
       footer = (
         <div id="btn-group">
          <button onClick={() => closeModal(false)} type="button" class="btn btn-outline-primary">Cancel</button>
-         <button type="button" class="btn btn-primary" onClick={handleSubmitMilkInfo}>Preview Sticker</button>
+         <button type="button" class="btn btn-primary" onClick={handleCheckInput}>Preview Sticker</button>
         </div>
       )
       break;
