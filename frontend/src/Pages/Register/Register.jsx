@@ -22,6 +22,9 @@ function Register() {
   const [currentPage, setCurrentPage] = useState(null);
   const [registerStarted, setRegisterStarted] = useState(false);
   const [selectedPages, setSelectedPages] = useState([]);
+  const [momMRN, setMomMRN] = useState("");
+  const [momFirstName, setMomFirstName] = useState("");
+  const [momLastName, setMomLastName] = useState("");
   // Page 0: Choose Mother/Baby/Milk to register
   // Page 1: Mother Registration
   // Page 2: Baby Registration
@@ -58,26 +61,8 @@ function Register() {
   };
 
   const startRegistration = () => {
-    const allSelectedPages = [];
-
-    if (checked.momPage) allSelectedPages.push(<MotherRegistration />);
-    if (checked.babyPage) allSelectedPages.push(<BabyRegistration />);
-    if (checked.milkPage) allSelectedPages.push(<MilkRegistration />);
-
-    const finalPages = [
-      <ConfirmDetails />,
-      <PreviewGeneratedLabel />,
-      <PrintLabel />,
-    ];
-
-    const combinedPages = allSelectedPages.concat(finalPages);
-
-    setSelectedPages(combinedPages);
-
-    if (combinedPages.length > 3) {
-      setRegisterStarted(true);
-      setCurrentPage(0);
-    }
+    setRegisterStarted(true);
+    setCurrentPage(0);
   };
 
   return (
@@ -166,6 +151,7 @@ function Register() {
           {/* TODO: Make nav buttons */}
           {registerStarted && currentPage !== null && (
             <>
+              {console.log(selectedPages[currentPage]())}
               <div>{selectedPages[currentPage]}</div>
               <div className="nav-button-container">
                 <div className="back-button-container">
