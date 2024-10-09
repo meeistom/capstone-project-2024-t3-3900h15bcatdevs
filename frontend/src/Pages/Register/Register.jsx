@@ -26,6 +26,14 @@ function Register() {
   const [momFirstName, setMomFirstName] = useState("");
   const [momLastName, setMomLastName] = useState("");
   const [renderedPage, setRenderedPage] = useState(null);
+  const [babyMRN, setBabyMRN] = useState("");
+  const [babyFirstName, setBabyFirstName] = useState("");
+  const [babyLastName, setBabyLastName] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [expressDate, setExpressDate] = useState("");
+  const [notes, setNotes] = useState("");
+  const [milkType, setMilkType] = useState("ehm");
+  const [storageType, setStorageType] = useState("fridge");
 
   const nextPageToVisit = () => {
     console.log(`Next Page: ${currentPage + 1}`);
@@ -65,8 +73,23 @@ function Register() {
     setCurrentPage(0);
   };
 
+  const useEffectDependencies = [
+    selectedPages,
+    currentPage,
+    momMRN,
+    momFirstName,
+    momLastName,
+    babyMRN,
+    babyFirstName,
+    babyLastName,
+    expiryDate,
+    expressDate,
+    notes,
+    milkType,
+    storageType,
+  ];
+
   useEffect(() => {
-    console.log(selectedPages, currentPage, selectedPages[currentPage]);
     switch (selectedPages[currentPage]) {
       case "momPage":
         console.log("making moms xd");
@@ -82,10 +105,32 @@ function Register() {
         );
         break;
       case "babyPage":
-        setRenderedPage(<BabyRegistration />);
+        setRenderedPage(
+          <BabyRegistration
+            babyMRN={babyMRN}
+            setBabyMRN={setBabyMRN}
+            babyFirstName={babyFirstName}
+            setBabyFirstName={setBabyFirstName}
+            babyLastName={babyLastName}
+            setBabyLastName={setBabyLastName}
+          />
+        );
         break;
       case "milkPage":
-        setRenderedPage(<MilkRegistration />);
+        setRenderedPage(
+          <MilkRegistration
+            expiryDate={expiryDate}
+            setExpiryDate={setExpiryDate}
+            expressDate={expressDate}
+            setExpressDate={setExpressDate}
+            notes={notes}
+            setNotes={setNotes}
+            milkType={milkType}
+            setMilkType={setMilkType}
+            storageType={storageType}
+            setStorageType={setStorageType}
+          />
+        );
         break;
       case "confirm":
         setRenderedPage(<ConfirmDetails />);
@@ -97,7 +142,7 @@ function Register() {
         setRenderedPage(<PrintLabel />);
         break;
     }
-  }, [selectedPages, currentPage]);
+  }, useEffectDependencies);
 
   return (
     <>

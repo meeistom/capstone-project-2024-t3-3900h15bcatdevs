@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
-// import { Form } from "../../Components/Form";
 
 export { MilkRegistration };
 
-function MilkRegistration() {
-  const [expiryDate, setExpiryDate] = useState("");
-  const [expressDate, setExpressDate] = useState("");
+function MilkRegistration({
+  expiryDate,
+  setExpiryDate,
+  expressDate,
+  setExpressDate,
+  notes,
+  setNotes,
+  milkType,
+  setMilkType,
+  storageType,
+  setStorageType,
+}) {
   return (
     <>
       <div className="register-details-container">
@@ -24,7 +32,8 @@ function MilkRegistration() {
                 <select
                   id="milk-type"
                   class="form-select form-select-sm"
-                  defaultValue="option-ehm"
+                  value={milkType}
+                  onChange={(e) => setMilkType(e.target.value)}
                 >
                   <option value="ehm">EHM</option>
                   <option value="pdhm">PDHM</option>
@@ -40,7 +49,8 @@ function MilkRegistration() {
                 <select
                   id="milk-storage"
                   class="form-select form-select-sm"
-                  defaultValue="option-fidge"
+                  value={storageType}
+                  onChange={(e) => setStorageType(e.target.value)}
                 >
                   <option value="fridge">Fridge</option>
                   <option value="fresh">Fresh</option>
@@ -82,7 +92,13 @@ function MilkRegistration() {
           <label htmlFor="milk-notes" class="form-label">
             Notes
           </label>
-          <textarea class="form-control" id="milk-notes" rows="3"></textarea>
+          <textarea
+            class="form-control"
+            id="milk-notes"
+            rows="3"
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+          ></textarea>
         </div>
       </div>
     </>
