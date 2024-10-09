@@ -94,6 +94,6 @@ def create_bottle_table():
         print(f"An error occurred while creating the table: {e}")
 
 if __name__ == "__main__":
-    create_bottle_table()
     create_mother_table()
     create_baby_table()
+    create_bottle_table()
