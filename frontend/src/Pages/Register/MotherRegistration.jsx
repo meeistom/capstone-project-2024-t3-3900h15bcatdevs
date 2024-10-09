@@ -13,12 +13,7 @@ function MotherRegistration({
   momLastName,
   setMomLastName,
 }) {
-  useEffect(() => {
-    console.log(momFirstName, "mom first name");
-  }, [momFirstName]);
-
   const handleFirstNameOnChange = (e) => {
-    // e.preventDefault();
     setMomFirstName(e.target.value);
     console.log(momFirstName);
   };

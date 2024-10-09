@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -25,13 +25,7 @@ function Register() {
   const [momMRN, setMomMRN] = useState("");
   const [momFirstName, setMomFirstName] = useState("");
   const [momLastName, setMomLastName] = useState("");
-  // Page 0: Choose Mother/Baby/Milk to register
-  // Page 1: Mother Registration
-  // Page 2: Baby Registration
-  // Page 3: Milk Registration
-  // Page 4: Confirm details
-  // Page 5: Preview generated label
-  // Page 6: Print label
+  const [renderedPage, setRenderedPage] = useState(null);
 
   const nextPageToVisit = () => {
     console.log(`Next Page: ${currentPage + 1}`);
@@ -52,18 +46,58 @@ function Register() {
 
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.currentTarget;
-    console.log(name, checked);
     setChecked((prev) => ({
       ...prev,
       [name]: checked,
     }));
-    console.log(checked);
   };
 
   const startRegistration = () => {
+    const pages = [];
+
+    if (checked.momPage) pages.push("momPage");
+    if (checked.babyPage) pages.push("babyPage");
+    if (checked.milkPage) pages.push("milkPage");
+    pages.push("confirm", "preview", "print");
+
+    setSelectedPages(pages);
     setRegisterStarted(true);
     setCurrentPage(0);
   };
+
+  useEffect(() => {
+    console.log(selectedPages, currentPage, selectedPages[currentPage]);
+    switch (selectedPages[currentPage]) {
+      case "momPage":
+        console.log("making moms xd");
+        setRenderedPage(
+          <MotherRegistration
+            momMRN={momMRN}
+            setMomMRN={setMomMRN}
+            momFirstName={momFirstName}
+            setMomFirstName={setMomFirstName}
+            momLastName={momLastName}
+            setMomLastName={setMomLastName}
+          />
+        );
+        break;
+      case "babyPage":
+        setRenderedPage(<BabyRegistration />);
+        break;
+      case "milkPage":
+        setRenderedPage(<MilkRegistration />);
+        break;
+      case "confirm":
+        setRenderedPage(<ConfirmDetails />);
+        break;
+      case "preview":
+        setRenderedPage(<PreviewGeneratedLabel />);
+        break;
+      case "print":
+        setRenderedPage(<PrintLabel />);
+        break;
+    }
+  }, [selectedPages, currentPage]);
 
   return (
     <>
@@ -151,8 +185,7 @@ function Register() {
           {/* TODO: Make nav buttons */}
           {registerStarted && currentPage !== null && (
             <>
-              {console.log(selectedPages[currentPage]())}
-              <div>{selectedPages[currentPage]}</div>
+              <div className="rendered-page">{renderedPage}</div>
               <div className="nav-button-container">
                 <div className="back-button-container">
                   {currentPage > 0 && (
