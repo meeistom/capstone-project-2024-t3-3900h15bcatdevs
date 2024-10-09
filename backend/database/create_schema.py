@@ -14,7 +14,7 @@ def create_mother_table():
         # Create the table if it doesn't already exist
         cur.execute('''
             CREATE TABLE IF NOT EXISTS mother (
-                id SERIAL PRIMARY KEY,
+                mother_id SERIAL PRIMARY KEY,
                 first_name VARCHAR(50),
                 last_name VARCHAR(50),
                 mrn INT,
@@ -44,11 +44,12 @@ def create_baby_table():
         # Create the table if it doesn't already exist
         cur.execute('''
             CREATE TABLE IF NOT EXISTS baby (
-                id SERIAL PRIMARY KEY,
+                baby_id SERIAL PRIMARY KEY,
                 first_name VARCHAR(50),
                 last_name VARCHAR(50),
                 mrn INT,
-                barcode VARCHAR(50)
+                barcode VARCHAR(50),
+                mother_id INT REFERENCES mother(mother_id) ON DELETE CASCADE
             );
         ''')
         conn.commit()
@@ -74,14 +75,16 @@ def create_bottle_table():
         # Create the table if it doesn't already exist
         cur.execute('''
             CREATE TABLE IF NOT EXISTS bottle (
-                id SERIAL PRIMARY KEY,
+                bottle_id SERIAL PRIMARY KEY,
                 milk_type VARCHAR(50),
                 bottle_quantity INT,
                 express_time TIMESTAMP,
                 storage_method VARCHAR(50),
                 storage_location VARCHAR(50),
                 extra_notes VARCHAR(50),
-                barcode VARCHAR(50)
+                barcode VARCHAR(50),
+                mother_id INT REFERENCES mother(mother_id) ON DELETE CASCADE,
+                baby_id INT REFERENCES baby(baby_id) ON DELETE CASCADE
             );
         ''')
         conn.commit()

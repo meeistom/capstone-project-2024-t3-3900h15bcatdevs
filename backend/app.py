@@ -53,9 +53,20 @@ def insert_baby():
 # inserts milk bottle details
 @app.route('/database/insert_bottle', methods=['POST'])
 def insert_bottle():
-    data = request.get_json()
-    result = insert_bottle_data(data)
-    return jsonify(result)
+        data = request.get_json()
+        print(data)
+
+        milk_type = data.get('milk_type', 'default_type') 
+        bottle_quantity = data.get('bottle_quantity', 0) 
+        express_time = data.get('express_time', None)  
+        storage_method = data.get('storage_method', 'default_method')  
+        storage_location = data.get('storage_location', 'default_location')  
+        extra_notes = data.get('extra_notes', '') 
+        barcode = data.get('barcode', None)  
+        mother_id = data['mother_id']
+
+        result = insert_bottle_data(milk_type, bottle_quantity, express_time, storage_method, storage_location, extra_notes, barcode, mother_id)
+        return jsonify(result)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)

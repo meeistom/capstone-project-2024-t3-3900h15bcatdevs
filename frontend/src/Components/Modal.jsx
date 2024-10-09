@@ -16,6 +16,8 @@ function Modal({ closeModal, version }) {
   const [scannedValue, setScannedValue] = useState(0);
   const [expiryDate, setExpiryDate] = useState("");
   const [expressDate, setExpressDate] = useState("")
+  const [milkType, setMilkType] = useState("ehm");
+  const [storageType, setStorageType] = useState("fridge");
   const [motherData, setMotherData] = useState(null);
   let title, body, footer;
 
@@ -43,25 +45,28 @@ function Modal({ closeModal, version }) {
     fetchMotherDetails(barcode);
   };
 
-
-  // const handleInput = () => {
-  //   setScannedValue(scannerInputRef.current.value);
-  //   // console.log(scannedValue); // for debug
-  //   if (scannedValue.length >= 8) {
-  //     // this will be changed later on to data matching
-  //     setModalVersion("addMilk2");
-  //   }
-  // };
-
   const handleSubmitMilkInfo = () => {
-    if (!expiryDate || !expressDate) {
-      // for debug
-      // console.log(expiryDate)
-      // console.log(expressDate)
-      alert("Please fill in all relevant infomation");
-    } else {
-      setModalVersion("addMilk3");
-    }
+    const bottleDetails = {
+      milk_type: milkType,
+      bottle_quantity: 1,
+      express_time: expressDate,
+      storage_method: storageType,
+      storage_location: "level 1",
+      extra_notes: " ",
+      mother_id: motherData[0]
+    };
+
+    const url = 'http://localhost:5001/database/insert_bottle';
+    axios.post(url, bottleDetails)
+      .then(response => {
+        console.log('Bottle details added:');
+        setModalVersion("addMilk3");
+      })
+      .catch(error => {
+        console.error('Error posting bottle details:', error);
+        alert("Failed to add bottle details. Please try again.");
+      });
+    
   }
 
   const printImage = () => {
@@ -97,7 +102,13 @@ function Modal({ closeModal, version }) {
       title = "Confirm Infomation";
       body = (
         <>
-          <Form motherData={motherData} expiryDate={expiryDate} expressDate={expressDate} setExpressDate={setExpressDate} setExpiryDate={setExpiryDate}/>
+          <Form 
+          motherData={motherData} 
+          setExpressDate={setExpressDate} 
+          setExpiryDate={setExpiryDate}
+          setMilkType={setMilkType} 
+          setStorageType={setStorageType} 
+          />
         </>
       )
       footer = (
