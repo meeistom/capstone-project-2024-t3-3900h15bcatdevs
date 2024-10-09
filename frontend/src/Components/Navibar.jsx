@@ -34,7 +34,7 @@ function Navibar() {
     navigate("/view_babies");
   };
 
-  const gotoRegister = () => {
+  const goToRegister = () => {
     navigate("/register");
   };
 
@@ -61,7 +61,7 @@ function Navibar() {
             <Nav.Link onClick={goToBabies}>
               <FontAwesomeIcon icon={faBaby} /> View Babies
             </Nav.Link>
-            <Nav.Link onClick={gotoRegister}>
+            <Nav.Link onClick={goToRegister}>
               <FontAwesomeIcon icon={faPaperPlane} /> Register
             </Nav.Link>
             <Nav.Link onClick={goToHistory}>
