@@ -35,6 +35,12 @@ function Register() {
   const [milkType, setMilkType] = useState("ehm");
   const [storageType, setStorageType] = useState("fridge");
 
+  const navigate = useNavigate();
+
+  const goToHome = () => {
+    navigate("/");
+  };
+
   const nextPageToVisit = () => {
     console.log(`Next Page: ${currentPage + 1}`);
     setCurrentPage((currentPage) => currentPage + 1);
@@ -92,7 +98,6 @@ function Register() {
   useEffect(() => {
     switch (selectedPages[currentPage]) {
       case "momPage":
-        console.log("making moms xd");
         setRenderedPage(
           <MotherRegistration
             momMRN={momMRN}
@@ -255,7 +260,11 @@ function Register() {
                       <FontAwesomeIcon icon={faArrowRight} />
                     </Button>
                   )}
-                  {/* Create return home button on last page */}
+                  {currentPage === selectedPages.length - 1 && (
+                    <Button variant="primary" size="lg" onClick={goToHome}>
+                      <span style={{ marginRight: "10px" }}>Return Home</span>
+                    </Button>
+                  )}
                 </div>
               </div>
             </>
