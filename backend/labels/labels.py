@@ -3,9 +3,9 @@ from PIL import Image, ImageDraw, ImageFont
 from helper import *
 
 # Paths
-required_info_path = './assets/template/required_info.txt'
-optional_info_path = './assets/template/optional_info.txt'
-font_path = './assets/cour.ttf'
+required_info_path = './labels/assets/template/required_info.txt'
+optional_info_path = './labels/assets/template/optional_info.txt'
+font_path = './labels/assets/cour.ttf'
 
 def generate_label(required_info, barcode, optional_info=None):
     # Make sure required_info is an image
@@ -108,5 +108,5 @@ if __name__ == '__main__':
 
     o_label = generate_label(r_img, bar.render(writer_options={'font_path': font_path, 'dpi': 200}), o_img)
     no_label = generate_label(r_img, bar.render(writer_options={'font_path': font_path, 'dpi': 200}))
-    # o_label.save('o_label.png')
-    # no_label.save('no_label.png')
+    o_label.save('./generated_labels/o_label.png')
+    no_label.save('./generated_labels/no_label.png')
