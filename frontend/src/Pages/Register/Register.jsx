@@ -43,11 +43,13 @@ function Register() {
 
   const nextPageToVisit = () => {
     console.log(`Next Page: ${currentPage + 1}`);
+    console.log(selectedPages[currentPage]);
     setCurrentPage((currentPage) => currentPage + 1);
   };
 
   const prevPageToVisit = () => {
     console.log(`Prev Page: ${currentPage - 1}`);
+    console.log(selectedPages[currentPage]);
     setCurrentPage((currentPage) => currentPage - 1);
   };
 
@@ -67,7 +69,7 @@ function Register() {
   };
 
   const startRegistration = () => {
-    const pages = [];
+    const pages = ["prePage"];
 
     if (checked.momPage) pages.push("momPage");
     if (checked.babyPage) pages.push("babyPage");
@@ -76,7 +78,7 @@ function Register() {
 
     setSelectedPages(pages);
     setRegisterStarted(true);
-    setCurrentPage(0);
+    setCurrentPage(1);
   };
 
   const useEffectDependencies = [
@@ -97,6 +99,10 @@ function Register() {
 
   useEffect(() => {
     switch (selectedPages[currentPage]) {
+      case "prePage":
+        // console.log("yoo")  // for debug
+        setRegisterStarted(false);
+        break;
       case "momPage":
         setRenderedPage(
           <MotherRegistration
