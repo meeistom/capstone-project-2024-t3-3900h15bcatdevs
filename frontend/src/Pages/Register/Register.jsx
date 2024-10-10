@@ -144,7 +144,22 @@ function Register() {
         );
         break;
       case "confirm":
-        setRenderedPage(<ConfirmDetails />);
+        setRenderedPage(
+          <ConfirmDetails
+            momMRN={momMRN}
+            momFirstName={momFirstName}
+            momLastName={momLastName}
+            babyMRN={babyMRN}
+            babyFirstName={babyFirstName}
+            babyLastName={babyLastName}
+            exiryDate={expiryDate}
+            expressDate={expressDate}
+            notes={notes}
+            milkType={milkType}
+            storageType={storageType}
+            checked={checked}
+          />
+        );
         break;
       case "preview":
         setRenderedPage(<PreviewGeneratedLabel />);

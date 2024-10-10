@@ -354,3 +354,20 @@ body {
 #btn-group button {
   display: flex;
 }
+
+.confirm-details .body {
+  display: flex;
+  flex-direction: column;
+  color: #000;
+  text-align: left;
+  font-size: large;
+}
+
+.confirm-details .bottom-layer {
+  flex-direction: row;
+  margin-bottom: 2rem;
+}
+
+.confirm-details .sub-title {
+  font-weight: bold;
+}
