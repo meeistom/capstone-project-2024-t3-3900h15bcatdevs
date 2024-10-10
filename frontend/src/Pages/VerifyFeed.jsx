@@ -13,6 +13,8 @@ function VerifyFeed() {
   const navigate = useNavigate();
   const [milkCheck, setMilkCheck] = useState(<span className={"empty-check"}></span>);
   const [babyCheck, setBabyCheck] = useState(<span className={"empty-check"}></span>);
+  const [milkBarcode, setMilkBarcode] = useState("");
+  const [babyBarcode, setBabyBarcode] = useState("");
   const [promptMessage, setPromptMessage] = useState("Please scan the barcode on the baby or milk.");
   const [promptType, setPromptType] = useState("scan");
   const [alertMessage, setAlertMessage] = useState("");
@@ -26,31 +28,48 @@ function VerifyFeed() {
     }
   }, []);
 
+  const babyBarcodes = ["5396615573912", "9275610578404", "0384193849319"]
+  const milkBarcodes = ["1234567890128", "9876543210982", "1231231231232"]
+
   const handleInput = () => {
     const scannedValue = scannerInputRef.current.value;
-    if (scannedValue.length == 4) {
-      if (scannedValue === "milk") {
-        // Will need to check expiry
+    if (scannedValue.length == 13) {
+      document.getElementById("scanner-input").value = ""
+      if (milkBarcodes.includes(scannedValue)) {
         setMilkCheck(<img className="img" src={confirmCheck}></img>)
+        setMilkBarcode(scannedValue);
         if (babyCheck.type === 'img') {
           console.log(babyCheck.className)
           // Will need to check for match
-          setPromptType("confirmation");
+          if (milkBarcodes.indexOf(scannedValue) == babyBarcodes.indexOf(babyBarcode)) {
+            setPromptType("confirmation");
+          } else {
+            setMilkCheck(<span className={"empty-check"}></span>)
+            openAlert("The scanned milk does not match the scanned baby.")
+          }
         } else {
           setPromptMessage("Please scan the barcode on the baby.");
         }
-      } else if (scannedValue === "baby") {
+      } else if (babyBarcodes.includes(scannedValue)) {
         setBabyCheck(<img className="img" src={confirmCheck}></img>);
-        console.log(milkCheck)
+        setBabyBarcode(scannedValue)
         if (milkCheck.type === 'img') {
           // Will need to check for match
-          setPromptType("confirmation");
+          if (babyBarcodes.indexOf(scannedValue) == milkBarcodes.indexOf(milkBarcode)) {
+            setPromptType("confirmation");
+          } else {
+            setBabyCheck(<span className={"empty-check"}></span>);
+            openAlert("The scanned milk does not match the scanned baby.");
+          }
         } else {
           setPromptMessage("Please scan the barcode on the milk.");
-        }
+        } 
       } else {
-        openAlert("The scanned milk does not match the scanned baby")
+        openAlert("Barcode not found in the system.");
       }
+    // } else {
+    //   document.getElementById("scanner-input").value = ""
+    //   openAlert("Please scan barcode")
     }
   };
 
@@ -78,6 +97,7 @@ function VerifyFeed() {
           <div className="text">Waiting for scan...</div>
           <input
             type="text"
+            id ="scanner-input"
             className="scanner-input"
             ref={scannerInputRef}
             onChange={handleInput}
