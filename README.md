@@ -30,7 +30,6 @@ Run ```npm start``` in ```/frontend```.
 
 
 # Docker Containerising
-This is only when we want to submit or give our code to someone else to run. 
 
 When we add dependencies to either frontend or backend, please add to ```requirements.txt``` or ```package.json``` respectively. We will need to rebuild the docker image after adding dependencies.
 
@@ -42,4 +41,8 @@ docker compose build
 Run the container:
 ```
 docker compose up
+```
+Run the db container:
+```
+docker compose up -d
 ```
