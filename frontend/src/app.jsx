@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from "./Pages/Home";
 import { ViewMothers } from "./Pages/ViewMothers";
 import { ViewBabies } from "./Pages/ViewBabies";
-import { SubmitFeed } from "./Pages/SubmitFeed";
+import { Register } from "./Pages/Register/Register";
 import { HistoryLog } from "./Pages/HistoryLog";
 import { VerifyFeed } from "./Pages/VerifyFeed";
 
@@ -15,7 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/view_mothers" element={<ViewMothers />} />
           <Route path="/view_babies" element={<ViewBabies />} />
-          <Route path="/submit_feed" element={<SubmitFeed />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/history_log" element={<HistoryLog />} />
           <Route path="/verify_feed" element={<VerifyFeed />} />
         </Routes>

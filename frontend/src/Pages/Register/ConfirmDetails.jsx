@@ -1,0 +1,53 @@
+import { React } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../../index.css";
+
+export { ConfirmDetails };
+
+function ConfirmDetails({
+  momMRN,
+  momFirstName,
+  momLastName,
+  babyMRN,
+  babyFirstName,
+  babyLastName,
+  expiryDate,
+  expressDate,
+  notes,
+  milkType,
+  storageType,
+  checked,
+}) {
+  return (
+    <>
+      <div className="register-details-container confirm-details">
+        <div className="title">
+          <h2>{"Confirm Details"}</h2>
+        </div>
+        <div className="body">
+          {checked.momPage && (
+            <div className="mother-details ">
+              <div className="sub-title">Mother Details</div>
+              <div className="top-layer">MRN: {momMRN}</div>
+              <div className="bottom-layer">
+                <div>First Name: {momFirstName}</div>
+                <div>Last Name: {momLastName}</div>
+              </div>
+            </div>
+          )}
+          {checked.momPage && (
+            <div className="baby-details">
+              <div className="sub-title">Baby Details</div>
+              <div className="top-layer">MRN: {babyMRN}</div>
+              <div className="bottom-layer">
+                <div>First Name: {babyFirstName}</div>
+                <div>Last Name: {babyLastName}</div>
+              </div>
+            </div>
+          )}
+          {/* <div className="milk-details"></div> */}
+        </div>
+      </div>
+    </>
+  );
+}

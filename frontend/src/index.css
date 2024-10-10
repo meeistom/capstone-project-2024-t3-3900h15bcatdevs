@@ -48,20 +48,20 @@ body {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  padding: 2rem; 
 }
 
 .modal-container .title {
   font-size: xx-large;
-  color: #7f48a3;
+  color: var(--brandColor);
   text-align: center;
   margin-top: 15%;
 }
 
 .modal-container .body {
   display: flex;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
 }
 
@@ -122,6 +122,155 @@ body {
   outline: 0;
 }
 
+@media (max-width: 1468px) {
+  .modal-container {
+    top: 10%;
+    width: 40vw;
+    height: 75vh;
+    padding: 0;
+    overflow: auto;
+  }
+  .modal-container .body {
+    padding: 25px;
+  }
+  .modal-container .title {
+    margin-top: 40px;
+    font-size: x-large;
+  }
+  .modal-container img {
+    height: 90%;
+  }
+  .modal-container .footer {
+    display: flex;
+    padding: 25px;
+    margin-top: 3opx;
+  }
+} 
+
+#Register {
+  height: 90vh;
+}
+
+.register-page-container {
+  padding-inline: 20%;
+  padding-block-start: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.register-title {
+  color: #000000;
+  margin-block-end: 5rem;
+  text-align: center;
+}
+
+.register-selection-container {
+  display: flex;
+  /* justify-content: center;
+  align-items: center; */
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5rem;
+}
+
+.register-selection-container .footer {
+  margin-top: auto;
+  align-self: flex-end;
+}
+
+.register-selection-container .title {
+  font-size: large;
+  color: var(--brandColor);
+  text-align: center;
+  position: relative;
+  /* margin-top: 5%; */
+}
+
+.register-selection-container .checkbox-container {
+  display: flex;
+  font-size: xx-large;
+  /* color: var(--brandColor); */
+  justify-content: center;
+  gap: 100px;
+  /* margin-top: 5%; */
+}
+
+.register-selection-container .uncheck {
+  background-color: #ffffff;
+  border-color: var(--brandColor);
+  color: var(--brandColor);
+  font-size: xx-large;
+  text-align: center;
+}
+
+.register-selection-container .uncheck:hover {
+  background-color: var(--brandColor);
+  border-color: var(--brandColor);
+  color: #ffffff;
+  font-size: xx-large;
+  text-align: center;
+}
+
+.register-selection-container .check {
+  background-color: var(--brandColor) !important;
+  border-color: var(--brandColor) !important;
+  font-size: xx-large;
+  color: #ffffff;
+  text-align: center;
+}
+
+.nav-button-container {
+  /* position: fixed; */
+  /* position: absolute;
+  bottom: 10%; */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-inline: 30%;
+  /* align-content: flex-end; */
+  width: 80%;
+  margin-block-start: auto;
+  margin-block-end: 10rem;
+}
+
+.back-button-container {
+  justify-content: left;
+}
+
+.next-button-container {
+  justify-content: right;
+  align-self: flex-end;
+}
+
+.register-details-container {
+  border-color: var(--brandColor) !important;
+  font-size: xx-large;
+  color: var(--brandColor);
+  text-align: center;
+  margin-top: 5%;
+  justify-items: baseline;
+  width: 400px;
+}
+
+.register-form-label {
+  font-size: medium;
+  color: #000000;
+  text-align: left;
+  margin-top: 10%;
+  justify-items: baseline;
+}
+
+.register-container {
+  display: grid;
+  /* flex-direction: column; */
+  align-items: center;
+  justify-items: center;
+  /* align-content: center; */
+  /* position: relative; */
+}
 .verification-page {
   display: flex;
   row-gap: 30px;
@@ -171,7 +320,7 @@ body {
   border-radius: 50%;
   display: inline-block;
   border: solid 5px;
-  color: #B4B4B4
+  color: #b4b4b4;
 }
 
 .checkbox-container .text {
@@ -198,7 +347,7 @@ body {
 .prompt-container .home-button {
   width: 140px;
   align-self: center;
-  margin-top: 25px
+  margin-top: 25px;
 }
 
 .form-container {
@@ -232,6 +381,22 @@ body {
   display: flex;
 }
 
+.confirm-details .body {
+  display: flex;
+  flex-direction: column;
+  color: #000;
+  text-align: left;
+  font-size: large;
+}
+
+.confirm-details .bottom-layer {
+  flex-direction: row;
+  margin-bottom: 2rem;
+}
+
+.confirm-details .sub-title {
+  font-weight: bold;
+}
 .alert-popup {
   height: 140px;
   width: 280px;
