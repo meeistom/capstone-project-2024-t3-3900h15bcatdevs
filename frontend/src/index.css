@@ -127,6 +127,7 @@ body {
   row-gap: 30px;
   padding: 3.5%;
   flex-direction: column;
+  z-index: 1;
 }
 
 .verification-page .title {
@@ -229,4 +230,26 @@ body {
 
 #btn-group button {
   display: flex;
+}
+
+.alert-popup {
+  height: 140px;
+  width: 280px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.alert-container {
+  z-index: 200;
+  position: absolute;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 120px;
+}
+
+.alert-container .alert-close {
+  margin-left: 65%;
 }
