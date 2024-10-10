@@ -48,7 +48,7 @@ body {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  padding: 2rem; 
 }
 
 .modal-container .title {
@@ -121,6 +121,31 @@ body {
   border: 0;
   outline: 0;
 }
+
+@media (max-width: 1468px) {
+  .modal-container {
+    top: 10%;
+    width: 40vw;
+    height: 75vh;
+    padding: 0;
+    overflow: auto;
+  }
+  .modal-container .body {
+    padding: 25px;
+  }
+  .modal-container .title {
+    margin-top: 40px;
+    font-size: x-large;
+  }
+  .modal-container img {
+    height: 90%;
+  }
+  .modal-container .footer {
+    display: flex;
+    padding: 25px;
+    margin-top: 3opx;
+  }
+} 
 
 #Register {
   height: 90vh;
