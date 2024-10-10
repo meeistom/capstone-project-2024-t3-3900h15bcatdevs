@@ -356,7 +356,6 @@ body {
   display: flex;
 }
 
-<<<<<<< HEAD
 .confirm-details .body {
   display: flex;
   flex-direction: column;
@@ -372,7 +371,7 @@ body {
 
 .confirm-details .sub-title {
   font-weight: bold;
-=======
+}
 .alert-popup {
   height: 140px;
   width: 280px;
@@ -393,5 +392,4 @@ body {
 
 .alert-container .alert-close {
   margin-left: 65%;
->>>>>>> main
 }
