@@ -6,6 +6,10 @@ Sync/install all dependencies for the ```/backend```:
 pip install -r requirements.txt
 ```
 
+To have access to the database, please make sure you have your ```key_<catdev-name>.json``` file in ```/backend/firebase```, and uncomment the appropriate line to direct to the right key. Find your key in resources in discord. 
+
+```.gitignore``` is set to ignore files starting with ```key_*```.
+
 Run ```python app.py``` in ```/backend```.
 
 ### Development - Running the frontend (in frontend)

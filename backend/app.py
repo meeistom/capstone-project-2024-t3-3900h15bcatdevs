@@ -6,14 +6,26 @@ from database.fetch_baby import fetch_baby_data
 from database.insert_baby import insert_baby_data
 from database.insert_bottle import insert_bottle_data
 
-import os
+import firebase_admin as fba
+from firebase_admin import firestore, credentials
+from firebase.add_entry import *
+from firebase.delete_entry import *
+from firebase.get_entry import *
+
+######### Uncomment to direct to the right key
+cred = credentials.Certificate('./key_gabe.json')
+# cred = credentials.Certificate('./key_cynthia.json')
+# cred = credentials.Certificate('./key_aolin.json')
+# cred = credentials.Certificate('./key_parker.json')
+# cred = credentials.Certificate('./key_tom.json')
+# cred = credentials.Certificate('./key_parker.json')
+
+fba.initialize_app(cred)
+fs_client = firestore.client()
 
 """
 Basic Skeleton for a Flask app that you can use in a docker container.
 """
-
-# Replace <catdev-key> with ur key
-FIREBASE_KEY_PATH = os.path.join(os.getcwd(), 'firebase', '<catdev-key>.json')
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}) 
