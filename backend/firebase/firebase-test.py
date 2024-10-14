@@ -1,5 +1,4 @@
 import firebase_admin as fba
-from firebase_admin.db import Query, reference
 from firebase_admin import firestore, credentials
 
 from add_entry import *
@@ -41,6 +40,6 @@ milk_entry = get_milk_entry(fs_client, 0)
 # delete_mother(fs_client, 0)
 # delete_milk_entry(fs_client, 0)
 
-print(mother_info)
-print(baby_info)
-print(milk_entry)
+# print(mother_info)
+# print(baby_info)
+# print(milk_entry)
