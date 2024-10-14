@@ -24,8 +24,8 @@ Top level collections:
 <mother-id>: {
     'uid': <string>,
     'mrn': <int>,
-    'first-name': <string>,
-    'last-name': <string>,
+    'first_name': <string>,
+    'last_name': <string>,
 }
 ```
 
@@ -34,9 +34,9 @@ Top level collections:
 <baby-id>: {
     'uid': <string>,
     'mrn': <int>,
-    'first-name': <string>,
-    'last-name': <string>,
-    'mother-id': <string>, // Reference to mother collection
+    'first_name': <string>,
+    'last_name': <string>,
+    'mother_id': <string>, // Reference to mother collection
 }
 ```
 
@@ -44,12 +44,13 @@ Top level collections:
 ```
 <milk-id>: {
     'uid': <string>,
-    'milk-type': <string>,
-    'express-time': TIMESTAMP,
-    'storage-type': <string>,
-    'storage-location': <string>,
-    'volume-ml': <int>,
-    'mother-id': <string>, // Reference to mother collection
-    'baby-id': <string>, // Reference to baby collection
+    'milk_type': <string>,
+    'express_time': TIMESTAMP,
+    'expiration_date': TIMESTAMP,
+    'storage_type': <string>,
+    'storage_location': <string>,
+    'volume_ml': <int>,
+    'mother_id': <string>, // Reference to mother collection
+    'baby_id': <string>, // Reference to baby collection
 }
 ```

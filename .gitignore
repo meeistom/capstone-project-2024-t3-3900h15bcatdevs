@@ -4,4 +4,5 @@ backend/database/__pycache__/
 backend/firebase/__pycache__/
 backend/firebase/key/*
 backend/__pycache__/
-.DS_Store
+.DS_*
+key_*

@@ -2,11 +2,12 @@ import firebase_admin as fba
 from firebase_admin.db import Query, reference
 from firebase_admin import firestore, credentials
 
-from manage_entities import *
+from add_entry import *
+from delete_entry import *
+from get_entry import *
 
-# Default to universal read and write
-# cred = credentials.ApplicationDefault()
-cred = credentials.Certificate('./key/Gabe.json')
+cred = credentials.Certificate('./key_gabe.json')
+# cred = credentials.Certificate('./key_<catdev-name>.json')
 
 fba.initialize_app(cred)
 fs_client = firestore.client()
@@ -21,22 +22,25 @@ fs_client = firestore.client()
 #     print(mother.to_dict())
 
 # Insert a document
-new_mother_id = 1
-# new_mother = {
-#     'uid': new_mother_id,
-#     'mrn': 0,
-#     'first-name': 'Jane',
-#     'last-name': 'Doe',
-# }
-# db.collection("mothers").document(str(new_mother_id)).set(new_mother)
-
-delete_mother(fs_client, 0)
-delete_mother(fs_client, 1)
-delete_mother(fs_client, 2)
 
 add_mother(fs_client, 0, 0, 'Felicia', 'Smith')
-add_mother(fs_client, 1, 0, 'Jane', 'Doe')
-add_mother(fs_client, 2, 0, 'Hong', 'Lin')
+add_mother(fs_client, 1, 0, 'Anna', 'Meyers')
+
+add_baby(fs_client, 0, 0, 'Johnny', 'Bee', 0)
+
+# add_mother(fs_client, 1, 0, 'Jane', 'Doe')
+# add_mother(fs_client, 2, 0, 'Hong', 'Lin')
+
+add_milk_entry(fs_client, 0, 'EHA', "fridge", "fridge0", 100, 0, 0)
 
 mother_info = get_mother(fs_client, 0)
+baby_info = get_baby(fs_client, 0)
+milk_entry = get_milk_entry(fs_client, 0)
+
+# delete_baby(fs_client, 0)
+# delete_mother(fs_client, 0)
+# delete_milk_entry(fs_client, 0)
+
 print(mother_info)
+print(baby_info)
+print(milk_entry)

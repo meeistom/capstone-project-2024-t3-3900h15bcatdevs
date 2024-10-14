@@ -6,9 +6,14 @@ from database.fetch_baby import fetch_baby_data
 from database.insert_baby import insert_baby_data
 from database.insert_bottle import insert_bottle_data
 
+import os
+
 """
 Basic Skeleton for a Flask app that you can use in a docker container.
 """
+
+# Replace <catdev-key> with ur key
+FIREBASE_KEY_PATH = os.path.join(os.getcwd(), 'firebase', '<catdev-key>.json')
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}) 
