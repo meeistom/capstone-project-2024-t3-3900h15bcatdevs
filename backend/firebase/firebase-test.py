@@ -6,7 +6,7 @@ from manage_entities import *
 
 # Default to universal read and write
 # cred = credentials.ApplicationDefault()
-cred = credentials.Certificate('./key/test-3900-1a1e0685bf51.json')
+cred = credentials.Certificate('./key/Gabe.json')
 
 fba.initialize_app(cred)
 fs_client = firestore.client()
