@@ -76,6 +76,7 @@ def get_baby():
             200
         )
 
+#  Fetches all milk entries as a list, or fetches milk entry object by UID
 @app.route('/milk_entries', methods=['GET'], strict_slashes=False)
 def get_milk_entry():
     uid = request.args.get('uid')
@@ -95,7 +96,7 @@ def get_milk_entry():
             200
         )
 
-# inserts mother's details
+# Adds a new mother
 @app.route('/add_mother', methods=['POST'])
 def add_new_mother():
     new_mother_data = request.get_json()
@@ -112,7 +113,7 @@ def add_new_mother():
         200 if success else 400
     )
 
-# inserts baby details
+# Adds a new baby
 @app.route('/add_baby', methods=['POST'])
 def add_new_baby():
     new_baby_data = request.get_json()
@@ -130,7 +131,7 @@ def add_new_baby():
         200 if success else 400
     )
 
-# inserts milk bottle details
+# Adds a new milk entry
 @app.route('/add_milk_entry', methods=['POST'])
 def add_new_milk_entry():
     new_milk_entry_data = request.get_json()
@@ -150,6 +151,42 @@ def add_new_milk_entry():
     return make_response(
         message,
         200 if success else 400
+    )
+
+# Deletes a mother
+@app.route('/delete_mother', methods=['DELETE'])
+def delete_mother_by_mrn():
+    mrn = request.args.get('mrn')
+
+    success, message = delete_mother(fs_client, mrn)
+
+    return make_response(
+        message,
+        200 if success else 500
+    )
+
+# Deletes a baby
+@app.route('/delete_baby', methods=['DELETE'])
+def delete_baby_by_mrn():
+    mrn = request.args.get('mrn')
+
+    success, message = delete_baby(fs_client, mrn)
+
+    return make_response(
+        message,
+        200 if success else 500
+    )
+
+# Deletes a milk entry
+@app.route('/delete_milk_entry', methods=['DELETE'])
+def delete_milk_entry_by_uid():
+    uid = request.args.get('uid')
+
+    success, message = delete_milk_entry(fs_client, uid)
+
+    return make_response(
+        message,
+        200 if success else 500
     )
 
 if __name__ == '__main__':
