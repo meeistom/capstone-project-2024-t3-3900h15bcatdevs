@@ -31,7 +31,7 @@ function MilkRegistration({
                 </label>
                 <select
                   id="milk-type"
-                  class="form-select form-select-sm"
+                  className="form-select form-select-sm"
                   value={milkType}
                   onChange={(e) => setMilkType(e.target.value)}
                 >

@@ -48,7 +48,7 @@ body {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: column;
-  padding: 2rem; 
+  padding: 2rem;
 }
 
 .modal-container .title {
@@ -145,7 +145,7 @@ body {
     padding: 25px;
     margin-top: 3opx;
   }
-} 
+}
 
 #Register {
   height: 90vh;
@@ -390,7 +390,6 @@ body {
 }
 
 .confirm-details .bottom-layer {
-  flex-direction: row;
   margin-bottom: 2rem;
 }
 

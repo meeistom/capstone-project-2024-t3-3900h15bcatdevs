@@ -100,7 +100,6 @@ function Register() {
   useEffect(() => {
     switch (selectedPages[currentPage]) {
       case "prePage":
-        // console.log("yoo")  // for debug
         setRegisterStarted(false);
         break;
       case "momPage":
@@ -162,6 +161,7 @@ function Register() {
         );
         break;
       case "preview":
+        // Would submit details to backend at this point
         setRenderedPage(<PreviewGeneratedLabel />);
         break;
       case "print":
