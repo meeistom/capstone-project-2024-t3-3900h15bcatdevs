@@ -8,17 +8,18 @@ from flask_cors import CORS
 
 import firebase_admin as fba
 from firebase_admin import firestore, credentials
-from firebase.add_entry import *
-from firebase.delete_entry import *
+
+from firebase.add import *
+from firebase.delete import *
 from firebase.retrieve import *
 
 ######### Uncomment to direct to the right key
 cred = credentials.Certificate('./firebase/key_gabe.json')
-# cred = credentials.Certificate('./key_cynthia.json')
-# cred = credentials.Certificate('./key_aolin.json')
-# cred = credentials.Certificate('./key_parker.json')
-# cred = credentials.Certificate('./key_tom.json')
-# cred = credentials.Certificate('./key_parker.json')
+# cred = credentials.Certificate('./firebase/key_cynthia.json')
+# cred = credentials.Certificate('./firebase/key_aolin.json')
+# cred = credentials.Certificate('./firebase/key_parker.json')
+# cred = credentials.Certificate('./firebase/key_tom.json')
+# cred = credentials.Certificate('./firebase/key_parker.json')
 
 fba.initialize_app(cred)
 fs_client = firestore.client()
@@ -34,20 +35,82 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 def passes():
     return 'DEFAULT'
 
-# inserts mother's details
-@app.route('/database/insert_mother', methods=['POST'])
-def insert_mother():
-    # data = request.get_json()
-    # result = insert_mother_data(data)
-    # return jsonify(result)
-    pass
+# Fetches all mothers as a list, or fetches mother object by MRN
+@app.route('/mothers', methods=['GET'], strict_slashes=False)
+def get_mother():
+    mrn = request.args.get('mrn')
+    if mrn:
+        mother_data = retrieve_mother_by_mrn(fs_client, mrn)
+    else:
+        mother_data = retrieve_all_mothers(fs_client)
 
-# returns all baby details
-@app.route('/database/fetch_baby', methods=['GET'])
-def get_baby_data():
-    # data = fetch_baby_data()
-    # return jsonify(data)
-    pass
+    if len(mother_data) == 0:
+        return make_response(
+            "Mother MRN not found!" if mrn else "No Mothers Registered",
+            400 if mrn else 200
+        )
+    else:
+        return make_response(
+            jsonify(mother_data),
+            200
+        )
+
+# Fetches all babies as a list, or fetches baby object by MRN
+@app.route('/babies', methods=['GET'], strict_slashes=False)
+def get_baby():
+    mrn = request.args.get('mrn')
+    if mrn:
+        baby_data = retrieve_baby_by_mrn(fs_client, mrn)
+    else:
+        baby_data = retrieve_all_babies(fs_client)
+
+    if len(baby_data) == 0:
+        return make_response(
+            "Baby MRN not found!" if mrn else "No Babies Registered",
+            400 if mrn else 200
+        )
+    else:
+        return make_response(
+            jsonify(baby_data),
+            200
+        )
+
+@app.route('/milk_entries', methods=['GET'], strict_slashes=False)
+def get_milk_entry():
+    uid = request.args.get('uid')
+    if uid:
+        milk_entry_data = retrieve_milk_entry_by_uid(fs_client, uid)
+    else:
+        milk_entry_data = retrieve_all_milk_entries(fs_client)
+
+    if len(milk_entry_data) == 0:
+        return make_response(
+            "Milk Entry UID not found!" if uid else "No Milk Entries Registered",
+            400 if uid else 200
+        )
+    else:
+        return make_response(
+            jsonify(milk_entry_data),
+            200
+        )
+
+# inserts mother's details
+@app.route('/add_mother', methods=['POST'])
+def add_new_mother():
+    new_mother_data = request.get_json()
+    
+    # Generate new MRN for mother?
+
+    success = add_mother(fs_client,
+                         new_mother_data['mrn'],
+                         new_mother_data['first_name'],
+                         new_mother_data['last_name'])
+    
+    return make_response(
+        "Successfully added mother" if success else "Failed to add mother",
+        200 if success else 400
+    )
+
 
 # inserts baby details
 @app.route('/database/insert_baby', methods=['POST'])
@@ -76,22 +139,6 @@ def insert_bottle():
     # return jsonify(result)
     pass
 
-# Fetches all mothers from the database as a list
-@app.route('/mothers', methods=['GET'], strict_slashes=False)
-def get_mother():
-    mrn = request.args.get('mrn')
-    if mrn:
-        mother_data = retrieve_mother_by_mrn(fs_client, mrn)
-    else:
-        mother_data = retrieve_all_mothers(fs_client)
-
-    if len(mother_data) == 0:
-        return make_response(
-            "Mother MRN not found!" if mrn else "No Mothers Registered",
-            400 if mrn else 200
-        )
-        
-    return jsonify(mother_data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)

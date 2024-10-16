@@ -1,8 +1,8 @@
 import firebase_admin as fba
 from firebase_admin import firestore, credentials
 
-from add_entry import *
-from delete_entry import *
+from firebase.add import *
+from firebase.delete import *
 
 from retrieve import *
 # from backend.firebase.retrieve_data import *

@@ -51,6 +51,28 @@ def retrieve_all_mothers(firestore_client) -> list:
         
     return mothers_list
 
+def retrieve_all_babies(firestore_client) -> list:
+    """
+    Gets all babies from the database
+    """
+    babies_collection = firestore_client.collection("babies")
+    babies_list = []
+    for baby in babies_collection.stream():
+        babies_list.append(baby.to_dict())
+
+    return babies_list
+
+def retrieve_all_milk_entries(firestore_client) -> list:
+    """
+    Gets all milk entries from the database
+    """
+    milk_entries_collection = firestore_client.collection("milk_entries")
+    milk_entries_list = []
+    for milk_entry in milk_entries_collection.stream():
+        milk_entries_list.append(milk_entry.to_dict())
+
+    return milk_entries_list
+
 def is_valid_mother(firestore_client, mrn: str) -> bool:
     """
     Checks if a mother exists in the database
