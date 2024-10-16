@@ -1,4 +1,4 @@
-from retrieve import is_valid_mother, is_valid_baby, is_valid_milk_entry
+from firebase.retrieve import is_valid_mother, is_valid_baby, is_valid_milk_entry
 
 def delete_mother(firestore_client, mother_mrn: str) -> bool:
     """
