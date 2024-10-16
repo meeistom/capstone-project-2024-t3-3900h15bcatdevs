@@ -1,3 +1,18 @@
+# USING THE BACKEND (for frontend peeps)
+
+Uncomment the database clearing lines in app.py to clear the database or one collection at a time.
+```
+if __name__ == '__main__':
+    #### UNCOMMENT FOR DB CONTROL
+    #### WARNING: DESTRUCTIVE STUFF
+    # clear_mothers(fs_client)
+    # clear_babies(fs_client)
+    # clear_milk_entries(fs_client)
+    # clear_all_collections(fs_client)
+
+    app.run(host='0.0.0.0', port=5001, debug=True)
+```
+
 # Available routes on backend
 
 ## Get Mother/s
