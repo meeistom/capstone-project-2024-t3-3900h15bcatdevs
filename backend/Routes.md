@@ -13,20 +13,19 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
 ```
 
+Might be a section on pre-made collections in the future?
+
+> ❗️ Info on Data
+>
+> For information on data objects. See ```firebase/firestore-data.md```
+
 # Available routes on backend
 
-## Get Mother/s
-Get list of all mothers OR get a specific mother by MRN.
-- ```/mothers```
-- ```/mothers/```
-
-(JSON) (200) Returns ```list``` of mothers. ```{}``` if no mothers.
-
-- ```/mothers/<mrn>```
-
-(JSON - 200) Returns ```dict``` of the mother.  
-(ERROR - 400) ```"Mother MRN not found!"```
-
+## Get Mothers/Babies/Milk Entries
+Get list of all mothers OR babies OR milk_entries.
+- ```/mothers``` or ```/mothers/```
+- ```/babies``` or ```/babies/```
+- ```/milk_entries``` or ```/milk_entries/```
 ```
 // Example for list of mothers (200)
 [
@@ -47,6 +46,18 @@ OR
 {}
 ```
 
+(JSON) (200)  
+Returns ```list``` of mother/baby/milk entry objects. ```{}``` if no mothers.
+
+## Get Mother/Baby by MRN, Milk Entry by UID
+
+- ```/mothers?mrn=<mrn>```
+- ```/babies?mrn=<mrn>```
+- ```/milk_entries?uid=<uid>```
+
+(JSON - 200) Returns ```mother```/```baby```/```milk``` data object.  
+(ERROR - 400) ```Mother/Baby/Milk does not exist!```
+
 ```
 // Example of one mother info return (200)
 {
@@ -59,5 +70,47 @@ OR
 
 ```
 // Example of no mother found (400)
-Mother MRN not found!
+Mother MRN <mrn> does not exist!
 ```
+
+## Add Mother/Baby/Milk Entry
+- ```/add_mother```
+
+```
+// JSON body
+{
+    "mrn": "0000",
+    "first_name": "Anne",
+    "last_name": "Blot"
+}
+OR
+{
+    "mrn": "0003",
+    "first_name": "James",
+    "last_name": "Blot",
+    "mother_mrn": "0000"
+}
+OR
+{
+    "uid": "0000",
+    "milk_type": "EHA",
+    "express_time": "NOW",
+    "expiration_date": "NOT IMPLEMENTED YET",
+    "storage_type": "fresh",
+    "storage_location": "fridge",
+    "volume_ml": 100,
+    "owner_mrn": "0000",
+    "extra_notes": "extra notes???????"
+}
+```
+(JSON - 200) Success message.  
+(ERROR - 400) ```Mother/Baby/Milk Entry already exists!```
+
+## Delete Mother/Baby/Milk Entry by MRN
+- ```/delete_mother?mrn=<mrn>```
+- ```/delete_baby?mrn=<mrn>```
+- ```/delete_milk_entry?uid=<uid>```
+
+(JSON - 200) Success message.  
+(ERROR - 400) ```Mother/Baby/Milk Entry does not exist!```
+
