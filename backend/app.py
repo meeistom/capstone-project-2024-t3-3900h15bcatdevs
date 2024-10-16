@@ -12,6 +12,7 @@ from firebase_admin import firestore, credentials
 from firebase.add import *
 from firebase.delete import *
 from firebase.retrieve import *
+from firebase.db_control import *
 
 ######### Uncomment to direct to the right key
 cred = credentials.Certificate('./firebase/key_gabe.json')
@@ -101,44 +102,62 @@ def add_new_mother():
     
     # Generate new MRN for mother?
 
-    success = add_mother(fs_client,
-                         new_mother_data['mrn'],
-                         new_mother_data['first_name'],
-                         new_mother_data['last_name'])
+    success, message = add_mother(fs_client,
+                                  new_mother_data['mrn'],
+                                  new_mother_data['first_name'],
+                                  new_mother_data['last_name'])
     
     return make_response(
-        "Successfully added mother" if success else "Failed to add mother",
+        message,
         200 if success else 400
     )
 
-
 # inserts baby details
-@app.route('/database/insert_baby', methods=['POST'])
-def insert_baby():
-    # data = request.get_json()
-    # result = insert_baby_data(data)
-    # return jsonify(result)
-    pass
+@app.route('/add_baby', methods=['POST'])
+def add_new_baby():
+    new_baby_data = request.get_json()
+
+    # Generate new MRN for baby?
+
+    success, message = add_baby(fs_client,
+                                new_baby_data['mrn'],
+                                new_baby_data['first_name'],
+                                new_baby_data['last_name'],
+                                new_baby_data['mother_mrn'])
+    
+    return make_response(
+        message,
+        200 if success else 400
+    )
 
 # inserts milk bottle details
-@app.route('/database/insert_bottle', methods=['POST'])
-def insert_bottle():
-    # data = request.get_json()
-    # print(data)
+@app.route('/add_milk_entry', methods=['POST'])
+def add_new_milk_entry():
+    new_milk_entry_data = request.get_json()
 
-    # milk_type = data.get('milk_type', 'default_type') 
-    # bottle_quantity = data.get('bottle_quantity', 0) 
-    # express_time = data.get('express_time', None)  
-    # storage_method = data.get('storage_method', 'default_method')  
-    # storage_location = data.get('storage_location', 'default_location')  
-    # extra_notes = data.get('extra_notes', '') 
-    # barcode = data.get('barcode', None)  
-    # mother_id = data['mother_id']
+    # Generate new UID for milk entry?
 
-    # result = insert_bottle_data(milk_type, bottle_quantity, express_time, storage_method, storage_location, extra_notes, barcode, mother_id)
-    # return jsonify(result)
-    pass
-
+    success, message = add_milk_entry(fs_client,
+                                      new_milk_entry_data['uid'],
+                                      new_milk_entry_data['milk_type'],
+                                      new_milk_entry_data['express_time'],
+                                      new_milk_entry_data['storage_type'],
+                                      new_milk_entry_data['storage_location'],
+                                      new_milk_entry_data['volume_ml'],
+                                      new_milk_entry_data['owner_mrn'],
+                                      new_milk_entry_data['extra_notes'])
+    
+    return make_response(
+        message,
+        200 if success else 400
+    )
 
 if __name__ == '__main__':
+    #### UNCOMMENT FOR DB CONTROL
+    #### WARNING: DESTRUCTIVE STUFF
+    # clear_mothers(fs_client)
+    # clear_babies(fs_client)
+    # clear_milk_entries(fs_client)
+    # clear_all_collections(fs_client)
+
     app.run(host='0.0.0.0', port=5001, debug=True)

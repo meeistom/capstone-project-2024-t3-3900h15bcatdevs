@@ -63,7 +63,8 @@ def add_milk_entry(firestore_client,
                    storage_type: str,
                    storage_location: str,
                    volume_ml: int,
-                   owner_mrn: str) -> Tuple[bool, str]:
+                   owner_mrn: str,
+                   extra_notes: str) -> Tuple[bool, str]:
     """
     Adds a milk entry to the database
     """
@@ -86,6 +87,7 @@ def add_milk_entry(firestore_client,
             'storage_location': storage_location,
             'volume_ml': volume_ml,
             'owner_mrn': owner_mrn,
+            'extra_notes': extra_notes
         })
     except Exception as e:
         print(f"ADD MILK ENTRY: An error occurred while loading data: {e}")
