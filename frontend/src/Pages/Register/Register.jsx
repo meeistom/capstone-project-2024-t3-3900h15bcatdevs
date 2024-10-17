@@ -43,6 +43,9 @@ function Register() {
   };
 
   const nextPageToVisit = () => {
+    if (selectedPages[currentPage] == "babyPage" && !babyPageIsValid()) return;
+    if (selectedPages[currentPage] == "momPage" && !momPageIsValid()) return;
+    if (selectedPages[currentPage] == "milkPage" && !milkPageIsValid()) return;
     console.log(`Next Page: ${currentPage + 1}`);
     console.log(selectedPages[currentPage]);
     setCurrentPage((currentPage) => currentPage + 1);
@@ -91,6 +94,27 @@ function Register() {
       printWindow.document.close();
       printWindow.print();
     }
+  };
+
+  const babyPageIsValid = () => {
+    if (babyMRN === "" || babyFirstName === "" || babyLastName === "") {
+      return false;
+    }
+    return true;
+  };
+
+  const momPageIsValid = () => {
+    if (momMRN === "" || momFirstName === "" || momLastName === "") {
+      return false;
+    }
+    return true;
+  };
+
+  const milkPageIsValid = () => {
+    if (expiryDate === "" || expressDate === "") {
+      return false;
+    }
+    return true;
   };
 
   const useEffectDependencies = [
