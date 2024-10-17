@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,7 +10,6 @@ import { BabyRegistration } from "./BabyRegistration";
 import { MilkRegistration } from "./MilkRegistration";
 import { ConfirmDetails } from "./ConfirmDetails";
 import { PreviewGeneratedLabel } from "./PreviewGeneratedLabel";
-import { PrintLabel } from "./PrintLabel";
 import { Button, ToggleButton } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare, faCheckSquare } from "@fortawesome/free-regular-svg-icons";
@@ -34,6 +33,8 @@ function Register() {
   const [notes, setNotes] = useState("");
   const [milkType, setMilkType] = useState("ehm");
   const [storageType, setStorageType] = useState("fridge");
+
+  const imageRef = useRef(null);
 
   const navigate = useNavigate();
 
@@ -74,11 +75,22 @@ function Register() {
     if (checked.momPage) pages.push("momPage");
     if (checked.babyPage) pages.push("babyPage");
     if (checked.milkPage) pages.push("milkPage");
-    pages.push("confirm", "preview", "print");
+    pages.push("confirm", "preview");
 
     setSelectedPages(pages);
     setRegisterStarted(true);
     setCurrentPage(1);
+  };
+
+  const printImage = () => {
+    if (imageRef.current) {
+      const printWindow = window.open("", "_blank");
+      printWindow.document.write(
+        `<img src="${imageRef.current.src}" alt="sticker" style="max-width: 100%;" />`
+      );
+      printWindow.document.close();
+      printWindow.print();
+    }
   };
 
   const useEffectDependencies = [
@@ -162,7 +174,11 @@ function Register() {
         break;
       case "preview":
         // Would submit details to backend at this point
-        setRenderedPage(<PreviewGeneratedLabel />);
+        setRenderedPage(
+          <PreviewGeneratedLabel
+            setImageRef={(ref) => (imageRef.current = ref.current)}
+          />
+        );
         break;
       case "print":
         setRenderedPage(<PrintLabel />);
@@ -282,9 +298,18 @@ function Register() {
                     </Button>
                   )}
                   {currentPage === selectedPages.length - 1 && (
-                    <Button variant="primary" size="lg" onClick={goToHome}>
-                      <span>Return Home</span>
-                    </Button>
+                    <>
+                      <Button
+                        variant="outline-primary"
+                        size="lg"
+                        onClick={printImage}
+                      >
+                        <span>Print Label</span>
+                      </Button>
+                      <Button variant="primary" size="lg" onClick={goToHome}>
+                        <span>Return Home</span>
+                      </Button>
+                    </>
                   )}
                 </div>
               </div>

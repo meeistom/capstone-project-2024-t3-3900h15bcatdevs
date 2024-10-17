@@ -35,7 +35,7 @@ function ConfirmDetails({
               </div>
             </div>
           )}
-          {checked.momPage && (
+          {checked.babyPage && (
             <div className="baby-details">
               <div className="sub-title">Baby Details</div>
               <div className="top-layer">MRN: {babyMRN}</div>
