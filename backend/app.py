@@ -12,6 +12,7 @@ from firebase_admin import firestore, credentials
 from firebase.add import *
 from firebase.delete import *
 from firebase.retrieve import *
+from firebase.error_check import *
 from firebase.db_control import *
 
 ######### Uncomment to direct to the right key
@@ -103,10 +104,7 @@ def add_new_mother():
     
     # Generate new MRN for mother?
 
-    success, message = add_mother(fs_client,
-                                  new_mother_data['mrn'],
-                                  new_mother_data['first_name'],
-                                  new_mother_data['last_name'])
+    success, message = add_mother(fs_client, new_mother_data)
     
     return make_response(
         message,
@@ -120,11 +118,7 @@ def add_new_baby():
 
     # Generate new MRN for baby?
 
-    success, message = add_baby(fs_client,
-                                new_baby_data['mrn'],
-                                new_baby_data['first_name'],
-                                new_baby_data['last_name'],
-                                new_baby_data['mother_mrn'])
+    success, message = add_baby(fs_client, new_baby_data)
     
     return make_response(
         message,
@@ -138,15 +132,7 @@ def add_new_milk_entry():
 
     # Generate new UID for milk entry?
 
-    success, message = add_milk_entry(fs_client,
-                                      new_milk_entry_data['uid'],
-                                      new_milk_entry_data['milk_type'],
-                                      new_milk_entry_data['express_time'],
-                                      new_milk_entry_data['storage_type'],
-                                      new_milk_entry_data['storage_location'],
-                                      new_milk_entry_data['volume_ml'],
-                                      new_milk_entry_data['owner_mrn'],
-                                      new_milk_entry_data['extra_notes'])
+    success, message = add_milk_entry(fs_client, new_milk_entry_data)
     
     return make_response(
         message,

@@ -1,11 +1,11 @@
-from firebase.retrieve import is_valid_mother, is_valid_baby, is_valid_milk_entry
+from firebase.error_check import *
 from typing import Tuple
 
 def delete_mother(firestore_client, mother_mrn: str) -> Tuple[bool, str]:
     """
     Deletes a mother from the database
     """
-    if not is_valid_mother(firestore_client, mother_mrn):
+    if not mother_exists(firestore_client, mother_mrn):
         return False, "Mother does not exist"
 
     try:
@@ -20,7 +20,7 @@ def delete_baby(firestore_client, baby_mrn: str) -> Tuple[bool, str]:
     """
     Deletes a baby from the database
     """
-    if not is_valid_baby(firestore_client, baby_mrn):
+    if not baby_exists(firestore_client, baby_mrn):
         return False, "Baby does not exist"
 
     try:
@@ -35,7 +35,7 @@ def delete_milk_entry(firestore_client, milk_entry_uid: str) -> Tuple[bool, str]
     """
     Deletes a milk entry from the database
     """
-    if not is_valid_milk_entry(firestore_client, milk_entry_uid):
+    if not milk_entry_exists(firestore_client, milk_entry_uid):
         return False, "Milk entry does not exist"
 
     try:

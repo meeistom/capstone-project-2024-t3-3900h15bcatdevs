@@ -1,8 +1,10 @@
+from firebase.error_check import *
+
 def retrieve_mother_by_mrn(firestore_client, mrn: str) -> dict:
     """
     Gets a mother from the database
     """
-    if not is_valid_mother(firestore_client, mrn):
+    if not mother_exists(firestore_client, mrn):
         print(f"GET MOTHER: Mother MRN: {mrn} does not exist")
         return {}
     else:
@@ -16,7 +18,7 @@ def retrieve_baby_by_mrn(firestore_client, mrn: str) -> dict:
     """
     Gets a baby from the database
     """
-    if not is_valid_baby(firestore_client, mrn):
+    if not baby_exists(firestore_client, mrn):
         # print("GET BABY: Baby does not exist")
         return {}
     else:
@@ -30,7 +32,7 @@ def retrieve_milk_entry_by_uid(firestore_client, uid: str) -> dict:
     """
     Gets a milk entry from the database
     """
-    if not is_valid_milk_entry(firestore_client, uid):
+    if not milk_entry_exists(firestore_client, uid):
         # print("GET MILK ENTRY: Milk entry does not exist")
         return {}
     else:
@@ -72,24 +74,3 @@ def retrieve_all_milk_entries(firestore_client) -> list:
         milk_entries_list.append(milk_entry.to_dict())
 
     return milk_entries_list
-
-def is_valid_mother(firestore_client, mrn: str) -> bool:
-    """
-    Checks if a mother exists in the database
-    """
-    mothers_collection = firestore_client.collection("mothers")
-    return mothers_collection.document(mrn).get().exists
-
-def is_valid_baby(firestore_client, mrn: str) -> bool:
-    """
-    Checks if a baby exists in the database
-    """
-    babies_collection = firestore_client.collection("babies")
-    return babies_collection.document(mrn).get().exists
-
-def is_valid_milk_entry(firestore_client, mrn: str) -> bool:
-    """
-    Checks if a milk entry exists in the database
-    """
-    milk_entries_collection = firestore_client.collection("milk_entries")
-    return milk_entries_collection.document(mrn).get().exists
