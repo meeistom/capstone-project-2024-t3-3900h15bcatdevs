@@ -117,6 +117,67 @@ function Register() {
     return true;
   };
 
+  const submitMomInfo = () => {
+    const momInfo = {
+      mrn: momMRN,
+      first_name: momFirstName,
+      last_name: momLastName,
+    };
+
+    const url = "http://localhost:5001/database/add_mother";
+    axios
+      .post(url, momInfo)
+      .then((res) => {
+        console.log(`Mom details added: ${momInfo}`);
+      })
+      .catch((e) => {
+        console.error("Unable to post mom info", e);
+      });
+  };
+
+  const submitBabyInfo = () => {
+    const babyInfo = {
+      mrn: babyMRN,
+      first_name: babyFirstName,
+      last_name: babyLastName,
+      mother_mrn: momMRN,
+    };
+
+    const url = "http://localhost:5001/database/add_baby";
+    axios
+      .post(url, babyInfo)
+      .then((res) => {
+        console.log(`Baby details added: ${babyInfo}`);
+      })
+      .catch((e) => {
+        console.error("Unable to post baby info", e);
+      });
+  };
+
+  const submitMilkInfo = () => {
+    const milkInfo = {
+      uid: "0000",
+      milkType: milkType,
+      express_time: expressDate,
+      expiration_date: expiryDate,
+      storage_type: storageType,
+      storage_location: storageType,
+      volume_ml: 100,
+      owner_mrn: momMRN,
+      extra_notes: notes,
+    };
+
+    const url = "http://localhost:5001/database/add_milk";
+    axios
+      .post(url, milkInfo)
+      .then((response) => {
+        console.log("Bottle details added:");
+      })
+      .catch((error) => {
+        console.error("Error posting bottle details:", error);
+      });
+  };
+
   const useEffectDependencies = [
     selectedPages,
     currentPage,
@@ -198,14 +259,12 @@ function Register() {
         break;
       case "preview":
         // Would submit details to backend at this point
+
         setRenderedPage(
           <PreviewGeneratedLabel
             setImageRef={(ref) => (imageRef.current = ref.current)}
           />
         );
-        break;
-      case "print":
-        setRenderedPage(<PrintLabel />);
         break;
     }
   }, useEffectDependencies);
