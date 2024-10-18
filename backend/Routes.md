@@ -75,6 +75,8 @@ Mother MRN <mrn> does not exist!
 
 ## Add Mother/Baby/Milk Entry
 - ```/add_mother```
+- ```/add_baby```
+- ```/add_milk_entry```
 
 ```
 // JSON body
