@@ -258,8 +258,9 @@ function Register() {
         );
         break;
       case "preview":
-        // Would submit details to backend at this point
-
+        if (checked.momPage) submitMomInfo();
+        if (checked.babyPage) submitBabyInfo();
+        if (checked.milkPage) submitMilkInfo();
         setRenderedPage(
           <PreviewGeneratedLabel
             setImageRef={(ref) => (imageRef.current = ref.current)}
