@@ -22,12 +22,7 @@ function Modal({ closeModal, version }) {
   const [milkType, setMilkType] = useState("ehm");
   const [storageType, setStorageType] = useState("fridge");
   const [notes, setNotes] = useState("");
-  const [motherData, setMotherData] = useState([
-    "something",
-    "first",
-    "last",
-    "123",
-  ]);
+  const [motherData, setMotherData] = useState(null);
   let title, body, footer;
 
   useEffect(() => {
