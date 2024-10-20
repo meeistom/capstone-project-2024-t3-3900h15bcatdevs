@@ -1,5 +1,6 @@
 import { React, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
@@ -33,6 +34,8 @@ function Register() {
   const [notes, setNotes] = useState("");
   const [milkType, setMilkType] = useState("ehm");
   const [storageType, setStorageType] = useState("fridge");
+
+  const URL = "http://127.0.0.1:5001";
 
   const imageRef = useRef(null);
 
@@ -124,7 +127,7 @@ function Register() {
       last_name: momLastName,
     };
 
-    const url = "http://localhost:5001/database/add_mother";
+    const url = `${URL}/database/add_mother`;
     axios
       .post(url, momInfo)
       .then((res) => {
@@ -143,7 +146,7 @@ function Register() {
       mother_mrn: momMRN,
     };
 
-    const url = "http://localhost:5001/database/add_baby";
+    const url = `${URL}/database/add_baby`;
     axios
       .post(url, babyInfo)
       .then((res) => {
@@ -167,7 +170,7 @@ function Register() {
       extra_notes: notes,
     };
 
-    const url = "http://localhost:5001/database/add_milk";
+    const url = `${URL}/database/add_milk`;
     axios
       .post(url, milkInfo)
       .then((response) => {
@@ -258,9 +261,9 @@ function Register() {
         );
         break;
       case "preview":
-        if (checked.momPage) submitMomInfo();
-        if (checked.babyPage) submitBabyInfo();
-        if (checked.milkPage) submitMilkInfo();
+        // if (checked.momPage) submitMomInfo();
+        // if (checked.babyPage) submitBabyInfo();
+        // if (checked.milkPage) submitMilkInfo();
         setRenderedPage(
           <PreviewGeneratedLabel
             setImageRef={(ref) => (imageRef.current = ref.current)}
