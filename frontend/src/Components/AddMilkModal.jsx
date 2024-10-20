@@ -54,7 +54,6 @@ function AddMilkModal({ closeModal, version }) {
     console.log(event.target.value);
     setScannedValue(barcode);
     if (barcode.length == 13) {
-      setModalVersion("addMilk2");
       fetchMotherDetails(barcode);
     }
   };
