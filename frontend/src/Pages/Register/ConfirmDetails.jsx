@@ -35,7 +35,7 @@ function ConfirmDetails({
               </div>
             </div>
           )}
-          {checked.momPage && (
+          {checked.babyPage && (
             <div className="baby-details">
               <div className="sub-title">Baby Details</div>
               <div className="top-layer">MRN: {babyMRN}</div>
@@ -45,7 +45,20 @@ function ConfirmDetails({
               </div>
             </div>
           )}
-          {/* <div className="milk-details"></div> */}
+          {checked.milkPage && (
+            <div className="milk-details">
+              <div className="sub-title">Milk Details</div>
+              <div className="top-layer">
+                <div>Express Date: {expressDate}</div>
+                <div>Expiry Date: {expiryDate}</div>
+              </div>
+              <div className="bottom-layer">
+                <div>Milk Type: {milkType.toUpperCase()}</div>
+                <div>Storage Type: {storageType.toUpperCase()}</div>
+                {notes !== "" && <div className="notes">Notes: {notes}</div>}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

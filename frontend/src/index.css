@@ -48,7 +48,7 @@ body {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: column;
-  padding: 2rem; 
+  padding: 2rem;
 }
 
 .modal-container .title {
@@ -145,7 +145,7 @@ body {
     padding: 25px;
     margin-top: 3opx;
   }
-} 
+}
 
 #Register {
   height: 90vh;
@@ -242,7 +242,8 @@ body {
 
 .next-button-container {
   justify-content: right;
-  align-self: flex-end;
+  display: flex;
+  gap: 10px;
 }
 
 .register-details-container {
@@ -271,6 +272,22 @@ body {
   /* align-content: center; */
   /* position: relative; */
 }
+
+.register-details-container .body img {
+  max-width: 500px;
+  align-self: center;
+}
+
+.preview-label .body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.preview-label {
+  min-height: 50%;
+}
+
 .verification-page {
   display: flex;
   row-gap: 30px;
@@ -390,7 +407,6 @@ body {
 }
 
 .confirm-details .bottom-layer {
-  flex-direction: row;
   margin-bottom: 2rem;
 }
 

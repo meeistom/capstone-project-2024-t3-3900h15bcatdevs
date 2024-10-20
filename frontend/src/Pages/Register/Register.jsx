@@ -1,5 +1,6 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
@@ -10,7 +11,6 @@ import { BabyRegistration } from "./BabyRegistration";
 import { MilkRegistration } from "./MilkRegistration";
 import { ConfirmDetails } from "./ConfirmDetails";
 import { PreviewGeneratedLabel } from "./PreviewGeneratedLabel";
-import { PrintLabel } from "./PrintLabel";
 import { Button, ToggleButton } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquare, faCheckSquare } from "@fortawesome/free-regular-svg-icons";
@@ -35,6 +35,10 @@ function Register() {
   const [milkType, setMilkType] = useState("ehm");
   const [storageType, setStorageType] = useState("fridge");
 
+  const URL = "http://127.0.0.1:5001";
+
+  const imageRef = useRef(null);
+
   const navigate = useNavigate();
 
   const goToHome = () => {
@@ -42,6 +46,9 @@ function Register() {
   };
 
   const nextPageToVisit = () => {
+    if (selectedPages[currentPage] == "babyPage" && !babyPageIsValid()) return;
+    if (selectedPages[currentPage] == "momPage" && !momPageIsValid()) return;
+    if (selectedPages[currentPage] == "milkPage" && !milkPageIsValid()) return;
     console.log(`Next Page: ${currentPage + 1}`);
     console.log(selectedPages[currentPage]);
     setCurrentPage((currentPage) => currentPage + 1);
@@ -74,11 +81,104 @@ function Register() {
     if (checked.momPage) pages.push("momPage");
     if (checked.babyPage) pages.push("babyPage");
     if (checked.milkPage) pages.push("milkPage");
-    pages.push("confirm", "preview", "print");
+    pages.push("confirm", "preview");
 
     setSelectedPages(pages);
     setRegisterStarted(true);
     setCurrentPage(1);
+  };
+
+  const printImage = () => {
+    if (imageRef.current) {
+      const printWindow = window.open("", "_blank");
+      printWindow.document.write(
+        `<img src="${imageRef.current.src}" alt="sticker" style="max-width: 100%;" />`
+      );
+      printWindow.document.close();
+      printWindow.print();
+    }
+  };
+
+  const babyPageIsValid = () => {
+    if (babyMRN === "" || babyFirstName === "" || babyLastName === "") {
+      return false;
+    }
+    return true;
+  };
+
+  const momPageIsValid = () => {
+    if (momMRN === "" || momFirstName === "" || momLastName === "") {
+      return false;
+    }
+    return true;
+  };
+
+  const milkPageIsValid = () => {
+    if (expiryDate === "" || expressDate === "") {
+      return false;
+    }
+    return true;
+  };
+
+  const submitMomInfo = () => {
+    const momInfo = {
+      mrn: momMRN,
+      first_name: momFirstName,
+      last_name: momLastName,
+    };
+
+    const url = `${URL}/database/add_mother`;
+    axios
+      .post(url, momInfo)
+      .then((res) => {
+        console.log(`Mom details added: ${momInfo}`);
+      })
+      .catch((e) => {
+        console.error("Unable to post mom info", e);
+      });
+  };
+
+  const submitBabyInfo = () => {
+    const babyInfo = {
+      mrn: babyMRN,
+      first_name: babyFirstName,
+      last_name: babyLastName,
+      mother_mrn: momMRN,
+    };
+
+    const url = `${URL}/database/add_baby`;
+    axios
+      .post(url, babyInfo)
+      .then((res) => {
+        console.log(`Baby details added: ${babyInfo}`);
+      })
+      .catch((e) => {
+        console.error("Unable to post baby info", e);
+      });
+  };
+
+  const submitMilkInfo = () => {
+    const milkInfo = {
+      uid: "0000",
+      milkType: milkType,
+      express_time: expressDate,
+      expiration_date: expiryDate,
+      storage_type: storageType,
+      storage_location: storageType,
+      volume_ml: 100,
+      owner_mrn: momMRN,
+      extra_notes: notes,
+    };
+
+    const url = `${URL}/database/add_milk`;
+    axios
+      .post(url, milkInfo)
+      .then((response) => {
+        console.log("Bottle details added:");
+      })
+      .catch((error) => {
+        console.error("Error posting bottle details:", error);
+      });
   };
 
   const useEffectDependencies = [
@@ -100,7 +200,6 @@ function Register() {
   useEffect(() => {
     switch (selectedPages[currentPage]) {
       case "prePage":
-        // console.log("yoo")  // for debug
         setRegisterStarted(false);
         break;
       case "momPage":
@@ -162,10 +261,14 @@ function Register() {
         );
         break;
       case "preview":
-        setRenderedPage(<PreviewGeneratedLabel />);
-        break;
-      case "print":
-        setRenderedPage(<PrintLabel />);
+        // if (checked.momPage) submitMomInfo();
+        // if (checked.babyPage) submitBabyInfo();
+        // if (checked.milkPage) submitMilkInfo();
+        setRenderedPage(
+          <PreviewGeneratedLabel
+            setImageRef={(ref) => (imageRef.current = ref.current)}
+          />
+        );
         break;
     }
   }, useEffectDependencies);
@@ -282,9 +385,18 @@ function Register() {
                     </Button>
                   )}
                   {currentPage === selectedPages.length - 1 && (
-                    <Button variant="primary" size="lg" onClick={goToHome}>
-                      <span>Return Home</span>
-                    </Button>
+                    <>
+                      <Button
+                        variant="outline-primary"
+                        size="lg"
+                        onClick={printImage}
+                      >
+                        <span>Print Label</span>
+                      </Button>
+                      <Button variant="primary" size="lg" onClick={goToHome}>
+                        <span>Return Home</span>
+                      </Button>
+                    </>
                   )}
                 </div>
               </div>
