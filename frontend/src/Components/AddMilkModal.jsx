@@ -1,19 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import "../index.css";
-import scanner from "../Assets/scanner.png";
-import sticker from "../Assets/milk1_label.png";
 import { AddMilkForm } from "./AddMilkForm.jsx";
-import confirmCheck from "../Assets/confirm-check.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { Modal } from "./Modal.jsx";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import confirmCheck from "../Assets/confirm-check.png";
+import sticker from "../Assets/milk1_label.png";
+import scanner from "../Assets/scanner.png";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../index.css";
 
-export { Modal };
+export { AddMilkModal };
 
-function Modal({ closeModal, version }) {
+function AddMilkModal({ closeModal, version }) {
   const scannerInputRef = useRef(null);
   const [modalVersion, setModalVersion] = useState(version);
   const [scannedValue, setScannedValue] = useState(0);
@@ -23,7 +22,9 @@ function Modal({ closeModal, version }) {
   const [storageType, setStorageType] = useState("fridge");
   const [notes, setNotes] = useState("");
   const [motherData, setMotherData] = useState(null);
-  let title, body, footer;
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState(null);
+  const [footer, setFooter] = useState(null);
 
   useEffect(() => {
     if (scannerInputRef.current) {
@@ -105,111 +106,101 @@ function Modal({ closeModal, version }) {
   };
 
   // Handles which version of modal is rendered
-  switch (modalVersion) {
-    case "addMilk1":
-      title = "Please scan the mother's barcode";
-      body = (
-        <>
-          <Form.Control
-            type="number"
-            className="scanner-input"
-            placeholder="Scan Barcode"
-            ref={scannerInputRef}
-            onChange={handleInput}
-            maxLength={13}
-          />
-          <img src={scanner} alt="scanner" className="mt-4" />
-        </>
-      );
-      footer = "Waiting for scan...";
-      break;
-    case "addMilk2":
-      title = "Confirm Infomation";
-      body = (
-        <>
-          <AddMilkForm
-            motherData={motherData}
-            setExpressDate={setExpressDate}
-            setExpiryDate={setExpiryDate}
-            setMilkType={setMilkType}
-            setStorageType={setStorageType}
-            setNotes={setNotes}
-          />
-        </>
-      );
-      footer = (
-        <div id="btn-group">
-          <Button onClick={() => closeModal(false)} variant="outline-primary">
-            Cancel
-          </Button>
-          <Button onClick={handleCheckInput} variant="primary">
-            Preview Sticker
-          </Button>
-        </div>
-      );
-      break;
-    case "addMilk3":
-      title = "Sticker Preview";
-      body = (
-        <img src={sticker} alt="sticker" className="preview-sticker my-4" />
-      );
-      footer = (
-        <div id="btn-group">
-          <Button
-            onClick={() => setModalVersion("addMilk2")}
-            variant="outline-primary"
-          >
-            Back to Edit
-          </Button>
-          <Button onClick={handlePrintAndMovePage} variant="primary">
-            Confirm and Print
-          </Button>
-        </div>
-      );
-      break;
-    case "addMilk4":
-      title = "Milk Added Successfully";
-      body = (
-        <div className="milk-confirmed d-flex justify-content-center align-items-center flex-column text-center gap-3">
-          <p>Milk from the Mother was added. You may close the pop up now.</p>
-          <img
-            src={confirmCheck}
-            alt="Confirmation Icon"
-            className="confirm-img mt-5"
-          />
-        </div>
-      );
-      footer = (
-        <div id="btn-group">
-          <Button onClick={printImage} variant="outline-primary">
-            Reprint
-          </Button>
-          <Button onClick={() => closeModal(false)}>Return Home</Button>
-        </div>
-      );
-      break;
-  }
+  useEffect(() => {
+    switch (modalVersion) {
+      case "addMilk1":
+        setTitle("Please scan the mother's barcode");
+        setBody(
+          <>
+            <Form.Control
+              type="number"
+              className="scanner-input"
+              placeholder="Scan Barcode"
+              ref={scannerInputRef}
+              onChange={handleInput}
+              maxLength={13}
+            />
+            <img src={scanner} alt="scanner" className="mt-4" />
+          </>
+        );
+        setFooter("Waiting for scan...");
+        break;
+      case "addMilk2":
+        setTitle("Confirm Infomation");
+        setBody(
+          <>
+            <AddMilkForm
+              motherData={motherData}
+              setExpressDate={setExpressDate}
+              setExpiryDate={setExpiryDate}
+              setMilkType={setMilkType}
+              setStorageType={setStorageType}
+              setNotes={setNotes}
+            />
+          </>
+        );
+        setFooter(
+          <div id="btn-group">
+            <Button onClick={() => closeModal(false)} variant="outline-primary">
+              Cancel
+            </Button>
+            <Button onClick={handleCheckInput} variant="primary">
+              Preview Sticker
+            </Button>
+          </div>
+        );
+        break;
+      case "addMilk3":
+        setTitle("Sticker Preview");
+        setBody(
+          <img src={sticker} alt="sticker" className="preview-sticker my-4" />
+        );
+        setFooter(
+          <div id="btn-group">
+            <Button
+              onClick={() => setModalVersion("addMilk2")}
+              variant="outline-primary"
+            >
+              Back to Edit
+            </Button>
+            <Button onClick={handlePrintAndMovePage} variant="primary">
+              Confirm and Print
+            </Button>
+          </div>
+        );
+        break;
+      case "addMilk4":
+        setTitle("Milk Added Successfully");
+        setBody(
+          <div className="milk-confirmed d-flex justify-content-center align-items-center flex-column text-center gap-3">
+            <p>Milk from the Mother was added. You may close the pop up now.</p>
+            <img
+              src={confirmCheck}
+              alt="Confirmation Icon"
+              className="confirm-img mt-5"
+            />
+          </div>
+        );
+        setFooter(
+          <div id="btn-group">
+            <Button onClick={printImage} variant="outline-primary">
+              Reprint
+            </Button>
+            <Button onClick={() => closeModal(false)}>Return Home</Button>
+          </div>
+        );
+        break;
+    }
+  }, [modalVersion]);
 
   return (
     <>
-      <div className="modal-background position-fixed d-flex justify-content-center align-items-center w-100 h-100">
-        <div className="modal-container position-relative bg-white rounded-3 shadow-lg d-flex flex-column p-4">
-          <div className="modal-close-btn d-flex justify-content-end">
-            <Button variant="link" onClick={() => closeModal(false)}>
-              <FontAwesomeIcon className="close-btn" icon={faXmark} />
-            </Button>
-          </div>
-          <div className="title fs-2 text-center">
-            <p>{title}</p>
-          </div>
-          <div className="body d-flex justify-content-center align-items-center flex-column">
-            {body}
-          </div>
-          <div className="footer d-flex justify-content-center mt-auto w-100 align-items-center">
-            {footer}
-          </div>
-        </div>
-      </div>
+      <Modal
+        title={title}
+        body={body}
+        footer={footer}
+        closeModal={closeModal}
+      />
     </>
   );
 }
