@@ -5,7 +5,7 @@ import json
 import firebase_admin as fba
 from firebase_admin import firestore, credentials
 
-collection_names = ['mothers', 'babies', 'milk_entries']
+from firebase.error_check import *
 
 cred = credentials.Certificate('./firebase/key_gabe.json')
 # cred = credentials.Certificate('./firebase/key_cynthia.json')

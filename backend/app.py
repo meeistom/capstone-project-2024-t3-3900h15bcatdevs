@@ -143,7 +143,7 @@ def add_new_milk_entry():
 def delete_mother_by_mrn():
     mrn = request.args.get('mrn')
 
-    success, message = delete_mother(fs_client, mrn)
+    success, message = delete_document(fs_client, mother_mrn=mrn)
 
     return make_response(
         message,
@@ -155,7 +155,7 @@ def delete_mother_by_mrn():
 def delete_baby_by_mrn():
     mrn = request.args.get('mrn')
 
-    success, message = delete_baby(fs_client, mrn)
+    success, message = delete_document(fs_client, baby_mrn=mrn)
 
     return make_response(
         message,
@@ -167,7 +167,7 @@ def delete_baby_by_mrn():
 def delete_milk_entry_by_uid():
     uid = request.args.get('uid')
 
-    success, message = delete_milk_entry(fs_client, uid)
+    success, message = delete_document(fs_client, milk_entry_uid=uid)
 
     return make_response(
         message,
