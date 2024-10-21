@@ -174,5 +174,44 @@ def delete_milk_entry_by_uid():
         200 if success else 500
     )
 
+@app.route('/verify_feed', methods=['GET'])
+def verify_feed():
+    code = request.args.get('code')
+    milk_uid = request.args.get('milk_uid')
+    baby_mrn = request.args.get('baby_mrn')
+
+    if code:
+        success, message = exists_in_db(fs_client, code)
+        match message:
+            case "mothers":
+                return make_response(
+                    {'type': "mother"},
+                    400
+                )
+            case "babies":
+                return make_response(
+                    {'type': "baby"},
+                    200
+                )
+            case "milk_entries":
+                expired, expiration_time = milk_is_expired(fs_client, code)
+                message = {'type': "milk",
+                           'expiration_time': expiration_time,
+                           'expired': expired}
+                return make_response(
+                    message,
+                    200
+                )
+            case _:
+                return make_response(
+                    message,
+                    404
+                )
+    elif milk_uid and baby_mrn:
+        pass
+        # success, message = verify_feed_code(fs_client, milk_uid, baby_mrn)
+    else:
+        success, message = False, "Invalid Request. No inputs given"
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
