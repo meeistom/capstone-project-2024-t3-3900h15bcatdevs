@@ -1,5 +1,6 @@
 from firebase.error_check import *
 from typing import Tuple
+from firebase_admin import firestore
 
 def add_mother(firestore_client, mother_json_data: dict) -> Tuple[bool, str]:
     """
@@ -51,7 +52,11 @@ def add_baby(firestore_client, baby_json_data: dict) -> Tuple[bool, str]:
             'last_name': baby_json_data['last_name'],
             'mother_mrn': baby_json_data['mother_mrn'],
         })
-        # Also add baby mrn to mother's babies list
+        # Add mother to baby's mother's babies list
+        mother_collection = firestore_client.collection("mothers")
+        mother_collection.document(baby_json_data['mother_mrn']).update({
+            'babies': firestore.ArrayUnion([baby_json_data['mrn']])
+        })
     except Exception as e:
         print(f"An error occurred while loading data: {e}")
 
@@ -85,6 +90,11 @@ def add_milk_entry(firestore_client, milk_entry_json_data: dict) -> Tuple[bool, 
             'volume_ml': milk_entry_json_data['volume_ml'],
             'owner_mrn': milk_entry_json_data['owner_mrn'],
             'extra_notes': milk_entry_json_data['extra_notes']
+        })
+        # Add milk entry to owner's milk entries list
+        mother_collection = firestore_client.collection("mothers")
+        mother_collection.document(milk_entry_json_data['owner_mrn']).update({
+            'milks': firestore.ArrayUnion([milk_entry_json_data['uid']])
         })
     except Exception as e:
         print(f"ADD MILK ENTRY: An error occurred while loading data: {e}")
