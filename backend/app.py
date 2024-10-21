@@ -13,7 +13,6 @@ from firebase.add import *
 from firebase.delete import *
 from firebase.retrieve import *
 from firebase.error_check import *
-from firebase.db_control import *
 
 ######### Uncomment to direct to the right key
 cred = credentials.Certificate('./firebase/key_gabe.json')
@@ -176,11 +175,4 @@ def delete_milk_entry_by_uid():
     )
 
 if __name__ == '__main__':
-    #### UNCOMMENT FOR DB CONTROL
-    #### WARNING: DESTRUCTIVE STUFF
-    # clear_mothers(fs_client)
-    # clear_babies(fs_client)
-    # clear_milk_entries(fs_client)
-    # clear_all_collections(fs_client)
-
     app.run(host='0.0.0.0', port=5001, debug=True)

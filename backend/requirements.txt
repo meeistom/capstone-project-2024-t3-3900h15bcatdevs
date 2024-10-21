@@ -29,6 +29,7 @@ MarkupSafe==3.0.1
 msgpack==1.1.0
 numpy==2.1.2
 pillow==10.4.0
+ppf-datamatrix==0.2
 proto-plus==1.24.0
 protobuf==5.28.2
 pyasn1==0.6.1

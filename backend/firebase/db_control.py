@@ -1,28 +1,45 @@
-# USE TO CLEAR FIREBASE DB
+# USE TO ADD & CLEAR FIREBASE DB
 # WARNING: DESTRUCTIVE STUFF
 
-def clear_mothers(firestore_client):
-    # Delete all documents in the "mothers" collectio
-    mothers_ref = firestore_client.collection("mothers")
-    mothers = mothers_ref.list_documents()
-    for mother in mothers:
-        mother.delete()
+import json
+import firebase_admin as fba
+from firebase_admin import firestore, credentials
 
-def clear_babies(firestore_client):
-    # Delete all documents in the "babies" collection
-    babies_ref = firestore_client.collection("babies")
-    babies = babies_ref.list_documents()
-    for baby in babies:
-        baby.delete()
+collection_names = ['mothers', 'babies', 'milk_entries']
 
-def clear_milk_entries(firestore_client):
-    # Delete all documents in the "milk_entries" collection
-    milk_entries_ref = firestore_client.collection("milk_entries")
-    milk_entries = milk_entries_ref.list_documents()
-    for milk_entry in milk_entries:
-        milk_entry.delete()
+cred = credentials.Certificate('./firebase/key_gabe.json')
+# cred = credentials.Certificate('./firebase/key_cynthia.json')
+# cred = credentials.Certificate('./firebase/key_aolin.json')
+# cred = credentials.Certificate('./firebase/key_parker.json')
+# cred = credentials.Certificate('./firebase/key_tom.json')
+# cred = credentials.Certificate('./firebase/key_parker.json')
 
-def clear_all_collections(firestore_client):
-    clear_mothers(firestore_client)
-    clear_babies(firestore_client)
-    clear_milk_entries(firestore_client)
+fba.initialize_app(cred)
+fs_client = firestore.client()
+
+def clear_collection(firestore_client, collection_name: str):
+    assert(collection_name in collection_names)
+
+    collection_ref = firestore_client.collection(collection_name)
+    documents = collection_ref.list_documents()
+    for document in documents:
+        document.delete()
+
+def add_dummy_data(firestore_client, collection_name: str, json_path: str):
+    assert(collection_name in collection_names)
+    
+    collection_ref = firestore_client.collection(collection_name)
+    with open(json_path) as json_file:
+        data = json.load(json_file)
+        for entry in data:
+            key = 'uid' if collection_name == 'milk_entries' else 'mrn'
+            collection_ref.document(entry[key]).set(entry)
+
+# if __name__ == '__main__':
+#     clear_collection(fs_client, "mothers")
+#     clear_collection(fs_client, "babies")
+#     clear_collection(fs_client, "milk_entries")
+
+#     add_dummy_data(fs_client, "mothers", "./firebase/data/mother_details.json")
+#     add_dummy_data(fs_client, "babies", "./firebase/data/baby_details.json")
+#     add_dummy_data(fs_client, "milk_entries", "./firebase/data/bottle_details.json")
