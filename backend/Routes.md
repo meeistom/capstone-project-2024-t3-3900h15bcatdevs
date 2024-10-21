@@ -1,23 +1,23 @@
 # USING THE BACKEND (for frontend peeps)
 
-Uncomment the database clearing lines in app.py to clear the database or one collection at a time.
-```
-if __name__ == '__main__':
-    #### UNCOMMENT FOR DB CONTROL
-    #### WARNING: DESTRUCTIVE STUFF
-    # clear_mothers(fs_client)
-    # clear_babies(fs_client)
-    # clear_milk_entries(fs_client)
-    # clear_all_collections(fs_client)
-
-    app.run(host='0.0.0.0', port=5001, debug=True)
-```
-
-Might be a section on pre-made collections in the future?
-
 > ❗️ Info on Data
 >
-> For information on data objects. See ```firebase/firestore-data.md```
+> Data Structure/Schema/Layout -> ```firebase/firestore-data.md```
+
+## Dummy Data
+To add dummy data or clear data from the database, uncomment/run the appropriate functions in ```backend/firebase/db_control.py```.
+
+```
+if __name__ == '__main__':
+    # clear_collection(fs_client, "mothers")
+    # clear_collection(fs_client, "babies")
+    # clear_collection(fs_client, "milk_entries")
+
+    add_dummy_data(fs_client, "mothers", "./firebase/data/mother_details.json")
+    add_dummy_data(fs_client, "babies", "./firebase/data/baby_details.json")
+    add_dummy_data(fs_client, "milk_entries", "./firebase/data/bottle_details.json")
+```
+
 
 # Available routes on backend
 
