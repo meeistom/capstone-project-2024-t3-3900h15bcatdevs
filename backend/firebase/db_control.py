@@ -70,7 +70,7 @@ def add_dummy_data(firestore_client):
     add_dummy_babies(firestore_client)
     add_dummy_milk_entries(firestore_client)
 
-if __name__ == '__main__':
-    # clear_all_collections(fs_client)
-    # add_dummy_data(fs_client)
-    pass
+# if __name__ == '__main__':
+#     # clear_all_collections(fs_client)
+#     # add_dummy_data(fs_client)
+#     pass
