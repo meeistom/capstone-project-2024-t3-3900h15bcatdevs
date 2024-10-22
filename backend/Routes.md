@@ -97,7 +97,7 @@ OR
     "uid": "0000",
     "milk_type": "EHA",
     "express_time": "NOW",
-    "expiration_date": "NOT IMPLEMENTED YET",
+    "expiration_time": "NOT IMPLEMENTED YET",
     "storage_type": "fresh",
     "storage_location": "fridge",
     "volume_ml": 100,

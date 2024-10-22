@@ -19,6 +19,7 @@ function Modal({ closeModal, version }) {
   const [expressDate, setExpressDate] = useState('')
   const [milkType, setMilkType] = useState('ehm');
   const [storageType, setStorageType] = useState('fridge');
+  const [babyData, setBabyData] = useState(null);
   const [motherData, setMotherData] = useState(null);
   let title, body, footer;
 
@@ -29,41 +30,60 @@ function Modal({ closeModal, version }) {
     }
   }, []);
 
-  const fetchMotherDetails = barcode => {
-    const url = `http://localhost:5001/database/fetch_mother/${barcode}`;
-    axios.get(url)
-      .then(response => {
-        setMotherData(response.data);
-        console.log('Mother data fetched:', response.data);
-        setModalVersion('addMilk2'); 
-      })
-      .catch((error) => {
-        console.log('Error fetching mother data:', error)
-        alert('Failed to fetch mother details with corresponding barcode. Please try again.');
-      });
+  const getBabyDetails = async (barcode) => {
+    const url = `http://localhost:5001/babies?mrn=${barcode}`;
+    console.log(url);
+    try {
+      const response = await axios.get(url);
+      setBabyData(response.data);
+      console.log('Baby data fetched:', response.data);
+      return response.data; 
+    } catch (error) {
+      console.log('Error fetching baby data:', error);
+      alert('Failed to fetch baby details with corresponding barcode. Please try again.');
+      return null; 
+    }
   };
-
-  const handleInput = (event) => {
+  
+  const getMotherDetails = async (mother_mrn) => {
+    const url = `http://localhost:5001/mothers?mrn=${mother_mrn}`;
+    console.log(url);
+    try {
+      const response = await axios.get(url);
+      setMotherData(response.data);
+      console.log('Mother data fetched:', response.data);
+      setModalVersion('addMilk2'); 
+    } catch (error) {
+      console.log('Error fetching Mother data:', error);
+      alert('Failed to fetch mother details with corresponding mrn. Please try again.');
+    }
+  };
+  
+  const handleInput = async (event) => {
     const barcode = event.target.value;
-    console.log(event.target.value);
+    console.log(barcode);
     setScannedValue(barcode);
-    if (barcode.length == 13) {
-      fetchMotherDetails(barcode);
+    if (barcode.length === 4) {
+      const babyDetails = await getBabyDetails(barcode);
+      if (babyDetails && babyDetails.mother_mrn) {
+        await getMotherDetails(babyDetails.mother_mrn);
+      }
     }
   };
 
   const handleSubmitMilkInfo = () => {
     const bottleDetails = {
       milk_type: milkType,
-      bottle_quantity: 1,
       express_time: expressDate,
-      storage_method: storageType,
+      expiration_time: expiryDate,
+      storage_type: storageType,
       storage_location: 'level 1',
+      volume_ml: '50',
+      owner_mrn: babyData.mrn,
       extra_notes: ' ',
-      mother_id: motherData[0]
     };
 
-    const url = 'http://localhost:5001/database/insert_bottle';
+    const url = 'http://localhost:5001/add_milk_entry';
     axios.post(url, bottleDetails)
       .then(response => {
         console.log('Bottle details added:');
@@ -104,7 +124,7 @@ function Modal({ closeModal, version }) {
   // handle which version of modal is rendered
   switch (modalVersion) {
     case 'addMilk1':
-      title = 'Please scan the mother\'s barcode';
+      title = 'Please scan the baby\'s barcode';
       body = (
         <>
           <input
@@ -123,6 +143,7 @@ function Modal({ closeModal, version }) {
       body = (
         <>
           <Form 
+          babyData={babyData} 
           motherData={motherData} 
           setExpressDate={setExpressDate} 
           setExpiryDate={setExpiryDate}

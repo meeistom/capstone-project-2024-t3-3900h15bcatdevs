@@ -4,15 +4,15 @@ import "../index.css";
 
 export { Form };
 
-function Form({ motherData, expressDate, setExpressDate, expiryDate, setExpiryDate}) {
+function Form({ babyData, motherData, expressDate, setExpressDate, expiryDate, setExpiryDate}) {
   // console.log(mrn); // for debug
 
   return (
     <div className="form-container">
       <div className='form-mother-detail'>
-        <h5>Mother Details</h5>
-        <p>Name: {motherData[1]} {motherData[2]}</p> 
-        <p>MRN: {motherData[3]}</p>
+        <h5>Patient Details</h5>
+        <p>Baby of Mother: {motherData.first_name} {motherData.last_name}</p> 
+        <p>Baby MRN: {babyData.mrn}</p>
       </div>
       <div className="form-milk-detail" class="mb-3">
         <div class="container">
