@@ -35,10 +35,9 @@ def is_valid_milk_entry_data(milk_entry_data: dict) -> bool:
     """
     Checks if a milk entry data is valid
     """
-    return all(key in milk_entry_data for key in ["uid",
-                                                  "milk_type", 
+    return all(key in milk_entry_data for key in ["milk_type", 
                                                   "express_time", 
-                                                  "expiration_date",
+                                                  "expiration_time",
                                                   "storage_type",
                                                   "storage_location",
                                                   "volume_ml",
