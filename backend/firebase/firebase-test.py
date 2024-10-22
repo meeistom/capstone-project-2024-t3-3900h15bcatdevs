@@ -7,7 +7,8 @@ from firebase.delete import *
 from retrieve import *
 # from backend.firebase.retrieve_data import *
 
-cred = credentials.Certificate('./firebase/key_gabe.json')
+# cred = credentials.Certificate('./firebase/key_gabe.json')
+cred = credentials.Certificate('./firebase/key_aolin.json')
 # cred = credentials.Certificate('./key_<catdev-name>.json')
 
 fba.initialize_app(cred)

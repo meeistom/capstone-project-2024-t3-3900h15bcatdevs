@@ -1,4 +1,5 @@
 from firebase.error_check import *
+from firebase_admin import firestore
 
 def retrieve_mother_by_mrn(firestore_client, mrn: str) -> dict:
     """
@@ -37,10 +38,10 @@ def retrieve_milk_entry_by_uid(firestore_client, uid: str) -> dict:
         return {}
     else:
         milk_collection = firestore_client.collection("milk_entries")
-        try:
-            return milk_collection.document(uid).get().to_dict()
-        except Exception as e:
-            print(f"GET MILK ENTRY: An error occurred while getting data: {e}")
+    try:
+        return milk_collection.document(uid).get().to_dict()
+    except Exception as e:
+        print(f"GET MILK ENTRY: An error occurred while getting data: {e}")
 
 def retrieve_all_mothers(firestore_client) -> list:
     """
@@ -64,13 +65,13 @@ def retrieve_all_babies(firestore_client) -> list:
 
     return babies_list
 
-def retrieve_all_milk_entries(firestore_client) -> list:
-    """
-    Gets all milk entries from the database
-    """
-    milk_entries_collection = firestore_client.collection("milk_entries")
-    milk_entries_list = []
-    for milk_entry in milk_entries_collection.stream():
-        milk_entries_list.append(milk_entry.to_dict())
-
-    return milk_entries_list
+def retrieve_all_milk_entries(fs_client):
+    db = fs_client
+    milk_entries_collection = db.collection('milk_entries')
+    # Correctly reference the DESCENDING constant from the firestore module
+    query = milk_entries_collection.order_by('created_at', direction=firestore.Query.DESCENDING)
+    results = query.stream()
+    entries = []
+    for doc in results:
+        entries.append(doc.to_dict())
+    return entries

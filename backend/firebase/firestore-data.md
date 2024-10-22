@@ -90,5 +90,6 @@ Firebase considers stuff as ```collections``` and ```documents```. Within a coll
     'volume_ml': <int>,
     'owner_mrn': <string>,
     'extra_notes': <string>,
+    'created_at': TIMESTAMP
 }
 ```

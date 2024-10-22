@@ -84,7 +84,8 @@ def add_milk_entry(firestore_client, milk_entry_json_data: dict) -> Tuple[bool, 
             'storage_location': milk_entry_json_data['storage_location'],
             'volume_ml': milk_entry_json_data['volume_ml'],
             'owner_mrn': milk_entry_json_data['owner_mrn'],
-            'extra_notes': milk_entry_json_data['extra_notes']
+            'extra_notes': milk_entry_json_data['extra_notes'],
+            'created_at': firestore.FieldValue.serverTimestamp()        
         })[0]
         # Add milk entry to owner's milk entries list
         mother_collection = firestore_client.collection("mothers")
