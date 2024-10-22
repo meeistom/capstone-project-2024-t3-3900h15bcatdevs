@@ -107,42 +107,17 @@ input::-webkit-inner-spin-button {
 .register-page-container {
   padding-inline: 20%;
   padding-block-start: 5%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-}
-
-.register-title {
-  color: #000000;
-  margin-block-end: 5rem;
-  text-align: center;
 }
 
 .register-selection-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
   gap: 5rem;
 }
 
-.register-selection-container .footer {
-  margin-top: auto;
-  align-self: flex-end;
-}
-
 .register-selection-container .title {
-  font-size: large;
   color: var(--brandColor);
-  text-align: center;
-  position: relative;
 }
 
 .register-selection-container .checkbox-container {
-  display: flex;
-  font-size: xx-large;
-  justify-content: center;
   gap: 100px;
 }
 
@@ -174,44 +149,31 @@ input::-webkit-inner-spin-button {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-inline: 30%;
   width: 80%;
+  margin-inline: 30%;
   margin-block-start: auto;
   margin-block-end: 10rem;
 }
 
-.back-button-container {
-  justify-content: left;
-}
-
 .next-button-container {
-  justify-content: right;
-  display: flex;
   gap: 10px;
 }
 
 .register-details-container {
-  border-color: var(--brandColor) !important;
   font-size: xx-large;
   color: var(--brandColor);
+  justify-items: baseline;
   text-align: center;
   margin-top: 5%;
-  justify-items: baseline;
   width: 400px;
 }
 
 .register-form-label {
   font-size: medium;
-  color: #000000;
+  color: var(--textColor);
   text-align: left;
   margin-top: 10%;
   justify-items: baseline;
-}
-
-.register-container {
-  display: grid;
-  align-items: center;
-  justify-items: center;
 }
 
 .register-details-container .body img {
@@ -219,14 +181,13 @@ input::-webkit-inner-spin-button {
   align-self: center;
 }
 
-.preview-label .body {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.confirm-details .sub-title {
+  font-weight: bold;
 }
 
-.preview-label {
-  min-height: 50%;
+.confirm-details .body {
+  color: var(--textColor);
+  gap: 2rem;
 }
 
 /* Verification Styling */
@@ -324,22 +285,6 @@ input::-webkit-inner-spin-button {
 
 #btn-group button {
   display: flex;
-}
-
-.confirm-details .body {
-  display: flex;
-  flex-direction: column;
-  color: #000;
-  text-align: left;
-  font-size: large;
-}
-
-.confirm-details .bottom-layer {
-  margin-bottom: 2rem;
-}
-
-.confirm-details .sub-title {
-  font-weight: bold;
 }
 
 /* Alert */

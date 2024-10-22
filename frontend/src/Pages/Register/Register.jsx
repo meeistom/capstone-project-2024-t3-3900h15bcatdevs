@@ -83,6 +83,9 @@ function Register() {
     if (checked.momPage) pages.push("momPage");
     if (checked.babyPage) pages.push("babyPage");
     if (checked.milkPage) pages.push("milkPage");
+
+    if (pages.length <= 1) return;
+
     pages.push("confirm", "preview");
 
     setSelectedPages(pages);
@@ -279,18 +282,18 @@ function Register() {
     <>
       <Navibar />
       <section id="Register">
-        <div className="register-page-container">
-          <div className="register-title">
+        <div className="register-page-container d-flex flex-column align-items-center h-100">
+          <div className="register-title mb-5 text-center">
             <h1>Register</h1>
           </div>
 
           {!registerStarted && (
             <>
-              <div className="register-selection-container">
-                <div className="title">
+              <div className="register-selection-container d-flex flex-column justify-content-between align-items-center">
+                <div className="title fs-3 text-center position-relative">
                   <h2>{"What would you like to register?"}</h2>
                 </div>
-                <div className="checkbox-container">
+                <div className="checkbox-container d-flex fs-1 justify-content-center">
                   <CheckboxButton
                     id="toggle-check-mom"
                     name="momPage"
@@ -320,8 +323,8 @@ function Register() {
                 </div>
               </div>
               <div className="nav-button-container">
-                <div className="back-button-container"></div>
-                <div className="next-button-container">
+                <div className="back-button-container justify-content-start"></div>
+                <div className="next-button-container justify-content-end">
                   <NextButton onClick={startRegistration}>Next</NextButton>
                 </div>
               </div>
@@ -329,17 +332,16 @@ function Register() {
           )}
 
           {/* Navigation buttons */}
-          {/* TODO: Make nav buttons */}
           {registerStarted && currentPage !== null && (
             <>
               <div className="rendered-page">{renderedPage}</div>
               <div className="nav-button-container">
-                <div className="back-button-container">
+                <div className="back-button-container justify-content-start">
                   {currentPage > 0 && (
                     <BackButton onClick={prevPageToVisit}>Back</BackButton>
                   )}
                 </div>
-                <div className="next-button-container">
+                <div className="next-button-container d-flex justify-content-end">
                   {currentPage < selectedPages.length - 1 && (
                     <NextButton onClick={nextPageToVisit}>Next</NextButton>
                   )}
