@@ -7,6 +7,7 @@ import "../index.css";
 export { AddMilkForm };
 
 function AddMilkForm({
+  babyData,
   motherData,
   expressDate,
   setExpressDate,
@@ -17,11 +18,11 @@ function AddMilkForm({
   return (
     <div className="form-container w-100">
       <div className="form-mother-detail align-self-start">
-        <h5>Mother Details</h5>
+        <h5>Patient Details</h5>
         <p className="m-0">
-          Name: {motherData[1]} {motherData[2]}
+          Baby of Mother: {motherData.first_name} {motherData.last_name}
         </p>
-        <p className="m-0">MRN: {motherData[3]}</p>
+        <p className="m-0">Baby MRN: {babyData.mrn}</p>
       </div>
       <Form>
         <div className="form-milk-detail mb-3">

@@ -15,7 +15,7 @@ from firebase.retrieve import *
 from firebase.error_check import *
 
 ######### Uncomment to direct to the right key
-cred = credentials.Certificate('./firebase/key_sarah.json')
+# cred = credentials.Certificate('./firebase/key_sarah.json')
 # cred = credentials.Certificate('./firebase/key_cynthia.json')
 cred = credentials.Certificate('./firebase/key_aolin.json')
 # cred = credentials.Certificate('./firebase/key_parker.json')

@@ -22,6 +22,7 @@ function AddMilkModal({ closeModal, version }) {
   const [storageType, setStorageType] = useState("fridge");
   const [notes, setNotes] = useState("");
   const [motherData, setMotherData] = useState(null);
+  const [babyData, setBabyData] = useState(null);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState(null);
   const [footer, setFooter] = useState(null);
@@ -32,55 +33,71 @@ function AddMilkModal({ closeModal, version }) {
     }
   }, []);
 
-  const fetchMotherDetails = (barcode) => {
-    const url = `http://localhost:5001/database/fetch_mother/${barcode}`;
-    axios
-      .get(url)
-      .then((response) => {
-        setMotherData(response.data);
-        console.log("Mother data fetched:", response.data);
-        setModalVersion("addMilk2");
-      })
-      .catch((error) => {
-        console.log("Error fetching mother data:", error);
-        alert(
-          "Failed to fetch mother details with corresponding barcode. Please try again."
-        );
-      });
-  };
-
-  const handleInput = (event) => {
-    const barcode = event.target.value;
-    console.log(event.target.value);
-    setScannedValue(barcode);
-    if (barcode.length == 13) {
-      fetchMotherDetails(barcode);
+  const getBabyDetails = async (barcode) => {
+    const url = `http://localhost:5001/babies?mrn=${barcode}`;
+    console.log(url);
+    try {
+      const response = await axios.get(url);
+      setBabyData(response.data);
+      console.log('Baby data fetched:', response.data);
+      return response.data;
+    } catch (error) {
+      console.log('Error fetching baby data:', error);
+      alert('Failed to fetch baby details with corresponding barcode. Please try again.');
+      return null;
     }
   };
+   const getMotherDetails = async (mother_mrn) => {
+    const url = `http://localhost:5001/mothers?mrn=${mother_mrn}`;
+    console.log(url);
+    try {
+      const response = await axios.get(url);
+      setMotherData(response.data);
+      console.log('Mother data fetched:', response.data);
+      setModalVersion('addMilk2');
+    } catch (error) {
+      console.log('Error fetching Mother data:', error);
+      alert('Failed to fetch mother details with corresponding mrn. Please try again.');
+    }
+  };
+   const handleInput = async (event) => {
+    const barcode = event.target.value;
+    console.log(barcode);
+    setScannedValue(barcode);
+    if (barcode.length === 4) {
+      const babyDetails = await getBabyDetails(barcode);
+      if (babyDetails && babyDetails.mother_mrn) {
+        await getMotherDetails(babyDetails.mother_mrn);
+      }
+    }
+  };
+ 
 
   const handleSubmitMilkInfo = () => {
     const bottleDetails = {
       milk_type: milkType,
-      bottle_quantity: 1,
       express_time: expressDate,
-      storage_method: storageType,
-      storage_location: "level 1",
+      expiration_time: expiryDate,
+      storage_type: storageType,
+      storage_location: 'level 1',
+      volume_ml: '50',
+      owner_mrn: babyData.mrn,
       extra_notes: notes,
-      mother_id: motherData[0],
     };
-
-    const url = "http://localhost:5001/database/insert_bottle";
-    axios
-      .post(url, bottleDetails)
-      .then((response) => {
-        console.log("Bottle details added:");
-        setModalVersion("addMilk3");
+ 
+ 
+    const url = 'http://localhost:5001/add_milk_entry';
+    axios.post(url, bottleDetails)
+      .then(response => {
+        console.log('Bottle details added:');
+        setModalVersion('addMilk3');
       })
-      .catch((error) => {
-        console.log("Error posting bottle details:", error);
-        alert("Failed to add bottle details. Please try again.");
+      .catch(error => {
+        console.log('Error posting bottle details:', error);
+        alert('Failed to add bottle details. Please try again.');
       });
-  };
+   
+  } 
 
   const printImage = () => {
     const printWindow = window.open("", "_blank");
@@ -108,7 +125,7 @@ function AddMilkModal({ closeModal, version }) {
   useEffect(() => {
     switch (modalVersion) {
       case "addMilk1":
-        setTitle("Please scan the mother's barcode");
+        setTitle("Please scan the baby's barcode");
         setBody(
           <>
             <Form.Control
@@ -129,6 +146,7 @@ function AddMilkModal({ closeModal, version }) {
         setBody(
           <>
             <AddMilkForm
+              babyData={babyData}
               motherData={motherData}
               setExpressDate={setExpressDate}
               setExpiryDate={setExpiryDate}

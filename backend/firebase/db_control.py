@@ -37,7 +37,7 @@ def add_dummy_data(firestore_client, collection_name: str, json_path: str):
 
 # if __name__ == '__main__':
 #     clear_collection(fs_client, "mothers")
-#     print("clearerd");
+#     print("cleared");
 #     clear_collection(fs_client, "babies")
 #     clear_collection(fs_client, "milk_entries")
 
