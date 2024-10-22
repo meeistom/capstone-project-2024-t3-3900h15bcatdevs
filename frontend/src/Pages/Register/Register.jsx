@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
 
 import { Navibar } from "../../Components/Navibar";
+import { CheckboxButton } from "../../Components/CheckboxButton";
 import { MotherRegistration } from "./MotherRegistration";
 import { BabyRegistration } from "./BabyRegistration";
 import { MilkRegistration } from "./MilkRegistration";
@@ -67,8 +68,12 @@ function Register() {
     milkPage: false,
   });
 
+  useEffect(() => {
+    console.log(checked);
+  }, [checked]);
+
   const handleCheckboxChange = (e) => {
-    const { name, checked } = e.currentTarget;
+    const { name, checked } = e.target;
     setChecked((prev) => ({
       ...prev,
       [name]: checked,
@@ -127,7 +132,7 @@ function Register() {
       last_name: momLastName,
     };
 
-    const url = `${URL}/database/add_mother`;
+    const url = `${URL}/add_mother`;
     axios
       .post(url, momInfo)
       .then((res) => {
@@ -146,7 +151,7 @@ function Register() {
       mother_mrn: momMRN,
     };
 
-    const url = `${URL}/database/add_baby`;
+    const url = `${URL}/add_baby`;
     axios
       .post(url, babyInfo)
       .then((res) => {
@@ -162,7 +167,7 @@ function Register() {
       uid: "0000",
       milkType: milkType,
       express_time: expressDate,
-      expiration_date: expiryDate,
+      expiration_time: expiryDate,
       storage_type: storageType,
       storage_location: storageType,
       volume_ml: 100,
@@ -170,7 +175,7 @@ function Register() {
       extra_notes: notes,
     };
 
-    const url = `${URL}/database/add_milk`;
+    const url = `${URL}/add_milk`;
     axios
       .post(url, milkInfo)
       .then((response) => {
@@ -261,9 +266,9 @@ function Register() {
         );
         break;
       case "preview":
-        // if (checked.momPage) submitMomInfo();
-        // if (checked.babyPage) submitBabyInfo();
-        // if (checked.milkPage) submitMilkInfo();
+        if (checked.momPage) submitMomInfo();
+        if (checked.babyPage) submitBabyInfo();
+        if (checked.milkPage) submitMilkInfo();
         setRenderedPage(
           <PreviewGeneratedLabel
             setImageRef={(ref) => (imageRef.current = ref.current)}
@@ -290,21 +295,14 @@ function Register() {
                 </div>
                 <div className="checkbox-container">
                   {/* TODO: Create checkbox component */}
-                  <ToggleButton
+                  <CheckboxButton
                     id="toggle-check-mom"
-                    type="checkbox"
                     name="momPage"
-                    className={checked.momPage ? "check" : "uncheck"}
-                    checked={checked.momPage}
+                    isChecked={checked.momPage}
                     onChange={handleCheckboxChange}
                   >
-                    {checked.momPage ? (
-                      <FontAwesomeIcon icon={faCheckSquare} />
-                    ) : (
-                      <FontAwesomeIcon icon={faSquare} />
-                    )}
-                    <span style={{ marginLeft: "10px" }}>Mother</span>
-                  </ToggleButton>
+                    Mother
+                  </CheckboxButton>
                   <ToggleButton
                     id="toggle-check-baby"
                     type="checkbox"
