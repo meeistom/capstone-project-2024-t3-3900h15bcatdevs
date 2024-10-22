@@ -8,27 +8,22 @@ import "../index.css";
 
 export { CheckboxButton };
 
-function CheckboxButton({ isChecked, onChange, name, children }) {
-  console.log(isChecked, name, onChange);
+function CheckboxButton({ id, name, isChecked, onChange, children }) {
   return (
-    <>
-      <ToggleButton
-        type="checkbox"
-        className={isChecked ? "check" : "uncheck"}
-        checked={isChecked}
-        name={name}
-        value={name}
-        onChange={onChange}
-      >
-        {isChecked ? (
-          <FontAwesomeIcon icon={faCheckSquare} />
-        ) : (
-          <FontAwesomeIcon icon={faSquare} />
-        )}
-        <p className="check-btn-child" style={{ marginLeft: "10px" }}>
-          {children}
-        </p>
-      </ToggleButton>
-    </>
+    <ToggleButton
+      id={id}
+      type="checkbox"
+      name={name}
+      className={isChecked ? "check" : "uncheck"}
+      checked={isChecked}
+      onChange={onChange}
+    >
+      {isChecked ? (
+        <FontAwesomeIcon icon={faCheckSquare} />
+      ) : (
+        <FontAwesomeIcon icon={faSquare} />
+      )}
+      <span className="ms-1">{children}</span>
+    </ToggleButton>
   );
 }
