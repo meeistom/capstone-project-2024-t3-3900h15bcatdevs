@@ -107,6 +107,7 @@ input::-webkit-inner-spin-button {
 .register-page-container {
   padding-inline: 20%;
   padding-block-start: 5%;
+  gap: 2rem;
 }
 
 .register-selection-container {

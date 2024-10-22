@@ -12,11 +12,9 @@ import { BabyRegistration } from "./BabyRegistration";
 import { MilkRegistration } from "./MilkRegistration";
 import { ConfirmDetails } from "./ConfirmDetails";
 import { PreviewGeneratedLabel } from "./PreviewGeneratedLabel";
-import { Button } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { NextButton } from "../../Components/NextButton";
 import { BackButton } from "../../Components/BackButton";
+import { Button } from "react-bootstrap";
 
 export { Register };
 
@@ -283,7 +281,7 @@ function Register() {
       <Navibar />
       <section id="Register">
         <div className="register-page-container d-flex flex-column align-items-center h-100">
-          <div className="register-title mb-5 text-center">
+          <div className="register-title text-center">
             <h1>Register</h1>
           </div>
 
