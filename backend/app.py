@@ -102,6 +102,23 @@ def get_milk_entry():
             jsonify(milk_entry_data),
             200
         )
+    
+#  Fetches milk display as and returns it in order (default is DESC)
+@app.route('/milk_display', methods=['GET'], strict_slashes=False)
+def display_milk():
+    order = request.args.get('order', 'DESC')
+    milk_display_data = display_milk_entry(fs_client, order)
+
+    if len(milk_display_data) == 0:
+        return make_response(
+            "No Milk Entries Registered",
+            200
+        )
+    else:
+        return make_response(
+            jsonify(milk_display_data),
+            200
+        )
 
 # Adds a new mother
 @app.route('/add_mother', methods=['POST'])
