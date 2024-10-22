@@ -12,10 +12,11 @@ import { BabyRegistration } from "./BabyRegistration";
 import { MilkRegistration } from "./MilkRegistration";
 import { ConfirmDetails } from "./ConfirmDetails";
 import { PreviewGeneratedLabel } from "./PreviewGeneratedLabel";
-import { Button, ToggleButton } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSquare, faCheckSquare } from "@fortawesome/free-regular-svg-icons";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { NextButton } from "../../Components/NextButton";
+import { BackButton } from "../../Components/BackButton";
 
 export { Register };
 
@@ -50,14 +51,10 @@ function Register() {
     if (selectedPages[currentPage] == "babyPage" && !babyPageIsValid()) return;
     if (selectedPages[currentPage] == "momPage" && !momPageIsValid()) return;
     if (selectedPages[currentPage] == "milkPage" && !milkPageIsValid()) return;
-    console.log(`Next Page: ${currentPage + 1}`);
-    console.log(selectedPages[currentPage]);
     setCurrentPage((currentPage) => currentPage + 1);
   };
 
   const prevPageToVisit = () => {
-    console.log(`Prev Page: ${currentPage - 1}`);
-    console.log(selectedPages[currentPage]);
     setCurrentPage((currentPage) => currentPage - 1);
   };
 
@@ -266,9 +263,9 @@ function Register() {
         );
         break;
       case "preview":
-        if (checked.momPage) submitMomInfo();
-        if (checked.babyPage) submitBabyInfo();
-        if (checked.milkPage) submitMilkInfo();
+        // if (checked.momPage) submitMomInfo();
+        // if (checked.babyPage) submitBabyInfo();
+        // if (checked.milkPage) submitMilkInfo();
         setRenderedPage(
           <PreviewGeneratedLabel
             setImageRef={(ref) => (imageRef.current = ref.current)}
@@ -294,7 +291,6 @@ function Register() {
                   <h2>{"What would you like to register?"}</h2>
                 </div>
                 <div className="checkbox-container">
-                  {/* TODO: Create checkbox component */}
                   <CheckboxButton
                     id="toggle-check-mom"
                     name="momPage"
@@ -303,51 +299,30 @@ function Register() {
                   >
                     Mother
                   </CheckboxButton>
-                  <ToggleButton
+                  <CheckboxButton
                     id="toggle-check-baby"
-                    type="checkbox"
                     name="babyPage"
-                    className={checked.babyPage ? "check" : "uncheck"}
-                    checked={checked.babyPage}
+                    isChecked={checked.babyPage}
                     onChange={handleCheckboxChange}
                   >
-                    {checked.babyPage ? (
-                      <FontAwesomeIcon icon={faCheckSquare} />
-                    ) : (
-                      <FontAwesomeIcon icon={faSquare} />
-                    )}
-                    <span style={{ marginLeft: "10px" }}>Baby</span>
-                  </ToggleButton>
+                    Baby
+                  </CheckboxButton>
                 </div>
                 <div className="checkbox-container">
-                  <ToggleButton
+                  <CheckboxButton
                     id="toggle-check-milk"
-                    type="checkbox"
                     name="milkPage"
-                    className={checked.milkPage ? "check" : "uncheck"}
-                    checked={checked.milkPage}
+                    isChecked={checked.milkPage}
                     onChange={handleCheckboxChange}
                   >
-                    {checked.milkPage ? (
-                      <FontAwesomeIcon icon={faCheckSquare} />
-                    ) : (
-                      <FontAwesomeIcon icon={faSquare} />
-                    )}
-                    <span style={{ marginLeft: "10px" }}>Milk</span>
-                  </ToggleButton>
+                    Milk
+                  </CheckboxButton>
                 </div>
               </div>
               <div className="nav-button-container">
                 <div className="back-button-container"></div>
                 <div className="next-button-container">
-                  <Button
-                    variant="primary"
-                    size="lg"
-                    onClick={startRegistration}
-                  >
-                    <span style={{ marginRight: "10px" }}>Next</span>
-                    <FontAwesomeIcon icon={faArrowRight} />
-                  </Button>
+                  <NextButton onClick={startRegistration}>Next</NextButton>
                 </div>
               </div>
             </>
@@ -361,26 +336,12 @@ function Register() {
               <div className="nav-button-container">
                 <div className="back-button-container">
                   {currentPage > 0 && (
-                    <Button
-                      variant="outline-secondary"
-                      size="lg"
-                      onClick={prevPageToVisit}
-                    >
-                      <FontAwesomeIcon icon={faArrowLeft} />
-                      <span style={{ marginLeft: "10px" }}>Back</span>
-                    </Button>
+                    <BackButton onClick={prevPageToVisit}>Back</BackButton>
                   )}
                 </div>
                 <div className="next-button-container">
                   {currentPage < selectedPages.length - 1 && (
-                    <Button
-                      variant="primary"
-                      size="lg"
-                      onClick={nextPageToVisit}
-                    >
-                      <span style={{ marginRight: "10px" }}>Next</span>
-                      <FontAwesomeIcon icon={faArrowRight} />
-                    </Button>
+                    <NextButton onClick={nextPageToVisit}>Next</NextButton>
                   )}
                   {currentPage === selectedPages.length - 1 && (
                     <>
@@ -389,10 +350,10 @@ function Register() {
                         size="lg"
                         onClick={printImage}
                       >
-                        <span>Print Label</span>
+                        Print Label
                       </Button>
                       <Button variant="primary" size="lg" onClick={goToHome}>
-                        <span>Return Home</span>
+                        Return Home
                       </Button>
                     </>
                   )}
