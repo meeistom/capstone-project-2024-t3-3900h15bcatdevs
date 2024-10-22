@@ -1,29 +1,41 @@
 # License for python-barcode found in LICENSE
-from barcode import EAN13
-import re
+from typing import Literal
+from barcode import Code128
+from ppf.datamatrix import DataMatrix
 
-def generate_barcode(number):
-    # EAN-13 Numbers are 13 digits, first 3 digits are country code, next 9 are
-    # manufacturer and product code, the last digit is a check digit calculated
-    # based on the preceding 12 digits
-    expected_length = 12
+def generate_barcode(data: str, format: Literal['code-128', 'data-matrix']) -> str:
+    '''Generates a barcode based on the format that it is given.'''
 
-    # Check that number is a string
-    if type(number) != str:
-        raise TypeError(f'Number is of type {type(number)}, but expected {str}')
+    formats = {
+        'code-128': generate_code_128,
+        'data-matrix': generate_data_matrix
+    }
+
+    # Check that the correct format was input
+    if format not in formats:
+        raise ValueError(f'format is {format}, but expected one of the strings: {list(formats.keys())}')
     
-    # Check that number is the right length
-    if len(number) != expected_length:
-        raise ValueError(f'Number is of length {len(number)}, but expected {expected_length}')
+    # Check that the data is a string
+    if type(data) != str:
+        raise ValueError(f'data is of type {type(data)}, but expected {str}')
     
-    # Check that the number only contains integers 0-9
-    if not bool(re.match(r'^\d+$', number)):
-        raise ValueError(f'Number contains characters, but expected only integers 0-9')
-
-    # Generate barcode
-    barcode = EAN13(number)
+    # Generate the barcode and catch errors
+    try:
+        barcode = formats[format](data)
+    except Exception as e:
+        raise e
+    
     return barcode
 
+def generate_code_128(data: str) -> str:
+    '''Generate a Code 128 barcode whose output is a XML string'''
+ 
+    return str(Code128(data).render(), 'utf-8')
+
+def generate_data_matrix(data: str) -> str:
+    '''Generate a Data Matrix barcode whose output is a XML string'''
+
+    return DataMatrix(data).svg()
 
 
 
@@ -31,25 +43,26 @@ def generate_barcode(number):
 # Testing stuff
 if __name__ == '__main__':
     try:
-        bar = generate_barcode(123456789012)
-    except TypeError:
-        print(TypeError)
+        generate_barcode(1234, 'code-128')
+    except Exception as e:
+        print(e)
 
-    try: 
-        bar = generate_barcode('12345')
-    except ValueError:
-        print(ValueError)
+    try:
+        generate_barcode(1234, 'data-matrix')
+    except Exception as e:
+        print(e)
 
-    try: 
-        bar = generate_barcode('1234567890ab')
-    except ValueError:
-        print(ValueError)
+    try:
+        generate_barcode('1234', 'asdf')
+    except Exception as e:
+        print(e)
 
-    bar = generate_barcode('123456789012')
-    # bar.save('new_barcode')
+    try:
+        generate_barcode(1234, 1234)
+    except Exception as e:
+        print(e)
 
-    print(bar.build())
-    print(bar.calculate_checksum())
-    print(bar.get_fullcode())
-    print(bar.to_ascii())
-    print(bar.render())
+    dm = generate_barcode('123456', 'data-matrix')
+    bar = generate_barcode('1234', 'code-128')
+    print(dm)
+    print(bar)
