@@ -21,6 +21,27 @@ function ViewMothers() {
         }
         return [];
       })
+      .then(entries => {
+        entries.forEach(entry => {
+          entry.babies.forEach(babyMRN => {
+            const babyURL = `http://localhost:5001/babies?mrn=${babyMRN}`;
+            axios.get(babyURL)
+              .then(babyResponse => {
+                entry.baby = babyResponse.data;
+                setMotherData(currentEntries => {
+                  // Find the current entry and update it with baby data
+                  const updatedEntries = currentEntries.map(e => 
+                    e.mrn === entry.mrn ? {...e, baby: babyResponse.data} : e
+                  );
+                  return updatedEntries;
+                });
+              })
+              .catch(error => {
+                console.error(`Error fetching baby details for MRN ${babyMRN}:`, error);
+              });
+          });
+        });
+      })
       .catch(error => {
         console.error('Error fetching mother entries:', error);
       });
@@ -39,6 +60,7 @@ function ViewMothers() {
                   MRN: {entry.mrn},
                   first name: {entry.first_name}, 
                   last name: {entry.last_name}, 
+                  children: {entry.baby ? `${entry.baby.first_name} ${entry.baby.last_name}` : 'No children'},
                 </li>
               ))}
             </ul>
