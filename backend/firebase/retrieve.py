@@ -15,6 +15,42 @@ def retrieve_mother_by_mrn(firestore_client, mrn: str) -> dict:
         except Exception as e:
             print(f"GET MOTHER: An error occurred while getting data: {e}")
 
+def retrieve_mothers_by_first_name(firestore_client, first_name: str) -> list:
+    """
+    Gets all mothers from the database by first name.
+    """
+    mother_collection = firestore_client.collection("mothers")
+    query = mother_collection.where(field_path="first_name", op_string="==", value=first_name).get()
+    mothers_list = []
+
+    if query:
+        for doc in query:
+            mothers_list.append(doc.to_dict())
+        if not mothers_list:
+            print(f"GET MOTHERS: No mothers found with first_name: {first_name}")
+        return mothers_list
+    else:
+        print(f"GET MOTHERS: No mothers found with first_name: {first_name}")
+        return []
+
+def retrieve_mothers_by_last_name(firestore_client, last_name: str) -> list:
+    """
+    Gets all mothers from the database by last name.
+    """
+    mother_collection = firestore_client.collection("mothers")
+    query = mother_collection.where(field_path="last_name", op_string="==", value=last_name).get()
+    mothers_list = []
+
+    if query:
+        for doc in query:
+            mothers_list.append(doc.to_dict())
+        if not mothers_list:
+            print(f"GET MOTHERS: No mothers found with last_name: {last_name}")
+        return mothers_list
+    else:
+        print(f"GET MOTHERS: No mothers found with last_name: {last_name}")
+        return []
+
 def retrieve_baby_by_mrn(firestore_client, mrn: str) -> dict:
     """
     Gets a baby from the database

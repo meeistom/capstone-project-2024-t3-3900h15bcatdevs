@@ -36,12 +36,18 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 def passes():
     return 'DEFAULT'
 
-# Fetches all mothers as a list, or fetches mother object by MRN
+# Fetches all mothers as a list, or fetches mother object by given param (MRN, name)
 @app.route('/mothers', methods=['GET'], strict_slashes=False)
 def get_mother():
     mrn = request.args.get('mrn')
+    first_name = request.args.get('first_name')
+    last_name = request.args.get('last_name')
     if mrn:
         mother_data = retrieve_mother_by_mrn(fs_client, mrn)
+    elif first_name:
+        mother_data = retrieve_mothers_by_first_name(fs_client, first_name)
+    elif last_name:
+        mother_data = retrieve_mothers_by_last_name(fs_client, last_name)
     else:
         mother_data = retrieve_all_mothers(fs_client)
 
