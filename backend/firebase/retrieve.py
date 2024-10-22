@@ -101,11 +101,15 @@ def retrieve_all_babies(firestore_client) -> list:
 
     return babies_list
 
-def retrieve_all_milk_entries(fs_client):
+def retrieve_all_milk_entries(fs_client, order_direction="DESC"):
     db = fs_client
     milk_entries_collection = db.collection('milk_entries')
-    # Correctly reference the DESCENDING constant from the firestore module
-    query = milk_entries_collection.order_by('created_at', direction=firestore.Query.DESCENDING)
+    if order_direction.upper() == "ASC":
+        direction = firestore.Query.ASCENDING
+    else:
+        direction = firestore.Query.DESCENDING
+
+    query = milk_entries_collection.order_by('created_at', direction=direction)
     results = query.stream()
     entries = []
     for doc in results:
