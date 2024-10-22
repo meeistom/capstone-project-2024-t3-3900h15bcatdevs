@@ -37,15 +37,14 @@ Firebase considers stuff as ```collections``` and ```documents```. Within a coll
 
 [Cloud Firestore: Deleting data](https://firebase.google.com/docs/firestore/manage-data/delete-data)
 
-
-
 ## Key Information
 1. Mothers and babies are identified with MRNs (Medical Record Number)
 2. Milks are identified by their UID (Unique ID)
 3. Babies and milks are associated with mothers by mother's MRN, unless in the edge case that babies are without a mother, then milks are associated with babies by baby MRNs.
 4. Barcodes on milk labels are generated from the owner MRN associated with the milk entry. This is almost always the mother MRN, but can also be a baby MRN.
 5. Mother/Baby MRNs & Milk UIDs are used as keys in their respective collections. 
-6. MRNs and UIDs are string representations of 6 digit, left zero-padded numbers, zero-indexed. For eg. 000000, 000001, 000002, etc.
+6. MRNs are string representations of 4 digit, left zero-padded numbers, zero-indexed. For eg. 0000, 0001, 0002, etc.
+7. UIDs are string representations of 6 digit, left zero-padded numbers, zero-indexed. For eg. 000000, 000001, 000002, etc.
 
 ## MilkGuard Data Structure
 
