@@ -37,7 +37,7 @@ def add_baby(firestore_client, baby_json_data: dict) -> Tuple[bool, str]:
         return False, "Invalid baby data"
 
     # Check if mother mrn exists
-    if not mother_exists(firestore_client, baby_json_data['mother_mrn']) and baby_json_data['mother_mrn'] != "None":
+    if not mother_exists(firestore_client, baby_json_data['mother_mrn']):
         return False, "Mother does not exist"
 
     # Check if mrn in use
