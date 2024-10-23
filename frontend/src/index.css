@@ -311,3 +311,19 @@ input::-webkit-inner-spin-button {
 .alert-container .alert-close {
   margin-left: 65%;
 }
+
+
+/* table style */
+
+.table-container {
+  display: flex;
+  align-items: flex-start;
+  height: 75vh; 
+  width: 80vw;
+  justify-content: center;
+}
+
+.table-btn {
+  display: flex;
+  justify-content: space-evenly;
+}

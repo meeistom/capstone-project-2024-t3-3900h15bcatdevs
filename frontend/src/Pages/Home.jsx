@@ -6,6 +6,7 @@ import { Navibar } from "../Components/Navibar";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "../index.css";
 import { AddMilkModal } from "../Components/AddMilkModal";
+import { Table } from "../Components/Table";
 
 export { Home };
 
@@ -28,6 +29,7 @@ function Home() {
           <AddMilkModal closeModal={setOpenModal} version="addMilk1" />
         )}
         this is da home
+        <Table></Table>
       </section>
     </>
   );
