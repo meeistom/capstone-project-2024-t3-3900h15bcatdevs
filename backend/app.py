@@ -14,14 +14,7 @@ from firebase.delete import *
 from firebase.retrieve import *
 from firebase.error_check import *
 
-######### Uncomment to direct to the right key
-cred = credentials.Certificate('./firebase/key_gabe.json')
-# cred = credentials.Certificate('./firebase/key_cynthia.json')
-# cred = credentials.Certificate('./firebase/key_aolin.json')
-# cred = credentials.Certificate('./firebase/key_parker.json')
-# cred = credentials.Certificate('./firebase/key_tom.json')
-# cred = credentials.Certificate('./firebase/key_parker.json')
-
+cred = credentials.Certificate('./.key/key_.json')
 fba.initialize_app(cred)
 fs_client = firestore.client()
 
@@ -129,14 +122,17 @@ def add_new_baby():
 def add_new_milk_entry():
     new_milk_entry_data = request.get_json()
 
+    print(new_milk_entry_data)
+
     # Generate new UID for milk entry?
 
     success, message = add_milk_entry(fs_client, new_milk_entry_data)
-    
+    print(message)
     return make_response(
         message,
         200 if success else 400
     )
+
 
 # Deletes a mother
 @app.route('/delete_mother', methods=['DELETE'])

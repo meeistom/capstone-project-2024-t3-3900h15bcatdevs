@@ -17,12 +17,11 @@ function PreviewGeneratedLabel({ setImageRef }) {
 
   return (
     <>
-      <div className="register-details-container preview-label">
-        {/* Render the progress bar at mother details stage */}
+      <div className="register-details-container preview-label min-vh-50">
         <div className="title">
           <h2>{"Preview Label"}</h2>
         </div>
-        <div className="body">
+        <div className="body d-flex flex-column justify-content-between">
           <img ref={imgRef} src={sticker} alt="sticker" />
         </div>
       </div>

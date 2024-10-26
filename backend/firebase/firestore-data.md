@@ -37,8 +37,6 @@ Firebase considers stuff as ```collections``` and ```documents```. Within a coll
 
 [Cloud Firestore: Deleting data](https://firebase.google.com/docs/firestore/manage-data/delete-data)
 
-
-
 ## Key Information
 1. Mothers and babies are identified with MRNs (Medical Record Number)
 2. Milks are identified by their UID (Unique ID)
@@ -87,7 +85,9 @@ Firebase considers stuff as ```collections``` and ```documents```. Within a coll
     'storage_type': <string>,
     'storage_location': <string>,
     'volume_ml': <int>,
-    'owner_mrn': <string>,
+    'baby_mrn': <string>, // This is the owner
+    'mother_mrn': <string>, 
     'extra_notes': <string>,
+    'created_at': TIMESTAMP
 }
 ```

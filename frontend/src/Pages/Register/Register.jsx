@@ -6,15 +6,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
 
 import { Navibar } from "../../Components/Navibar";
+import { CheckboxButton } from "../../Components/CheckboxButton";
 import { MotherRegistration } from "./MotherRegistration";
 import { BabyRegistration } from "./BabyRegistration";
 import { MilkRegistration } from "./MilkRegistration";
 import { ConfirmDetails } from "./ConfirmDetails";
 import { PreviewGeneratedLabel } from "./PreviewGeneratedLabel";
-import { Button, ToggleButton } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSquare, faCheckSquare } from "@fortawesome/free-regular-svg-icons";
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { NextButton } from "../../Components/NextButton";
+import { BackButton } from "../../Components/BackButton";
+import { Button } from "react-bootstrap";
 
 export { Register };
 
@@ -49,14 +49,10 @@ function Register() {
     if (selectedPages[currentPage] == "babyPage" && !babyPageIsValid()) return;
     if (selectedPages[currentPage] == "momPage" && !momPageIsValid()) return;
     if (selectedPages[currentPage] == "milkPage" && !milkPageIsValid()) return;
-    console.log(`Next Page: ${currentPage + 1}`);
-    console.log(selectedPages[currentPage]);
     setCurrentPage((currentPage) => currentPage + 1);
   };
 
   const prevPageToVisit = () => {
-    console.log(`Prev Page: ${currentPage - 1}`);
-    console.log(selectedPages[currentPage]);
     setCurrentPage((currentPage) => currentPage - 1);
   };
 
@@ -67,8 +63,12 @@ function Register() {
     milkPage: false,
   });
 
+  useEffect(() => {
+    console.log(checked);
+  }, [checked]);
+
   const handleCheckboxChange = (e) => {
-    const { name, checked } = e.currentTarget;
+    const { name, checked } = e.target;
     setChecked((prev) => ({
       ...prev,
       [name]: checked,
@@ -81,6 +81,9 @@ function Register() {
     if (checked.momPage) pages.push("momPage");
     if (checked.babyPage) pages.push("babyPage");
     if (checked.milkPage) pages.push("milkPage");
+
+    if (pages.length <= 1) return;
+
     pages.push("confirm", "preview");
 
     setSelectedPages(pages);
@@ -127,7 +130,7 @@ function Register() {
       last_name: momLastName,
     };
 
-    const url = `${URL}/database/add_mother`;
+    const url = `${URL}/add_mother`;
     axios
       .post(url, momInfo)
       .then((res) => {
@@ -146,7 +149,7 @@ function Register() {
       mother_mrn: momMRN,
     };
 
-    const url = `${URL}/database/add_baby`;
+    const url = `${URL}/add_baby`;
     axios
       .post(url, babyInfo)
       .then((res) => {
@@ -162,7 +165,7 @@ function Register() {
       uid: "0000",
       milkType: milkType,
       express_time: expressDate,
-      expiration_date: expiryDate,
+      expiration_time: expiryDate,
       storage_type: storageType,
       storage_location: storageType,
       volume_ml: 100,
@@ -170,7 +173,7 @@ function Register() {
       extra_notes: notes,
     };
 
-    const url = `${URL}/database/add_milk`;
+    const url = `${URL}/add_milk`;
     axios
       .post(url, milkInfo)
       .then((response) => {
@@ -277,112 +280,68 @@ function Register() {
     <>
       <Navibar />
       <section id="Register">
-        <div className="register-page-container">
-          <div className="register-title">
+        <div className="register-page-container d-flex flex-column align-items-center h-100">
+          <div className="register-title text-center">
             <h1>Register</h1>
           </div>
 
           {!registerStarted && (
             <>
-              <div className="register-selection-container">
-                <div className="title">
+              <div className="register-selection-container d-flex flex-column justify-content-between align-items-center">
+                <div className="title fs-3 text-center position-relative">
                   <h2>{"What would you like to register?"}</h2>
                 </div>
-                <div className="checkbox-container">
-                  {/* TODO: Create checkbox component */}
-                  <ToggleButton
+                <div className="checkbox-container d-flex fs-1 justify-content-center">
+                  <CheckboxButton
                     id="toggle-check-mom"
-                    type="checkbox"
                     name="momPage"
-                    className={checked.momPage ? "check" : "uncheck"}
-                    checked={checked.momPage}
+                    isChecked={checked.momPage}
                     onChange={handleCheckboxChange}
                   >
-                    {checked.momPage ? (
-                      <FontAwesomeIcon icon={faCheckSquare} />
-                    ) : (
-                      <FontAwesomeIcon icon={faSquare} />
-                    )}
-                    <span style={{ marginLeft: "10px" }}>Mother</span>
-                  </ToggleButton>
-                  <ToggleButton
+                    Mother
+                  </CheckboxButton>
+                  <CheckboxButton
                     id="toggle-check-baby"
-                    type="checkbox"
                     name="babyPage"
-                    className={checked.babyPage ? "check" : "uncheck"}
-                    checked={checked.babyPage}
+                    isChecked={checked.babyPage}
                     onChange={handleCheckboxChange}
                   >
-                    {checked.babyPage ? (
-                      <FontAwesomeIcon icon={faCheckSquare} />
-                    ) : (
-                      <FontAwesomeIcon icon={faSquare} />
-                    )}
-                    <span style={{ marginLeft: "10px" }}>Baby</span>
-                  </ToggleButton>
+                    Baby
+                  </CheckboxButton>
                 </div>
                 <div className="checkbox-container">
-                  <ToggleButton
+                  <CheckboxButton
                     id="toggle-check-milk"
-                    type="checkbox"
                     name="milkPage"
-                    className={checked.milkPage ? "check" : "uncheck"}
-                    checked={checked.milkPage}
+                    isChecked={checked.milkPage}
                     onChange={handleCheckboxChange}
                   >
-                    {checked.milkPage ? (
-                      <FontAwesomeIcon icon={faCheckSquare} />
-                    ) : (
-                      <FontAwesomeIcon icon={faSquare} />
-                    )}
-                    <span style={{ marginLeft: "10px" }}>Milk</span>
-                  </ToggleButton>
+                    Milk
+                  </CheckboxButton>
                 </div>
               </div>
               <div className="nav-button-container">
-                <div className="back-button-container"></div>
-                <div className="next-button-container">
-                  <Button
-                    variant="primary"
-                    size="lg"
-                    onClick={startRegistration}
-                  >
-                    <span style={{ marginRight: "10px" }}>Next</span>
-                    <FontAwesomeIcon icon={faArrowRight} />
-                  </Button>
+                <div className="back-button-container justify-content-start"></div>
+                <div className="next-button-container justify-content-end">
+                  <NextButton onClick={startRegistration}>Next</NextButton>
                 </div>
               </div>
             </>
           )}
 
           {/* Navigation buttons */}
-          {/* TODO: Make nav buttons */}
           {registerStarted && currentPage !== null && (
             <>
               <div className="rendered-page">{renderedPage}</div>
               <div className="nav-button-container">
-                <div className="back-button-container">
+                <div className="back-button-container justify-content-start">
                   {currentPage > 0 && (
-                    <Button
-                      variant="outline-secondary"
-                      size="lg"
-                      onClick={prevPageToVisit}
-                    >
-                      <FontAwesomeIcon icon={faArrowLeft} />
-                      <span style={{ marginLeft: "10px" }}>Back</span>
-                    </Button>
+                    <BackButton onClick={prevPageToVisit}>Back</BackButton>
                   )}
                 </div>
-                <div className="next-button-container">
+                <div className="next-button-container d-flex justify-content-end">
                   {currentPage < selectedPages.length - 1 && (
-                    <Button
-                      variant="primary"
-                      size="lg"
-                      onClick={nextPageToVisit}
-                    >
-                      <span style={{ marginRight: "10px" }}>Next</span>
-                      <FontAwesomeIcon icon={faArrowRight} />
-                    </Button>
+                    <NextButton onClick={nextPageToVisit}>Next</NextButton>
                   )}
                   {currentPage === selectedPages.length - 1 && (
                     <>
@@ -391,10 +350,10 @@ function Register() {
                         size="lg"
                         onClick={printImage}
                       >
-                        <span>Print Label</span>
+                        Print Label
                       </Button>
                       <Button variant="primary" size="lg" onClick={goToHome}>
-                        <span>Return Home</span>
+                        Return Home
                       </Button>
                     </>
                   )}
