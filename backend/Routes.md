@@ -117,5 +117,41 @@ OR
 (ERROR - 400) ```Mother/Baby/Milk Entry does not exist!```
 
 ## Verify (2 modes)
-- ```/verify?barcode=<barcode>```
-- ```/verify_feed?milk_uid=<milk_uid>&baby_mrn=<baby_mrn>```
+- ```/verify?barcode=<barcode>```  
+Accepts any input from scanning any barcode, searches database and returns whether its a mother/baby/milk entry or not found. If milk entry detected, returns the expiry status of milk entry. 
+
+Frontend can use this function to verify and identify the first scanned barcode in verify feed process. Upon return, frontend stores type object the barcode represents.
+
+Parameter: ```barcode```
+
+Returns:  
+```200``` - Entries found in db
+```404``` - Entries not found in db
+```
+{
+    "collection": <collection_name>,
+    "expiration_time": <timestamp>, // Only when milk entry detected
+    "expired": <bool> // Only when milk entry detected
+}
+```
+
+- ```/verify_feed?milk_uid=<milk_uid>&baby_mrn=<baby_mrn>```  
+Takes mrn of baby and uid of milk entry. Returns match or not, and expiry status of milk entry.
+
+Frontend should be storing the MRN/UID of milk entry or baby, whichever was scanned first and then using this route.
+
+Parameters: 
+- ```milk_uid```
+- ```baby_mrn```
+
+Returns:
+```200``` - match, not expired
+```400``` - entries found in database, (not match) OR (match AND expired)
+```404``` - entries not found in database
+```
+{
+    "match": <bool>, // Milk match with baby
+    "expiration_time": <timestamp>,
+    "expired": <bool>
+}
+```
