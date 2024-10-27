@@ -13,6 +13,7 @@ from firebase.add import *
 from firebase.delete import *
 from firebase.retrieve import *
 from firebase.error_check import *
+from firebase.verify import *
 
 cred = credentials.Certificate('./.key/key.json')
 fba.initialize_app(cred)
@@ -122,7 +123,7 @@ def add_new_baby():
 def add_new_milk_entry():
     new_milk_entry_data = request.get_json()
 
-    print(new_milk_entry_data)
+    # print(new_milk_entry_data)
 
     # Generate new UID for milk entry?
 
@@ -170,28 +171,36 @@ def delete_milk_entry_by_uid():
         200 if success else 500
     )
 
-@app.route('/verify_feed', methods=['GET'])
-def verify_feed():
+@app.route('/verify', methods=['GET'])
+def route_verify():
     barcode = request.args.get('barcode')
+
+    if barcode:
+        success, message = verify(fs_client, barcode)
+    else:
+        success, message = False, "Invalid Request. No inputs given"
+
+    return make_response(
+        message, # JSON if barcode provided. String if not.
+        200 if success else 404
+    )
+
+@app.route('/verify_feed', methods=['GET'])
+def route_verify_feed():
     milk_uid = request.args.get('milk_uid')
     baby_mrn = request.args.get('baby_mrn')
 
-    if barcode:
-        success, message = exists_in_db(fs_client, barcode)
-        ret_json = { 'collection': message, }
-        if message == "milk_entries":
-            expired, expiration_time = is_milk_expired(fs_client, barcode)
-            ret_json['expiration_time'] = expiration_time
-            ret_json['expired'] = expired
-        return make_response(
-            ret_json,
-            400 if message == "mothers" or not success else 200
-        )
-    elif milk_uid and baby_mrn:
-        pass
-        # success, message = verify_feed_code(fs_client, milk_uid, baby_mrn)
+    if milk_uid and baby_mrn:
+        success, message = verify_feed(fs_client, milk_uid, baby_mrn)
     else:
-        success, message = False, "Invalid Request. No inputs given"
+        success, message = False, "Invalid Request. Incorrect inputs given"
+
+    error_code = 404 if 'error' in message else 400
+
+    return make_response(
+        message, # JSON if inputs provided. String if not.
+        200 if success else error_code
+    )
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)

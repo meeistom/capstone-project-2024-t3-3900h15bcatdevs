@@ -3,6 +3,7 @@ from datetime import datetime
 
 collection_names = ['mothers', 'babies', 'milk_entries']
 
+# Checks if a MRN or UID exists in a specified collection
 def exists_in_collection(firestore_client, collection_name: str, mrn_uid: str) -> bool:
     """
     Checks if a MRN or UID exists in the database
@@ -17,12 +18,13 @@ def exists_in_collection(firestore_client, collection_name: str, mrn_uid: str) -
 # Checks if a MRN or UID exists in the database, returns bool and the collection name
 def exists_in_db(firestore_client, mrn_uid: str) -> Tuple[bool, str]:
     """
-    Checks if a MRN or UID exists in the database
+    Checks if a MRN or UID exists in the database. 
+    Returns bool and the collection name if found
     """
     for collection_name in collection_names:
         if exists_in_collection(firestore_client, collection_name, mrn_uid):
             return True, collection_name
-    return False, "MRN/UID not found in database"
+    return False, None
 
 def is_valid_mother_data(mother_data: dict) -> bool:
     """
@@ -55,13 +57,12 @@ def is_valid_milk_entry_data(milk_entry_data: dict) -> bool:
                                                   "extra_notes",
                                                   "created_at"])
 
-def is_milk_expired(firestore_client, milk_uid: str) -> Tuple[bool, str]:
+def is_milk_expired(firestore_client, milk_uid: str) -> Tuple[bool, int]:
     """
     Checks if a milk entry is expired
     Assumes a valid milk uid is passed
     Returns a tuple of a bool and the expiry time
     """
     milk_document = firestore_client.collection("milk_entries").document(milk_uid)
-    # milk_expiry_time = datetime.strptime(milk_document.get().to_dict()["expiration_date"], "%Y-%m-%d")
-    milk_expiry_time = "soemthing"
+    milk_expiry_time = datetime.fromtimestamp(milk_document.get().to_dict()["expiration_time"])
     return milk_expiry_time < datetime.now(), milk_expiry_time
