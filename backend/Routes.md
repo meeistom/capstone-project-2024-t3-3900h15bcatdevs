@@ -149,9 +149,20 @@ Returns:
 ```400``` - entries found in database, (not match) OR (match AND expired)
 ```404``` - entries not found in database
 ```
+// Match expired/not expired return json
 {
-    "match": <bool>, // Milk match with baby
+    "match": <bool>,
     "expiration_time": <timestamp>,
     "expired": <bool>
+}
+// No match return json
+{
+    "match": <bool>,
+    "mismatch_baby_name": <baby_name>,
+    "milk_owner_baby_name": <baby_name>
+}
+// No entries found return json
+{
+    "error": <str>,
 }
 ```

@@ -60,6 +60,11 @@ def verify_feed(firestore_client, milk_uid: str, baby_mrn: str) -> Tuple[bool, d
                 'expiration_time': expiration_time
             }
         )
+    else:
+        mismatch_baby_document = firestore_client.collection("babies").document(baby_mrn).get().to_dict()
+        milk_owner_document = firestore_client.collection("babies").document(milk_entry['baby_mrn']).get().to_dict()
+        ret_json['mismatch_baby_name'] = mismatch_baby_document['first_name'] + ' ' + mismatch_baby_document['last_name']
+        ret_json['milk_owner_baby_name'] = milk_owner_document['first_name'] + ' ' + milk_owner_document['last_name']
 
     return (
         True if match and not expired else False,
