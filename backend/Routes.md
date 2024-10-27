@@ -116,3 +116,6 @@ OR
 (JSON - 200) Success message.  
 (ERROR - 400) ```Mother/Baby/Milk Entry does not exist!```
 
+## Verify (2 modes)
+- ```/verify?barcode=<barcode>```
+- ```/verify_feed?milk_uid=<milk_uid>&baby_mrn=<baby_mrn>```
