@@ -14,7 +14,7 @@ from firebase.delete import *
 from firebase.retrieve import *
 from firebase.error_check import *
 
-cred = credentials.Certificate('./.key/key_.json')
+cred = credentials.Certificate('./.key/key.json')
 fba.initialize_app(cred)
 fs_client = firestore.client()
 
@@ -172,37 +172,21 @@ def delete_milk_entry_by_uid():
 
 @app.route('/verify_feed', methods=['GET'])
 def verify_feed():
-    code = request.args.get('code')
+    barcode = request.args.get('barcode')
     milk_uid = request.args.get('milk_uid')
     baby_mrn = request.args.get('baby_mrn')
 
-    if code:
-        success, message = exists_in_db(fs_client, code)
-        match message:
-            case "mothers":
-                return make_response(
-                    {'type': "mother"},
-                    400
-                )
-            case "babies":
-                return make_response(
-                    {'type': "baby"},
-                    200
-                )
-            case "milk_entries":
-                expired, expiration_time = milk_is_expired(fs_client, code)
-                message = {'type': "milk",
-                           'expiration_time': expiration_time,
-                           'expired': expired}
-                return make_response(
-                    message,
-                    200
-                )
-            case _:
-                return make_response(
-                    message,
-                    404
-                )
+    if barcode:
+        success, message = exists_in_db(fs_client, barcode)
+        ret_json = { 'collection': message, }
+        if message == "milk_entries":
+            expired, expiration_time = is_milk_expired(fs_client, barcode)
+            ret_json['expiration_time'] = expiration_time
+            ret_json['expired'] = expired
+        return make_response(
+            ret_json,
+            400 if message == "mothers" or not success else 200
+        )
     elif milk_uid and baby_mrn:
         pass
         # success, message = verify_feed_code(fs_client, milk_uid, baby_mrn)
