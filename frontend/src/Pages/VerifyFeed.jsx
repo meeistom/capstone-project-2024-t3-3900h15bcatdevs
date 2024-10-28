@@ -47,12 +47,13 @@ function VerifyFeed() {
 
       // If milk barcode is scanned, check if expired, else save barcode
       } else if (barcodeInfo.collection == "milk_entries") {
-        // if (barcodeInfo.expired == true) {
-        //   openAlert(`Milk ${barcode} expired on ${barcodeInfo.expiration_time}.`)
-        // }
+        if (barcodeInfo.expired == true) {
+          openAlert(`Milk ${barcode} expired on ${barcodeInfo.expiration_time}.`)
+        }
         setMilkBarcode(barcode);
         if (babyBarcode == "") {
           setMilkCheck(<img className="img" src={confirmCheck}></img>);
+          setPromptMessage("Please scan the barcode on the baby.");
         } else {
           await checkMatch(barcode, babyBarcode)
         }
@@ -72,14 +73,19 @@ function VerifyFeed() {
   }
 
   const checkMatch = async (milk_barcode, baby_barcode) => {
-    const url = `http://localhost:5001/verify?milk_uid=${milk_barcode}&baby_mrn=${baby_barcode}`
+    const url = `http://localhost:5001/verify_feed?milk_uid=${milk_barcode}&baby_mrn=${baby_barcode}`
     try {
       const response = await axios.get(url);
       console.log("verification check response", response.data);
+
+      // If milk and baby match, go to confirmation
+      setMilkCheck(<img className="img" src={confirmCheck}></img>);
+      setBabyCheck(<img className="img" src={confirmCheck}></img>);
+      setPromptType("confirmation");
     } catch (error) {
       console.log("error in verification", error)
+      openAlert(error.message)
     }
-
   }
 
   const handleInput = async () => {
@@ -93,40 +99,6 @@ function VerifyFeed() {
 
     };
   };
-    //   if (milkBarcodes.includes(scannedValue)) {
-    //     setMilkCheck(<img className="img" src={confirmCheck}></img>)
-    //     setMilkBarcode(scannedValue);
-    //     if (babyCheck.type === 'img') {
-    //       console.log(babyCheck.className)
-    //       // Will need to check for match
-    //       if (milkBarcodes.indexOf(scannedValue) == babyBarcodes.indexOf(babyBarcode)) {
-    //         setPromptType("confirmation");
-    //       } else {
-    //         setMilkCheck(<span className={"empty-check"}></span>)
-    //         openAlert("The scanned milk does not match the scanned baby.")
-    //       }
-    //     } else {
-    //       setPromptMessage("Please scan the barcode on the baby.");
-    //     }
-    //   } else if (babyBarcodes.includes(scannedValue)) {
-    //     setBabyCheck(<img className="img" src={confirmCheck}></img>);
-    //     setBabyBarcode(scannedValue)
-    //     if (milkCheck.type === 'img') {
-    //       // Will need to check for match
-    //       if (babyBarcodes.indexOf(scannedValue) == milkBarcodes.indexOf(milkBarcode)) {
-    //         setPromptType("confirmation");
-    //       } else {
-    //         setBabyCheck(<span className={"empty-check"}></span>);
-    //         openAlert("The scanned milk does not match the scanned baby.");
-    //       }
-    //     } else {
-    //       setPromptMessage("Please scan the barcode on the milk.");
-    //     } 
-    //   } else {
-    //     openAlert("Barcode not found in the system.");
-    //   }
-    // }
-  // };
 
   const goToHome = () => {
     navigate("/");
