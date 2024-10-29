@@ -23,7 +23,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route('/')
 def passes():
-    return 'DEFAULT'
+    return 'Hi'
 
 # Fetches all mothers as a list, or fetches mother object by given param (MRN, name)
 @app.route('/mothers', methods=['GET'], strict_slashes=False)

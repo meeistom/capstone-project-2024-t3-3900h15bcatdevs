@@ -27,7 +27,7 @@ function AddMilkModal({ closeModal, version }) {
   const [body, setBody] = useState(null);
   const [footer, setFooter] = useState(null);
 
-  const URL = "http://127.0.0.1:5001";
+  const URL = "http://localhost:5001";
 
   useEffect(() => {
     if (scannerInputRef.current) {
