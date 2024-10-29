@@ -81,6 +81,7 @@ function VerifyFeed() {
       setMilkCheck(<img className="img" src={confirmCheck}></img>);
       setBabyCheck(<img className="img" src={confirmCheck}></img>);
       setPromptType("confirmation");
+      deleteMilk(milk_barcode);
       
     } catch (error) {
       // If mismatch
@@ -92,6 +93,15 @@ function VerifyFeed() {
         // If 404 error, ie invalid barcode or expired milk
         openAlert(error.message.error);
       }
+    }
+  }
+
+  const deleteMilk = async (milkBarcode) => {
+    const url = `http://localhost:5001//delete_milk_entry?uid=${milkBarcode}`
+    try {
+      await axios.delete(url);
+    } catch (error) {
+      openAlert("Error removing milk from the system.")
     }
   }
 
