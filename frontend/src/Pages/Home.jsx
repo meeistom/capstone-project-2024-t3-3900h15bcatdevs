@@ -18,7 +18,7 @@ function Home() {
       expiration_time: 2,
       baby_mrn: "43636436",
       mother_mrn: "21412451251",
-      extra_notes: "im notes"      
+      storage_type: "frozen"      
     },
     {
       uid: 346363,
@@ -26,7 +26,7 @@ function Home() {
       expiration_time: 2,
       baby_mrn: "43636436",
       mother_mrn: "21412451251",
-      extra_notes: "im notes"      
+      storage_type: "frozen"      
     },
     {
       uid: 346363,
@@ -34,7 +34,7 @@ function Home() {
       expiration_time: 2,
       baby_mrn: "43636436",
       mother_mrn: "21412451251",
-      extra_notes: "im notes"      
+      storage_type: "frozen"      
     }
   ]
   return (

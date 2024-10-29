@@ -14,7 +14,7 @@ function Table({ data, setOpenModal, viewType }) {
       { label: "Mother", key: "mother_mrn" },
       { label: "Express time", key: "express_time" },
       { label: "Expiration time", key: "expiration_time"},
-      { label: "Note", key: "extra_notes"},
+      { label: "Storage Type", key: "storage_type"},
     ],
     "viewMother": [
       { label: "MRN", key: "mrn" },
@@ -53,7 +53,7 @@ function Table({ data, setOpenModal, viewType }) {
             </tr>
             <tr>
             {columns.map((column) => (
-              column.key === "extra_notes" ? ( 
+              column.key === "storage_type" ? ( 
                 <th colSpan={2} key={column.key}>{column.label}</th>
               ) : (
                 <th key={column.key}>{column.label}</th>
