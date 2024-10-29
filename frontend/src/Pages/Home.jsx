@@ -38,10 +38,17 @@ function Home() {
           <div className="subtitle-2">
             Last updated Wed 30 Oct 2:20am
           </div>
-          <div className="notification-container">
+          <div className="notification">
             <div className="text">
-              hello
+              milk 000000 from baby Jeff is about to expire at 9:00pm Thu 31 Oct 2024 
             </div>
+            <div className="near-expiry-status"></div>
+          </div>
+          <div className="notification">
+            <div className="text">
+              milk 000000 from baby Jeff expired at 3:00am Wed 06 Oct 2024 
+            </div>
+            <div className="expired-status"></div>
           </div>
         </div>
       </section>

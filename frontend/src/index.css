@@ -316,22 +316,26 @@ input::-webkit-inner-spin-button {
 .notifications-container {
   padding: 20px;
   height: 75vh;
-  width: 30vw;
+  width: 25vw;
   display: flex;
   flex-direction: column;
   float: right;
+  gap: 10px;
+  /* border: 1px solid  #dcdcdc;
+  border-radius: 6px;
+  margin: 20px; */
 }
 
 .notifications-container .title-box {
-  font-size: 2rem;
+  font-size: 2.2rem;
   display: flex;
-  /* align-items: baseline; */
   gap: 7px;
+  height: 40px;
 }
 
 .notifications-container .subtitle-1 {
   font-size: 0.8rem;
-  padding-top: 19.2px;
+  padding-top: 22.7px;
 }
 
 .notifications-container .subtitle-2 {
@@ -339,15 +343,34 @@ input::-webkit-inner-spin-button {
   color: #8c8c8c;
 }
 
-.notification-container {
+.notification {
   display: flex;
   background-color: #f9fafc;
-  height: 30px;
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid  #dcdcdc;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1.7px solid  #dcdcdc;
+  gap: 8px;
 }
 
-.notification-container .text {
-  font-size: 0.9rem;
+.notification .text {
+  font-size: 0.8rem;
+  width: 82%
+}
+
+.notification .expired-status {
+  height: 30px;
+  width: 30px;
+  background-color: #fbdce4;
+  border-radius: 50%;
+  border: 3px solid #d14363;
+  align-self: center;
+}
+
+.notification .near-expiry-status {
+  height: 30px;
+  width: 30px;
+  background-color: #fdf3e6;
+  border-radius: 50%;
+  border: 3px solid #b9772b;
+  align-self: center;
 }
