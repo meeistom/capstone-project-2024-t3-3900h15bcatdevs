@@ -86,7 +86,7 @@ function AddMilkModal({ closeModal, version }) {
       storage_type: storageType,
       storage_location: "level 1",
       volume_ml: "50",
-      owner_mrn: babyData.mrn,
+      baby_mrn: babyData.mrn,
       extra_notes: notes,
     };
 
