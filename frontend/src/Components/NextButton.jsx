@@ -10,7 +10,12 @@ export { NextButton };
 
 function NextButton({ onClick, children }) {
   return (
-    <Button variant="primary" size="lg" onClick={onClick}>
+    <Button
+      variant="primary"
+      size="lg"
+      aria-label="next-button"
+      onClick={onClick}
+    >
       <span className="me-2">{children}</span>
       <FontAwesomeIcon icon={faArrowRight} />
     </Button>
