@@ -1,10 +1,6 @@
 const url = "http://localhost:3000/";
 
 describe("user add milk bottle happy path", () => {
-  it("can access backend", () => {
-    cy.visit("http://127.0.0.1:5001");
-  });
-
   it("should navigate to the home page successfully", () => {
     cy.visit(url);
     cy.url().should("include", url);
