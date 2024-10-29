@@ -70,6 +70,7 @@ function VerifyFeed() {
       return response.data;
     } catch (error) {
       // If barcode not found in system raise error
+      console.log(error)
       openAlert("Barcode not found.")
       return error.status;
     }
@@ -87,9 +88,15 @@ function VerifyFeed() {
       setPromptType("confirmation");
       
     } catch (error) {
-      const milkOwner = error.response.data.milk_owner_baby_name
-      const scannedBaby = error.response.data.mismatch_baby_name
-      openAlert(`Mismatch. The scanned milk belongs to ${milkOwner} but the scanned baby is ${scannedBaby}.`)
+      // If mismatch
+      if (error.status == 400) {
+        const milkOwner = error.response.data.milk_owner_baby_name
+        const scannedBaby = error.response.data.mismatch_baby_name
+        openAlert(`Mismatch. The scanned milk belongs to ${milkOwner} but the scanned baby is ${scannedBaby}.`)
+      } else {
+        // If 404 error, ie invalid barcode or expired milk
+        openAlert(error.message.error);
+      }
     }
   }
 

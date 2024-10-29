@@ -56,7 +56,7 @@ def is_valid_milk_entry_data(milk_entry_data: dict) -> bool:
                                                   "extra_notes",
                                                   "created_at"])
 
-def is_milk_expired(firestore_client, milk_uid: str) -> Tuple[bool, int]:
+def is_milk_expired(firestore_client, milk_uid: str) -> Tuple[bool, str]:
     """
     Checks if a milk entry is expired
     Assumes a valid milk uid is passed

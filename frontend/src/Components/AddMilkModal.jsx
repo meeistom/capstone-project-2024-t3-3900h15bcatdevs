@@ -81,14 +81,16 @@ function AddMilkModal({ closeModal, version }) {
   const handleSubmitMilkInfo = () => {
     const bottleDetails = {
       milk_type: milkType,
-      express_time: expressDate,
-      expiration_time: expiryDate,
+      express_time: new Date(expressDate).getTime() / 1000,
+      expiration_time: new Date(expiryDate).getTime() / 1000,
       storage_type: storageType,
       storage_location: "level 1",
       volume_ml: "50",
       baby_mrn: babyData.mrn,
       extra_notes: notes,
     };
+
+    console.log(bottleDetails)
 
     axios
       .post(`${URL}/add_milk_entry`, bottleDetails)

@@ -41,10 +41,10 @@ def verify_feed(firestore_client, milk_uid: str, baby_mrn: str) -> Tuple[bool, d
         (Dict containing expiry and match details)
     """
     if not exists_in_collection(firestore_client, 'milk_entries', milk_uid):
-        return False, { 'error': 'Invalid milk UID' }
+        return False, { 'error': 'Invalid milk barcode' }
     
     if not exists_in_collection(firestore_client, 'babies', baby_mrn):
-        return False, { 'error': 'Invalid baby MRN' }
+        return False, { 'error': 'Invalid baby barcode' }
 
     milk_entry_collection = firestore_client.collection("milk_entries")
     milk_entry = milk_entry_collection.document(milk_uid).get().to_dict()
