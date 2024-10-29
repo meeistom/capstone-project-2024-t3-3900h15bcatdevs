@@ -8,6 +8,7 @@ from firebase.add import *
 from firebase.delete import *
 from firebase.retrieve import *
 from firebase.error_check import *
+from firebase.verify import *
 
 cred = credentials.Certificate('./.key/key.json')
 fba.initialize_app(cred)
@@ -132,7 +133,7 @@ def add_new_milk_entry():
 def delete_mother_by_mrn():
     mrn = request.args.get('mrn')
 
-    success, message = delete_mother(fs_client, mrn)
+    success, message = delete_document(fs_client, mother_mrn=mrn)
 
     return make_response(
         message,
@@ -144,7 +145,7 @@ def delete_mother_by_mrn():
 def delete_baby_by_mrn():
     mrn = request.args.get('mrn')
 
-    success, message = delete_baby(fs_client, mrn)
+    success, message = delete_document(fs_client, baby_mrn=mrn)
 
     return make_response(
         message,
@@ -156,11 +157,42 @@ def delete_baby_by_mrn():
 def delete_milk_entry_by_uid():
     uid = request.args.get('uid')
 
-    success, message = delete_milk_entry(fs_client, uid)
+    success, message = delete_document(fs_client, milk_entry_uid=uid)
 
     return make_response(
         message,
         200 if success else 500
+    )
+
+@app.route('/verify', methods=['GET'])
+def route_verify():
+    barcode = request.args.get('barcode')
+
+    if barcode:
+        success, message = verify(fs_client, barcode)
+    else:
+        success, message = False, "Invalid Request. No inputs given"
+
+    return make_response(
+        message, # JSON if barcode provided. String if not.
+        200 if success else 404
+    )
+
+@app.route('/verify_feed', methods=['GET'])
+def route_verify_feed():
+    milk_uid = request.args.get('milk_uid')
+    baby_mrn = request.args.get('baby_mrn')
+
+    if milk_uid and baby_mrn:
+        success, message = verify_feed(fs_client, milk_uid, baby_mrn)
+    else:
+        success, message = False, "Invalid Request. Incorrect inputs given"
+
+    error_code = 404 if 'error' in message else 400
+
+    return make_response(
+        message, # JSON if inputs provided. String if not.
+        200 if success else error_code
     )
 
 if __name__ == '__main__':

@@ -1,47 +1,40 @@
 from firebase.error_check import *
 from typing import Tuple
 
-def delete_mother(firestore_client, mother_mrn: str) -> Tuple[bool, str]:
+def delete_document(
+    firestore_client,
+    mother_mrn: str = None,
+    baby_mrn: str = None,
+    milk_entry_uid: str = None,
+) -> Tuple[bool, str]:
     """
-    Deletes a mother from the database
+    Deletes a document from the database
     """
-    if not mother_exists(firestore_client, mother_mrn):
-        return False, "Mother does not exist"
-
-    try:
-        mother_collection = firestore_client.collection("mothers")
-        mother_collection.document(mother_mrn).delete()
-    except Exception as e:
-        print(f"DELETE MOTHER: An error occurred while deleting data: {e}")
-
-    return True, "Successfully deleted mother"
-
-def delete_baby(firestore_client, baby_mrn: str) -> Tuple[bool, str]:
-    """
-    Deletes a baby from the database
-    """
-    if not baby_exists(firestore_client, baby_mrn):
-        return False, "Baby does not exist"
-
-    try:
-        baby_collection = firestore_client.collection("babies")
-        baby_collection.document(baby_mrn).delete()
-    except Exception as e:
-        print(f"DELETE BABY: An error occurred while deleting data: {e}")
+    if not mother_mrn and not baby_mrn and not milk_entry_uid:
+        return False, "No MRN/UID given"
     
-    return True, "Successfully deleted baby"
+    collection_document_pairs = {
+        'mothers': mother_mrn,
+        'babies': baby_mrn,
+        'milk_entries': milk_entry_uid
+    }
+    deleted_documents = []
+    for collection_name, mrn_uid in collection_document_pairs.items():
+        if mrn_uid is None:
+            continue
 
-def delete_milk_entry(firestore_client, milk_entry_uid: str) -> Tuple[bool, str]:
-    """
-    Deletes a milk entry from the database
-    """
-    if not milk_entry_exists(firestore_client, milk_entry_uid):
-        return False, "Milk entry does not exist"
+        if not exists_in_collection(firestore_client, collection_name, mrn_uid):
+            return False, f"MRN/UID {mrn_uid} does not exist in collection {collection_name}"
+        
+        try:
+            collection_ref = firestore_client.collection(collection_name)
+            collection_ref.document(mrn_uid).delete()
+            deleted_documents.append(mrn_uid)
+        except Exception as e:
+            print(f"DELETE DOCUMENT: An error occurred while deleting data: {e}")
+            return False, "Failed to delete document"
+    
 
-    try:
-        milk_collection = firestore_client.collection("milk_entries")
-        milk_collection.document(milk_entry_uid).delete()
-    except Exception as e:
-        print(f"DELETE MILK ENTRY: An error occurred while deleting data: {e}")
+    return True, f"Successfully deleted document {deleted_documents}"
 
-    return True, "Successfully deleted milk entry"
+                
