@@ -33,9 +33,9 @@ def get_mother():
     if mrn:
         mother_data = retrieve_mother_by_mrn(fs_client, mrn)
     elif first_name:
-        mother_data = retrieve_mothers_by_first_name(fs_client, first_name)
+        mother_data = retrieve_mother_by_name(fs_client, 'first_name', first_name)
     elif last_name:
-        mother_data = retrieve_mothers_by_last_name(fs_client, last_name)
+        mother_data = retrieve_mother_by_name(fs_client, 'last_name', last_name)
     else:
         mother_data = retrieve_all_mothers(fs_client)
 
