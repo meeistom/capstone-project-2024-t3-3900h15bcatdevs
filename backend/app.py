@@ -89,8 +89,6 @@ def get_milk_entry():
 def add_new_mother():
     new_mother_data = request.get_json()
     
-    # Generate new MRN for mother?
-
     success, message = add_mother(fs_client, new_mother_data)
     
     return make_response(
@@ -102,8 +100,6 @@ def add_new_mother():
 @app.route('/add_baby', methods=['POST'])
 def add_new_baby():
     new_baby_data = request.get_json()
-
-    # Generate new MRN for baby?
 
     success, message = add_baby(fs_client, new_baby_data)
     
