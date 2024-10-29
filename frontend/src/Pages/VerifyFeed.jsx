@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Navibar} from "../Components/Navibar";
+import { Navibar } from "../Components/Navibar";
 import { useNavigate } from "react-router-dom";
 import scanner from "../Assets/scanner.png";
 import confirmCheck from "../Assets/confirm-check.png"
@@ -109,15 +109,15 @@ function VerifyFeed() {
   };
 
   const closeAlert = () => {
-    setFilter("")
-    setDisplay("none")
-  }
+    setFilter("");
+    setDisplay("none");
+  };
 
   const openAlert = (message) => {
-    setAlertMessage(message)
-    setFilter("blur(2px)")
-    setDisplay("")
-  }
+    setAlertMessage(message);
+    setFilter("blur(2px)");
+    setDisplay("");
+  };
 
   switch (promptType) {
     case "scan":
@@ -128,7 +128,7 @@ function VerifyFeed() {
           <div className="text">Waiting for scan...</div>
           <input
             type="text"
-            id ="scanner-input"
+            id="scanner-input"
             className="scanner-input"
             ref={scannerInputRef}
             onChange={handleInput}
@@ -139,32 +139,46 @@ function VerifyFeed() {
     case "confirmation":
       promptPage = (
         <>
-        <div>
-          <div className="subtitle">Verification Complete!</div>
-          <div className="text" style={{marginTop: "10px"}}>Feed has been recorded.</div>
-        </div>
-        <button 
-          type="button" 
-          className="btn btn-primary home-button"
-          onClick={goToHome}>Return Home</button>
+          <div>
+            <div className="subtitle">Verification Complete!</div>
+            <div className="text" style={{ marginTop: "10px" }}>
+              Feed has been recorded.
+            </div>
+          </div>
+          <button
+            type="button"
+            className="btn btn-primary home-button"
+            name="return-home"
+            onClick={goToHome}
+          >
+            Return Home
+          </button>
         </>
-      )
+      );
       break;
-  };
+  }
 
   return (
     <>
-      <section id="Home" >
+      <section id="Home">
         <Navibar />
-        <div className="alert-container">
-          <div className="alert alert-danger alert-popup alert-dismissable fade show" style={{display}}>
+        <div id="verify-alert" className="alert-container">
+          <div
+            className="alert alert-danger alert-popup alert-dismissable fade show"
+            style={{ display }}
+          >
             <h4 className="alert-heading">Error</h4>
-            <button type="button" className="btn-close alert-close" onClick={closeAlert}></button>
+            <button
+              type="button"
+              name="close-alert"
+              className="btn-close alert-close"
+              onClick={closeAlert}
+            ></button>
             <hr></hr>
             <div className="text">{alertMessage}</div>
           </div>
         </div>
-        <div className="verification-page" style={{filter}}>
+        <div className="verification-page" style={{ filter }}>
           <div className="title">Verify Feed</div>
           <div className="checkbox-container">
             <div className="checkbox">
@@ -178,7 +192,7 @@ function VerifyFeed() {
           </div>
           <div className="prompt-container">{promptPage}</div>
         </div>
-    </section>
+      </section>
     </>
   );
 }

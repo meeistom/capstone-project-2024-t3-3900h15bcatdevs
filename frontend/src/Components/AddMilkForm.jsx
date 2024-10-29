@@ -24,7 +24,7 @@ function AddMilkForm({
         </p>
         <p className="m-0">Baby MRN: {babyData.mrn}</p>
       </div>
-      <Form>
+      <Form name="add-milk-form">
         <div className="form-milk-detail mb-3">
           <div className="container mt-1 p-0">
             <div className="row row-cols-2">
