@@ -21,6 +21,15 @@ if __name__ == '__main__':
 
 # Available routes on backend
 
+## Home
+- ```/home```
+
+Gets milk entries with mother and baby names for the home page. Gets all milk entries, then adds mother and baby names to each milk entry. 
+
+Returns a list of modified milk entry objects
+
+Number of reads = num. mothers + num. babies.
+
 ## Get Mothers/Babies/Milk Entries
 Get list of all mothers OR babies OR milk_entries.
 - ```/mothers``` or ```/mothers/```
