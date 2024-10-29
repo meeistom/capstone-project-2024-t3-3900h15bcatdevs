@@ -14,7 +14,7 @@ from firebase.delete import *
 from firebase.retrieve import *
 from firebase.error_check import *
 
-cred = credentials.Certificate('./.key/key_.json')
+cred = credentials.Certificate('./.key/key.json')
 fba.initialize_app(cred)
 fs_client = firestore.client()
 
