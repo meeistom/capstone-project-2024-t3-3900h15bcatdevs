@@ -17,19 +17,14 @@ function Home() {
     <>
       <section id="Home">
         <Navibar />
-        <Button
-          id="scan-btn"
-          onClick={() => {
-            setOpenModal(true);
-          }}
-        >
-          <FontAwesomeIcon icon={faPlus} /> New Milk Entry
-        </Button>
+        <div className="page-container">
+          <h1 className="page-title">List of Milk Entries</h1>
+          <p>sub - info</p>
+          <Table setOpenModal = {setOpenModal} />
+        </div>
         {openModal && (
           <AddMilkModal closeModal={setOpenModal} version="addMilk1" />
         )}
-        this is da home
-        <Table></Table>
       </section>
     </>
   );
