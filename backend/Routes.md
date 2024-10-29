@@ -94,17 +94,24 @@ OR
 }
 OR
 {
-    "uid": "0000",
     "milk_type": "EHA",
-    "express_time": "NOW",
-    "expiration_time": "NOT IMPLEMENTED YET",
+    "express_time": <unixtimestamp>,
+    "expiration_time": <unixtimestamp>,
     "storage_type": "fresh",
     "storage_location": "fridge",
     "volume_ml": 100,
-    "owner_mrn": "0000",
+    "baby_mrn": "0000",
     "extra_notes": "extra notes???????"
+
+    // Added by backend, should not be in the json that frontend sends to backend
+    // "uid": "000000"
+    // "created_at": 109383901823
+    // "mother_mrn": "0000"
 }
 ```
+
+```uid```, ```mother_mrn```, ```created_at``` is added to milk entry objects by backend alongside provided data.
+
 (JSON - 200) Success message.  
 (ERROR - 400) ```Mother/Baby/Milk Entry already exists!```
 

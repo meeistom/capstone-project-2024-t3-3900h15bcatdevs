@@ -1,10 +1,5 @@
 from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
-# from database.fetch_mother import fetch_mother_data, fetch_mother_data_by_barcode
-# from database.insert_mother import insert_mother_data
-# from database.fetch_baby import fetch_baby_data
-# from database.insert_baby import insert_baby_data
-# from database.insert_bottle import insert_bottle_data
 
 import firebase_admin as fba
 from firebase_admin import firestore, credentials
@@ -94,8 +89,6 @@ def get_milk_entry():
 def add_new_mother():
     new_mother_data = request.get_json()
     
-    # Generate new MRN for mother?
-
     success, message = add_mother(fs_client, new_mother_data)
     
     return make_response(
@@ -108,8 +101,6 @@ def add_new_mother():
 def add_new_baby():
     new_baby_data = request.get_json()
 
-    # Generate new MRN for baby?
-
     success, message = add_baby(fs_client, new_baby_data)
     
     return make_response(
@@ -121,10 +112,6 @@ def add_new_baby():
 @app.route('/add_milk_entry', methods=['POST'])
 def add_new_milk_entry():
     new_milk_entry_data = request.get_json()
-
-    print(new_milk_entry_data)
-
-    # Generate new UID for milk entry?
 
     success, message = add_milk_entry(fs_client, new_milk_entry_data)
     print(message)
