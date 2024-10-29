@@ -35,7 +35,6 @@ function VerifyFeed() {
     const url = `http://localhost:5001/verify?barcode=${barcode}`
     try {
       const response = await axios.get(url);
-      console.log("barcode check response", response.data);
       const barcodeInfo = response.data;
       
       // If baby barcode is scanned, save barcode
@@ -67,12 +66,9 @@ function VerifyFeed() {
         openAlert("Mother barcode scanned. Please scan a valid milk or baby barcode.")
       }
 
-      return response.data;
     } catch (error) {
       // If barcode not found in system raise error
-      console.log(error)
       openAlert("Barcode not found.")
-      return error.status;
     }
   }
 
@@ -80,7 +76,6 @@ function VerifyFeed() {
     const url = `http://localhost:5001/verify_feed?milk_uid=${milk_barcode}&baby_mrn=${baby_barcode}`
     try {
       const response = await axios.get(url);
-      console.log("verification check response", response.data);
 
       // If milk and baby match, go to confirmation
       setMilkCheck(<img className="img" src={confirmCheck}></img>);

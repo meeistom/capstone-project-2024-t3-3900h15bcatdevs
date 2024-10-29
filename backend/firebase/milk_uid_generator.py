@@ -23,7 +23,7 @@ def get_new_milk_uid(firestore_client) -> Tuple[bool, str]:
     new_uid = int(uid_tracker) + 1
 
     # Checks that its not in the db, should never happen, unless we using dummy data
-    while milk_entry_exists(firestore_client, str(new_uid)):
+    while exists_in_collection(firestore_client, "milk_entries", str(new_uid)):
         new_uid += 1
 
     # Make the 6 digit zero-padded UID
