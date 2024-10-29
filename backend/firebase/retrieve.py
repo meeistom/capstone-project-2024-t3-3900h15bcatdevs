@@ -75,3 +75,30 @@ def retrieve_all_milk_entries(fs_client):
     for doc in results:
         entries.append(doc.to_dict())
     return entries
+
+def retrieve_by_keyword(firestore_client, keyword: str) -> dict:
+    """
+    Gets any matches from the database by a keyword.
+    """
+    collections = ["mothers", "babies", "milk_entries"]
+    results = {}
+    keyword_lower = keyword.lower()  # for case-insensitive search
+
+    for collection_name in collections:
+        collection = firestore_client.collection(collection_name)
+
+        try:
+            query = collection.stream()
+            results[collection_name] = [
+                doc_dict for doc in query
+                if keyword_lower in str(doc_dict := doc.to_dict()).lower()
+            ]
+
+            if not results[collection_name]:
+                print(f"GET {collection_name.upper()}: No matches found for keyword='{keyword}' in {collection_name}")
+
+        except Exception as e:
+            print(f"GET {collection_name.upper()}: An error occurred while querying data: {e}")
+            results[collection_name] = []
+
+    return results
