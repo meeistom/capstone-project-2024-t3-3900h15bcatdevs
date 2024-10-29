@@ -81,8 +81,8 @@ function AddMilkModal({ addMilk, closeModal, version }) {
   const handleSubmitMilkInfo = async() => {
     const bottleDetails = {
       milk_type: milkType,
-      express_time: expressDate,
-      expiration_time: expiryDate,
+      express_time: new Date(expressDate).getTime() / 1000,
+      expiration_time: new Date(expiryDate).getTime() / 1000,
       storage_type: storageType,
       storage_location: "level 1",
       volume_ml: "50",

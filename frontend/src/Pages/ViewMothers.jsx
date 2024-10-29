@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navibar } from "../Components/Navibar";
 import { Table } from "../Components/Table";
 
 
+  
 export { ViewMothers };
-
+  
 function ViewMothers() {
   let fake_data = [
     {
@@ -31,11 +32,15 @@ function ViewMothers() {
     <>
       <section id="Home">
         <Navibar />
+<<<<<<< HEAD
         <div className="page-container">
           <h1 className="page-title">Mothersss</h1>
           <p>Total number of mothers: {fake_data.length}</p>
           <Table data={fake_data} setOpenModal = {null} viewType="viewMother"/>
         </div>
+=======
+        da mother??????????
+>>>>>>> origin/main
       </section>
     </>
   );
