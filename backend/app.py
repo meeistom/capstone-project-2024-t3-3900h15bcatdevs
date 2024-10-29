@@ -8,11 +8,8 @@ from firebase.add import *
 from firebase.delete import *
 from firebase.retrieve import *
 from firebase.error_check import *
-<<<<<<< HEAD
 from firebase.home_milk_page import *
-=======
 from firebase.verify import *
->>>>>>> origin/main
 
 cred = credentials.Certificate('./.key/key.json')
 fba.initialize_app(cred)
@@ -29,7 +26,6 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 def passes():
     return 'DEFAULT'
 
-<<<<<<< HEAD
 # Homepage shows the formatted milks as default
 # Fetches & formats milks with mother and baby info
 @app.route('/home', methods=['GET'], strict_slashes=False)
@@ -43,9 +39,7 @@ def default_home_milks():
     )
 
 # Fetches all mothers as a list, or fetches mother object by MRN
-=======
 # Fetches all mothers as a list, or fetches mother object by given param (MRN, name)
->>>>>>> origin/main
 @app.route('/mothers', methods=['GET'], strict_slashes=False)
 def get_mother():
     mrn = request.args.get('mrn')

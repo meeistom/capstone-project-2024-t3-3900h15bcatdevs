@@ -32,15 +32,11 @@ function ViewMothers() {
     <>
       <section id="Home">
         <Navibar />
-<<<<<<< HEAD
         <div className="page-container">
           <h1 className="page-title">Mothersss</h1>
           <p>Total number of mothers: {fake_data.length}</p>
           <Table data={fake_data} setOpenModal = {null} viewType="viewMother"/>
         </div>
-=======
-        da mother??????????
->>>>>>> origin/main
       </section>
     </>
   );

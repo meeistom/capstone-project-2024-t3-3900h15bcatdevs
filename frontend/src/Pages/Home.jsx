@@ -41,6 +41,7 @@ function Home() {
 
   const handleRefresh = (newMilk) => {
     data.unshift(newMilk);
+    localStorage.setItem('myData', JSON.stringify(data)); 
   };
 
   if (loading) {
