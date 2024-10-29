@@ -13,6 +13,7 @@ function CheckboxButton({ id, name, isChecked, onChange, children }) {
     <ToggleButton
       id={id}
       type="checkbox"
+      role="checkbox"
       name={name}
       className={isChecked ? "check" : "uncheck"}
       checked={isChecked}
