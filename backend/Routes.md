@@ -95,15 +95,15 @@ OR
 OR
 {
     "milk_type": "EHA",
-    "express_time": "NOW",
-    "expiration_time": "NOT IMPLEMENTED YET",
+    "express_time": <unixtimestamp>,
+    "expiration_time": <unixtimestamp>,
     "storage_type": "fresh",
     "storage_location": "fridge",
     "volume_ml": 100,
     "baby_mrn": "0000",
     "extra_notes": "extra notes???????"
 
-    // Added by backend
+    // Added by backend, should not be in the json that frontend sends to backend
     // "uid": "000000"
     // "created_at": 109383901823
     // "mother_mrn": "0000"
