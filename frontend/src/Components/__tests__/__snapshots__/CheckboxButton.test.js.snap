@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot when checked 1`] = `
+Array [
+  <input
+    autoComplete="off"
+    checked={true}
+    className="btn-check"
+    disabled={false}
+    id="test-checkbox"
+    name="test-checkbox"
+    onChange={[Function]}
+    type="checkbox"
+  />,
+  <label
+    className="check btn btn-primary"
+    disabled={false}
+    htmlFor="test-checkbox"
+    onClick={[Function]}
+    onKeyDown={[Function]}
+    tabIndex={0}
+  >
+    <svg
+      aria-hidden="true"
+      className="svg-inline--fa fa-square-check "
+      data-icon="square-check"
+      data-prefix="far"
+      focusable="false"
+      role="img"
+      style={Object {}}
+      viewBox="0 0 448 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l320 0c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16L64 80zM0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+        fill="currentColor"
+        style={Object {}}
+      />
+    </svg>
+    <span
+      className="ms-1"
+    >
+      Am unchecked
+    </span>
+  </label>,
+]
+`;
+
+exports[`should match snapshot when unchecked 1`] = `
+Array [
+  <input
+    autoComplete="off"
+    checked={false}
+    className="btn-check"
+    disabled={false}
+    id="test-checkbox"
+    name="test-checkbox"
+    onChange={[Function]}
+    type="checkbox"
+  />,
+  <label
+    className="uncheck btn btn-primary"
+    disabled={false}
+    htmlFor="test-checkbox"
+    onClick={[Function]}
+    onKeyDown={[Function]}
+    tabIndex={0}
+  >
+    <svg
+      aria-hidden="true"
+      className="svg-inline--fa fa-square "
+      data-icon="square"
+      data-prefix="far"
+      focusable="false"
+      role="img"
+      style={Object {}}
+      viewBox="0 0 448 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M384 80c8.8 0 16 7.2 16 16l0 320c0 8.8-7.2 16-16 16L64 432c-8.8 0-16-7.2-16-16L48 96c0-8.8 7.2-16 16-16l320 0zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z"
+        fill="currentColor"
+        style={Object {}}
+      />
+    </svg>
+    <span
+      className="ms-1"
+    >
+      Not Checked
+    </span>
+  </label>,
+]
+`;

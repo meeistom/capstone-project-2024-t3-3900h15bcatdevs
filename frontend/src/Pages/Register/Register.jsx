@@ -323,7 +323,9 @@ function Register() {
               <div className="nav-button-container">
                 <div className="back-button-container justify-content-start"></div>
                 <div className="next-button-container justify-content-end">
-                  <NextButton onClick={startRegistration}>Next</NextButton>
+                  <NextButton id="start-rgstr-btn" onClick={startRegistration}>
+                    Next
+                  </NextButton>
                 </div>
               </div>
             </>
@@ -336,23 +338,33 @@ function Register() {
               <div className="nav-button-container">
                 <div className="back-button-container justify-content-start">
                   {currentPage > 0 && (
-                    <BackButton onClick={prevPageToVisit}>Back</BackButton>
+                    <BackButton id="back-btn" onClick={prevPageToVisit}>
+                      Back
+                    </BackButton>
                   )}
                 </div>
                 <div className="next-button-container d-flex justify-content-end">
                   {currentPage < selectedPages.length - 1 && (
-                    <NextButton onClick={nextPageToVisit}>Next</NextButton>
+                    <NextButton id="next-btn" onClick={nextPageToVisit}>
+                      Next
+                    </NextButton>
                   )}
                   {currentPage === selectedPages.length - 1 && (
                     <>
                       <Button
+                        name="rgstr-print-label"
                         variant="outline-primary"
                         size="lg"
                         onClick={printImage}
                       >
                         Print Label
                       </Button>
-                      <Button variant="primary" size="lg" onClick={goToHome}>
+                      <Button
+                        name="return-home"
+                        variant="primary"
+                        size="lg"
+                        onClick={goToHome}
+                      >
                         Return Home
                       </Button>
                     </>

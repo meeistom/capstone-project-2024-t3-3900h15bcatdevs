@@ -8,9 +8,15 @@ import "../index.css";
 
 export { BackButton };
 
-function BackButton({ onClick, children }) {
+function BackButton({ id, onClick, children }) {
   return (
-    <Button variant="outline-secondary" size="lg" onClick={onClick}>
+    <Button
+      id={id}
+      aria-label="back-button"
+      variant="outline-secondary"
+      size="lg"
+      onClick={onClick}
+    >
       <FontAwesomeIcon icon={faArrowLeft} />
       <span className="ms-2">{children}</span>
     </Button>
