@@ -311,3 +311,43 @@ input::-webkit-inner-spin-button {
 .alert-container .alert-close {
   margin-left: 65%;
 }
+
+/* Notifications */
+.notifications-container {
+  padding: 20px;
+  height: 75vh;
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+  float: right;
+}
+
+.notifications-container .title-box {
+  font-size: 2rem;
+  display: flex;
+  /* align-items: baseline; */
+  gap: 7px;
+}
+
+.notifications-container .subtitle-1 {
+  font-size: 0.8rem;
+  padding-top: 19.2px;
+}
+
+.notifications-container .subtitle-2 {
+  font-size: 0.8rem;
+  color: #8c8c8c;
+}
+
+.notification-container {
+  display: flex;
+  background-color: #f9fafc;
+  height: 30px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid  #dcdcdc;
+}
+
+.notification-container .text {
+  font-size: 0.9rem;
+}

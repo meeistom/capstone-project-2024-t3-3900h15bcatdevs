@@ -28,7 +28,22 @@ function Home() {
         {openModal && (
           <AddMilkModal closeModal={setOpenModal} version="addMilk1" />
         )}
-        this is da home
+        <div className="notifications-container">
+          <div className="title-box">
+            Notifications
+            <div className="subtitle-1">
+              (5)
+            </div>
+          </div>
+          <div className="subtitle-2">
+            Last updated Wed 30 Oct 2:20am
+          </div>
+          <div className="notification-container">
+            <div className="text">
+              hello
+            </div>
+          </div>
+        </div>
       </section>
     </>
   );
