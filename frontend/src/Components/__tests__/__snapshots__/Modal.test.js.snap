@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot 1`] = `
+<div
+  className="modal-background position-fixed d-flex justify-content-center align-items-center w-100 h-100"
+  id="test"
+>
+  <div
+    className="modal-container position-relative bg-white rounded-3 shadow-lg d-flex flex-column p-4"
+  >
+    <div
+      className="modal-close-btn d-flex justify-content-end"
+    >
+      <button
+        aria-label="close-modal"
+        className="btn btn-link"
+        disabled={false}
+        name="close-modal"
+        onClick={[Function]}
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          className="svg-inline--fa fa-xmark close-btn"
+          data-icon="xmark"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          style={Object {}}
+          viewBox="0 0 384 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
+            fill="currentColor"
+            style={Object {}}
+          />
+        </svg>
+      </button>
+    </div>
+    <div
+      className="title fs-2 text-center"
+    >
+      <p>
+        Test Modal
+      </p>
+    </div>
+    <div
+      className="body d-flex justify-content-center align-items-center flex-column"
+    >
+      <p>
+        Body
+      </p>
+    </div>
+    <div
+      className="footer d-flex justify-content-center mt-auto w-100 align-items-center"
+    >
+      <p>
+        Footer
+      </p>
+    </div>
+  </div>
+</div>
+`;

@@ -21,6 +21,7 @@ function Modal({ id, title, body, footer, closeModal }) {
             <Button
               variant="link"
               name="close-modal"
+              aria-label="close-modal"
               onClick={() => closeModal(false)}
             >
               <FontAwesomeIcon className="close-btn" icon={faXmark} />
