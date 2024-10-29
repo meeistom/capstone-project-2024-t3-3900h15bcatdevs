@@ -13,7 +13,7 @@ function Home() {
 
   let fake_data = [
     {
-      uid: 346363,
+      uid: 346360,
       express_time: 1,
       expiration_time: 2,
       baby_mrn: "43636436",
@@ -21,18 +21,18 @@ function Home() {
       storage_type: "frozen"      
     },
     {
-      uid: 346363,
+      uid: 342363,
       express_time: 1,
       expiration_time: 2,
-      baby_mrn: "43636436",
+      baby_mrn: "43636456",
       mother_mrn: "21412451251",
       storage_type: "frozen"      
     },
     {
-      uid: 346363,
+      uid: 146363,
       express_time: 1,
       expiration_time: 2,
-      baby_mrn: "43636436",
+      baby_mrn: "13636436",
       mother_mrn: "21412451251",
       storage_type: "frozen"      
     }

@@ -35,6 +35,10 @@ function Table({ data, setOpenModal, viewType }) {
     ]
   };
   const columns = viewConfigs[viewType] || [];
+
+  const handlePopUp = (entry) => {
+    console.log(entry);
+  }
   
   return (
       <div className="table-container">
@@ -67,7 +71,7 @@ function Table({ data, setOpenModal, viewType }) {
             data.map((item, index) => (
               <tr key={item.uid || item.mrn || index} className={index % 2 === 0 ? "even-row" : "odd-row"}>
                 {columns.map((column) => (
-                  <td key={column.key}>
+                  <td onClick={() => {handlePopUp(item)}} key={column.key}>
                     {item[column.key]}
                   </td>
                 ))}
