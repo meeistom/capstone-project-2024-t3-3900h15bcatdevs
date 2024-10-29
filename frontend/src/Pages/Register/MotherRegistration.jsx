@@ -32,6 +32,7 @@ function MotherRegistration({
         <div className="register-form-label">MRN</div>
         <Form.Control
           type="number"
+          name="mom-mrn"
           placeholder="Enter MRN"
           value={momMRN}
           onChange={(e) => setMomMRN(e.target.value)}
@@ -40,6 +41,7 @@ function MotherRegistration({
         <div className="register-form-label">First Name</div>
         <Form.Control
           type="text"
+          name="mom-fname"
           placeholder="Enter First Name"
           value={momFirstName}
           onChange={(e) => handleFirstNameOnChange(e)}
@@ -48,6 +50,7 @@ function MotherRegistration({
         <div className="register-form-label">Last Name</div>
         <Form.Control
           type="text"
+          name="mom-lname"
           placeholder="Enter Last Name"
           value={momLastName}
           onChange={(e) => handleLastNameOnChange(e)}

@@ -25,9 +25,9 @@ function MilkRegistration({
         </div>
         <Form>
           <div className="form-milk-detail" class="mb-3">
-            <div class="container">
-              <div class="row row-cols-2">
-                <div class="col">
+            <div className="container">
+              <div className="row row-cols-2">
+                <div className="col">
                   <Form.Label htmlFor="milk-type" className="form-label">
                     Milk Type*
                   </Form.Label>
@@ -44,7 +44,7 @@ function MilkRegistration({
                     <option value="HMF">HMF</option>
                   </Form.Select>
                 </div>
-                <div class="col">
+                <div className="col">
                   <Form.Label
                     htmlFor="milk-storage"
                     className="register-form-label"
@@ -62,7 +62,7 @@ function MilkRegistration({
                     <option value="defrost">Defrost</option>
                   </Form.Select>
                 </div>
-                <div class="col">
+                <div className="col">
                   <Form.Label
                     htmlFor="express-date"
                     className="register-form-label"
@@ -79,7 +79,7 @@ function MilkRegistration({
                     type="datetime-local"
                   />
                 </div>
-                <div class="col">
+                <div className="col">
                   <Form.Label
                     htmlFor="expiry-date"
                     className="register-form-label"
@@ -91,7 +91,7 @@ function MilkRegistration({
                     onChange={(e) => {
                       setExpiryDate(e.target.value);
                     }}
-                    class="form-control"
+                    className="form-control"
                     id="expiry-date"
                     type="datetime-local"
                   />
@@ -104,7 +104,7 @@ function MilkRegistration({
               Notes
             </Form.Label>
             <textarea
-              class="form-control"
+              className="form-control"
               id="milk-notes"
               rows="3"
               value={notes}

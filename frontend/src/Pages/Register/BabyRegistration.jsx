@@ -21,7 +21,8 @@ function BabyRegistration({
         </div>
         <div className="register-form-label">MRN</div>
         <Form.Control
-          type="text"
+          type="number"
+          name="baby-mrn"
           placeholder="Enter MRN"
           value={babyMRN}
           onChange={(e) => setBabyMRN(e.target.value)}
@@ -30,6 +31,7 @@ function BabyRegistration({
         <div className="register-form-label">First Name</div>
         <Form.Control
           type="text"
+          name="baby-fname"
           placeholder="Enter First Name"
           value={babyFirstName}
           onChange={(e) => setBabyFirstName(e.target.value)}
@@ -38,6 +40,7 @@ function BabyRegistration({
         <div className="register-form-label">Last Name</div>
         <Form.Control
           type="text"
+          name="baby-lname"
           placeholder="Enter Last Name"
           value={babyLastName}
           onChange={(e) => setBabyLastName(e.target.value)}

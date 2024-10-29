@@ -1,6 +1,8 @@
 from firebase.error_check import *
 from typing import Tuple
 from firebase_admin import firestore
+from firebase.milk_uid_generator import get_new_milk_uid
+from datetime import datetime
 
 def add_mother(firestore_client, mother_json_data: dict) -> Tuple[bool, str]:
     """
@@ -25,6 +27,7 @@ def add_mother(firestore_client, mother_json_data: dict) -> Tuple[bool, str]:
         })
     except Exception as e:
         print(f"An error occurred while loading data: {e}")
+        return False, "A firebase error occurred."
 
     return True, "Successfully added mother"
 
@@ -59,6 +62,7 @@ def add_baby(firestore_client, baby_json_data: dict) -> Tuple[bool, str]:
         })
     except Exception as e:
         print(f"An error occurred while loading data: {e}")
+        return False, "A firebase error occurred."
 
     return True, "Successfully added baby"
 
@@ -75,24 +79,40 @@ def add_milk_entry(firestore_client, milk_entry_json_data: dict) -> Tuple[bool, 
         return False, "Owner Baby or Mother does not exist"
 
     try:
+        # Get the mother of the baby
+        baby_collection = firestore_client.collection("babies")
+        baby_doc = baby_collection.document(milk_entry_json_data['baby_mrn']).get().to_dict()
+        mother_mrn = baby_doc['mother_mrn']
+
+        # Get a new milk UID
+        success, new_milk_uid = get_new_milk_uid(firestore_client)
+        if not success:
+            return False, "Stats document error"
+
         milk_collection = firestore_client.collection("milk_entries")
-        new_doc_ref = milk_collection.add({
+        milk_collection.document(new_milk_uid).set({
+            'uid': new_milk_uid,
             'milk_type': milk_entry_json_data['milk_type'],
             'express_time': milk_entry_json_data['express_time'],
             'expiration_time': milk_entry_json_data['expiration_time'],
             'storage_type': milk_entry_json_data['storage_type'],
             'storage_location': milk_entry_json_data['storage_location'],
             'volume_ml': milk_entry_json_data['volume_ml'],
-            'owner_mrn': milk_entry_json_data['owner_mrn'],
+            'baby_mrn': milk_entry_json_data['baby_mrn'],
+            'mother_mrn': mother_mrn,
             'extra_notes': milk_entry_json_data['extra_notes'],
-            'created_at': firestore.FieldValue.serverTimestamp()        
-        })[0]
-        # Add milk entry to owner's milk entries list
-        mother_collection = firestore_client.collection("mothers")
-        mother_collection.document(milk_entry_json_data['owner_mrn']).update({
-            'milks': firestore.ArrayUnion([new_doc_ref.id])
+            'created_at': int(datetime.now().timestamp()),
         })
+
+        # Update the mother milk list
+        mother_collection = firestore_client.collection("mothers")
+        mother_collection.document(mother_mrn).update({
+            'milks': firestore.ArrayUnion([new_milk_uid])
+        })
+
+        print(f"Timestamp: {int(datetime.now().timestamp())}")
     except Exception as e:
         print(f"ADD MILK ENTRY: An error occurred while loading data: {e}")
+        return False, "A firebase error occurred."
 
     return True, "Successfully added milk entry"
