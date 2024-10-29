@@ -24,6 +24,9 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 def passes():
     return 'DEFAULT'
 
+# Fetches & formats milks with mother and baby info
+@app.route('/milks', methods=['GET'], strict_slashes=False)
+
 # Fetches all mothers as a list, or fetches mother object by MRN
 @app.route('/mothers', methods=['GET'], strict_slashes=False)
 def get_mother():
