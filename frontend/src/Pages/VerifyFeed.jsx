@@ -9,18 +9,21 @@ import axios from "axios";
 export { VerifyFeed };
 
 function VerifyFeed() {
-  const scannerInputRef = useRef(null);
   const navigate = useNavigate();
+  const scannerInputRef = useRef(null);
+
   const [milkCheck, setMilkCheck] = useState(<span className={"empty-check"}></span>);
   const [babyCheck, setBabyCheck] = useState(<span className={"empty-check"}></span>);
   const [milkBarcode, setMilkBarcode] = useState("");
   const [babyBarcode, setBabyBarcode] = useState("");
+
   const [promptMessage, setPromptMessage] = useState("Please scan the barcode on the baby or milk.");
   const [promptType, setPromptType] = useState("scan");
+  let promptPage;
+
   const [alertMessage, setAlertMessage] = useState("");
   const [filter, setFilter] = useState("");
   const [display, setDisplay] = useState("none")
-  let promptPage;
 
   useEffect(() => {
     if (scannerInputRef.current) {
@@ -48,14 +51,15 @@ function VerifyFeed() {
       // If milk barcode is scanned, check if expired, else save barcode
       } else if (barcodeInfo.collection == "milk_entries") {
         if (barcodeInfo.expired == true) {
-          openAlert(`Milk ${barcode} expired on ${barcodeInfo.expiration_time}.`)
-        }
-        setMilkBarcode(barcode);
-        if (babyBarcode == "") {
-          setMilkCheck(<img className="img" src={confirmCheck}></img>);
-          setPromptMessage("Please scan the barcode on the baby.");
+          openAlert(`Milk ${barcode} expired at ${barcodeInfo.expiration_time}.`)
         } else {
-          await checkMatch(barcode, babyBarcode)
+          setMilkBarcode(barcode);
+          if (babyBarcode == "") {
+            setMilkCheck(<img className="img" src={confirmCheck}></img>);
+            setPromptMessage("Please scan the barcode on the baby.");
+          } else {
+            await checkMatch(barcode, babyBarcode)
+          }
         }
 
       // If a mother barcode is scanned raise error
@@ -66,7 +70,6 @@ function VerifyFeed() {
       return response.data;
     } catch (error) {
       // If barcode not found in system raise error
-      console.log("Error with verification", error)
       openAlert("Barcode not found.")
       return error.status;
     }
@@ -82,9 +85,11 @@ function VerifyFeed() {
       setMilkCheck(<img className="img" src={confirmCheck}></img>);
       setBabyCheck(<img className="img" src={confirmCheck}></img>);
       setPromptType("confirmation");
+      
     } catch (error) {
-      console.log("error in verification", error)
-      openAlert(error.message)
+      const milkOwner = error.response.data.milk_owner_baby_name
+      const scannedBaby = error.response.data.mismatch_baby_name
+      openAlert(`Mismatch. The scanned milk belongs to ${milkOwner} but the scanned baby is ${scannedBaby}.`)
     }
   }
 
@@ -94,9 +99,8 @@ function VerifyFeed() {
       // Sets scanner input to empty again
       document.getElementById("scanner-input").value = ""
 
-      // Checks if scanned barcode is valid
+      // Checks if scanned barcode is valid, verifies match
       await checkBarcode(scannedValue);
-
     };
   };
 
