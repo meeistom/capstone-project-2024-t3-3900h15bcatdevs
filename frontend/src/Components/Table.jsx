@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from "react-bootstrap/Button";
 import { faPlus, faFilter, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,8 +10,8 @@ function Table({ data, setOpenModal, viewType }) {
   const viewConfigs = {
     "viewMilk": [
       { label: "milk ID", key: "uid" },
-      { label: "Baby", key: "baby_mrn" },
-      { label: "Mother", key: "mother_mrn" },
+      { label: "Baby", key: "baby_name" },
+      { label: "Mother", key: "mother_name" },
       { label: "Express time", key: "express_time" },
       { label: "Expiration time", key: "expiration_time"},
       { label: "Storage Type", key: "storage_type"},
@@ -35,9 +35,10 @@ function Table({ data, setOpenModal, viewType }) {
     ]
   };
   const columns = viewConfigs[viewType] || [];
+  const [openMilkEntry, setOpenMilkEntry] = useState(false);
 
   const handlePopUp = (entry) => {
-    console.log(entry);
+    setOpenMilkEntry(true);
   }
   
   return (
