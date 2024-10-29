@@ -116,3 +116,20 @@ OR
 (JSON - 200) Success message.  
 (ERROR - 400) ```Mother/Baby/Milk Entry does not exist!```
 
+## Notifications
+
+- ```/notifications```
+
+```
+// Notification Object
+{
+    "milk_uid": <milk_uid>,
+    "days_expiry": <int>,
+    "hours_expiry": <int>,
+    "minutes_expiry": <int>,
+    "expired": <bool>,
+    "baby_name": <str>,
+}
+```
+
+(JSON - 200) Returns ```list``` of notification objects.

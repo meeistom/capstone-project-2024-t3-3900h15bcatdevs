@@ -13,8 +13,9 @@ from firebase.add import *
 from firebase.delete import *
 from firebase.retrieve import *
 from firebase.error_check import *
+from firebase.notify import *
 
-cred = credentials.Certificate('./.key/key_.json')
+cred = credentials.Certificate('./.key/key.json')
 fba.initialize_app(cred)
 fs_client = firestore.client()
 
@@ -168,6 +169,17 @@ def delete_milk_entry_by_uid():
     return make_response(
         message,
         200 if success else 500
+    )
+
+# Provides latest notifications update on statuses of all milks
+@app.route('/notifications', methods=['GET'], strict_slashes=False)
+def get_update_notifications():
+
+    notifications = get_milk_updates(fs_client)
+
+    return make_response(
+        jsonify(notifications),
+        200
     )
 
 if __name__ == '__main__':
