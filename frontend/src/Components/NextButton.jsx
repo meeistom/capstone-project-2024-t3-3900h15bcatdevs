@@ -8,9 +8,10 @@ import "../index.css";
 
 export { NextButton };
 
-function NextButton({ onClick, children }) {
+function NextButton({ id, onClick, children }) {
   return (
     <Button
+      id={id}
       variant="primary"
       size="lg"
       aria-label="next-button"
