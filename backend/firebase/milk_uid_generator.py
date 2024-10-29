@@ -1,12 +1,7 @@
 from typing import Tuple
-from error_check import *
+from firebase.error_check import *
 
-import firebase_admin as fba
-from firebase_admin import firestore, credentials
-
-cred = credentials.Certificate('./.key/key.json')
-fba.initialize_app(cred)
-fs_client = firestore.client()
+from firebase_admin import firestore
 
 def get_new_milk_uid(firestore_client) -> Tuple[bool, str]:
     '''
@@ -40,6 +35,3 @@ def get_new_milk_uid(firestore_client) -> Tuple[bool, str]:
     })
 
     return True, new_uid
-
-if __name__ == '__main__':
-    print(get_new_milk_uid(fs_client))
