@@ -75,11 +75,7 @@ def add_milk_entry(firestore_client, milk_entry_json_data: dict) -> Tuple[bool, 
         return False, "Invalid milk entry data"
 
     # Check if baby uid exists
-<<<<<<< HEAD
     if not exists_in_collection(firestore_client, 'babies', milk_entry_json_data['owner_mrn']) and not exists_in_collection(firestore_client, 'babies', milk_entry_json_data['owner_mrn']):
-=======
-    if not baby_exists(firestore_client, milk_entry_json_data['baby_mrn']):
->>>>>>> main
         return False, "Owner Baby or Mother does not exist"
 
     try:
