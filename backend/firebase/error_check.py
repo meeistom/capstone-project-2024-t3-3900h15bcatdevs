@@ -46,21 +46,25 @@ def is_valid_milk_entry_data(milk_entry_data: dict) -> bool:
     """
     Checks if a milk entry data is valid
     """
-    return all(key in milk_entry_data for key in ["milk_type", 
-                                                  "express_time", 
-                                                  "expiration_time",
-                                                  "storage_type",
-                                                  "storage_location",
-                                                  "volume_ml",
-                                                  "owner_mrn", 
-                                                  "extra_notes",
-                                                  "created_at"])
+    return all(
+        key in milk_entry_data
+        for key in [
+            "milk_type",
+            "express_time",
+            "expiration_time",
+            "storage_type",
+            "storage_location",
+            "volume_ml",
+            "baby_mrn", 
+            "extra_notes"
+        ]
+    )
 
-def is_milk_expired(firestore_client, milk_uid: str) -> Tuple[bool, str]:
+def is_milk_expired(firestore_client, milk_uid: str) -> Tuple[bool, int]:
     """
     Checks if a milk entry is expired
     Assumes a valid milk uid is passed
-    Returns a tuple of a bool and the expiry time as a formatted string
+    Returns a tuple of a bool and the expiry time
     """
     milk_document = firestore_client.collection("milk_entries").document(milk_uid)
     milk_expiry_time = datetime.fromtimestamp(milk_document.get().to_dict()["expiration_time"])
