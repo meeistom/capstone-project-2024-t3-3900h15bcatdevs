@@ -27,6 +27,7 @@ def add_mother(firestore_client, mother_json_data: dict) -> Tuple[bool, str]:
         })
     except Exception as e:
         print(f"An error occurred while loading data: {e}")
+        return False, "A firebase error occurred."
 
     return True, "Successfully added mother"
 
@@ -61,6 +62,7 @@ def add_baby(firestore_client, baby_json_data: dict) -> Tuple[bool, str]:
         })
     except Exception as e:
         print(f"An error occurred while loading data: {e}")
+        return False, "A firebase error occurred."
 
     return True, "Successfully added baby"
 
