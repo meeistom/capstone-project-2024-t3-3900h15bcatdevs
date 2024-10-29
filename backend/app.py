@@ -127,7 +127,7 @@ def add_new_milk_entry():
     new_milk_entry_data = request.get_json()
 
     success, message = add_milk_entry(fs_client, new_milk_entry_data)
-    print(message)
+
     return make_response(
         message,
         200 if success else 400
