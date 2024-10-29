@@ -12,7 +12,7 @@ import "../index.css";
 
 export { AddMilkModal };
 
-function AddMilkModal({ refresh, closeModal, version }) {
+function AddMilkModal({ addMilk, closeModal, version }) {
   const scannerInputRef = useRef(null);
   const [modalVersion, setModalVersion] = useState(version);
   const [scannedValue, setScannedValue] = useState(0);
@@ -78,7 +78,7 @@ function AddMilkModal({ refresh, closeModal, version }) {
     }
   };
 
-  const handleSubmitMilkInfo = () => {
+  const handleSubmitMilkInfo = async() => {
     const bottleDetails = {
       milk_type: milkType,
       express_time: expressDate,
@@ -89,11 +89,11 @@ function AddMilkModal({ refresh, closeModal, version }) {
       baby_mrn: babyData.mrn,
       extra_notes: notes,
     };
-    refresh();
     return axios
       .post(`${URL}/add_milk_entry`, bottleDetails)
       .then((response) => {
-        console.log(`Bottle details added: ${response}`, response);
+        console.log(`Bottle details added: ${response}`, response.data);
+        addMilk(response.data);
         setModalVersion("addMilk4");
       })
       .catch((error) => {

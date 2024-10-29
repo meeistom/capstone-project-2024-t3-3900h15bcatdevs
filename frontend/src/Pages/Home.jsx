@@ -39,8 +39,8 @@ function Home() {
     fetchData();
   }, []);
 
-  const handleRefresh = () => {
-    fetchData(); 
+  const handleRefresh = (newMilk) => {
+    data.unshift(newMilk);
   };
 
   if (loading) {
@@ -60,7 +60,7 @@ function Home() {
           <Table data={data} setOpenModal = {setOpenModal} viewType="viewMilk"/>
         </div>
         {openModal && (
-          <AddMilkModal refresh={handleRefresh} closeModal={setOpenModal} version="addMilk1" />
+          <AddMilkModal addMilk={handleRefresh} closeModal={setOpenModal} version="addMilk1" />
         )}
       </section>
     </>
