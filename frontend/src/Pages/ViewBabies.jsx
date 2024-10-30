@@ -19,7 +19,7 @@ function ViewBabies() {
       }
       const result = await response.json();
       setData(result);
-      localStorage.setItem('myMotherData', JSON.stringify(result)); 
+      localStorage.setItem('myBabyData', JSON.stringify(result)); 
     } catch (error) {
       setError(error); 
     } finally {
@@ -28,7 +28,7 @@ function ViewBabies() {
   };
 
   useEffect(() => {
-    const cachedData = localStorage.getItem('myMotherData');
+    const cachedData = localStorage.getItem('myBabyData');
     if (cachedData) {
       setData(JSON.parse(cachedData));
       setLoading(false);

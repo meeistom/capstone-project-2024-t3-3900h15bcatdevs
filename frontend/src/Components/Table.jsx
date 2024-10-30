@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from "react-bootstrap/Button";
-import { faPlus, faFilter, faTrash, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faFilter, faTrash, faMagnifyingGlass, faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ViewInfoModal } from './ViewInfoModal';
 
@@ -66,14 +66,26 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
       setError(error); 
     } finally {
       if (result) {
-        console.log(result)
+        console.log(result);
+        switch (viewType) {
+          case "viewMilk":
+            result = result.milk_entries;
+            const milk_uids = result.map(entry => entry.uid);
+            setDisplayData(displayData.filter(entry => milk_uids.includes(entry.uid)));
+            break;
+          case "viewMother":
+            result = result.mothers;
+            const mother_ids = result.map(entry => entry.mrn);
+            setDisplayData(displayData.filter(entry => mother_ids.includes(entry.mrn)));
+            break;
+          case "viewBaby":
+            result = result.babies;
+            const baby_ids = result.map(entry => entry.mrn);
+            setDisplayData(displayData.filter(entry => baby_ids.includes(entry.mrn)));
+            break;
+        }
       }
     }
-  }
-
-  const handleEnter = () => {
-    console.log("entered");
-    handleSearch();
   }
   
   return (
@@ -85,8 +97,9 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
                 <div className="table-header">
                   <button className="btn btn-outline-secondary sort-btn"><FontAwesomeIcon icon={faFilter} /></button>
                   <div className="search-bar input-group">
-                    <input onChange={(e) => setSearchValue(e.target.value)} onKeyDown={(e) => (e.key === 13 ? handleEnter() : null)} value={searchValue} type="text" className="form-control" placeholder="Seach..." aria-describedby="button-search"/>
+                    <input onChange={(e) => setSearchValue(e.target.value)} onKeyDown={(e) => (e.key === 'Enter' ? handleSearch() : null)} value={searchValue} type="text" className="form-control" placeholder="Seach..." aria-describedby="button-search"/>
                     <button onClick={() => handleSearch()} className="btn btn-outline-secondary" type="button" id="button-search"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+                    <button onClick={() => setDisplayData(data)} className="btn btn-outline-secondary"><FontAwesomeIcon icon={faArrowsRotate} /></button>
                   </div>
                   {viewType === "viewMilk" && <Button id="scan-btn" onClick={() => setOpenModal(true)}> 
                     <FontAwesomeIcon icon={faPlus} /> New Milk Entry
@@ -105,8 +118,8 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
             </tr>
           </thead>
           <tbody>
-          {data.length > 0 ? (
-            data.map((item, index) => (
+          {displayData.length > 0 ? (
+            displayData.map((item, index) => (
               // make the entry colours alternate
               <tr key={item.uid || item.mrn || index} className={index % 2 === 0 ? "even-row" : "odd-row"}>
                 {columns.map((column) => (

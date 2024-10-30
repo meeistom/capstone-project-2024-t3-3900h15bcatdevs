@@ -26,7 +26,7 @@ function Home() {
       }
       const result = await response.json();
       setData(result);
-      localStorage.setItem('myData', JSON.stringify(result)); 
+      localStorage.setItem('myMilkData', JSON.stringify(result)); 
     } catch (error) {
       setError(error); 
     } finally {
@@ -35,7 +35,7 @@ function Home() {
   };
 
   useEffect(() => {
-    const cachedData = localStorage.getItem('myData');
+    const cachedData = localStorage.getItem('myMilkData');
     if (cachedData) {
       setData(JSON.parse(cachedData));
       setLoading(false);
@@ -45,7 +45,7 @@ function Home() {
 
   const handleRefresh = (newMilk) => {
     data.unshift(newMilk);
-    localStorage.setItem('myData', JSON.stringify(data)); 
+    localStorage.setItem('myMilkData', JSON.stringify(data)); 
   };
 
   if (loading) {
@@ -69,7 +69,7 @@ function Home() {
         console.log(`Deleted milk with ID ${uid}`);
         const updatedData = data.filter(item => item.uid !== uid);
         setData(updatedData);
-        localStorage.setItem('myData', JSON.stringify(updatedData));
+        localStorage.setItem('myMilkData', JSON.stringify(updatedData));
         setConfirmDelete(false);
       })
       .catch(error => {
