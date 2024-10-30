@@ -35,6 +35,7 @@ function MotherRegistration({
           name="mom-mrn"
           placeholder="Enter MRN"
           value={momMRN}
+          maxLength={4}
           onChange={(e) => setMomMRN(e.target.value)}
         />
         <Form.Text className="text-muted"></Form.Text>

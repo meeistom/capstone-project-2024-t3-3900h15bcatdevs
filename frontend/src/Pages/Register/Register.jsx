@@ -220,6 +220,9 @@ function Register() {
       case "babyPage":
         setRenderedPage(
           <BabyRegistration
+            momChecked={checked.momPage}
+            momMRN={momMRN}
+            setMomMRN={setMomMRN}
             babyMRN={babyMRN}
             setBabyMRN={setBabyMRN}
             babyFirstName={babyFirstName}
