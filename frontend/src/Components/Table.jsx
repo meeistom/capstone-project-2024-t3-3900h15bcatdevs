@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import Button from "react-bootstrap/Button";
 import { faPlus, faFilter, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ViewInfoModal } from './ViewInfoModal';
 
 export {Table};
 
@@ -35,10 +36,17 @@ function Table({ data, setOpenModal, viewType }) {
     ]
   };
   const columns = viewConfigs[viewType] || [];
-  const [openMilkEntry, setOpenMilkEntry] = useState(false);
+  const [openEntryModal, setOpenEntryModal] = useState(false);
+  const [info, setInfo] = useState(null);
 
   const handlePopUp = (entry) => {
-    setOpenMilkEntry(true);
+    setInfo(entry);
+    setOpenEntryModal(true);
+    console.log(entry);
+  }
+  const handleClosePopUp = () => {
+    setInfo(null);
+    setOpenEntryModal(false);
   }
   
   return (
@@ -92,6 +100,7 @@ function Table({ data, setOpenModal, viewType }) {
             )}
           </tbody>
         </table>
+        {openEntryModal && <ViewInfoModal info={info} closeModal={handleClosePopUp} version={viewType} />}
       </div>
   )
 }
