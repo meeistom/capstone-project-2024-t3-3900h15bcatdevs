@@ -15,12 +15,10 @@ function MotherRegistration({
 }) {
   const handleFirstNameOnChange = (e) => {
     setMomFirstName(e.target.value);
-    console.log(momFirstName);
   };
 
   const handleLastNameOnChange = (e) => {
     setMomLastName(e.target.value);
-    console.log(momLastName);
   };
 
   return (

@@ -15,6 +15,7 @@ import { PreviewGeneratedLabel } from "./PreviewGeneratedLabel";
 import { NextButton } from "../../Components/NextButton";
 import { BackButton } from "../../Components/BackButton";
 import { Button } from "react-bootstrap";
+import { toUnix } from "../../Utils/utils";
 
 export { Register };
 
@@ -56,16 +57,11 @@ function Register() {
     setCurrentPage((currentPage) => currentPage - 1);
   };
 
-  // Registration Type - Mother, Baby, Milk
   const [checked, setChecked] = useState({
     momPage: false,
     babyPage: false,
     milkPage: false,
   });
-
-  useEffect(() => {
-    console.log(checked);
-  }, [checked]);
 
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
@@ -123,7 +119,7 @@ function Register() {
     return true;
   };
 
-  const submitMomInfo = () => {
+  const submitMomInfo = async () => {
     const momInfo = {
       mrn: momMRN,
       first_name: momFirstName,
@@ -131,17 +127,14 @@ function Register() {
     };
 
     const url = `${URL}/add_mother`;
-    axios
-      .post(url, momInfo)
-      .then((res) => {
-        console.log(`Mom details added: ${momInfo}`);
-      })
-      .catch((e) => {
-        console.error("Unable to post mom info", e);
-      });
+    try {
+      await axios.post(url, momInfo);
+    } catch (e) {
+      console.error("Unable to post mom info", e.response.data);
+    }
   };
 
-  const submitBabyInfo = () => {
+  const submitBabyInfo = async () => {
     const babyInfo = {
       mrn: babyMRN,
       first_name: babyFirstName,
@@ -150,21 +143,18 @@ function Register() {
     };
 
     const url = `${URL}/add_baby`;
-    axios
-      .post(url, babyInfo)
-      .then((res) => {
-        console.log(`Baby details added: ${babyInfo}`);
-      })
-      .catch((e) => {
-        console.error("Unable to post baby info", e);
-      });
+    try {
+      await axios.post(url, babyInfo);
+    } catch (e) {
+      console.error("Unable to post baby info", e.response.data);
+    }
   };
 
-  const submitMilkInfo = () => {
+  const submitMilkInfo = async () => {
     const milkInfo = {
-      milkType: milkType,
-      express_time: expressDate,
-      expiration_time: expiryDate,
+      milk_type: milkType,
+      express_time: toUnix(expressDate),
+      expiration_time: toUnix(expiryDate),
       storage_type: storageType,
       storage_location: storageType,
       volume_ml: 100,
@@ -172,15 +162,12 @@ function Register() {
       extra_notes: notes,
     };
 
-    const url = `${URL}/add_milk`;
-    axios
-      .post(url, milkInfo)
-      .then((response) => {
-        console.log("Bottle details added:");
-      })
-      .catch((error) => {
-        console.error("Error posting bottle details:", error);
-      });
+    const url = `${URL}/add_milk_entry`;
+    try {
+      await axios.post(url, milkInfo);
+    } catch (e) {
+      console.error("Error posting bottle details:", e.response.data);
+    }
   };
 
   const useEffectDependencies = [
@@ -200,6 +187,16 @@ function Register() {
   ];
 
   useEffect(() => {
+    const submitDataInOrder = async () => {
+      try {
+        if (checked.momPage) await submitMomInfo();
+        if (checked.babyPage) await submitBabyInfo();
+        if (checked.milkPage) await submitMilkInfo();
+      } catch (error) {
+        console.error("Error during submission:", error);
+      }
+    };
+
     switch (selectedPages[currentPage]) {
       case "prePage":
         setRegisterStarted(false);
@@ -234,6 +231,9 @@ function Register() {
       case "milkPage":
         setRenderedPage(
           <MilkRegistration
+            babyChecked={checked.babyPage}
+            babyMRN={babyMRN}
+            setBabyMRN={setBabyMRN}
             expiryDate={expiryDate}
             setExpiryDate={setExpiryDate}
             expressDate={expressDate}
@@ -266,15 +266,14 @@ function Register() {
         );
         break;
       case "preview":
-        // if (checked.momPage) submitMomInfo();
-        // if (checked.babyPage) submitBabyInfo();
-        // if (checked.milkPage) submitMilkInfo();
-        setRenderedPage(
-          <PreviewGeneratedLabel
-            setImageRef={(ref) => (imageRef.current = ref.current)}
-            milkChecked={checked.milkPage}
-          />
-        );
+        submitDataInOrder().then(() => {
+          setRenderedPage(
+            <PreviewGeneratedLabel
+              setImageRef={(ref) => (imageRef.current = ref.current)}
+              milkChecked={checked.milkPage}
+            />
+          );
+        });
         break;
     }
   }, useEffectDependencies);
