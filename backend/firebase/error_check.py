@@ -68,5 +68,5 @@ def is_milk_expired(firestore_client, milk_uid: str) -> Tuple[bool, int]:
     """
     milk_document = firestore_client.collection("milk_entries").document(milk_uid)
     milk_expiry_time = datetime.fromtimestamp(milk_document.get().to_dict()["expiration_time"])
-    formatted_expiry_time = milk_expiry_time.strftime("%-I:%S%p, on %a %d of %b %Y")
+    formatted_expiry_time = milk_expiry_time.strftime("%I:%S%p, on %a %d of %b %Y")
     return milk_expiry_time < datetime.now(), formatted_expiry_time
