@@ -12,7 +12,7 @@ from firebase.home_milk_page import *
 from firebase.verify import *
 from firebase.notify import *
 
-cred = credentials.Certificate('./.key/key.json')
+cred = credentials.Certificate('./.key/key2.json')
 fba.initialize_app(cred)
 fs_client = firestore.client()
 

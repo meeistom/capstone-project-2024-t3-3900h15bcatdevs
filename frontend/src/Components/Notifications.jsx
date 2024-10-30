@@ -3,7 +3,7 @@ import { DeleteConfirmation } from './DeleteConfirmation';
 
 export {Notifications};
 
-function Notifications({ data, setOpenModal }) {
+function Notifications({ notifData, setOpenModal }) {
 
   const [openConfirmationPopup, setOpenConfirmationPopup] = useState(false);
   const [confirmationInfo, setConfirmationInfo] = useState(null);
@@ -16,6 +16,22 @@ function Notifications({ data, setOpenModal }) {
     setConfirmationInfo(null);
     setOpenConfirmationPopup(false);
   };
+
+  function displayNotifications () {
+    return (
+      notifData.map(notif => (
+        <>
+          <div className="notification">
+            <div className="content">
+                Milk 000000 for baby Jeff will expire in 2 hours and 15 minutes 
+                <br></br>
+                <p className="discard-btn" onClick={handleOpenConfirmation(2)}>discard</p>
+            </div>
+          </div>
+        </>
+      ))
+    )
+  }
 
 
     return (
@@ -39,42 +55,6 @@ function Notifications({ data, setOpenModal }) {
               <p className="discard-btn" onClick={handleOpenConfirmation(2)}>discard</p>
           </div>
           <div className="near-expiry-status"></div>
-          </div>
-          <div className="notification">
-          <div className="content">
-              Milk 000001 for baby Jeff expired 4 hours ago
-          </div>
-          <div className="expired-status"></div>
-          </div>
-          <div className="notification">
-          <div className="content">
-              Milk 000001 for baby Jeff expired 4 hours ago
-          </div>
-          <div className="expired-status"></div>
-          </div>
-          <div className="notification">
-          <div className="content">
-              Milk 000001 for baby Jeff expired 4 hours ago
-          </div>
-          <div className="expired-status"></div>
-          </div>
-          <div className="notification">
-          <div className="content">
-              Milk 000001 for baby Jeff expired 4 hours ago
-          </div>
-          <div className="expired-status"></div>
-          </div>
-          <div className="notification">
-          <div className="content">
-              Milk 000001 for baby Jeff expired 4 hours ago
-          </div>
-          <div className="expired-status"></div>
-          </div>
-          <div className="notification">
-          <div className="content">
-              Milk 000001 for baby Jeff expired 4 hours ago
-          </div>
-          <div className="expired-status"></div>
           </div>
           <div className="notification">
           <div className="content">

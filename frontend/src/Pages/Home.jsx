@@ -57,27 +57,28 @@ function Home() {
     localStorage.setItem('myData', JSON.stringify(data)); 
   };
 
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  // if (error) {
-  //   return <div>Error: {error.message}</div>;
-  // }
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
   return (
     <>
       <section id="Home">
         <Navibar />
         <div className="home-container">
-          {/* <div className="page-container">
+          <div className="page-container">
             <h1 className="page-title">List of Milk Entries</h1>
             <p>Total Number of Milk Entries: {data.length}</p>
             <Table data={data} setOpenModal = {setOpenModal} viewType="viewMilk"/>
-          </div> */}
+          </div>
           {openModal && (
             <AddMilkModal addMilk={handleRefresh} closeModal={setOpenModal} version="addMilk1" />
           )}
         <Notifications data={""} setOpenModal={{setOpenModal}}></Notifications>
+        {getNotifications}
         </div>
       </section>
     </>
