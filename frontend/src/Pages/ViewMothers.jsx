@@ -10,13 +10,13 @@ export { ViewMothers };
 function ViewMothers() {
   let fake_data = [
     {
-      mrn: 346363,
+      mrn: 346353,
       first_name: "123",
       last_name: "2141",
       babies: "21412451251"
     },
     {
-      mrn: 346363,
+      mrn: 146363,
       first_name: "1113",
       last_name: "2411",
       babies: ["21412451251", "fsadgag"]
@@ -33,7 +33,7 @@ function ViewMothers() {
       <section id="Home">
         <Navibar />
         <div className="page-container">
-          <h1 className="page-title">Mothersss</h1>
+          <h1 className="page-title">Mothers</h1>
           <p>Total number of mothers: {fake_data.length}</p>
           <Table data={fake_data} setOpenModal = {null} viewType="viewMother"/>
         </div>

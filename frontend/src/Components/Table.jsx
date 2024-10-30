@@ -21,7 +21,7 @@ function Table({ data, setOpenModal, viewType }) {
       { label: "MRN", key: "mrn" },
       { label: "First Name", key: "first_name" },
       { label: "Last Name", key: "last_name"},
-      { label: "Associate Baby(ies)", key: "babies" }
+      { label: "Associate Babies", key: "babies" }
     ],
     "viewBaby": [
       { label: "MRN", key: "mrn" },
