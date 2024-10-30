@@ -273,6 +273,7 @@ function Register() {
         setRenderedPage(
           <PreviewGeneratedLabel
             setImageRef={(ref) => (imageRef.current = ref.current)}
+            milkChecked={checked.milkPage}
           />
         );
         break;
@@ -354,14 +355,17 @@ function Register() {
                   )}
                   {currentPage === selectedPages.length - 1 && (
                     <>
-                      <Button
-                        name="rgstr-print-label"
-                        variant="outline-primary"
-                        size="lg"
-                        onClick={printImage}
-                      >
-                        Print Label
-                      </Button>
+                      {checked.milkPage && (
+                        <Button
+                          name="rgstr-print-label"
+                          variant="outline-primary"
+                          size="lg"
+                          onClick={printImage}
+                        >
+                          Print Label
+                        </Button>
+                      )}
+
                       <Button
                         name="return-home"
                         variant="primary"

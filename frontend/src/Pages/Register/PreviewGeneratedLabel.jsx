@@ -5,7 +5,7 @@ import "../../index.css";
 
 export { PreviewGeneratedLabel };
 
-function PreviewGeneratedLabel({ setImageRef }) {
+function PreviewGeneratedLabel({ setImageRef, milkChecked }) {
   const imgRef = useRef(null);
 
   // Pass the ref to the parent component
@@ -19,10 +19,17 @@ function PreviewGeneratedLabel({ setImageRef }) {
     <>
       <div className="register-details-container preview-label min-vh-50">
         <div className="title">
-          <h2>{"Preview Label"}</h2>
+          {milkChecked && <h2>Preview Label</h2>}
+          {!milkChecked && <h2>Register Complete</h2>}
         </div>
         <div className="body d-flex flex-column justify-content-between">
-          <img ref={imgRef} src={sticker} alt="sticker" />
+          {milkChecked && <img ref={imgRef} src={sticker} alt="sticker" />}
+          {!milkChecked && (
+            <p>
+              Registration has been successfully completed. You may return to
+              the home page now.
+            </p>
+          )}
         </div>
       </div>
     </>
