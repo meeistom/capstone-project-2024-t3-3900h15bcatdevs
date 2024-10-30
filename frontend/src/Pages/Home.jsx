@@ -14,16 +14,15 @@ function Home() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [notifications, setNotifications] = useState(null);
+  const [notificationData, setNotificationData] = useState(null);
   const URL = "http://127.0.0.1:5001";
 
-  const getNotifications = async () => {
+  const fetchNotifications = async () => {
     try {
       const response = await axios.get(`${URL}/notifications`);
-      setNotifications(response.data);
-      console.log(response)
+      setNotificationData(response.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -49,7 +48,8 @@ function Home() {
       setData(JSON.parse(cachedData));
       setLoading(false);
     }
-    // fetchData();
+    fetchData();
+    fetchNotifications();
   }, []);
 
   const handleRefresh = (newMilk) => {
@@ -77,8 +77,9 @@ function Home() {
           {openModal && (
             <AddMilkModal addMilk={handleRefresh} closeModal={setOpenModal} version="addMilk1" />
           )}
-        <Notifications data={""} setOpenModal={{setOpenModal}}></Notifications>
-        {getNotifications}
+        {notificationData && (
+          <Notifications notifData={notificationData} setOpenModal={{setOpenModal}}></Notifications>
+        )}
         </div>
       </section>
     </>

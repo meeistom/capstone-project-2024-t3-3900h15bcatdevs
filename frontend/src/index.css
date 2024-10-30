@@ -325,11 +325,10 @@ input::-webkit-inner-spin-button {
 /* Notifications */
 .notifications-outer-container {
   padding: 20px;
-  height: 75vh;
+  height: 80.8vh;
   width: 25vw;
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
 .notifications-outer-container .title-box {
@@ -337,16 +336,19 @@ input::-webkit-inner-spin-button {
   display: flex;
   gap: 7px;
   height: 40px;
+  padding-top: 2px;
 }
 
 .notifications-outer-container .subtitle-1 {
   font-size: 0.8rem;
-  padding-top: 22.7px;
+  padding-top: 24.7px;
 }
 
 .notifications-outer-container .subtitle-2 {
   font-size: 0.8rem;
   color: #8c8c8c;
+  margin-top: 12px;
+  margin-bottom: 3px;
 }
 
 .notifications-inner-container {
@@ -358,12 +360,10 @@ input::-webkit-inner-spin-button {
   padding: 8px;
   overflow: auto;
   height: 100%;
-  /* box-shadow: #E9EAEC 0px 1px 4px; */
 }
 
 .notification {
   display: flex;
-  /* background-color: #f9fafc; */
   background-color: #f7f9fd;
   padding: 12px;
   border-radius: 8px;
@@ -501,18 +501,4 @@ thead tr {
 /* Home Page Styling */
 .home-container {
   display: flex;
-}
-
-/* Delete Confirmation Popup */
-.delete-confirmation-container {
-  min-height: 140px;
-  width: 280px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-}
-
-.delete-confirmation .title {
-  font-size: 20px; 
 }
