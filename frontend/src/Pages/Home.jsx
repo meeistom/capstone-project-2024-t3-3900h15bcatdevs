@@ -18,6 +18,7 @@ function Home() {
         <Navibar />
         <Button
           id="scan-btn"
+          name="scan-btn"
           onClick={() => {
             setOpenModal(true);
           }}

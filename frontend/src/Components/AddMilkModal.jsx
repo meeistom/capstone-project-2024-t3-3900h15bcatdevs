@@ -9,6 +9,7 @@ import sticker from "../Assets/milk1_label.png";
 import scanner from "../Assets/scanner.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../index.css";
+import { URL } from "../constants.jsx";
 
 export { AddMilkModal };
 
@@ -34,33 +35,38 @@ function AddMilkModal({ closeModal, version }) {
   }, []);
 
   const getBabyDetails = async (barcode) => {
-    const url = `http://localhost:5001/babies?mrn=${barcode}`;
+    const url = `${URL}/babies?mrn=${barcode}`;
     console.log(url);
     try {
       const response = await axios.get(url);
       setBabyData(response.data);
-      console.log('Baby data fetched:', response.data);
+      console.log("Baby data fetched:", response.data);
       return response.data;
     } catch (error) {
-      console.log('Error fetching baby data:', error);
-      alert('Failed to fetch baby details with corresponding barcode. Please try again.');
+      console.log("Error fetching baby data:", error);
+      alert(
+        "Failed to fetch baby details with corresponding barcode. Please try again."
+      );
       return null;
     }
   };
-   const getMotherDetails = async (mother_mrn) => {
-    const url = `http://localhost:5001/mothers?mrn=${mother_mrn}`;
+
+  const getMotherDetails = async (mother_mrn) => {
+    const url = `${URL}/mothers?mrn=${mother_mrn}`;
     console.log(url);
     try {
       const response = await axios.get(url);
       setMotherData(response.data);
-      console.log('Mother data fetched:', response.data);
-      setModalVersion('addMilk2');
+      console.log("Mother data fetched:", response.data);
+      setModalVersion("addMilk2");
     } catch (error) {
-      console.log('Error fetching Mother data:', error);
-      alert('Failed to fetch mother details with corresponding mrn. Please try again.');
+      console.log("Error fetching Mother data:", error);
+      alert(
+        "Failed to fetch mother details with corresponding mrn. Please try again."
+      );
     }
   };
-   const handleInput = async (event) => {
+  const handleInput = async (event) => {
     const barcode = event.target.value;
     console.log(barcode);
     setScannedValue(barcode);
@@ -71,33 +77,32 @@ function AddMilkModal({ closeModal, version }) {
       }
     }
   };
- 
 
   const handleSubmitMilkInfo = () => {
     const bottleDetails = {
       milk_type: milkType,
-      express_time: expressDate,
-      expiration_time: expiryDate,
+      express_time: new Date(expressDate).getTime() / 1000,
+      expiration_time: new Date(expiryDate).getTime() / 1000,
       storage_type: storageType,
-      storage_location: 'level 1',
-      volume_ml: '50',
-      owner_mrn: babyData.mrn,
+      storage_location: "level 1",
+      volume_ml: "50",
+      baby_mrn: babyData.mrn,
       extra_notes: notes,
     };
- 
- 
-    const url = 'http://localhost:5001/add_milk_entry';
-    axios.post(url, bottleDetails)
-      .then(response => {
-        console.log('Bottle details added:');
-        setModalVersion('addMilk3');
+
+    console.log(bottleDetails);
+
+    axios
+      .post(`${URL}/add_milk_entry`, bottleDetails)
+      .then((response) => {
+        console.log("Bottle details added:");
+        setModalVersion("addMilk3");
       })
-      .catch(error => {
-        console.log('Error posting bottle details:', error);
-        alert('Failed to add bottle details. Please try again.');
+      .catch((error) => {
+        console.log("Error posting bottle details:", error);
+        alert("Failed to add bottle details. Please try again.");
       });
-   
-  } 
+  };
 
   const printImage = () => {
     const printWindow = window.open("", "_blank");
@@ -121,6 +126,15 @@ function AddMilkModal({ closeModal, version }) {
     setModalVersion("addMilk4");
   };
 
+  const useEffectDependencies = [
+    modalVersion,
+    expressDate,
+    expiryDate,
+    milkType,
+    storageType,
+    notes,
+  ];
+
   // Handles which version of modal is rendered
   useEffect(() => {
     switch (modalVersion) {
@@ -130,11 +144,13 @@ function AddMilkModal({ closeModal, version }) {
           <>
             <Form.Control
               type="number"
+              name="scanner-input"
               className="scanner-input"
               placeholder="Scan Barcode"
               ref={scannerInputRef}
               onChange={handleInput}
-              maxLength={13}
+              maxLength={4}
+              autoFocus
             />
             <img src={scanner} alt="scanner" className="mt-4" />
           </>
@@ -161,7 +177,11 @@ function AddMilkModal({ closeModal, version }) {
             <Button onClick={() => closeModal(false)} variant="outline-primary">
               Cancel
             </Button>
-            <Button onClick={handleCheckInput} variant="primary">
+            <Button
+              name="preview-sticker"
+              onClick={handleCheckInput}
+              variant="primary"
+            >
               Preview Sticker
             </Button>
           </div>
@@ -180,7 +200,11 @@ function AddMilkModal({ closeModal, version }) {
             >
               Back to Edit
             </Button>
-            <Button onClick={handlePrintAndMovePage} variant="primary">
+            <Button
+              name="confirm-and-print"
+              onClick={handlePrintAndMovePage}
+              variant="primary"
+            >
               Confirm and Print
             </Button>
           </div>
@@ -203,16 +227,19 @@ function AddMilkModal({ closeModal, version }) {
             <Button onClick={printImage} variant="outline-primary">
               Reprint
             </Button>
-            <Button onClick={() => closeModal(false)}>Return Home</Button>
+            <Button name="return-home" onClick={() => closeModal(false)}>
+              Return Home
+            </Button>
           </div>
         );
         break;
     }
-  }, [modalVersion]);
+  }, useEffectDependencies);
 
   return (
     <>
       <Modal
+        id="add-milk-modal"
         title={title}
         body={body}
         footer={footer}

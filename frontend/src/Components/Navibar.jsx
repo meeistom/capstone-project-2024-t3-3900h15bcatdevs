@@ -50,24 +50,26 @@ function Navibar() {
     <>
       <Navbar className="navbar" sticky="top">
         <Container className="d-flex flex-column align-items-start mx-2">
-          <Navbar.Brand onClick={goToHome}>Milk Guard</Navbar.Brand>
+          <Navbar.Brand data-testid="nav-mg" onClick={goToHome}>
+            Milk Guard
+          </Navbar.Brand>
           <Nav className="flex-row" variant="underline">
-            <Nav.Link onClick={goToHome}>
+            <Nav.Link data-testid="nav-home" onClick={goToHome}>
               <FontAwesomeIcon icon={faHouse} /> Home
             </Nav.Link>
-            <Nav.Link onClick={goToMothers}>
+            <Nav.Link data-testid="nav-mothers" onClick={goToMothers}>
               <FontAwesomeIcon icon={faPersonDress} /> View Mothers
             </Nav.Link>
-            <Nav.Link onClick={goToBabies}>
+            <Nav.Link data-testid="nav-babies" onClick={goToBabies}>
               <FontAwesomeIcon icon={faBaby} /> View Babies
             </Nav.Link>
-            <Nav.Link onClick={goToRegister}>
+            <Nav.Link data-testid="nav-register" onClick={goToRegister}>
               <FontAwesomeIcon icon={faPaperPlane} /> Register
             </Nav.Link>
-            <Nav.Link onClick={goToHistory}>
+            <Nav.Link data-testid="nav-history" onClick={goToHistory}>
               <FontAwesomeIcon icon={faClockRotateLeft} /> History Log
             </Nav.Link>
-            <Button onClick={goToVerify}>
+            <Button data-testid="nav-verify" onClick={goToVerify}>
               <FontAwesomeIcon icon={faCircleCheck} /> Verify Feed
             </Button>
           </Nav>

@@ -5,7 +5,7 @@ def retrieve_mother_by_mrn(firestore_client, mrn: str) -> dict:
     """
     Gets a mother from the database
     """
-    if not mother_exists(firestore_client, mrn):
+    if not exists_in_collection(firestore_client, 'mothers', mrn):
         print(f"GET MOTHER: Mother MRN: {mrn} does not exist")
         return {}
     else:
@@ -14,12 +14,30 @@ def retrieve_mother_by_mrn(firestore_client, mrn: str) -> dict:
             return mother_collection.document(mrn).get().to_dict()
         except Exception as e:
             print(f"GET MOTHER: An error occurred while getting data: {e}")
+           
+    
+def retrieve_mother_by_name(firestore_client, field: str, name: str) -> list:
+    """
+    Gets mothers from the database by 'first_name' or 'last_name' case insensitive.
+    """
+    query = firestore_client.collection("mothers").get()
+    name_lower = name.lower()
+
+    mothers_list = [
+        doc_dict for doc in query
+        if (doc_dict := doc.to_dict()).get(field, "").lower() == name_lower
+    ]
+
+    if not mothers_list:
+        print(f"GET MOTHERS: No mothers found with {field}: {name}")
+        
+    return mothers_list
 
 def retrieve_baby_by_mrn(firestore_client, mrn: str) -> dict:
     """
     Gets a baby from the database
     """
-    if not baby_exists(firestore_client, mrn):
+    if not exists_in_collection(firestore_client, 'babies', mrn):
         # print("GET BABY: Baby does not exist")
         return {}
     else:
@@ -33,7 +51,7 @@ def retrieve_milk_entry_by_uid(firestore_client, uid: str) -> dict:
     """
     Gets a milk entry from the database
     """
-    if not milk_entry_exists(firestore_client, uid):
+    if not exists_in_collection(firestore_client, 'milk_entries', uid):
         # print("GET MILK ENTRY: Milk entry does not exist")
         return {}
     else:

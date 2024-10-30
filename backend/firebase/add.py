@@ -13,7 +13,7 @@ def add_mother(firestore_client, mother_json_data: dict) -> Tuple[bool, str]:
         return False, "Invalid mother data"
 
     # Check if mrn in use
-    if mother_exists(firestore_client, mother_json_data['mrn']):
+    if exists_in_collection(firestore_client, "mothers", mother_json_data['mrn']):
         return False, "Mother already exists"
 
     try:         
@@ -40,11 +40,11 @@ def add_baby(firestore_client, baby_json_data: dict) -> Tuple[bool, str]:
         return False, "Invalid baby data"
 
     # Check if mother mrn exists
-    if not mother_exists(firestore_client, baby_json_data['mother_mrn']):
+    if not exists_in_collection(firestore_client, 'mothers', baby_json_data['mother_mrn']):
         return False, "Mother does not exist"
 
     # Check if mrn in use
-    if baby_exists(firestore_client, baby_json_data['mrn']):
+    if exists_in_collection(firestore_client, 'babies', baby_json_data['mrn']):
         return False, "Baby already exists"
     
     try:
@@ -75,8 +75,8 @@ def add_milk_entry(firestore_client, milk_entry_json_data: dict) -> Tuple[bool, 
         return False, "Invalid milk entry data"
 
     # Check if baby uid exists
-    if not baby_exists(firestore_client, milk_entry_json_data['baby_mrn']):
-        return False, "Owner Baby or Mother does not exist"
+    if not exists_in_collection(firestore_client, 'babies', milk_entry_json_data['baby_mrn']):
+        return False, "Baby does not exist"
 
     try:
         # Get the mother of the baby
