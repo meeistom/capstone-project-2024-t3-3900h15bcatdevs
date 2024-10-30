@@ -4,7 +4,6 @@ import "../index.css";
 import axios from "axios";
 import { Navibar } from "../Components/Navibar";
 import { AddMilkModal } from "../Components/AddMilkModal";
-import axios from "axios";
 import { Table } from "../Components/Table";
 import { DeleteMilkModal } from "../Components/DeleteMilkModal";
 import { Notifications} from "../Components/Notifications"
@@ -16,6 +15,9 @@ function Home() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleteEntry, setDeleteEntry] = useState(null);
+  const [notificationData, setNotificationData] = useState(null);
   const URL = "http://127.0.0.1:5001";
 
   const fetchNotifications = async () => {
@@ -93,14 +95,22 @@ function Home() {
     <>
       <section id="Home">
         <Navibar />
-        <div className="page-container">
-          <h1 className="page-title">List of Milk Entries</h1>
-          <p>Total Number of Milk Entries: {data.length}</p>
-          <Table data={data} setOpenModal = {setOpenModal} viewType="viewMilk"/>
+        <div className="home-container">
+          <div className="page-container">
+            <h1 className="page-title">List of Milk Entries</h1>
+            <p>Total Number of Milk Entries: {data.length}</p>
+            <Table deleteMilk={handleConfirmDelete} data={data} setOpenModal={setOpenModal} viewType="viewMilk"/>
+          </div>
+          {openModal && (
+            <AddMilkModal addMilk={handleRefresh} closeModal={setOpenModal} version="addMilk1" />
+          )}
+          {confirmDelete && (
+          <DeleteMilkModal entry={deleteEntry} closeModal={setConfirmDelete} deleteMilk={handleDeleteMilk}/>
+          )}
+          {notificationData && (
+            <Notifications notifData={notificationData} setOpenModal={{setOpenModal}}></Notifications>
+          )}
         </div>
-        {openModal && (
-          <AddMilkModal addMilk={handleRefresh} closeModal={setOpenModal} version="addMilk1" />
-        )}
       </section>
     </>
   );

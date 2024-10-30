@@ -17,7 +17,7 @@ function ViewInfoModal({ info, closeModal }) {
       <>
       <div id="btn-group" className="info-btn-group">
         <Button onClick={() => closeModal(false)} variant="outline-primary">
-          Cancel
+          Close
         </Button>
         <Button
           name="edit-milk"
