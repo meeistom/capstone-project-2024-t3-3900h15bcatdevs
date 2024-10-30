@@ -16,6 +16,7 @@ import { NextButton } from "../../Components/NextButton";
 import { BackButton } from "../../Components/BackButton";
 import { Button } from "react-bootstrap";
 import { toUnix } from "../../Utils/utils";
+import { URL } from "../../constants";
 
 export { Register };
 
@@ -35,8 +36,6 @@ function Register() {
   const [notes, setNotes] = useState("");
   const [milkType, setMilkType] = useState("ehm");
   const [storageType, setStorageType] = useState("fridge");
-
-  const URL = "http://127.0.0.1:5001";
 
   const imageRef = useRef(null);
 
