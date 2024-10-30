@@ -1,17 +1,20 @@
-import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Navibar } from "../Components/Navibar";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "../index.css";
 import { AddMilkModal } from "../Components/AddMilkModal";
 import axios from "axios";
+import { Table } from "../Components/Table";
+import { Notifications} from "../Components/Notifications"
 
 export { Home };
 
 function Home() {
   const [openModal, setOpenModal] = useState(false);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const URL = "http://127.0.0.1:5001";
 
   const getNotifications = async () => {
     const url = 'http://localhost:5001/notifications'
@@ -26,45 +29,57 @@ function Home() {
     }
   }
 
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${URL}/home`);
+      if (!response.ok) {
+        throw new Error('Having errors fetching milk details');
+      }
+      const result = await response.json();
+      setData(result);
+      localStorage.setItem('myData', JSON.stringify(result)); 
+    } catch (error) {
+      setError(error); 
+    } finally {
+      setLoading(false); 
+    }
+  };
+
+  useEffect(() => {
+    const cachedData = localStorage.getItem('myData');
+    if (cachedData) {
+      setData(JSON.parse(cachedData));
+      setLoading(false);
+    }
+    // fetchData();
+  }, []);
+
+  const handleRefresh = (newMilk) => {
+    data.unshift(newMilk);
+    localStorage.setItem('myData', JSON.stringify(data)); 
+  };
+
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
+
+  // if (error) {
+  //   return <div>Error: {error.message}</div>;
+  // }
   return (
     <>
       <section id="Home">
         <Navibar />
-        <Button
-          id="scan-btn"
-          name="scan-btn"
-          onClick={() => {
-            setOpenModal(true);
-          }}
-        >
-          <FontAwesomeIcon icon={faPlus} /> New Milk Entry
-        </Button>
-        {openModal && (
-          <AddMilkModal closeModal={setOpenModal} version="addMilk1" />
-        )}
-        <div className="notifications-container">
-          <div className="title-box">
-            Notifications
-            <div className="subtitle-1">
-              (5)
-              {/* {getNotifications()} */}
-            </div>
-          </div>
-          <div className="subtitle-2">
-            Last updated Wed 30 Oct 2:20am
-          </div>
-          <div className="notification">
-            <div className="text">
-              milk 000000 from baby Jeff is about to expire at 9:00pm Thu 31 Oct 2024 
-            </div>
-            <div className="near-expiry-status"></div>
-          </div>
-          <div className="notification">
-            <div className="text">
-              milk 000000 from baby Jeff expired at 3:00am Wed 06 Oct 2024 
-            </div>
-            <div className="expired-status"></div>
-          </div>
+        <div className="home-container">
+          {/* <div className="page-container">
+            <h1 className="page-title">List of Milk Entries</h1>
+            <p>Total Number of Milk Entries: {data.length}</p>
+            <Table data={data} setOpenModal = {setOpenModal} viewType="viewMilk"/>
+          </div> */}
+          {openModal && (
+            <AddMilkModal addMilk={handleRefresh} closeModal={setOpenModal} version="addMilk1" />
+          )}
+        <Notifications data={""} setOpenModal={{setOpenModal}}></Notifications>
         </div>
       </section>
     </>

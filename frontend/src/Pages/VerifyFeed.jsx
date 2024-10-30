@@ -3,8 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Navibar } from "../Components/Navibar";
 import { useNavigate } from "react-router-dom";
 import scanner from "../Assets/scanner.png";
-import confirmCheck from "../Assets/confirm-check.png"
+import confirmCheck from "../Assets/confirm-check.png";
 import axios from "axios";
+import { URL } from "../constants";
 
 export { VerifyFeed };
 
@@ -12,18 +13,24 @@ function VerifyFeed() {
   const navigate = useNavigate();
   const scannerInputRef = useRef(null);
 
-  const [milkCheck, setMilkCheck] = useState(<span className={"empty-check"}></span>);
-  const [babyCheck, setBabyCheck] = useState(<span className={"empty-check"}></span>);
+  const [milkCheck, setMilkCheck] = useState(
+    <span className={"empty-check"}></span>
+  );
+  const [babyCheck, setBabyCheck] = useState(
+    <span className={"empty-check"}></span>
+  );
   const [milkBarcode, setMilkBarcode] = useState("");
   const [babyBarcode, setBabyBarcode] = useState("");
 
-  const [promptMessage, setPromptMessage] = useState("Please scan the barcode on the baby or milk.");
+  const [promptMessage, setPromptMessage] = useState(
+    "Please scan the barcode on the baby or milk."
+  );
   const [promptType, setPromptType] = useState("scan");
   let promptPage;
 
   const [alertMessage, setAlertMessage] = useState("");
   const [filter, setFilter] = useState("");
-  const [display, setDisplay] = useState("none")
+  const [display, setDisplay] = useState("none");
 
   useEffect(() => {
     if (scannerInputRef.current) {
@@ -32,11 +39,11 @@ function VerifyFeed() {
   }, []);
 
   const checkBarcode = async (barcode) => {
-    const url = `http://localhost:5001/verify?barcode=${barcode}`
+    const url = `${URL}/verify?barcode=${barcode}`;
     try {
       const response = await axios.get(url);
       const barcodeInfo = response.data;
-      
+
       // If baby barcode is scanned, save barcode
       if (barcodeInfo.collection == "babies") {
         setBabyBarcode(barcode);
@@ -48,33 +55,36 @@ function VerifyFeed() {
           await checkMatch(milkBarcode, barcode);
         }
 
-      // If milk barcode is scanned, check if expired, else save barcode
+        // If milk barcode is scanned, check if expired, else save barcode
       } else if (barcodeInfo.collection == "milk_entries") {
         if (barcodeInfo.expired == true) {
-          openAlert(`Milk ${barcode} expired at ${barcodeInfo.expiration_time}.`)
+          openAlert(
+            `Milk ${barcode} expired at ${barcodeInfo.expiration_time}.`
+          );
         } else {
           setMilkBarcode(barcode);
           if (babyBarcode == "") {
             setMilkCheck(<img className="img" src={confirmCheck}></img>);
             setPromptMessage("Please scan the barcode on the baby.");
           } else {
-            await checkMatch(barcode, babyBarcode)
+            await checkMatch(barcode, babyBarcode);
           }
         }
 
-      // If a mother barcode is scanned raise error
+        // If a mother barcode is scanned raise error
       } else {
-        openAlert("Mother barcode scanned. Please scan a valid milk or baby barcode.")
+        openAlert(
+          "Mother barcode scanned. Please scan a valid milk or baby barcode."
+        );
       }
-
     } catch (error) {
       // If barcode not found in system raise error
-      openAlert("Barcode not found.")
+      openAlert("Barcode not found.");
     }
-  }
+  };
 
   const checkMatch = async (milk_barcode, baby_barcode) => {
-    const url = `http://localhost:5001/verify_feed?milk_uid=${milk_barcode}&baby_mrn=${baby_barcode}`
+    const url = `${URL}/verify_feed?milk_uid=${milk_barcode}&baby_mrn=${baby_barcode}`;
     try {
       const response = await axios.get(url);
 
@@ -83,38 +93,39 @@ function VerifyFeed() {
       setBabyCheck(<img className="img" src={confirmCheck}></img>);
       setPromptType("confirmation");
       deleteMilk(milk_barcode);
-      
     } catch (error) {
       // If mismatch
       if (error.status == 400) {
-        const milkOwner = error.response.data.milk_owner_baby_name
-        const scannedBaby = error.response.data.mismatch_baby_name
-        openAlert(`Mismatch. The scanned milk belongs to ${milkOwner} but the scanned baby is ${scannedBaby}.`)
+        const milkOwner = error.response.data.milk_owner_baby_name;
+        const scannedBaby = error.response.data.mismatch_baby_name;
+        openAlert(
+          `Mismatch. The scanned milk belongs to ${milkOwner} but the scanned baby is ${scannedBaby}.`
+        );
       } else {
         // If 404 error, ie invalid barcode or expired milk
         openAlert(error.message.error);
       }
     }
-  }
+  };
 
   const deleteMilk = async (milkBarcode) => {
-    const url = `http://localhost:5001//delete_milk_entry?uid=${milkBarcode}`
+    const url = `${URL}/delete_milk_entry?uid=${milkBarcode}`;
     try {
       await axios.delete(url);
     } catch (error) {
-      openAlert("Error removing milk from the system.")
+      openAlert("Error removing milk from the system.");
     }
-  }
+  };
 
   const handleInput = async () => {
     const scannedValue = scannerInputRef.current.value;
     if (scannedValue.length >= 4) {
       // Sets scanner input to empty again
-      document.getElementById("scanner-input").value = ""
+      document.getElementById("scanner-input").value = "";
 
       // Checks if scanned barcode is valid, verifies match
       await checkBarcode(scannedValue);
-    };
+    }
   };
 
   const goToHome = () => {
