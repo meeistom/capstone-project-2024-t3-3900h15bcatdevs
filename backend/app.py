@@ -8,6 +8,7 @@ from firebase.add import *
 from firebase.delete import *
 from firebase.retrieve import *
 from firebase.error_check import *
+from firebase.home_milk_page import *
 from firebase.verify import *
 
 cred = credentials.Certificate('./.key/key.json')
@@ -25,6 +26,19 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 def passes():
     return 'Hi'
 
+# Homepage shows the formatted milks as default
+# Fetches & formats milks with mother and baby info
+@app.route('/home', methods=['GET'], strict_slashes=False)
+def default_home_milks():
+
+    success, home_page_milks = get_home_page_formatted_milks(fs_client)
+
+    return make_response(
+        jsonify(home_page_milks),
+        200 if success else 400
+    )
+
+# Fetches all mothers as a list, or fetches mother object by MRN
 # Fetches all mothers as a list, or fetches mother object by given param (MRN, name)
 @app.route('/mothers', methods=['GET'], strict_slashes=False)
 def get_mother():
@@ -91,6 +105,23 @@ def get_milk_entry():
             200
         )
 
+#  Fetches all EXACT matches by keyword
+@app.route('/search', methods=['GET'], strict_slashes=False)
+def search_by_keyword():
+    keyword = request.args.get('keyword')
+    search_results = retrieve_by_keyword(fs_client, keyword)
+
+    if len(search_results) == 0:
+        return make_response(
+            "No matches with the keyword",
+            400
+        )
+    else:
+        return make_response(
+            jsonify(search_results),
+            200
+        )
+
 # Adds a new mother
 @app.route('/add_mother', methods=['POST'])
 def add_new_mother():
@@ -121,7 +152,7 @@ def add_new_milk_entry():
     new_milk_entry_data = request.get_json()
 
     success, message = add_milk_entry(fs_client, new_milk_entry_data)
-    print(message)
+
     return make_response(
         message,
         200 if success else 400

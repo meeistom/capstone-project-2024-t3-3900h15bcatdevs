@@ -27,12 +27,9 @@ Sync/install all dependencies for the `/backend`:
 pip install -r requirements.txt
 ```
 
-Move your key from `backend/firebase` to `/backend/.key`.  
-Rename YOUR key to just `key.json`.
+To have access to the database, please make sure you have your `key.json` file in `/backend/.key`. Find your key in resources in discord and rename it to `key.json`.
 
-To have access to the database, please make sure you have your `key_<catdev-name>.json` file in `/backend/firebase`, and uncomment the appropriate line to direct to the right key. Find your key in resources in discord.
-
-`.gitignore` is set to ignore files starting with `key_*`.
+`.gitignore` is set to ignore files in `/.key`.
 
 Run `python app.py` in `/backend`.
 

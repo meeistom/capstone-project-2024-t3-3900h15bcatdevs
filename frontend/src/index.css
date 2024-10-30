@@ -32,6 +32,7 @@ body {
 .modal-background {
   left: 0;
   top: 0;
+  z-index: 9;
   backdrop-filter: blur(2px);
 }
 
@@ -182,6 +183,10 @@ input::-webkit-inner-spin-button {
   align-self: center;
 }
 
+.register-details-container .body {
+  color: var(--textColor);
+}
+
 .confirm-details .sub-title {
   font-weight: bold;
 }
@@ -189,6 +194,11 @@ input::-webkit-inner-spin-button {
 .confirm-details .body {
   color: var(--textColor);
   gap: 2rem;
+}
+
+.register-details-container .col {
+  display: flex;
+  flex-direction: column;
 }
 
 /* Verification Styling */
@@ -208,7 +218,7 @@ input::-webkit-inner-spin-button {
 
 .verification-page .subtitle {
   font-size: x-large;
-  color: #7f48a3;
+  color: var(--brandColor);
   text-align: center;
 }
 
@@ -291,7 +301,7 @@ input::-webkit-inner-spin-button {
 /* Alert */
 
 .alert-popup {
-  height: 140px;
+  min-height: 140px;
   width: 280px;
   display: flex;
   flex-direction: row;
@@ -310,4 +320,94 @@ input::-webkit-inner-spin-button {
 
 .alert-container .alert-close {
   margin-left: 65%;
+}
+
+
+/* table style */
+.table-container {
+  border-radius: 10px;
+  height: 100%;
+  border: 2px solid #E9EAEC;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  border-radius: 10px; 
+  border-collapse: collapse;
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+.table-header-block {
+  width: 100%;
+}
+
+.table-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.table-header #scan-btn {
+  margin-left: auto;
+  margin-right: 2%;
+}
+
+.sort-btn {
+  padding: 5px 12 px;
+  margin: 1%;
+  font-size: small; 
+  border: 1px solid #c3c6cd;
+}
+
+.dlt-btn {
+  border: none;
+  background: none;
+  color: #464f60;
+}
+
+.search-bar {
+  width: 40%;
+}
+
+thead tr {
+  background-color: #f7f9fd;
+}
+
+.even-row {
+  background-color: white;
+}
+
+.odd-row {
+  background-color: #f7f9fd;
+}
+
+/* page content style */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 3vh;
+  margin-left: 2vw;
+  width: 70vw;
+  height: 75vh;
+}
+
+.page-title {
+  margin: 0;
+  padding: 0;
+}
+
+.page-container p {
+  margin: 0;
+  padding: 0;
 }

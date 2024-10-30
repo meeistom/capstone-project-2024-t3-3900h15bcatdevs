@@ -15,18 +15,16 @@ function MotherRegistration({
 }) {
   const handleFirstNameOnChange = (e) => {
     setMomFirstName(e.target.value);
-    console.log(momFirstName);
   };
 
   const handleLastNameOnChange = (e) => {
     setMomLastName(e.target.value);
-    console.log(momLastName);
   };
 
   return (
     <>
-      <div className="register-details-container">
-        <div className="title">
+      <div className="register-details-container d-flex flex-column">
+        <div className="title align-self-center">
           <h2>{"Mother Details"}</h2>
         </div>
         <div className="register-form-label">MRN</div>
@@ -35,6 +33,7 @@ function MotherRegistration({
           name="mom-mrn"
           placeholder="Enter MRN"
           value={momMRN}
+          maxLength={4}
           onChange={(e) => setMomMRN(e.target.value)}
         />
         <Form.Text className="text-muted"></Form.Text>

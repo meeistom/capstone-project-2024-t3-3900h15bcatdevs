@@ -6,6 +6,9 @@ import "../../index.css";
 export { MilkRegistration };
 
 function MilkRegistration({
+  babyChecked,
+  babyMRN,
+  setBabyMRN,
   expiryDate,
   setExpiryDate,
   expressDate,
@@ -19,16 +22,19 @@ function MilkRegistration({
 }) {
   return (
     <>
-      <div className="register-details-container">
-        <div className="title">
+      <div className="register-details-container d-flex flex-column">
+        <div className="title align-self-center">
           <h2>{"Milk Details"}</h2>
         </div>
         <Form>
-          <div className="form-milk-detail" class="mb-3">
+          <div className="form-milk-detail mb-3">
             <div className="container">
               <div className="row row-cols-2">
                 <div className="col">
-                  <Form.Label htmlFor="milk-type" className="form-label">
+                  <Form.Label
+                    htmlFor="milk-type"
+                    className="register-form-label"
+                  >
                     Milk Type*
                   </Form.Label>
                   <Form.Select
@@ -74,7 +80,7 @@ function MilkRegistration({
                     onChange={(e) => {
                       setExpressDate(e.target.value);
                     }}
-                    class="form-control"
+                    className="form-control"
                     id="express-date"
                     type="datetime-local"
                   />
@@ -96,10 +102,26 @@ function MilkRegistration({
                     type="datetime-local"
                   />
                 </div>
+                {!babyChecked && (
+                  <>
+                    <div className="col">
+                      <div className="register-form-label">Baby MRN</div>
+                      <Form.Control
+                        type="number"
+                        name="baby-mrn"
+                        placeholder="Enter MRN"
+                        value={babyMRN}
+                        maxLength={4}
+                        onChange={(e) => setBabyMRN(e.target.value)}
+                      />
+                      <Form.Text className="text-muted"></Form.Text>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
-          <div class="mb-3">
+          <div className="mb-3">
             <Form.Label htmlFor="milk-notes" className="register-form-label">
               Notes
             </Form.Label>
