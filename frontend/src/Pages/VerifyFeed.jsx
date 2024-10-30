@@ -49,6 +49,7 @@ function VerifyFeed() {
         setBabyBarcode(barcode);
         if (milkBarcode == "") {
           setBabyCheck(<img className="img" src={confirmCheck}></img>);
+          setPromptMessage("Please scan the barcode on the milk.");
         } else {
           // check for match
           await checkMatch(milkBarcode, barcode);

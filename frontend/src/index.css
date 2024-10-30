@@ -323,6 +323,92 @@ input::-webkit-inner-spin-button {
   margin-left: 65%;
 }
 
+/* Notifications */
+.notifications-outer-container {
+  padding: 20px;
+  height: 80.8vh;
+  width: 25vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.notifications-outer-container .title-box {
+  font-size: 2.2rem;
+  display: flex;
+  gap: 7px;
+  height: 40px;
+  padding-top: 2px;
+}
+
+.notifications-outer-container .subtitle-1 {
+  font-size: 0.8rem;
+  padding-top: 24.7px;
+}
+
+.notifications-outer-container .subtitle-2 {
+  font-size: 0.8rem;
+  color: #8c8c8c;
+  margin-top: 12px;
+  margin-bottom: 3px;
+}
+
+.notifications-inner-container {
+  border: 2px solid #E9EAEC;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  overflow: auto;
+  height: 100%;
+}
+
+.notification {
+  display: flex;
+  background-color: #f7f9fd;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1.7px solid  #E9EAEC;
+  gap: 8px;
+}
+
+.notification .content {
+  font-size: 0.85rem;
+  line-height: 16px;
+  width: 82%;
+  display: flex;
+  flex-direction: column;
+}
+
+.notification .expired-status {
+  height: 30px;
+  width: 30px;
+  background-color: #fbdce4;
+  border-radius: 50%;
+  border: 3px solid #d14363;
+  align-self: center;
+}
+
+.notification .near-expiry-status {
+  height: 30px;
+  width: 30px;
+  background-color: #fdf3e6;
+  border-radius: 50%;
+  border: 3px solid #b9772b;
+  align-self: center;
+}
+
+.notification .discard-btn {
+  color: #1E8FFF;
+  display: inline-block;
+  margin-top: 8.5px;
+  margin-bottom: 0;
+}
+
+.notification .discard-btn:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
 
 /* table style */
 .table-container {
@@ -427,4 +513,8 @@ thead tr {
 .delete-modal-container {
   width: 40vw;
   height: 30vh;
+}
+/* Home Page Styling */
+.home-container {
+  display: flex;
 }

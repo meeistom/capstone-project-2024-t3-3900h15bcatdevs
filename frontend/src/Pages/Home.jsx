@@ -4,8 +4,10 @@ import "../index.css";
 import axios from "axios";
 import { Navibar } from "../Components/Navibar";
 import { AddMilkModal } from "../Components/AddMilkModal";
+import axios from "axios";
 import { Table } from "../Components/Table";
 import { DeleteMilkModal } from "../Components/DeleteMilkModal";
+import { Notifications} from "../Components/Notifications"
 
 export { Home };
 
@@ -14,9 +16,16 @@ function Home() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [confirmDelete, setConfirmDelete] = useState(false);
-  const [deleteEntry, setDeleteEntry] = useState(null);
   const URL = "http://127.0.0.1:5001";
+
+  const fetchNotifications = async () => {
+    try {
+      const response = await axios.get(`${URL}/notifications`);
+      setNotificationData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const fetchData = async () => {
     try {
@@ -41,6 +50,7 @@ function Home() {
       setLoading(false);
     }
     fetchData();
+    fetchNotifications();
   }, []);
 
   const handleRefresh = (newMilk) => {
@@ -86,13 +96,10 @@ function Home() {
         <div className="page-container">
           <h1 className="page-title">List of Milk Entries</h1>
           <p>Total Number of Milk Entries: {data.length}</p>
-          <Table deleteMilk={handleConfirmDelete} data={data} setOpenModal={setOpenModal} viewType="viewMilk"/>
+          <Table data={data} setOpenModal = {setOpenModal} viewType="viewMilk"/>
         </div>
         {openModal && (
           <AddMilkModal addMilk={handleRefresh} closeModal={setOpenModal} version="addMilk1" />
-        )}
-        {confirmDelete && (
-          <DeleteMilkModal entry={deleteEntry} closeModal={setConfirmDelete} deleteMilk={handleDeleteMilk}/>
         )}
       </section>
     </>
