@@ -6,13 +6,13 @@ required_info_path = './labels/assets/template/required_info.txt'
 optional_info_path = './labels/assets/template/optional_info.txt'
 font_path = './labels/assets/cour.ttf'
 
-def generate_milk_label(required_info: str, barcode: str, optional_info: Optional[str] = None) -> str:
+def generate_milk_label(required_info: str, data_matrix: str, optional_info: Optional[str] = None) -> str:
     '''
     Generates the milk label by joining information and barcodes together.
 
     Args:
         required_info (str): HTML div containing the required label information
-        barcode (str): HTML svg containg the milks barcode
+        data_matrix (str): HTML svg containing the milks data_matrix
         optional_info (str): HTML div containing the optional label information
 
     Returns:
@@ -23,21 +23,32 @@ def generate_milk_label(required_info: str, barcode: str, optional_info: Optiona
     if type(required_info) != str:
         raise TypeError(f'required_info is of type {type(required_info)}, but expected {str}')
     
-    # Make sure barcode is an image
-    if type(barcode) != str:
-        raise TypeError(f'barcode is of type {type(barcode)}, but expected {str}')
+    if type(data_matrix) != str:
+        raise TypeError(f'data_matrix is of type {type(data_matrix)}, but expected {str}')
     
-    # Make sure optional_info is an image
     if type(optional_info) not in (str, None):
         raise TypeError(f'optional_info is of type {type(optional_info)}, but expected {str}')
 
     # Make the left part of the label
-    barcode_div = f'<div>\n{barcode}\n</div>'
-    items = f'{optional_info}\n{barcode_div}' if optional_info != None else barcode_div
+    data_matrix_div = f'<div>\n{data_matrix}\n</div>'
+    items = f'{optional_info}\n{data_matrix_div}' if optional_info != None else data_matrix_div
     left_part = f'<div style="display: flex; flex-direction: column;">\n{items}\n</div>\n'
 
     # Make the entire label
     return f'<div class="milk-label" style="display: flex; gap: 10px; font-family: monospace;">\n{left_part + required_info}\n</div>'
+
+def generate_human_label(barcode: str) -> str:
+    '''
+    Creates a label for the mother or the baby.
+    
+    Args:
+        barcode (str): HTML svg containing the human's barcode
+
+    Returns:
+        (str): HTML div containing the human's label 
+    '''
+
+    return f'<div style="font-family: monospace;">{barcode}</div>'
 
 def fill_info(template_path: str, substitution_dct: Optional[dict] = None) -> str:
     '''
@@ -128,4 +139,8 @@ if __name__ == '__main__':
     milk_label = generate_milk_label(required_html, dm, optional_html)
 
     print(milk_label)
+
+    hl = generate_human_label(generate_barcode('4234', 'code-128'))
+
+    print(hl)
 
