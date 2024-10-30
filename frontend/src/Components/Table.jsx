@@ -104,15 +104,20 @@ function Table({ data, setOpenModal, viewType }) {
             ))}
             </tr>
           </thead>
-          
           <tbody>
           {data.length > 0 ? (
             data.map((item, index) => (
               <tr key={item.uid || item.mrn || index} className={index % 2 === 0 ? "even-row" : "odd-row"}>
                 {columns.map((column) => (
-                  <td onClick={() => {handlePopUp(item)}} key={column.key}>
-                    {item[column.key]}
-                  </td>
+                  viewType === "viewMilk" ? (
+                    <td onClick={() => handlePopUp(item)} key={column.key}>
+                      {item[column.key]}
+                    </td>
+                  ) : (
+                    <td key={column.key}>
+                      {item[column.key]}
+                    </td>
+                  )
                 ))}
                 {viewType === "viewMilk" && (
                   <td key="delete-button">
