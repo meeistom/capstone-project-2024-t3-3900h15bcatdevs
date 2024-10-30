@@ -18,8 +18,8 @@ function BabyRegistration({
 }) {
   return (
     <>
-      <div className="register-details-container">
-        <div className="title">
+      <div className="register-details-container d-flex flex-column">
+        <div className="title align-self-center">
           <h2>{"Baby Details"}</h2>
         </div>
         <div className="register-form-label">Baby MRN</div>

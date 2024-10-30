@@ -19,8 +19,8 @@ function MilkRegistration({
 }) {
   return (
     <>
-      <div className="register-details-container">
-        <div className="title">
+      <div className="register-details-container d-flex flex-column">
+        <div className="title align-self-center">
           <h2>{"Milk Details"}</h2>
         </div>
         <Form>
@@ -28,7 +28,10 @@ function MilkRegistration({
             <div className="container">
               <div className="row row-cols-2">
                 <div className="col">
-                  <Form.Label htmlFor="milk-type" className="form-label">
+                  <Form.Label
+                    htmlFor="milk-type"
+                    className="register-form-label"
+                  >
                     Milk Type*
                   </Form.Label>
                   <Form.Select

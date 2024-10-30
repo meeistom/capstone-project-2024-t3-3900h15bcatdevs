@@ -17,12 +17,12 @@ function PreviewGeneratedLabel({ setImageRef, milkChecked }) {
 
   return (
     <>
-      <div className="register-details-container preview-label min-vh-50">
-        <div className="title">
+      <div className="register-details-container preview-label min-vh-50 d-flex flex-column">
+        <div className="title align-self-center mb-3">
           {milkChecked && <h2>Preview Label</h2>}
           {!milkChecked && <h2>Register Complete</h2>}
         </div>
-        <div className="body d-flex flex-column justify-content-between">
+        <div className="body d-flex flex-column justify-content-between fs-5">
           {milkChecked && <img ref={imgRef} src={sticker} alt="sticker" />}
           {!milkChecked && (
             <p>

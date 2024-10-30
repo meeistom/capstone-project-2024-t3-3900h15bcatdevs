@@ -20,8 +20,8 @@ function ConfirmDetails({
 }) {
   return (
     <>
-      <div className="register-details-container confirm-details">
-        <div className="title">
+      <div className="register-details-container confirm-details d-flex flex-column">
+        <div className="title align-self-center mb-3">
           <h2>{"Confirm Details"}</h2>
         </div>
         <div className="body d-flex flex-column text-start fs-5">

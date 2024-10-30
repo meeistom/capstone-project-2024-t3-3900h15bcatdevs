@@ -25,8 +25,8 @@ function MotherRegistration({
 
   return (
     <>
-      <div className="register-details-container">
-        <div className="title">
+      <div className="register-details-container d-flex flex-column">
+        <div className="title align-self-center">
           <h2>{"Mother Details"}</h2>
         </div>
         <div className="register-form-label">MRN</div>

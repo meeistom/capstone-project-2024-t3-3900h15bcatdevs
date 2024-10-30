@@ -162,14 +162,13 @@ function Register() {
 
   const submitMilkInfo = () => {
     const milkInfo = {
-      uid: "0000",
       milkType: milkType,
       express_time: expressDate,
       expiration_time: expiryDate,
       storage_type: storageType,
       storage_location: storageType,
       volume_ml: 100,
-      owner_mrn: momMRN,
+      baby_mrn: babyMRN,
       extra_notes: notes,
     };
 
