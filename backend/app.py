@@ -91,6 +91,23 @@ def get_milk_entry():
             200
         )
 
+#  Fetches all EXACT matches by keyword
+@app.route('/search', methods=['GET'], strict_slashes=False)
+def search_by_keyword():
+    keyword = request.args.get('keyword')
+    search_results = retrieve_by_keyword(fs_client, keyword)
+
+    if len(search_results) == 0:
+        return make_response(
+            "No matches with the keyword",
+            400
+        )
+    else:
+        return make_response(
+            jsonify(search_results),
+            200
+        )
+
 # Adds a new mother
 @app.route('/add_mother', methods=['POST'])
 def add_new_mother():
