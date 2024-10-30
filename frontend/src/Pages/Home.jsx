@@ -14,18 +14,16 @@ function Home() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [notifications, setNotifications] = useState(null);
   const URL = "http://127.0.0.1:5001";
 
   const getNotifications = async () => {
-    const url = 'http://localhost:5001/notifications'
     try {
-      const response = await axios.get(url);
-      const list = new Array(response.data)
+      const response = await axios.get(`${URL}/notifications`);
+      setNotifications(response.data);
       console.log(response)
-      return response
     } catch (error) {
       console.log(error)
-      return error
     }
   }
 

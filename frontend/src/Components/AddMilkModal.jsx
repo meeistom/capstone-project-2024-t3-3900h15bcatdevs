@@ -114,7 +114,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
 
   const handleCheckInput = () => {
     if (!expiryDate || !expressDate) {
-      alert("Please fill in all relevant infomation");
+      alert("Please fill in all relevant information");
     } else {
       setModalVersion("addMilk3");
     }
@@ -161,7 +161,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
         setFooter("Waiting for scan...");
         break;
       case "addMilk2":
-        setTitle("Confirm Infomation");
+        setTitle("Confirm Information");
         setBody(
           <>
             <AddMilkForm

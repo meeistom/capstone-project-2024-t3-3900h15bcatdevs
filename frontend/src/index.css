@@ -400,7 +400,7 @@ input::-webkit-inner-spin-button {
 .notification .discard-btn {
   color: #1E8FFF;
   display: inline-block;
-  margin-top: 8px;
+  margin-top: 8.5px;
   margin-bottom: 0;
 }
 
@@ -504,3 +504,15 @@ thead tr {
 }
 
 /* Delete Confirmation Popup */
+.delete-confirmation-container {
+  min-height: 140px;
+  width: 280px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.delete-confirmation .title {
+  font-size: 20px; 
+}
