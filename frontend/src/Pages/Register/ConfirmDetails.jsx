@@ -1,6 +1,7 @@
 import { React } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
+import { dateTimeToString } from "../../Utils/utils";
 
 export { ConfirmDetails };
 
@@ -49,8 +50,8 @@ function ConfirmDetails({
             <div className="milk-details">
               <div className="sub-title fw-bold">Milk Details</div>
               <div className="top-layer">
-                <div>Express Date: {expressDate}</div>
-                <div>Expiry Date: {expiryDate}</div>
+                <div>Express Date: {dateTimeToString(expressDate)}</div>
+                <div>Expiry Date: {dateTimeToString(expiryDate)}</div>
               </div>
               <div className="bottom-layer">
                 <div>Milk Type: {milkType.toUpperCase()}</div>

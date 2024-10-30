@@ -256,7 +256,7 @@ function Register() {
             babyMRN={babyMRN}
             babyFirstName={babyFirstName}
             babyLastName={babyLastName}
-            exiryDate={expiryDate}
+            expiryDate={expiryDate}
             expressDate={expressDate}
             notes={notes}
             milkType={milkType}
@@ -266,14 +266,14 @@ function Register() {
         );
         break;
       case "preview":
-        submitDataInOrder().then(() => {
-          setRenderedPage(
-            <PreviewGeneratedLabel
-              setImageRef={(ref) => (imageRef.current = ref.current)}
-              milkChecked={checked.milkPage}
-            />
-          );
-        });
+        submitDataInOrder();
+        setRenderedPage(
+          <PreviewGeneratedLabel
+            setImageRef={(ref) => (imageRef.current = ref.current)}
+            milkChecked={checked.milkPage}
+          />
+        );
+
         break;
     }
   }, useEffectDependencies);
