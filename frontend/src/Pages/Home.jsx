@@ -6,11 +6,25 @@ import { Navibar } from "../Components/Navibar";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "../index.css";
 import { AddMilkModal } from "../Components/AddMilkModal";
+import axios from "axios";
 
 export { Home };
 
 function Home() {
   const [openModal, setOpenModal] = useState(false);
+
+  const getNotifications = async () => {
+    const url = 'http://localhost:5001/notifications'
+    try {
+      const response = await axios.get(url);
+      const list = new Array(response.data)
+      console.log(response)
+      return response
+    } catch (error) {
+      console.log(error)
+      return error
+    }
+  }
 
   return (
     <>
@@ -33,6 +47,7 @@ function Home() {
             Notifications
             <div className="subtitle-1">
               (5)
+              {/* {getNotifications()} */}
             </div>
           </div>
           <div className="subtitle-2">

@@ -194,6 +194,8 @@ def route_verify_feed():
     return make_response(
         message, # JSON if inputs provided. String if not.
         200 if success else error_code
+    )
+
 # Provides latest notifications update on statuses of all milks
 @app.route('/notifications', methods=['GET'], strict_slashes=False)
 def get_update_notifications():

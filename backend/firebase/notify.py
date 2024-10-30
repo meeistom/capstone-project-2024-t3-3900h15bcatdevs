@@ -33,7 +33,7 @@ def get_milk_updates(firestore_client):
         minutes = remainder // 60
 
         # Get baby info
-        if not baby_exists(firestore_client, milk_entry['baby_mrn']):
+        if not exists_in_collection(firestore_client, 'babies', milk_entry['baby_mrn']):
             continue
 
         baby_document = firestore_client.collection('babies').document(milk_entry['baby_mrn']).get().to_dict()
