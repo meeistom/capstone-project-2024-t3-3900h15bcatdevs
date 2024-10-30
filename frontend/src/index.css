@@ -183,6 +183,10 @@ input::-webkit-inner-spin-button {
   align-self: center;
 }
 
+.register-details-container .body {
+  color: var(--textColor);
+}
+
 .confirm-details .sub-title {
   font-weight: bold;
 }
@@ -190,6 +194,11 @@ input::-webkit-inner-spin-button {
 .confirm-details .body {
   color: var(--textColor);
   gap: 2rem;
+}
+
+.register-details-container .col {
+  display: flex;
+  flex-direction: column;
 }
 
 /* Verification Styling */
@@ -209,7 +218,7 @@ input::-webkit-inner-spin-button {
 
 .verification-page .subtitle {
   font-size: x-large;
-  color: #7f48a3;
+  color: var(--brandColor);
   text-align: center;
 }
 

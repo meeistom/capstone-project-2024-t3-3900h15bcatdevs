@@ -9,6 +9,7 @@ import sticker from "../Assets/milk1_label.png";
 import scanner from "../Assets/scanner.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../index.css";
+import { URL } from "../constants.jsx";
 
 export { AddMilkModal };
 
@@ -26,8 +27,6 @@ function AddMilkModal({ addMilk, closeModal, version }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState(null);
   const [footer, setFooter] = useState(null);
-
-  const URL = "http://127.0.0.1:5001";
 
   useEffect(() => {
     if (scannerInputRef.current) {
@@ -51,6 +50,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       return null;
     }
   };
+
   const getMotherDetails = async (mother_mrn) => {
     const url = `${URL}/mothers?mrn=${mother_mrn}`;
     console.log(url);

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navibar } from "../Components/Navibar";
-import axios from 'axios';
+import axios from "axios";
+import { URL } from "../constants";
 
 export { HistoryLog };
 
@@ -58,11 +59,12 @@ function HistoryLog() {
             <ul>
               {milkEntries.map((entry, index) => (
                 <li key={index}>
-                  MilkID: {entry.uid}, 
-                  Baby of Mother: {entry.mother ? `${entry.mother.first_name} ${entry.mother.last_name}` : 'Loading...'},
-                  Storage Location: {entry.storage_location},
-                  Storage Type: {entry.storage_type},
-                  Expiry Time: {entry.expiration_date},
+                  MilkID: {entry.uid}, Baby of Mother:{" "}
+                  {entry.mother
+                    ? `${entry.mother.first_name} ${entry.mother.last_name}`
+                    : "Loading..."}
+                  , Storage Location: {entry.storage_location}, Storage Type:{" "}
+                  {entry.storage_type}, Expiry Time: {entry.expiration_date},
                   Notes: {entry.extra_notes}
                 </li>
               ))}

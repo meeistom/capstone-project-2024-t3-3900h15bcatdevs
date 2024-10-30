@@ -97,7 +97,7 @@ describe("register flow", () => {
     cy.get("#next-btn").click();
 
     const expressDate = "2024-10-31T14:30";
-    const expiryDate = "2024-12-31T14:30";
+    const expiryDate = "2024-11-01T14:30";
     const milkType = "pdhm";
     const storageType = "fridge";
 
@@ -152,12 +152,18 @@ describe("register flow", () => {
   });
 
   it("should be able to preview label after form completion", () => {
-    cy.get('label[for="toggle-check-mom"]').click();
+    cy.get('label[for="toggle-check-milk"]').click();
     cy.get("#start-rgstr-btn").click();
 
-    cy.get('input[name="mom-mrn"]').type("1234");
-    cy.get('input[name="mom-fname"]').type("Your");
-    cy.get('input[name="mom-lname"]').type("Mom");
+    const expressDate = "2024-10-31T14:30";
+    const expiryDate = "2024-11-01T14:30";
+    const milkType = "pdhm";
+    const storageType = "fridge";
+
+    cy.get("#milk-type").select(milkType);
+    cy.get("#milk-storage").select(storageType);
+    cy.get("#express-date").type(expressDate);
+    cy.get("#expiry-date").type(expiryDate);
 
     cy.get("#next-btn").click();
     cy.get("#next-btn").click();
@@ -166,6 +172,26 @@ describe("register flow", () => {
   });
 
   it("should be able to print the generated label", () => {
+    cy.get('label[for="toggle-check-milk"]').click();
+    cy.get("#start-rgstr-btn").click();
+
+    const expressDate = "2024-10-31T14:30";
+    const expiryDate = "2024-11-01T14:30";
+    const milkType = "pdhm";
+    const storageType = "fridge";
+
+    cy.get("#milk-type").select(milkType);
+    cy.get("#milk-storage").select(storageType);
+    cy.get("#express-date").type(expressDate);
+    cy.get("#expiry-date").type(expiryDate);
+
+    cy.get("#next-btn").click();
+    cy.get("#next-btn").click();
+
+    cy.get('button[name="rgstr-print-label"]').click();
+  });
+
+  it("should not show a label preview if milk was not selected as an option", () => {
     cy.get('label[for="toggle-check-mom"]').click();
     cy.get("#start-rgstr-btn").click();
 
@@ -176,7 +202,16 @@ describe("register flow", () => {
     cy.get("#next-btn").click();
     cy.get("#next-btn").click();
 
-    cy.get('button[name="rgstr-print-label"]').click();
+    const bodyMessage =
+      "Registration has been successfully completed. You may return to the home page now.";
+    cy.get(".body").find("img").should("not.exist");
+    cy.get(".body").should("contain", bodyMessage);
+  });
+
+  it("should include a mom mrn field in baby form if mom was not selected", () => {
+    cy.get('label[for="toggle-check-baby"]').click();
+    cy.get("#start-rgstr-btn").click();
+    cy.get('input[name="mom-mrn"]').should("exist");
   });
 
   it("should let the user return home after registering", () => {
