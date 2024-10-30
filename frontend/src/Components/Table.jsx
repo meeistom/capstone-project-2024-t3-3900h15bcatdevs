@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from "react-bootstrap/Button";
-import { faPlus, faFilter, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faFilter, faTrash, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ViewInfoModal } from './ViewInfoModal';
 
@@ -38,6 +38,9 @@ function Table({ data, setOpenModal, viewType }) {
   const columns = viewConfigs[viewType] || [];
   const [openEntryModal, setOpenEntryModal] = useState(false);
   const [info, setInfo] = useState(null);
+  const URL = "http://127.0.0.1:5001";
+  const [displayData, setDisplayData] = useState(data);
+  const [searchValue, setSearchValue] = useState('');
 
   const handlePopUp = (entry) => {
     setInfo(entry);
@@ -48,6 +51,30 @@ function Table({ data, setOpenModal, viewType }) {
     setInfo(null);
     setOpenEntryModal(false);
   }
+
+  const handleSearch = async() => {
+    console.log(searchValue);
+    let result;
+    try {
+      console.log("Quering backend");
+      const response = await fetch(`${URL}/search?keyword=${searchValue}`);
+      if (!response.ok) {
+        throw new Error('Could not find relative entry with such keyword');
+      }
+      result = await response.json();
+    } catch (error) {
+      setError(error); 
+    } finally {
+      if (result) {
+        console.log(result)
+      }
+    }
+  }
+
+  const handleEnter = () => {
+    console.log("entered");
+    handleSearch();
+  }
   
   return (
       <div className="table-container">
@@ -57,7 +84,10 @@ function Table({ data, setOpenModal, viewType }) {
               <td colSpan="100%">
                 <div className="table-header">
                   <button className="btn btn-outline-secondary sort-btn"><FontAwesomeIcon icon={faFilter} /></button>
-                  <input className="search-bar form-control" type="text" placeholder="Search..."/>
+                  <div className="search-bar input-group">
+                    <input onChange={(e) => setSearchValue(e.target.value)} onKeyDown={(e) => (e.key === 13 ? handleEnter() : null)} value={searchValue} type="text" className="form-control" placeholder="Seach..." aria-describedby="button-search"/>
+                    <button onClick={() => handleSearch()} className="btn btn-outline-secondary" type="button" id="button-search"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+                  </div>
                   {viewType === "viewMilk" && <Button id="scan-btn" onClick={() => setOpenModal(true)}>
                     <FontAwesomeIcon icon={faPlus} /> New Milk Entry
                   </Button>}
