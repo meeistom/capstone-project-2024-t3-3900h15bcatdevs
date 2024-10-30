@@ -422,3 +422,9 @@ thead tr {
 .info-section {
   margin-bottom: 10px;
 }
+
+/* Delete modal */
+.delete-modal-container {
+  width: 40vw;
+  height: 30vh;
+}

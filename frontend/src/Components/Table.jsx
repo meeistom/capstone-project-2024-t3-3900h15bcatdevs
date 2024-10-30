@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from "react-bootstrap/Button";
 import { faPlus, faFilter, faTrash, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,7 +6,7 @@ import { ViewInfoModal } from './ViewInfoModal';
 
 export {Table};
 
-function Table({ data, setOpenModal, viewType }) {
+function Table({ deleteMilk, data, setOpenModal, viewType }) {
 
   const viewConfigs = {
     "viewMilk": [
@@ -88,7 +88,7 @@ function Table({ data, setOpenModal, viewType }) {
                     <input onChange={(e) => setSearchValue(e.target.value)} onKeyDown={(e) => (e.key === 13 ? handleEnter() : null)} value={searchValue} type="text" className="form-control" placeholder="Seach..." aria-describedby="button-search"/>
                     <button onClick={() => handleSearch()} className="btn btn-outline-secondary" type="button" id="button-search"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
                   </div>
-                  {viewType === "viewMilk" && <Button id="scan-btn" onClick={() => setOpenModal(true)}>
+                  {viewType === "viewMilk" && <Button id="scan-btn" onClick={() => setOpenModal(true)}> 
                     <FontAwesomeIcon icon={faPlus} /> New Milk Entry
                   </Button>}
                 </div>
@@ -107,8 +107,10 @@ function Table({ data, setOpenModal, viewType }) {
           <tbody>
           {data.length > 0 ? (
             data.map((item, index) => (
+              // make the entry colours alternate
               <tr key={item.uid || item.mrn || index} className={index % 2 === 0 ? "even-row" : "odd-row"}>
                 {columns.map((column) => (
+                  // only milk entries(on the home page) will activate a pop up for details when clicking onto an entry
                   viewType === "viewMilk" ? (
                     <td onClick={() => handlePopUp(item)} key={column.key}>
                       {item[column.key]}
@@ -119,10 +121,10 @@ function Table({ data, setOpenModal, viewType }) {
                     </td>
                   )
                 ))}
-                {viewType === "viewMilk" && (
+                {viewType === "viewMilk" && ( // only milk entries are deletable
                   <td key="delete-button">
                     <button className="dlt-btn">
-                      <FontAwesomeIcon icon={faTrash} />
+                      <FontAwesomeIcon onClick={() => deleteMilk(item)} icon={faTrash} />
                     </button>
                   </td>
                 )}

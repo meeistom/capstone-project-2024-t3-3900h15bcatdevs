@@ -50,7 +50,7 @@ function ViewBabies() {
         <div className="page-container">
           <h1 className="page-title">Babies</h1>
           <p>Total number of babies: {data.length}</p>
-          <Table data={data} setOpenModal = {null} viewType="viewBaby"/>
+          <Table delete={null} data={data} setOpenModal = {null} viewType="viewBaby"/>
         </div>
       </section>
     </>

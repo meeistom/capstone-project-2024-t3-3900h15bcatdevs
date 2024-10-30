@@ -53,7 +53,7 @@ function ViewMothers() {
         <div className="page-container">
           <h1 className="page-title">Mothers</h1>
           <p>Total number of mothers: {data.length}</p>
-          <Table data={data} setOpenModal = {null} viewType="viewMother"/>
+          <Table delete={null} data={data} setOpenModal = {null} viewType="viewMother"/>
         </div>
       </section>
     </>
