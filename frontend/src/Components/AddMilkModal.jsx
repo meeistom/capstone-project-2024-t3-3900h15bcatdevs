@@ -13,7 +13,7 @@ import { URL } from "../constants.jsx";
 
 export { AddMilkModal };
 
-function AddMilkModal({ closeModal, version }) {
+function AddMilkModal({ addMilk, closeModal, version }) {
   const scannerInputRef = useRef(null);
   const [modalVersion, setModalVersion] = useState(version);
   const [scannedValue, setScannedValue] = useState(0);
@@ -78,7 +78,7 @@ function AddMilkModal({ closeModal, version }) {
     }
   };
 
-  const handleSubmitMilkInfo = () => {
+  const handleSubmitMilkInfo = async() => {
     const bottleDetails = {
       milk_type: milkType,
       express_time: new Date(expressDate).getTime() / 1000,
@@ -89,14 +89,12 @@ function AddMilkModal({ closeModal, version }) {
       baby_mrn: babyData.mrn,
       extra_notes: notes,
     };
-
-    console.log(bottleDetails);
-
-    axios
+    return axios
       .post(`${URL}/add_milk_entry`, bottleDetails)
       .then((response) => {
-        console.log("Bottle details added:");
-        setModalVersion("addMilk3");
+        console.log(`Bottle details added: ${response}`, response.data);
+        addMilk(response.data);
+        setModalVersion("addMilk4");
       })
       .catch((error) => {
         console.log("Error posting bottle details:", error);
@@ -111,19 +109,24 @@ function AddMilkModal({ closeModal, version }) {
     );
     printWindow.document.close();
     printWindow.print();
+
   };
 
   const handleCheckInput = () => {
     if (!expiryDate || !expressDate) {
       alert("Please fill in all relevant infomation");
     } else {
-      handleSubmitMilkInfo();
+      setModalVersion("addMilk3");
     }
   };
 
-  const handlePrintAndMovePage = () => {
-    printImage();
-    setModalVersion("addMilk4");
+  const handlePrintAndMovePage = async() => {
+    try {
+      await handleSubmitMilkInfo();
+      printImage();
+    } catch (error) {
+      console.error("Error submitting milk info:", error);
+    }
   };
 
   const useEffectDependencies = [
