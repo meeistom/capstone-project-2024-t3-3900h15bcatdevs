@@ -1,10 +1,5 @@
 from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
-# from database.fetch_mother import fetch_mother_data, fetch_mother_data_by_barcode
-# from database.insert_mother import insert_mother_data
-# from database.fetch_baby import fetch_baby_data
-# from database.insert_baby import insert_baby_data
-# from database.insert_bottle import insert_bottle_data
 
 import firebase_admin as fba
 from firebase_admin import firestore, credentials
@@ -13,15 +8,9 @@ from firebase.add import *
 from firebase.delete import *
 from firebase.retrieve import *
 from firebase.error_check import *
+from firebase.verify import *
 
-######### Uncomment to direct to the right key
-# cred = credentials.Certificate('./firebase/key_sarah.json')
-# cred = credentials.Certificate('./firebase/key_cynthia.json')
-cred = credentials.Certificate('./firebase/key_aolin.json')
-# cred = credentials.Certificate('./firebase/key_parker.json')
-# cred = credentials.Certificate('./firebase/key_tom.json')
-# cred = credentials.Certificate('./firebase/key_parker.json')
-
+cred = credentials.Certificate('./.key/key.json')
 fba.initialize_app(cred)
 fs_client = firestore.client()
 
@@ -45,9 +34,9 @@ def get_mother():
     if mrn:
         mother_data = retrieve_mother_by_mrn(fs_client, mrn)
     elif first_name:
-        mother_data = retrieve_mothers_by_first_name(fs_client, first_name)
+        mother_data = retrieve_mother_by_name(fs_client, 'first_name', first_name)
     elif last_name:
-        mother_data = retrieve_mothers_by_last_name(fs_client, last_name)
+        mother_data = retrieve_mother_by_name(fs_client, 'last_name', last_name)
     else:
         mother_data = retrieve_all_mothers(fs_client)
 
@@ -120,13 +109,28 @@ def display_milk():
             200
         )
 
+#  Fetches all EXACT matches by keyword
+@app.route('/search', methods=['GET'], strict_slashes=False)
+def search_by_keyword():
+    keyword = request.args.get('keyword')
+    search_results = retrieve_by_keyword(fs_client, keyword)
+
+    if len(search_results) == 0:
+        return make_response(
+            "No matches with the keyword",
+            400
+        )
+    else:
+        return make_response(
+            jsonify(search_results),
+            200
+        )
+
 # Adds a new mother
 @app.route('/add_mother', methods=['POST'])
 def add_new_mother():
     new_mother_data = request.get_json()
     
-    # Generate new MRN for mother?
-
     success, message = add_mother(fs_client, new_mother_data)
     
     return make_response(
@@ -139,8 +143,6 @@ def add_new_mother():
 def add_new_baby():
     new_baby_data = request.get_json()
 
-    # Generate new MRN for baby?
-
     success, message = add_baby(fs_client, new_baby_data)
     
     return make_response(
@@ -152,10 +154,6 @@ def add_new_baby():
 @app.route('/add_milk_entry', methods=['POST'])
 def add_new_milk_entry():
     new_milk_entry_data = request.get_json()
-
-    print(new_milk_entry_data)
-
-    # Generate new UID for milk entry?
 
     success, message = add_milk_entry(fs_client, new_milk_entry_data)
     print(message)
@@ -170,7 +168,7 @@ def add_new_milk_entry():
 def delete_mother_by_mrn():
     mrn = request.args.get('mrn')
 
-    success, message = delete_mother(fs_client, mrn)
+    success, message = delete_document(fs_client, mother_mrn=mrn)
 
     return make_response(
         message,
@@ -182,7 +180,7 @@ def delete_mother_by_mrn():
 def delete_baby_by_mrn():
     mrn = request.args.get('mrn')
 
-    success, message = delete_baby(fs_client, mrn)
+    success, message = delete_document(fs_client, baby_mrn=mrn)
 
     return make_response(
         message,
@@ -194,11 +192,42 @@ def delete_baby_by_mrn():
 def delete_milk_entry_by_uid():
     uid = request.args.get('uid')
 
-    success, message = delete_milk_entry(fs_client, uid)
+    success, message = delete_document(fs_client, milk_entry_uid=uid)
 
     return make_response(
         message,
         200 if success else 500
+    )
+
+@app.route('/verify', methods=['GET'])
+def route_verify():
+    barcode = request.args.get('barcode')
+
+    if barcode:
+        success, message = verify(fs_client, barcode)
+    else:
+        success, message = False, "Invalid Request. No inputs given"
+
+    return make_response(
+        message, # JSON if barcode provided. String if not.
+        200 if success else 404
+    )
+
+@app.route('/verify_feed', methods=['GET'])
+def route_verify_feed():
+    milk_uid = request.args.get('milk_uid')
+    baby_mrn = request.args.get('baby_mrn')
+
+    if milk_uid and baby_mrn:
+        success, message = verify_feed(fs_client, milk_uid, baby_mrn)
+    else:
+        success, message = False, "Invalid Request. Incorrect inputs given"
+
+    error_code = 404 if 'error' in message else 400
+
+    return make_response(
+        message, # JSON if inputs provided. String if not.
+        200 if success else error_code
     )
 
 if __name__ == '__main__':

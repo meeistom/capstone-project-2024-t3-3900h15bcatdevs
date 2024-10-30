@@ -9,13 +9,21 @@ import "../index.css";
 
 export { Modal };
 
-function Modal({ title, body, footer, closeModal }) {
+function Modal({ id, title, body, footer, closeModal }) {
   return (
     <>
-      <div className="modal-background position-fixed d-flex justify-content-center align-items-center w-100 h-100">
+      <div
+        id={id}
+        className="modal-background position-fixed d-flex justify-content-center align-items-center w-100 h-100"
+      >
         <div className="modal-container position-relative bg-white rounded-3 shadow-lg d-flex flex-column p-4">
           <div className="modal-close-btn d-flex justify-content-end">
-            <Button variant="link" onClick={() => closeModal(false)}>
+            <Button
+              variant="link"
+              name="close-modal"
+              aria-label="close-modal"
+              onClick={() => closeModal(false)}
+            >
               <FontAwesomeIcon className="close-btn" icon={faXmark} />
             </Button>
           </div>

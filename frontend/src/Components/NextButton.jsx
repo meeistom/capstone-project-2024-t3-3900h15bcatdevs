@@ -8,9 +8,15 @@ import "../index.css";
 
 export { NextButton };
 
-function NextButton({ onClick, children }) {
+function NextButton({ id, onClick, children }) {
   return (
-    <Button variant="primary" size="lg" onClick={onClick}>
+    <Button
+      id={id}
+      variant="primary"
+      size="lg"
+      aria-label="next-button"
+      onClick={onClick}
+    >
       <span className="me-2">{children}</span>
       <FontAwesomeIcon icon={faArrowRight} />
     </Button>
