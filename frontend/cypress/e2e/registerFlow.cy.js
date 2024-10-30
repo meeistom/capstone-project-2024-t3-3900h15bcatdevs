@@ -97,7 +97,7 @@ describe("register flow", () => {
     cy.get("#next-btn").click();
 
     const expressDate = "2024-10-31T14:30";
-    const expiryDate = "2024-12-31T14:30";
+    const expiryDate = "2024-11-01T14:30";
     const milkType = "pdhm";
     const storageType = "fridge";
 
@@ -156,7 +156,7 @@ describe("register flow", () => {
     cy.get("#start-rgstr-btn").click();
 
     const expressDate = "2024-10-31T14:30";
-    const expiryDate = "2024-12-31T14:30";
+    const expiryDate = "2024-11-01T14:30";
     const milkType = "pdhm";
     const storageType = "fridge";
 
@@ -176,7 +176,7 @@ describe("register flow", () => {
     cy.get("#start-rgstr-btn").click();
 
     const expressDate = "2024-10-31T14:30";
-    const expiryDate = "2024-12-31T14:30";
+    const expiryDate = "2024-11-01T14:30";
     const milkType = "pdhm";
     const storageType = "fridge";
 
