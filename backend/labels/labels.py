@@ -1,6 +1,8 @@
-from barcode import EAN13, writer # only needed for testing purposes
+# from barcode import EAN13, writer # only needed for testing purposes
 from PIL import Image, ImageDraw, ImageFont
 from helper import *
+
+from typing import Optional
 
 # Paths
 required_info_path = './labels/assets/template/required_info.txt'
@@ -27,10 +29,24 @@ def generate_label(required_info, barcode, optional_info=None):
 
     return label
 
-def modify_info(text, baby_sure_name, BO_name, MRN_code):
-    # Make sure the text is a string
-    if type(text) != str:
-        raise TypeError(f'text is of type {type(text)}, but expected {str}')
+# SHOULD BE DONE - can instead pass in a dictionary with the words to replace
+def fill_info(template_path: str, baby_sure_name: str, BO_name: str, MRN_code: str) -> str:
+    '''
+    Function to modify the optional information template to include human readables details.
+
+    Args:
+        template_path (str): Path to the optional information template
+        baby_sure_name (str): The baby's lastname/surname
+        BO_name (str): The baby's mother's name
+        MRN_code (str): The baby's MRN (Medical Record Number)
+
+    Returns:
+        (str): Modified optional information template
+    '''
+
+    # Make sure the template_path is a string
+    if type(template_path) != str:
+        raise TypeError(f'template_path is of type {type(template)}, but expected {str}')
     
     # Make sure the baby_sure_name is a string or doesn't exist
     if baby_sure_name != None and type(baby_sure_name) != str:
@@ -41,21 +57,24 @@ def modify_info(text, baby_sure_name, BO_name, MRN_code):
         raise TypeError(f'BO_name is of type {type(BO_name)}, but expected {str}')
     
     # Make sure the MRN_code is a string or doesn't exist
-    # AOLIN MIGHT STORE THE MRN CODE AS AN INTEGER SO MAKE SURE YOU CHECK THAT
     if MRN_code != None and type(MRN_code) != str:
         raise TypeError(f'MRN_code is of type {type(MRN_code)}, but expected {str}')
+    
+    # Read in the template
+    with open(template_path, 'r') as f:
+        template = f.read()
 
-    # Replace the appropriate strings of text
-    text = text if baby_sure_name == None else text.replace('<<babySureName>>', baby_sure_name)
-    text = text if BO_name == None else text.replace('<<BOName>>', BO_name)
-    text = text if MRN_code == None else text.replace('<<MRNCODE>>', MRN_code)
+    # Replace the appropriate strings of template
+    template = template if baby_sure_name == None else template.replace('<<babySureName>>', baby_sure_name)
+    template = template if BO_name == None else template.replace('<<BOName>>', BO_name)
+    template = template if MRN_code == None else template.replace('<<MRNCODE>>', MRN_code)
 
-    return text
+    return template
 
 # Will probably need to change this function at some point cause we can make the optional information
 # be data input from the database
 # CAN PROBABLY REMOVE: Initial 1 & 2 FROM optional_info.txt SINCE THE BARCODE REPLACES THAT - i think
-def generate_info(info_path, baby_sure_name=None, BO_name=None, MRN_code=None):
+# def generate_info(info_path, baby_sure_name=None, BO_name=None, MRN_code=None):
     # Read in the information text
     with open(info_path, 'r') as f:
 
@@ -93,20 +112,40 @@ def generate_info(info_path, baby_sure_name=None, BO_name=None, MRN_code=None):
         
     return img
 
+def convert_info_to_html(template: str, style_format: Optional[str] = None) -> str:
+    '''
+    Generate each part of the label.
+    
+    Args:
+        template (str): The template string
+        style_format (str): CSS styling for the template
 
+    Returns:
+        (str): The template as a HTML string
+    '''
 
+    # Puts every line in the template between paragraph tags: <p>line</p>
+    html = '\n'.join([f'\t<p>{line}</p>' for line in template.strip().split('\n')])
+    if style_format:
+        return f'<div class="info" style="{style_format}">\n{html}\n</div>'
+    return f'<div class="info">\n{html}\n</div>'
+    
 
 
 # Testing stuff
 if __name__ == '__main__':
-    r_img = generate_info(required_info_path)
-    o_img = generate_info(optional_info_path, 'Yamaguchi', 'Hana', '123456')
+    # r_img = generate_info(required_info_path)
+    # o_img = generate_info(optional_info_path, 'Yamaguchi', 'Hana', '123456')
 
-    # r_img.save('r.png')
-    # o_img.save('o.png')
-    bar = EAN13('123456789012', writer=writer.ImageWriter())
+    # # r_img.save('r.png')
+    # # o_img.save('o.png')
+    # bar = EAN13('123456789012', writer=writer.ImageWriter())
 
-    o_label = generate_label(r_img, bar.render(writer_options={'font_path': font_path, 'dpi': 200}), o_img)
-    no_label = generate_label(r_img, bar.render(writer_options={'font_path': font_path, 'dpi': 200}))
-    o_label.save('./generated_labels/o_label.png')
-    no_label.save('./generated_labels/no_label.png')
+    # o_label = generate_label(r_img, bar.render(writer_options={'font_path': font_path, 'dpi': 200}), o_img)
+    # no_label = generate_label(r_img, bar.render(writer_options={'font_path': font_path, 'dpi': 200}))
+    # o_label.save('./generated_labels/o_label.png')
+    # no_label.save('./generated_labels/no_label.png')
+
+    optional = fill_info(optional_info_path, 'Yamaguchi', 'Hana', '123456')
+    html = convert_info_to_html(open(required_info_path, 'r').read())
+    print(html)
