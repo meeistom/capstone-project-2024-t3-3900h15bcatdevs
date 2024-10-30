@@ -39,6 +39,7 @@ body {
 .modal-container {
   width: 31rem;
   height: 39rem;
+  overflow: auto;
 }
 
 .modal-container .title {
@@ -410,4 +411,14 @@ thead tr {
 .page-container p {
   margin: 0;
   padding: 0;
+}
+
+/* Info modal */
+.info-btn-group {
+  margin: 15px;
+}
+
+/* Info form */
+.info-section {
+  margin-bottom: 10px;
 }

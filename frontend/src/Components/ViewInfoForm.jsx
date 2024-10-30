@@ -15,20 +15,20 @@ function ViewInfoForm({ info, version }) {
           <div className="container text-center">
             <span>Created by {create_time}</span>
             <h5>Patient Details</h5>
-            <div className="row row-cols-2">
+            <div className="row row-cols-2 info-section">
               <div className="col"><strong>Baby</strong></div>
               <div className="col">{info.baby_name}<br/>{info.baby_mrn}</div>
               <div className="col"><strong>Mother</strong></div>
               <div className="col">{info.mother_name}<br/>{info.mother_mrn}</div>
             </div>
             <h5>Milk Details</h5>
-            <div className="row row-cols-2">
+            <div className="row row-cols-2 info-section">
               <div className="col">Expressed time</div>
-              <input type="datetime-local" readOnly value={`${express_time}`}/>
+              <div><input className="form-control" type="datetime-local" readOnly value={`${express_time}`}/></div>
               <div className="col">Expiration time</div>
-              <input type="datetime-local" readOnly value={`${expiration_time}`}/>
+              <div><input className="form-control" type="datetime-local" readOnly value={`${expiration_time}`}/></div>
             </div>
-            <div className="row row-cols-2">
+            <div className="row row-cols-2 info-section">
               <div>
                 <label htmlFor={`${info.uid}-milk-type`} className="form-label">
                   Milk Type
@@ -66,6 +66,22 @@ function ViewInfoForm({ info, version }) {
                 </select>
               </div>
             </div>
+            <div className="row row-cols-2 info-section">
+              <div className="col">Volume(ml)</div>
+              <div className="col">{info.volume_ml}</div>
+              <div className="col">Storage Location</div>
+              <div className="col">{info.storage_location}</div>
+            </div>
+            <label htmlFor="milk-notes" className="form-label"><h5>Notes</h5>
+            </label>
+            <textarea
+              className="form-control"
+              id="milk-notes"
+              rows="3"
+              value={info.extra_notes}
+              disabled
+              onChange={(e) => setNotes(e.target.value)}
+            ></textarea>
           </div>
         </>)
         break;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ViewInfoForm } from './ViewInfoForm';
 import { Modal } from './Modal';
+import Button from "react-bootstrap/Button";
 
 export { ViewInfoModal };
 
@@ -15,8 +16,17 @@ function ViewInfoModal({ info, closeModal, version }) {
         setBody(<ViewInfoForm info={info} version={version}/>);
         setFooter(
           <>
-            <button onClick={closeModal}>Close</button>
-            <button>Edit</button>
+           <div id="btn-group" className="info-btn-group">
+            <Button onClick={() => closeModal(false)} variant="outline-primary">
+              Cancel
+            </Button>
+            <Button
+              name="edit-milk"
+              variant="primary"
+            >
+              Edit
+            </Button>
+          </div>
           </>
         );
         break;
