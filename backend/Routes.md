@@ -64,6 +64,15 @@ Returns ```list``` of mother/baby/milk entry objects. ```{}``` if no mothers.
 - ```/babies?mrn=<mrn>```
 - ```/milk_entries?uid=<uid>```
 
+## Get Milk Entries in ascending order of created
+
+- ```/milk_entries?order=ASC```
+
+## Get Mother by first_name/last_name
+
+- ```/mothers?first_name=<first_name>```
+- ```/mothers?last_name=<last_name>```
+
 (JSON - 200) Returns ```mother```/```baby```/```milk``` data object.  
 (ERROR - 400) ```Mother/Baby/Milk does not exist!```
 

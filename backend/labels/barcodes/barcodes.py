@@ -37,7 +37,30 @@ def generate_data_matrix(data: str) -> str:
 
     return DataMatrix(data).svg()
 
+def scale_data_matrix(data_matrix: str, scale: int) -> str:
+    '''
+    Multiplies the Data Matrice's height and width by `scale` and adds a viewBox which scales the entire Data Matrix.
 
+    Args:
+        data_matrix (str): A HTML str of the Data Matrix
+        scale: (int): The factor to scale the Data Matrix by
+
+    Returns:
+        (str): The scaled Data Matrix
+    '''
+
+    i = data_matrix.find('height') + 8 # 8 gets you to the first digit of the pixel value: `height="12px"`
+    
+    size = ''
+    while data_matrix[i] != 'p': # 'p' is the p in 'px'
+        size += data_matrix[i]
+        i += 1
+
+    new_size = int(size) * scale
+    data_matrix = data_matrix.replace(f'{size}px', f'{new_size}px')
+    data_matrix = data_matrix.replace(f'width="{new_size}px"', f'width="{new_size}px" viewBox="0 0 {size} {size}"')
+
+    return data_matrix
 
 
 # Testing stuff
@@ -66,3 +89,5 @@ if __name__ == '__main__':
     bar = generate_barcode('1234', 'code-128')
     print(dm)
     print(bar)
+
+    print(scale_data_matrix(dm, 3))
