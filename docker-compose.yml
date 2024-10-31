@@ -5,7 +5,7 @@ services:
     ports:
      - "5001:5001"
     environment:
-     - FIRESTORE_PROJECT_ID=milkguard-fe148
+     - FIRESTORE_PROJECT_ID=milkguard2
     volumes:
      - ./backend:/app
 

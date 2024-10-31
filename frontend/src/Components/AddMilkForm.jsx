@@ -60,7 +60,7 @@ function AddMilkForm({
               </div>
               <div className="col">
                 <Form.Label htmlFor="express-date" className="form-label">
-                  Expressed Date*
+                  Express Date*
                 </Form.Label>
                 <input
                   value={expressDate}

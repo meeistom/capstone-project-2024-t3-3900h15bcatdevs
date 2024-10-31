@@ -10,8 +10,9 @@ from firebase.retrieve import *
 from firebase.error_check import *
 from firebase.home_milk_page import *
 from firebase.verify import *
+from firebase.notify import *
 
-cred = credentials.Certificate('./.key/key.json')
+cred = credentials.Certificate('./.key/key2.json')
 fba.initialize_app(cred)
 fs_client = firestore.client()
 
@@ -224,6 +225,17 @@ def route_verify_feed():
     return make_response(
         message, # JSON if inputs provided. String if not.
         200 if success else error_code
+    )
+
+# Provides latest notifications update on statuses of all milks
+@app.route('/notifications', methods=['GET'], strict_slashes=False)
+def get_update_notifications():
+
+    notifications = get_milk_updates(fs_client)
+
+    return make_response(
+        jsonify(notifications),
+        200
     )
 
 if __name__ == '__main__':
