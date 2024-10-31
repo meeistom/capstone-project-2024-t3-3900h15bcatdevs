@@ -1,5 +1,6 @@
+from firebase.retrieve import *
 from firebase.error_check import *
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # # TESTING
 # import firebase_admin as fba
@@ -21,9 +22,13 @@ def get_milk_updates(firestore_client):
     """
     notifications = []
 
-    milk_entries_collection = firestore_client.collection('milk_entries')
-    for doc in milk_entries_collection.stream():
+    milk_entries_collection = firestore_client.collection('milk_entries').stream()
+    for doc in milk_entries_collection:
         milk_entry = doc.to_dict()
+
+        # Only get the ones that are within 6 hours of expiry
+        if not datetime.fromtimestamp(milk_entry['expiration_time']) <= datetime.now() + timedelta(hours=6):
+            continue
 
         # Get all relevant information
         expired = datetime.fromtimestamp(milk_entry['expiration_time']) < datetime.now()
@@ -33,11 +38,11 @@ def get_milk_updates(firestore_client):
         minutes = remainder // 60
 
         # Get baby info
-        if not exists_in_collection(firestore_client, 'babies', milk_entry['baby_mrn']):
+        baby_doc = retrieve_baby_by_mrn(firestore_client, milk_entry['baby_mrn'])
+        if baby_doc == {}:
             continue
 
-        baby_document = firestore_client.collection('babies').document(milk_entry['baby_mrn']).get().to_dict()
-        baby_name = baby_document['first_name'] + ' ' + baby_document['last_name']
+        baby_name = baby_doc['first_name'] + ' ' + baby_doc['last_name']
         notif_object = {
             'milk_uid': milk_entry['uid'],
             'days_expiry': days,
