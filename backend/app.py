@@ -86,14 +86,16 @@ def get_baby():
             200
         )
 
-#  Fetches all milk entries as a list, or fetches milk entry object by UID
+#  Fetches all milk entries as a list and returns it in order (default is DESC), or fetches milk entry object by UID
 @app.route('/milk_entries', methods=['GET'], strict_slashes=False)
 def get_milk_entry():
     uid = request.args.get('uid')
+    order = request.args.get('order', 'DESC')
+    
     if uid:
         milk_entry_data = retrieve_milk_entry_by_uid(fs_client, uid)
     else:
-        milk_entry_data = retrieve_all_milk_entries(fs_client)
+        milk_entry_data = retrieve_all_milk_entries(fs_client, order)
 
     if len(milk_entry_data) == 0:
         return make_response(
@@ -105,7 +107,7 @@ def get_milk_entry():
             jsonify(milk_entry_data),
             200
         )
-
+    
 #  Fetches all EXACT matches by keyword
 @app.route('/search', methods=['GET'], strict_slashes=False)
 def search_by_keyword():
