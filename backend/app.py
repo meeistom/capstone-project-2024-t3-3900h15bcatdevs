@@ -12,6 +12,8 @@ from firebase.home_milk_page import *
 from firebase.verify import *
 from firebase.notify import *
 
+from labels.labels import get_milk_label
+
 cred = credentials.Certificate('./.key/key2.json')
 fba.initialize_app(cred)
 fs_client = firestore.client()
@@ -239,6 +241,26 @@ def get_update_notifications():
         jsonify(notifications),
         200
     )
+
+# Generate milk label
+@app.route('/preview_milk_label', methods=['GET'], strict_slashes=False)
+def get_milk_label_preview():
+    ids = request.get_json()
+
+    uid = ids['uid']
+    baby_mrn = ids['baby_mrn']
+    mother_mrn = ids['mother_mrn']
+
+    mother = retrieve_mother_by_mrn(fs_client, mother_mrn)
+    baby = retrieve_baby_by_mrn(fs_client, baby_mrn)
+
+    label = get_milk_label((uid, mother['first_name'], baby['last_name'], baby['mrn']))
+
+    return make_response(
+        label,
+        200
+    )
+    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
