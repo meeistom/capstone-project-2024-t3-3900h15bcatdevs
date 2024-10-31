@@ -1,112 +1,175 @@
-from barcode import EAN13, writer # only needed for testing purposes
-from PIL import Image, ImageDraw, ImageFont
-from helper import *
+from typing import Optional
+from barcodes.barcodes import generate_barcode, scale_data_matrix
 
 # Paths
 required_info_path = './labels/assets/template/required_info.txt'
 optional_info_path = './labels/assets/template/optional_info.txt'
 font_path = './labels/assets/cour.ttf'
 
-def generate_label(required_info, barcode, optional_info=None):
-    # Make sure required_info is an image
-    if type(required_info) != Image.Image:
-        raise TypeError(f'required_info is of type {type(required_info)}, but expected {Image.Image}')
+def generate_milk_label(required_info: str, data_matrix: str, optional_info: Optional[str] = None) -> str:
+    '''
+    Generates the milk label by joining information and barcodes together.
+
+    Args:
+        required_info (str): HTML div containing the required label information
+        data_matrix (str): HTML svg containing the milks data_matrix
+        optional_info (str): HTML div containing the optional label information
+
+    Returns:
+        (str): The entire label as one HTML div
+    '''
     
-    # Make sure barcode is an image
-    if type(barcode) != Image.Image:
-        raise TypeError(f'barcode is of type {type(barcode)}, but expected {Image.Image}')
+    # Make sure parameters are the right type
+    if type(required_info) != str:
+        raise TypeError(f'required_info is of type {type(required_info)}, but expected {str}')
     
-    # Make sure optional_info is an image
-    if optional_info != None and type(optional_info) != Image.Image:
-        raise TypeError(f'optional_info is of type {type(optional_info)}, but expected {Image.Image}')
-
-    # First join optional_info and barcode vertically if optional_info exists
-    left_img = join_images_vertically([optional_info, barcode]) if optional_info != None else barcode
-    # Then join the resulting image with the required_info
-    label = join_images_horizontally([left_img, required_info])
-
-    return label
-
-def modify_info(text, baby_sure_name, BO_name, MRN_code):
-    # Make sure the text is a string
-    if type(text) != str:
-        raise TypeError(f'text is of type {type(text)}, but expected {str}')
+    if type(data_matrix) != str:
+        raise TypeError(f'data_matrix is of type {type(data_matrix)}, but expected {str}')
     
-    # Make sure the baby_sure_name is a string or doesn't exist
-    if baby_sure_name != None and type(baby_sure_name) != str:
-        raise TypeError(f'baby_sure_name is of type {type(baby_sure_name)}, but expected {str}')
+    if type(optional_info) not in (str, None):
+        raise TypeError(f'optional_info is of type {type(optional_info)}, but expected {str}')
+
+    # Make the left part of the label
+    data_matrix_div = f'<div>\n{data_matrix}\n</div>'
+    items = f'{optional_info}\n{data_matrix_div}' if optional_info != None else data_matrix_div
+    left_part = f'<div style="display: flex; flex-direction: column;">\n{items}\n</div>\n'
+
+    # Make the entire label
+    return f'<div class="milk-label" style="display: flex; gap: 10px; font-family: monospace;">\n{left_part + required_info}\n</div>'
+
+def generate_human_label(mrn: str) -> str:
+    '''
+    Creates a label for the mother or the baby.
     
-    # Make sure the BO_name is a string or doesn't exist
-    if BO_name != None and type(BO_name) != str:
-        raise TypeError(f'BO_name is of type {type(BO_name)}, but expected {str}')
+    Args:
+        mrn (str): The human's mrn code
+
+    Returns:
+        (str): HTML div containing the human's label 
+    '''
+
+    barcode = generate_barcode(mrn, 'code-128')
+    return f'<div style="font-family: monospace;">{barcode}</div>'
+
+def fill_info(template_path: str, substitution_dct: Optional[dict] = None) -> str:
+    '''
+    Modifies the information template to include human readables details.
+
+    Args:
+        template_path (str): Path to the information template
+        substitution_dct (dict): A dictionary containing pairs of string, where the key gets replaced by the value in the template string
+
+    Returns:
+        (str): Modified information template
+    '''
+
+    # Make sure the parameters are the right types
+    if type(template_path) != str:
+        raise TypeError(f'template_path is of type {type(template)}, but expected {str}')
+
+    if type(substitution_dct) not in (dict, None):
+        raise TypeError(f'substitution_dct is of type {type(substitution_dct)}, but expected {dict}')
     
-    # Make sure the MRN_code is a string or doesn't exist
-    # AOLIN MIGHT STORE THE MRN CODE AS AN INTEGER SO MAKE SURE YOU CHECK THAT
-    if MRN_code != None and type(MRN_code) != str:
-        raise TypeError(f'MRN_code is of type {type(MRN_code)}, but expected {str}')
+    for key in substitution_dct.keys():
+        if type(key) != str:
+            raise TypeError(f'key is of type {type(key)}, but expected {str}')
+    
+    for value in substitution_dct.values():
+        if type(value) != str:
+            raise TypeError(f'value is of type {type(value)}, but expected {str}')
+    
+    # Read in the template
+    with open(template_path, 'r') as f:
+        template = f.read()
 
-    # Replace the appropriate strings of text
-    text = text if baby_sure_name == None else text.replace('<<babySureName>>', baby_sure_name)
-    text = text if BO_name == None else text.replace('<<BOName>>', BO_name)
-    text = text if MRN_code == None else text.replace('<<MRNCODE>>', MRN_code)
+    # Replace the appropriate strings of template
+    for key in substitution_dct.keys():
+        template = template.replace(key, substitution_dct[key])
 
-    return text
+    return template
 
-# Will probably need to change this function at some point cause we can make the optional information
-# be data input from the database
-# CAN PROBABLY REMOVE: Initial 1 & 2 FROM optional_info.txt SINCE THE BARCODE REPLACES THAT - i think
-def generate_info(info_path, baby_sure_name=None, BO_name=None, MRN_code=None):
-    # Read in the information text
-    with open(info_path, 'r') as f:
+def convert_info_to_html(template: str, style_format: Optional[str] = None) -> str:
+    '''
+    Converts a template's text into a HTML div.
+    
+    Args:
+        template (str): The template string
+        style_format (str): CSS styling for the template
 
-        # Modify the text, ensuring that the variables are valid
-        try:
-            text = modify_info(f.read(), baby_sure_name, BO_name, MRN_code)
-        except TypeError as e:
-            raise e
+    Returns:
+        (str): The template as a HTML string
+    '''
 
-        lines = text.split('\n')
-
-    # Define font size and the width of the image (we get this from longest_line)
-    fnt_size = 24
-    longest_line = max(len(line) for line in lines)
-
-    # img_size = (x, y)
-    # 5/8 is approximately the ratio of courier new's width to height
-    # so x is the width of the longest line with some extra whitespace
-    # same with y but it counts how many lines are in the text
-    img_size = (int(fnt_size * 5/8) * (longest_line + 2), (len(lines)) * 2 * fnt_size + fnt_size)
-
-    # Colour mode, image size (x, y), background colour
-    img = Image.new(mode='RGB', size=img_size, color=(255, 255, 255))
-    # Font path, font size
-    fnt = ImageFont.truetype(font_path, fnt_size)
-    # 2D drawing interface on image: img
-    drw = ImageDraw.Draw(img)
-
-    # Draw each line of text and move the starting y position down each time
-    i = 1
-    for line in lines:
-        # starting postion, (x, y), text, anchor, font, font colour
-        drw.text((fnt_size, i * fnt_size), line, anchor='lt', font=fnt, fill=(0, 0, 0,))
-        i += 2
-        
-    return img
-
-
-
+    # Puts every line in the template between paragraph tags: <p>line</p>
+    html = '\n'.join([f'<p>{line}</p>' for line in template.strip().split('\n')])
+    if style_format:
+        return f'<div class="info" style="{style_format}">\n{html}\n</div>'
+    return f'<div class="info">\n{html}\n</div>'
+    
 
 
 # Testing stuff
 if __name__ == '__main__':
-    r_img = generate_info(required_info_path)
-    o_img = generate_info(optional_info_path, 'Yamaguchi', 'Hana', '123456')
+    # r_img = generate_info(required_info_path)
+    # o_img = generate_info(optional_info_path, 'Yamaguchi', 'Hana', '123456')
 
-    # r_img.save('r.png')
-    # o_img.save('o.png')
-    bar = EAN13('123456789012', writer=writer.ImageWriter())
+    # # r_img.save('r.png')
+    # # o_img.save('o.png')
+    # bar = EAN13('123456789012', writer=writer.ImageWriter())
 
-    o_label = generate_label(r_img, bar.render(writer_options={'font_path': font_path, 'dpi': 200}), o_img)
-    no_label = generate_label(r_img, bar.render(writer_options={'font_path': font_path, 'dpi': 200}))
-    o_label.save('./generated_labels/o_label.png')
-    no_label.save('./generated_labels/no_label.png')
+    # o_label = generate_label(r_img, bar.render(writer_options={'font_path': font_path, 'dpi': 200}), o_img)
+    # no_label = generate_label(r_img, bar.render(writer_options={'font_path': font_path, 'dpi': 200}))
+    # o_label.save('./generated_labels/o_label.png')
+    # no_label.save('./generated_labels/no_label.png')
+
+    optional = fill_info(optional_info_path, {
+        '<<babySureName>>': 'Yamaguchi',
+        '<<BOName>>': 'Hana',
+        '<<MRNCODE>>': '5123' # baby mrn
+    })
+    # print(optional)
+    optional_html = convert_info_to_html(optional)
+    required_html = convert_info_to_html(open(required_info_path, 'r').read())
+    # print(optional_html)
+    # print(required_html)
+
+    dm = generate_barcode('000000', 'data-matrix')
+    dm = scale_data_matrix(dm, 4)
+    # print(dm)
+
+    milk_label = generate_milk_label(required_html, dm, optional_html)
+
+    print(milk_label)
+
+    hl = generate_human_label('4234|Yamaguchi')
+
+    print(hl)
+
+    print('MUMS')
+    mum1 = generate_human_label('6361')
+    mum2 = generate_human_label('8017')
+    mum3 = generate_human_label('8220')
+    print(mum1, mum2, mum3, sep='\n\n')
+    print('MUMS')
+
+    print('BABIES')
+    baby1_mum1 = generate_human_label('5049')
+    baby2_mum1 = generate_human_label('5675')
+    baby3_mum3 = generate_human_label('3391')
+    print(baby1_mum1, baby2_mum1, baby3_mum3, sep='\n\n')
+    print('BABIES')
+
+    print('MILKS')
+    optional1 = fill_info(optional_info_path, {
+        '<<babySureName>>': 'Bentote',
+        '<<BOName>>': 'Lynelle',
+        '<<MRNCODE>>': '5675' # baby mrn
+    })
+    # print(optional)
+    optional_html1 = convert_info_to_html(optional1)
+
+    milk_label1_mum1 = generate_milk_label(required_html, scale_data_matrix(generate_barcode('000000', 'data-matrix'), 4), optional_html1)
+    milk_label2_mum1 = generate_milk_label(required_html, scale_data_matrix(generate_barcode('000005', 'data-matrix'), 4), optional_html1)
+    milk_label3_mum1 = generate_milk_label(required_html, scale_data_matrix(generate_barcode('000006', 'data-matrix'), 4), optional_html1)
+    print(milk_label1_mum1, milk_label2_mum1, milk_label3_mum1, sep='\n\n')
+    print('MILKS')
