@@ -76,6 +76,7 @@ def get_baby():
 def get_milk_entry():
     uid = request.args.get('uid')
     order = request.args.get('order', 'DESC')
+    
     if uid:
         milk_entry_data = retrieve_milk_entry_by_uid(fs_client, uid)
     else:

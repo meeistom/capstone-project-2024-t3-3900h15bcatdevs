@@ -83,18 +83,19 @@ def retrieve_all_babies(firestore_client) -> list:
 
     return babies_list
 
-def retrieve_all_milk_entries(firestore_client, order_direction):
+def retrieve_all_milk_entries(firestore_client, order_direction: str):
     milk_entries_collection = firestore_client.collection('milk_entries')
-    if order_direction.upper() == "ASC":
-        direction = firestore.Query.ASCENDING
-    else:
-        direction = firestore.Query.DESCENDING
+
+    direction = firestore.Query.ASCENDING if order_direction.upper() == "ASC" else firestore.Query.DESCENDING
 
     query = milk_entries_collection.order_by('created_at', direction=direction)
     results = query.stream()
+
     entries = []
+    
     for doc in results:
         entries.append(doc.to_dict())
+    
     return entries
 
 def retrieve_by_keyword(firestore_client, keyword: str) -> dict:
