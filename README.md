@@ -1,6 +1,6 @@
 # capstone-project-2024-t3-3900h15bcatdevs
 
-## Running with Docker (main method)
+## Running with Docker (Do this before you create a PR)
 
 When we add dependencies to either frontend or backend, please add to `requirements.txt` or `package.json` respectively. We will need to rebuild the docker image after adding dependencies.
 
@@ -14,6 +14,12 @@ Run the containers:
 
 ```
 docker compose up -d 
+```
+
+Stop the containers:
+
+```
+docker compose down
 ```
 
 if you make changes to the code, then run docker compose down, then docker compose build, then docker compose up
