@@ -85,11 +85,12 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       expiration_time: new Date(expiryDate).getTime() / 1000,
       storage_type: storageType,
       storage_location: "level 1",
-      volume_ml: "50",
+      volume_ml: 50,
       baby_mrn: babyData.mrn,
       extra_notes: notes,
     };
-    return axios
+    console.log(bottleDetails);
+    axios
       .post(`${URL}/add_milk_entry`, bottleDetails)
       .then((response) => {
         console.log(`Bottle details added: ${response}`, response.data);
@@ -109,7 +110,6 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     );
     printWindow.document.close();
     printWindow.print();
-
   };
 
   const handleCheckInput = () => {

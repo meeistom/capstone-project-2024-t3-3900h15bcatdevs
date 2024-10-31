@@ -8,34 +8,52 @@ import { Table } from "../Components/Table";
 export { ViewMothers };
   
 function ViewMothers() {
-  let fake_data = [
-    {
-      mrn: 346363,
-      first_name: "123",
-      last_name: "2141",
-      babies: "21412451251"
-    },
-    {
-      mrn: 346363,
-      first_name: "1113",
-      last_name: "2411",
-      babies: ["21412451251", "fsadgag"]
-    },
-    {
-      mrn: 346363,
-      first_name: "first",
-      last_name: "last",
-      babies: "21412451251"
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const URL = "http://127.0.0.1:5001";
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${URL}/mothers`);
+      if (!response.ok) {
+        throw new Error('Having errors fetching mother details');
+      }
+      const result = await response.json();
+      setData(result);
+      localStorage.setItem('myMotherData', JSON.stringify(result)); 
+    } catch (error) {
+      setError(error); 
+    } finally {
+      setLoading(false); 
     }
-  ]
+  };
+
+  useEffect(() => {
+    const cachedData = localStorage.getItem('myMotherData');
+    if (cachedData) {
+      setData(JSON.parse(cachedData));
+      setLoading(false);
+    }
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+  
   return (
     <>
       <section id="Home">
         <Navibar />
         <div className="page-container">
-          <h1 className="page-title">Mothersss</h1>
-          <p>Total number of mothers: {fake_data.length}</p>
-          <Table data={fake_data} setOpenModal = {null} viewType="viewMother"/>
+          <h1 className="page-title">Mothers</h1>
+          <p>Total number of mothers: {data.length}</p>
+          <Table delete={null} data={data} setOpenModal = {null} viewType="viewMother"/>
         </div>
       </section>
     </>

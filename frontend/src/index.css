@@ -39,6 +39,7 @@ body {
 .modal-container {
   width: 31rem;
   height: 39rem;
+  overflow: auto;
 }
 
 .modal-container .title {
@@ -498,6 +499,21 @@ thead tr {
   padding: 0;
 }
 
+/* Info modal */
+.info-btn-group {
+  margin: 15px;
+}
+
+/* Info form */
+.info-section {
+  margin-bottom: 10px;
+}
+
+/* Delete modal */
+.delete-modal-container {
+  width: 40vw;
+  height: 30vh;
+}
 /* Home Page Styling */
 .home-container {
   display: flex;
