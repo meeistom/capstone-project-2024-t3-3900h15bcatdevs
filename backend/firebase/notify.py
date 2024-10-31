@@ -53,7 +53,10 @@ def get_milk_updates(firestore_client):
         }
         notifications.append(notif_object)
     
-    return notifications
+    # Sort in order of most expired first
+    sorted_notifications = sorted(notifications, key=lambda obj: "expiration_time")
+
+    return sorted_notifications
 
 # if __name__ == '__main__':
 #     get_milk_updates(fs_client)
