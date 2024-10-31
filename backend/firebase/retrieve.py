@@ -123,20 +123,3 @@ def retrieve_by_keyword(firestore_client, keyword: str) -> dict:
             results[collection_name] = []
 
     return results
-def display_milk_entry(fs_client, order_direction="DESC") -> list:
-    milk_entries_list = retrieve_all_milk_entries(fs_client, order_direction)
-    
-    for entry in milk_entries_list:
-        mother_mrn = entry.get('owner_mrn')
-        if mother_mrn:
-            mother_details = retrieve_mother_by_mrn(fs_client, mother_mrn)
-            if mother_details:
-                entry['mother_first_name'] = mother_details.get('first_name', 'Unknown')
-                entry['mother_last_name'] = mother_details.get('last_name', 'Unknown')
-            else:
-                entry['mother_first_name'] = 'Unknown'
-                entry['mother_last_name'] = 'Unknown'
-        else:
-            entry['mother_first_name'] = 'Unknown'
-            entry['mother_last_name'] = 'Unknown'
-    return milk_entries_list

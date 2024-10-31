@@ -10,7 +10,7 @@ from firebase.retrieve import *
 from firebase.error_check import *
 from firebase.verify import *
 
-cred = credentials.Certificate('./.key/key.json')
+cred = credentials.Certificate('./.key/key2.json')
 fba.initialize_app(cred)
 fs_client = firestore.client()
 
@@ -92,23 +92,6 @@ def get_milk_entry():
             200
         )
     
-#  Fetches milk display as and returns it in order (default is DESC)
-@app.route('/milk_display', methods=['GET'], strict_slashes=False)
-def display_milk():
-    order = request.args.get('order', 'DESC')
-    milk_display_data = display_milk_entry(fs_client, order)
-
-    if len(milk_display_data) == 0:
-        return make_response(
-            "No Milk Entries Registered",
-            200
-        )
-    else:
-        return make_response(
-            jsonify(milk_display_data),
-            200
-        )
-
 #  Fetches all EXACT matches by keyword
 @app.route('/search', methods=['GET'], strict_slashes=False)
 def search_by_keyword():
