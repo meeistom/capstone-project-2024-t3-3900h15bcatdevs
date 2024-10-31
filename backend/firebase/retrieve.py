@@ -83,7 +83,7 @@ def retrieve_all_babies(firestore_client) -> list:
 
     return babies_list
 
-def retrieve_all_milk_entries(firestore_client, order_direction: str):
+def retrieve_all_milk_entries(firestore_client, order_direction: str="DESC"):
     milk_entries_collection = firestore_client.collection('milk_entries')
 
     direction = firestore.Query.ASCENDING if order_direction.upper() == "ASC" else firestore.Query.DESCENDING
