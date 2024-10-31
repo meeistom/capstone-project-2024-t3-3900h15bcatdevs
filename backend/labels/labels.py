@@ -1,5 +1,5 @@
 from typing import Optional
-from barcodes.barcodes import generate_barcode, scale_data_matrix # only need for testing purposes TO REMOVE
+from barcodes.barcodes import generate_barcode, scale_data_matrix
 
 # Paths
 required_info_path = './labels/assets/template/required_info.txt'
@@ -37,17 +37,18 @@ def generate_milk_label(required_info: str, data_matrix: str, optional_info: Opt
     # Make the entire label
     return f'<div class="milk-label" style="display: flex; gap: 10px; font-family: monospace;">\n{left_part + required_info}\n</div>'
 
-def generate_human_label(barcode: str) -> str:
+def generate_human_label(mrn: str) -> str:
     '''
     Creates a label for the mother or the baby.
     
     Args:
-        barcode (str): HTML svg containing the human's barcode
+        mrn (str): The human's mrn code
 
     Returns:
         (str): HTML div containing the human's label 
     '''
 
+    barcode = generate_barcode(mrn, 'code-128')
     return f'<div style="font-family: monospace;">{barcode}</div>'
 
 def fill_info(template_path: str, substitution_dct: Optional[dict] = None) -> str:
@@ -140,7 +141,35 @@ if __name__ == '__main__':
 
     print(milk_label)
 
-    hl = generate_human_label(generate_barcode('4234', 'code-128'))
+    hl = generate_human_label('4234|Yamaguchi')
 
     print(hl)
 
+    print('MUMS')
+    mum1 = generate_human_label('6361')
+    mum2 = generate_human_label('8017')
+    mum3 = generate_human_label('8220')
+    print(mum1, mum2, mum3, sep='\n\n')
+    print('MUMS')
+
+    print('BABIES')
+    baby1_mum1 = generate_human_label('5049')
+    baby2_mum1 = generate_human_label('5675')
+    baby3_mum3 = generate_human_label('3391')
+    print(baby1_mum1, baby2_mum1, baby3_mum3, sep='\n\n')
+    print('BABIES')
+
+    print('MILKS')
+    optional1 = fill_info(optional_info_path, {
+        '<<babySureName>>': 'Bentote',
+        '<<BOName>>': 'Lynelle',
+        '<<MRNCODE>>': '5675' # baby mrn
+    })
+    # print(optional)
+    optional_html1 = convert_info_to_html(optional1)
+
+    milk_label1_mum1 = generate_milk_label(required_html, scale_data_matrix(generate_barcode('000000', 'data-matrix'), 4), optional_html1)
+    milk_label2_mum1 = generate_milk_label(required_html, scale_data_matrix(generate_barcode('000005', 'data-matrix'), 4), optional_html1)
+    milk_label3_mum1 = generate_milk_label(required_html, scale_data_matrix(generate_barcode('000006', 'data-matrix'), 4), optional_html1)
+    print(milk_label1_mum1, milk_label2_mum1, milk_label3_mum1, sep='\n\n')
+    print('MILKS')
