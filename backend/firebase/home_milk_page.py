@@ -1,6 +1,6 @@
 from typing import Tuple
 from firebase.error_check import *
-from firebase.retrieve import retrieve_all_milk_entries, retrieve_mother_by_mrn, retrieve_baby_by_mrn
+from firebase.retrieve import *
 
 def get_home_page_formatted_milks(firestore_client) -> Tuple[bool, list]:
     '''
