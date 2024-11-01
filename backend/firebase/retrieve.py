@@ -1,5 +1,40 @@
 from firebase.error_check import *
 from firebase_admin import firestore
+from google.cloud.firestore_v1.base_query import FieldFilter
+
+def retrieve_mothers(firestore_client, 
+                    first_name: str = None, 
+                    last_name: str = None) -> list:
+    """
+    Gets a mother from the database by first name, or last name or get all if no selection.
+
+    Args:
+        firestore_client (Firestore Client): Firestore Client object.
+        first_name (str, optional): First name of mother. Defaults to None.
+        last_name (str, optional): Last name of mother. Defaults to None.
+
+    Returns:
+        list: Mother objects with the name matching string or all mothers if no selection.
+    """
+    if first_name and last_name:
+        print(f"INTERNAL USE ERROR: Both first and last name provided, only one expected")
+        return []
+    
+    mother_collection_stream = firestore_client.collection("mothers").stream()
+
+    mothers_list = []
+
+    if first_name or last_name:
+        field = "first_name" if first_name else "last_name"
+        value = first_name if first_name else last_name
+
+    for mother_doc in mother_collection_stream:
+        if (first_name or last_name) and mother_doc.to_dict()[field].lower() != value.lower():
+            continue
+
+        mothers_list.append(mother_doc.to_dict())
+
+    return mothers_list
 
 def retrieve_mother_by_mrn(firestore_client, mrn: str) -> dict:
     """
@@ -15,24 +50,6 @@ def retrieve_mother_by_mrn(firestore_client, mrn: str) -> dict:
         except Exception as e:
             print(f"GET MOTHER: An error occurred while getting data: {e}")
            
-    
-def retrieve_mother_by_name(firestore_client, field: str, name: str) -> list:
-    """
-    Gets mothers from the database by 'first_name' or 'last_name' case insensitive.
-    """
-    query = firestore_client.collection("mothers").get()
-    name_lower = name.lower()
-
-    mothers_list = [
-        doc_dict for doc in query
-        if (doc_dict := doc.to_dict()).get(field, "").lower() == name_lower
-    ]
-
-    if not mothers_list:
-        print(f"GET MOTHERS: No mothers found with {field}: {name}")
-        
-    return mothers_list
-
 def retrieve_baby_by_mrn(firestore_client, mrn: str) -> dict:
     """
     Gets a baby from the database
@@ -60,17 +77,6 @@ def retrieve_milk_entry_by_uid(firestore_client, uid: str) -> dict:
         return milk_collection.document(uid).get().to_dict()
     except Exception as e:
         print(f"GET MILK ENTRY: An error occurred while getting data: {e}")
-
-def retrieve_all_mothers(firestore_client) -> list:
-    """
-    Gets all mothers from the database
-    """
-    mothers_collection = firestore_client.collection("mothers")
-    mothers_list = []
-    for mother in mothers_collection.stream():
-        mothers_list.append(mother.to_dict())
-        
-    return mothers_list
 
 def retrieve_all_babies(firestore_client) -> list:
     """

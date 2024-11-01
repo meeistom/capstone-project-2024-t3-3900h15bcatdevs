@@ -46,18 +46,15 @@ def get_mother():
     mrn = request.args.get('mrn')
     first_name = request.args.get('first_name')
     last_name = request.args.get('last_name')
+
     if mrn:
         mother_data = retrieve_mother_by_mrn(fs_client, mrn)
-    elif first_name:
-        mother_data = retrieve_mother_by_name(fs_client, 'first_name', first_name)
-    elif last_name:
-        mother_data = retrieve_mother_by_name(fs_client, 'last_name', last_name)
     else:
-        mother_data = retrieve_all_mothers(fs_client)
+        mother_data = retrieve_mothers(fs_client, first_name, last_name)
 
     if len(mother_data) == 0:
         return make_response(
-            "Mother MRN not found!" if mrn else "No Mothers Registered",
+            "Mother MRN not found!" if mrn else "No Mothers Found!",
             400 if mrn else 200
         )
     else:
