@@ -26,45 +26,57 @@ if __name__ == '__main__':
 
 Gets milk entries with mother and baby names for the home page. Gets all milk entries, then adds mother and baby names to each milk entry. 
 
-Returns a list of modified milk entry objects
+Returns a list of modified milk entry objects.
 
-Number of reads = num. mothers + num. babies.
-
-## Get Mothers/Babies/Milk Entries
-Get list of all mothers OR babies OR milk_entries.
-- ```/mothers``` or ```/mothers/```
-- ```/babies``` or ```/babies/```
-- ```/milk_entries``` or ```/milk_entries/```
+## Retrieve Mothers/Babies/Milk Entries
+Get list of mothers OR babies OR milk_entries. Ending with ```/``` is optional.
+- ```/mothers```
+- ```/babies```
+- ```/milk_entries```
 ```
 // Example for list of mothers (200)
 [
     {
         "first_name": "Felicia",
         "last_name": "Smith",
-        "mrn": 0,
-        "key": "0000"
+        "mrn": "0000",
+        "babies": ["0000", "0001"],
+        "milks": ["000000", "000001"]
     },
     {
         "first_name": "Anna",
         "last_name": "Meyers",
-        "mrn": 0,
-        "key": "0001"
+        "mrn": "0001",
+        "babies": ["0002", "0003"],
+        "milks": ["000002", "000003"]
     }
 ]
-OR 
-{}
+OR
+// Example of mother object if retrieve by mrn
+{
+    "first_name": "Anna",
+    "last_name": "Meyers",
+    "mrn": "0001",
+    "babies": ["0002", "0003"],
+    "milks": ["000002", "000003"]
+}
 ```
 
 (JSON) (200)  
-Returns ```list``` of mother/baby/milk entry objects. ```{}``` if no mothers.
+Returns ```list``` of mother/baby/milk entry objects. 
 
 ## Get Mother/Baby by MRN, Milk Entry by UID
-
+Gets invididual mother/baby/milk entry by MRN/UID.
 - ```/mothers?mrn=<mrn>```
 - ```/babies?mrn=<mrn>```
 - ```/milk_entries?uid=<uid>```
 
-## Get Milk Entries in ascending order of created
+(JSON) (200)  
+Returns ```mother```/```baby```/```milk_entry``` object.
+```Mother/Baby/Milk Entry MRN/UID not found!```
+
+## Get Milk Entries from older to newest created.
+Default behaviour is newest to oldest. No need for order param.
 
 - ```/milk_entries?order=ASC```
 
@@ -91,19 +103,36 @@ Returns ```list``` of mother/baby/milk entry objects. ```{}``` if no mothers.
 Mother MRN <mrn> does not exist!
 ```
 
+## Search Mothers/Babies/Milk Entries
+Searches all data fields in mother/baby/milk_entry objects for related string & returns related objects. Most importantly, search can handle half-completed strings, eg. searching for "fel" will return "Felicia", "Felicity", "Felicity Smith" etc. 
+
+This includes:
+- ```first_name``` and ```last_name```
+  - Case in-sensitive
+- ```storage_type``` and ```storage_location```
+  - For eg. searching for "frozen" will return milk entries with "frozen" in storage_location.
+- ```extra_notes```
+
+Routes:
+- ```/mothers?keyword=<search_string>```
+- ```/babies?keyword=<search_string>```
+- ```/milk_entries?keyword=<search_string>```
+
+(JSON) (200)
+Returns list of related objects in the respective page/collection.
+
 ## Add Mother/Baby/Milk Entry
 - ```/add_mother```
 - ```/add_baby```
 - ```/add_milk_entry```
 
 ```
-// JSON body
-{
+{ // Mother JSON body
     "mrn": "0000",
     "first_name": "Anne",
     "last_name": "Blot"
 }
-OR
+// Baby JSON body
 {
     "mrn": "0003",
     "first_name": "James",
@@ -111,7 +140,7 @@ OR
     "mother_mrn": "0000"
 }
 OR
-{
+{ // Milk entry JSON body
     "milk_type": "EHA",
     "express_time": <unixtimestamp>,
     "expiration_time": <unixtimestamp>,
