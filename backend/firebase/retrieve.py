@@ -1,6 +1,4 @@
 from firebase.error_check import *
-from firebase_admin import firestore
-from google.cloud.firestore_v1.base_query import FieldFilter
 
 
 def retrieve_mothers(
@@ -80,6 +78,15 @@ def retrieve_milk_entries(
 ) -> list:
     """
     Gets milk entries from the database by field specified matches, otherwise returns all in descending order from creation
+
+    Args:
+        firestore_client (Firestore Client): Firestore Client object.
+        field (str): Field to search in milk entry objects.
+        search_value (str): Value to search for in the field.
+        order (str): Order to return the results in.
+
+    Returns:
+        list: Milk entries with the specified uid or all milk entries if no selection.
     """
     if field:
         assert is_valid_data_field("milk_entries", field)
@@ -97,36 +104,3 @@ def retrieve_milk_entries(
     milk_entries_list.sort(key=lambda x: x["created_at"], reverse=(order == "DESC"))
 
     return milk_entries_list
-
-
-def retrieve_by_keyword(firestore_client, keyword: str) -> dict:
-    """
-    Gets any matches from the database by a keyword.
-    """
-    collections = ["mothers", "babies", "milk_entries"]
-    results = {}
-    keyword_lower = keyword.lower()  # for case-insensitive search
-
-    for collection_name in collections:
-        collection = firestore_client.collection(collection_name)
-
-        try:
-            query = collection.stream()
-            results[collection_name] = [
-                doc_dict
-                for doc in query
-                if keyword_lower in str(doc_dict := doc.to_dict()).lower()
-            ]
-
-            if not results[collection_name]:
-                print(
-                    f"GET {collection_name.upper()}: No matches found for keyword='{keyword}' in {collection_name}"
-                )
-
-        except Exception as e:
-            print(
-                f"GET {collection_name.upper()}: An error occurred while querying data: {e}"
-            )
-            results[collection_name] = []
-
-    return results

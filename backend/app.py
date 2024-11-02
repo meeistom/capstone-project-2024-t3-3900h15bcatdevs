@@ -11,6 +11,7 @@ from firebase.error_check import *
 from firebase.home_milk_page import *
 from firebase.verify import *
 from firebase.notify import *
+from firebase.search import *
 
 cred = credentials.Certificate('./.key/key2.json')
 fba.initialize_app(cred)
@@ -121,11 +122,48 @@ def get_milk_entry():
             200
         )
     
-#  Fetches all EXACT matches by keyword
-@app.route('/search', methods=['GET'], strict_slashes=False)
-def search_by_keyword():
+#  Fetches all related mother matches by keyword
+@app.route('/mothers/search', methods=['GET'], strict_slashes=False)
+def mother_search_by_keyword():
     keyword = request.args.get('keyword')
-    search_results = retrieve_by_keyword(fs_client, keyword)
+
+    search_results = search_by_keyword(fs_client, "mothers", keyword)
+
+    if len(search_results) == 0:
+        return make_response(
+            "No matches with the keyword",
+            400
+        )
+    else:
+        return make_response(
+            jsonify(search_results),
+            200
+        )
+    
+#  Fetches all related baby matches by keyword
+@app.route('/babies/search', methods=['GET'], strict_slashes=False)
+def babies_search_by_keyword():
+    keyword = request.args.get('keyword')
+
+    search_results = search_by_keyword(fs_client, "babies", keyword)
+
+    if len(search_results) == 0:
+        return make_response(
+            "No matches with the keyword",
+            400
+        )
+    else:
+        return make_response(
+            jsonify(search_results),
+            200
+        )
+    
+#  Fetches all related milk matches by keyword
+@app.route('/milk_entries/search', methods=['GET'], strict_slashes=False)
+def milks_search_by_keyword():
+    keyword = request.args.get('keyword')
+
+    search_results = search_by_keyword(fs_client, "milk_entries", keyword)
 
     if len(search_results) == 0:
         return make_response(
