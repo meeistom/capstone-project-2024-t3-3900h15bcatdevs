@@ -48,9 +48,14 @@ def get_mother():
     last_name = request.args.get('last_name')
 
     if mrn:
-        mother_data = retrieve_mother_by_mrn(fs_client, mrn)
+        mother_data = retrieve_mothers(fs_client, 'mrn', mrn)
+        mother_data = mother_data[0] if len(mother_data) == 1 else mother_data
+    elif first_name:
+        mother_data = retrieve_mothers(fs_client, 'first_name', first_name)
+    elif last_name:
+        mother_data = retrieve_mothers(fs_client, 'last_name', last_name)
     else:
-        mother_data = retrieve_mothers(fs_client, first_name, last_name)
+        mother_data = retrieve_mothers(fs_client)
 
     if len(mother_data) == 0:
         return make_response(
@@ -67,14 +72,22 @@ def get_mother():
 @app.route('/babies', methods=['GET'], strict_slashes=False)
 def get_baby():
     mrn = request.args.get('mrn')
+    first_name = request.args.get('first_name')
+    last_name = request.args.get('last_name')
+
     if mrn:
-        baby_data = retrieve_baby_by_mrn(fs_client, mrn)
+        baby_data = retrieve_babies(fs_client, 'mrn', mrn)
+        baby_data = baby_data[0] if len(baby_data) == 1 else baby_data
+    elif first_name:
+        baby_data = retrieve_babies(fs_client, 'first_name', first_name)
+    elif last_name:
+        baby_data = retrieve_babies(fs_client, 'last_name', last_name)
     else:
-        baby_data = retrieve_all_babies(fs_client)
+        baby_data = retrieve_babies(fs_client)
 
     if len(baby_data) == 0:
         return make_response(
-            "Baby MRN not found!" if mrn else "No Babies Registered",
+            "Baby MRN not found!" if mrn else "No Babies Found!",
             400 if mrn else 200
         )
     else:
