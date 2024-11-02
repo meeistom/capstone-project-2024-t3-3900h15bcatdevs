@@ -24,8 +24,8 @@ def is_valid_data_field(object_name: str, field: str) -> bool:
     """
     Checks if a field is a valid data field in a specified object: mothers, babies or milk_entries
     """
-    assert(type(object_name) == str)
-    assert(type(field) == str)
+    assert type(object_name) == str
+    assert type(field) == str
 
     match object_name:
         case "mothers":

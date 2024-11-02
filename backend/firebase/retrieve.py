@@ -43,6 +43,14 @@ def retrieve_babies(
 ) -> list:
     """
     Gets a baby from the database by first name, or last name or get all if no selection.
+
+    Args:
+        firestore_client (Firestore Client): Firestore Client object.
+        field (str): Field to search in baby objects.
+        search_value (str): Value to search for in the field.
+
+    Returns:
+        list: Baby objects with the name matching string or all babies if no selection.
     """
     # Should always be true
     if field:
@@ -53,9 +61,11 @@ def retrieve_babies(
     babies_list = []
     for baby_doc in baby_collection_stream:
         match field:
+            # Exact mrn match
             case "mrn":
                 if baby_doc.to_dict()[field] != search_value:
                     continue
+            # Lowered case first/last name match
             case "first_name" | "last_name":
                 if baby_doc.to_dict()[field].lower() != search_value.lower():
                     continue
@@ -65,39 +75,28 @@ def retrieve_babies(
     return babies_list
 
 
-def retrieve_milk_entry_by_uid(firestore_client, uid: str) -> dict:
+def retrieve_milk_entries(
+    firestore_client, field: str = None, search_value: str = None, order: str = "DESC"
+) -> list:
     """
-    Gets a milk entry from the database
+    Gets milk entries from the database by field specified matches, otherwise returns all in descending order from creation
     """
-    if not exists_in_collection(firestore_client, "milk_entries", uid):
-        # print("GET MILK ENTRY: Milk entry does not exist")
-        return {}
-    else:
-        milk_collection = firestore_client.collection("milk_entries")
-    try:
-        return milk_collection.document(uid).get().to_dict()
-    except Exception as e:
-        print(f"GET MILK ENTRY: An error occurred while getting data: {e}")
+    if field:
+        assert is_valid_data_field("milk_entries", field)
 
+    milk_entries_collection = firestore_client.collection("milk_entries").stream()
 
-def retrieve_all_milk_entries(firestore_client, order_direction: str = "DESC"):
-    milk_entries_collection = firestore_client.collection("milk_entries")
+    milk_entries_list = []
+    for milk_doc in milk_entries_collection:
+        if field == "uid" and milk_doc.id != search_value:
+            continue
 
-    direction = (
-        firestore.Query.ASCENDING
-        if order_direction.upper() == "ASC"
-        else firestore.Query.DESCENDING
-    )
+        milk_entries_list.append(milk_doc.to_dict())
 
-    query = milk_entries_collection.order_by("created_at", direction=direction)
-    results = query.stream()
+    # Sorts for returning most recently created first
+    milk_entries_list.sort(key=lambda x: x["created_at"], reverse=(order == "DESC"))
 
-    entries = []
-
-    for doc in results:
-        entries.append(doc.to_dict())
-
-    return entries
+    return milk_entries_list
 
 
 def retrieve_by_keyword(firestore_client, keyword: str) -> dict:

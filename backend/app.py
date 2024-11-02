@@ -100,12 +100,15 @@ def get_baby():
 @app.route('/milk_entries', methods=['GET'], strict_slashes=False)
 def get_milk_entry():
     uid = request.args.get('uid')
-    order = request.args.get('order', 'DESC')
+    order = request.args.get('order')
     
     if uid:
-        milk_entry_data = retrieve_milk_entry_by_uid(fs_client, uid)
+        milk_entry_data = retrieve_milk_entries(fs_client, 'uid', uid)
+        milk_entry_data = milk_entry_data[0] if len(milk_entry_data) == 1 else milk_entry_data
+    elif order:
+        milk_entry_data = retrieve_milk_entries(fs_client, order=order)
     else:
-        milk_entry_data = retrieve_all_milk_entries(fs_client, order)
+        milk_entry_data = retrieve_milk_entries(fs_client)
 
     if len(milk_entry_data) == 0:
         return make_response(
