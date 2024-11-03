@@ -37,6 +37,16 @@ def retrieve_from_collection(
     # If milk, entries, sorts for returning most recently created first
     if collection == "milk_entries":
         return_list.sort(key=lambda x: x["created_at"], reverse=(order == "DESC"))
+ 
+    # Add babies names to mother objects
+    if collection == 'mothers':
+        for mother in return_list:
+            mother['babies'] = get_baby_names(firestore_client, mother_mrn=mother['mrn'])
+
+    # Add mother names to return baby objects
+    if collection == 'babies':
+        for baby in return_list:
+            baby['mother_name'] = get_mother_name(firestore_client, baby_mrn=baby['mrn'])
 
     return return_list
 
@@ -72,3 +82,40 @@ def retrieve_milk_entries(
     milk_entries_list.sort(key=lambda x: x["created_at"], reverse=(order == "DESC"))
 
     return milk_entries_list
+
+
+def get_mother_name(firestore_client, baby_mrn: str) -> str:
+    """
+    Gets the mother's name from the database given a baby's MRN.
+
+    Args:
+        firestore_client (Firestore Client): Firestore Client object.
+        baby_mrn (str): MRN of baby.
+
+    Returns:
+        str: Mother's name
+    """
+    if not exists_in_collection(firestore_client, collection_name="babies", mrn_uid=baby_mrn):
+        return ""
+    
+    baby_document = firestore_client.collection('babies').document(baby_mrn).get().to_dict()
+    mother_mrn = baby_document['mother_mrn']
+    mother_document = firestore_client.collection('mothers').document(mother_mrn).get().to_dict()
+
+    return mother_document['first_name'] + ' ' + mother_document['last_name']
+
+def get_baby_names(firestore_client, mother_mrn: str) -> list:
+    """
+    Gets a list of baby names associated with a mother's MRN, in her babies mrn list
+    """
+    if not exists_in_collection(firestore_client, collection_name="mothers", mrn_uid=mother_mrn):
+        return []
+    
+    mother_document = firestore_client.collection('mothers').document(mother_mrn).get().to_dict()
+    baby_mrns = mother_document['babies']
+    baby_names = []
+    for baby_mrn in baby_mrns:
+        baby_document = firestore_client.collection('babies').document(baby_mrn).get().to_dict()
+        baby_names.append(baby_document['first_name'] + ' ' + baby_document['last_name'])
+
+    return baby_names

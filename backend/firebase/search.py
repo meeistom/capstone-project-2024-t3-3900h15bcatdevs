@@ -1,4 +1,5 @@
 from firebase.error_check import *
+from firebase.retrieve import *
 
 
 def search_by_keyword(firestore_client, collection: str, keyword: str) -> dict:
@@ -36,22 +37,32 @@ def search_by_keyword(firestore_client, collection: str, keyword: str) -> dict:
 
         # Searching for keyword in document attributes
         for key, value in doc_dict.items():
-            match key:
-                # Substring searching names and text fields
-                case "first_name" | "last_name" | 'extra_notes' | 'milk_type' | 'storage_location' | 'storage_type':
-                    (
-                        results.append(doc_dict)
-                        if keyword in str(value).lower()
-                        else None
-                    )
-                # For mothers, searching for keyword matches in mother's babies and milks
-                case "babies" | "milks":
-                    for baby_milk_entry in value:
-                        (
-                            results.append(doc_dict)
-                            if baby_milk_entry.startswith(keyword)
-                            else None
+            if key not in [
+                "first_name",
+                "last_name",
+                "extra_notes",
+                "milk_type",
+                "storage_location",
+                "storage_type",
+            ]:
+                continue
+
+            if keyword in str(value).lower():
+                # Make copy of dict
+                relevant_entry = doc_dict.copy()
+
+                # Adding names to objects
+                match collection:
+                    case "mothers":
+                        relevant_entry["babies"] = get_baby_names(
+                            firestore_client, mother_mrn=doc_dict["mrn"]
                         )
-                # For searching timestamps??
+                    case "babies":
+                        relevant_entry["mother_name"] = get_mother_name(
+                            firestore_client, baby_mrn=doc_dict["mrn"]
+                        )
+
+                # Add to the results list
+                results.append(relevant_entry)
 
     return results
