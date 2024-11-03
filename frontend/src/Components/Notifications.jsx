@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 export {Notifications};
 
-function Notifications({ notifData, setOpenModal }) {
+function Notifications({ notifData, confirmDelete }) {
 
   const getExpiryMessage = (expired, days_expired, hours_expired) => {
     let message = "";
@@ -30,9 +30,7 @@ function Notifications({ notifData, setOpenModal }) {
     }
 
     return (
-      <>
-        {message}
-      </>
+      <>{message}</>
     )
   }
 
@@ -44,13 +42,17 @@ function Notifications({ notifData, setOpenModal }) {
             <div className="content">
               Milk {notif.milk_uid} for baby {notif.baby_name} 
               {notif.expired == false ? " will expire in " : " expired "}
-              {getExpiryMessage(notif.expired, Math.abs(notif.days_expiry), notif.hours_expiry)}
+              {getExpiryMessage(
+                notif.expired, Math.abs(notif.days_expiry), notif.hours_expiry
+              )}
               <br></br>
               {notif.expired && (
-                <p className="discard-btn">discard</p>
+                <p className="discard-btn" onClick={() => confirmDelete(notif.milk_uid)}>discard</p>
               )}
             </div>
-            <div className={notif.expired == false ? "near-expiry-status" : "expired-status"}></div>
+            <div className=
+            {notif.expired == false ? "near-expiry-status" : "expired-status"}>
+            </div>
           </div>
         </>
       ))
@@ -61,9 +63,6 @@ function Notifications({ notifData, setOpenModal }) {
       <div className="notifications-outer-container">
       <div className="title-box">
         Notifications
-        {/* <div className="subtitle-1">
-          ({notifData.length})
-        </div> */}
       </div>
       <div className="subtitle-2">
         Total Notifications: {notifData.length}

@@ -105,10 +105,10 @@ function Home() {
             <AddMilkModal addMilk={handleRefresh} closeModal={setOpenModal} version="addMilk1" />
           )}
           {confirmDelete && (
-          <DeleteMilkModal entry={deleteEntry} closeModal={setConfirmDelete} deleteMilk={handleDeleteMilk}/>
+            <DeleteMilkModal entry={deleteEntry} closeModal={setConfirmDelete} deleteMilk={handleDeleteMilk}/>
           )}
           {notificationData && (
-            <Notifications notifData={notificationData} setOpenModal={{setOpenModal}}></Notifications>
+            <Notifications notifData={notificationData} confirmDelete={handleConfirmDelete}></Notifications>
           )}
         </div>
       </section>
