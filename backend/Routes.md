@@ -28,7 +28,7 @@ Gets milk entries with mother and baby names for the home page. Gets all milk en
 
 Returns a list of modified milk entry objects.
 
-## Retrieve Mothers/Babies/Milk Entries
+## Retrieve all mothers/babies/milk entries
 Get list of mothers OR babies OR milk_entries. Ending with ```/``` is optional.
 - ```/mothers```
 - ```/babies```
@@ -63,7 +63,7 @@ OR
 ```
 
 (JSON) (200)  
-Returns ```list``` of mother/baby/milk entry objects. 
+Returns ```list``` of mother/baby/milk entry objects. Can be empty if no entries exist
 
 ## Get Mother/Baby by MRN, Milk Entry by UID
 Gets invididual mother/baby/milk entry by MRN/UID.
@@ -78,32 +78,15 @@ Returns ```mother```/```baby```/```milk_entry``` object.
 ## Get Milk Entries from older to newest created.
 Default behaviour is newest to oldest. No need for order param.
 
+- ```/milk_entries?order=DESC``` For most recently created first.
 - ```/milk_entries?order=ASC```
-
-## Get Mother by first_name/last_name
-
-- ```/mothers?first_name=<first_name>```
-- ```/mothers?last_name=<last_name>```
-
-(JSON - 200) Returns ```mother```/```baby```/```milk``` data object.  
-(ERROR - 400) ```Mother/Baby/Milk does not exist!```
-
-```
-// Example of one mother info return (200)
-{
-    "first_name": "Felicia",
-    "last_name": "Smith",
-    "mrn": 0,
-    "key": "0000"
-}
-```
 
 ```
 // Example of no mother found (400)
 Mother MRN <mrn> does not exist!
 ```
 
-## Search Mothers/Babies/Milk Entries
+## Search in mothers/babies/milk entries
 Searches all data fields in mother/baby/milk_entry objects for related string & returns related objects. Most importantly, search can handle half-completed strings, eg. searching for "fel" will return "Felicia", "Felicity", "Felicity Smith" etc. 
 
 This includes:
@@ -114,12 +97,12 @@ This includes:
 - ```extra_notes```
 
 Routes:
-- ```/mothers?keyword=<search_string>```
-- ```/babies?keyword=<search_string>```
-- ```/milk_entries?keyword=<search_string>```
+- ```/mothers/search?keyword=<search_string>```
+- ```/babies/search?keyword=<search_string>```
+- ```/milk_entries/search?keyword=<search_string>```
 
 (JSON) (200)
-Returns list of related objects in the respective page/collection.
+Returns list of related objects in the respective page/collection. Can be empty if no relevant information.
 
 ## Add Mother/Baby/Milk Entry
 - ```/add_mother```
