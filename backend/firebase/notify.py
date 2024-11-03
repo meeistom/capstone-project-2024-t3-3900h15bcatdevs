@@ -1,5 +1,7 @@
 from firebase.error_check import *
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
+
+SYDNEY_TIMEZONE = timezone(timedelta(hours=11))
 
 # # TESTING
 # import firebase_admin as fba
@@ -25,12 +27,18 @@ def get_milk_updates(firestore_client):
     for doc in milk_entries_collection.stream():
         milk_entry = doc.to_dict()
 
+        # Skip entries that are more than 6 hours away from expiring
+        if datetime.fromtimestamp(milk_entry['expiration_time']) - datetime.now() > timedelta(hours=6):
+            continue
+
         # Get all relevant information
         expired = datetime.fromtimestamp(milk_entry['expiration_time']) < datetime.now()
         expiration_duration = datetime.fromtimestamp(milk_entry['expiration_time']) - datetime.now()
-        days = expiration_duration.days
-        hours, remainder = divmod(expiration_duration.seconds, 3600)
-        minutes = remainder // 60
+        seconds = expiration_duration.total_seconds()
+
+        days = int(seconds / (24 * 3600))
+        hours = int((seconds / 3600) - days * 24) 
+        minutes = int((seconds / 60) - hours * 60)
 
         # Get baby info
         if not exists_in_collection(firestore_client, 'babies', milk_entry['baby_mrn']):
