@@ -121,7 +121,7 @@ def add_milk_entry(firestore_client, milk_entry_json_data: dict) -> Tuple[bool, 
     home_page_milk_entry = new_milk_entry.copy()
 
     # Get mother and baby name, should always be valid
-    mother_doc = retrieve_mothers(firestore_client, 'mrn', mother_mrn)
+    mother_doc = retrieve_from_collection(firestore_client, collection='mothers', mrn_uid=mother_mrn)
     home_page_milk_entry['baby_name'] = baby_doc['first_name'] + ' ' + baby_doc['last_name']
     home_page_milk_entry['mother_name'] = mother_doc['first_name'] + ' ' + mother_doc['last_name']
 
