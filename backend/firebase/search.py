@@ -18,7 +18,7 @@ def search_by_keyword(firestore_client, collection: str, keyword: str) -> dict:
     results = []
 
     # Check if keyword is empty
-    if not keyword:
+    if not keyword or keyword == "":
         return []
 
     keyword = keyword.lower()  # force case-insensitive search
