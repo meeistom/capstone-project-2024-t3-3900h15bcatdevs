@@ -1,76 +1,44 @@
 from firebase.error_check import *
+from typing import Tuple
 
 
-def retrieve_mothers(
-    firestore_client, field: str = None, search_value: str = None
+def retrieve_from_collection(
+    firestore_client, collection: str, mrn_uid: str = None, order: str = "DESC"
 ) -> list:
     """
-    Gets a mother from the database by first name, or last name or get all if no selection.
+    Retrieves all documents from a collection. If MRN/UID provided then returns appropriate document.
 
     Args:
         firestore_client (Firestore Client): Firestore Client object.
-        field (str): Field to search in mother objects.
-        search_value (str): Value to search for in the field.
+        collection (str): Collection to retrieve from.
+        mrn (str, optional): MRN of mother/baby. Defaults to None.
+        order (str, optional): Order to return the results in. Defaults to "DESC".
 
     Returns:
-        list: Mother objects with the name matching string or all mothers if no selection.
+        list: List of mother objects.
     """
-    # Should always be true
-    if field:
-        assert is_valid_data_field("mothers", field)
+    assert collection in collection_names
 
-    mother_collection_stream = firestore_client.collection("mothers").stream()
+    collection_stream = firestore_client.collection(collection).stream()
 
-    mothers_list = []
-    for mother_doc in mother_collection_stream:
-        match field:
-            case "mrn":
-                if mother_doc.to_dict()[field] != search_value:
-                    continue
-            case "first_name" | "last_name":
-                if mother_doc.to_dict()[field].lower() != search_value.lower():
-                    continue
+    return_list = []
 
-        mothers_list.append(mother_doc.to_dict())
+    if mrn_uid:
+        # Check if document exists
+        if not exists_in_collection(firestore_client, collection, mrn_uid):
+            return []
 
-    return mothers_list
+        doc = firestore_client.collection(collection).document(mrn_uid).get()
+        return_list.append(doc.to_dict())
+    else:
+        for doc in collection_stream:
+            return_list.append(doc.to_dict())
 
+    # If milk, entries, sorts for returning most recently created first
+    if collection == "milk_entries":
+        return_list.sort(key=lambda x: x["created_at"], reverse=(order == "DESC"))
 
-def retrieve_babies(
-    firestore_client, field: str = None, search_value: str = None
-) -> list:
-    """
-    Gets a baby from the database by first name, or last name or get all if no selection.
-
-    Args:
-        firestore_client (Firestore Client): Firestore Client object.
-        field (str): Field to search in baby objects.
-        search_value (str): Value to search for in the field.
-
-    Returns:
-        list: Baby objects with the name matching string or all babies if no selection.
-    """
-    # Should always be true
-    if field:
-        assert is_valid_data_field("babies", field)
-
-    baby_collection_stream = firestore_client.collection("babies").stream()
-
-    babies_list = []
-    for baby_doc in baby_collection_stream:
-        match field:
-            # Exact mrn match
-            case "mrn":
-                if baby_doc.to_dict()[field] != search_value:
-                    continue
-            # Lowered case first/last name match
-            case "first_name" | "last_name":
-                if baby_doc.to_dict()[field].lower() != search_value.lower():
-                    continue
-
-        babies_list.append(baby_doc.to_dict())
-
-    return babies_list
+    return return_list
 
 
 def retrieve_milk_entries(

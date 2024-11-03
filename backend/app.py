@@ -40,62 +40,29 @@ def default_home_milks():
         200 if success else 400
     )
 
-# Fetches all mothers as a list, or fetches mother object by MRN
-# Fetches all mothers as a list, or fetches mother object by given param (MRN, name)
+# Fetches all mothers as a list, or fetches mother object by MRN if provided
 @app.route('/mothers', methods=['GET'], strict_slashes=False)
 def get_mother():
     mrn = request.args.get('mrn')
-    first_name = request.args.get('first_name')
-    last_name = request.args.get('last_name')
 
-    if mrn:
-        mother_data = retrieve_mothers(fs_client, 'mrn', mrn)
-        mother_data = mother_data[0] if len(mother_data) == 1 else mother_data
-    elif first_name:
-        mother_data = retrieve_mothers(fs_client, 'first_name', first_name)
-    elif last_name:
-        mother_data = retrieve_mothers(fs_client, 'last_name', last_name)
-    else:
-        mother_data = retrieve_mothers(fs_client)
+    mother_data = retrieve_from_collection(fs_client, collection="mothers", mrn_uid=mrn)
 
-    if len(mother_data) == 0:
-        return make_response(
-            "Mother MRN not found!" if mrn else "No Mothers Found!",
-            400 if mrn else 200
-        )
-    else:
-        return make_response(
-            jsonify(mother_data),
-            200
-        )
+    return make_response(
+        jsonify(mother_data[0] if mrn and len(mother_data) == 1 else mother_data),
+        400 if mrn and len(mother_data) == 0 else 200
+    )
 
-# Fetches all babies as a list, or fetches baby object by MRN
+# Fetches all babies as a list, or fetches baby object by MRN if provided
 @app.route('/babies', methods=['GET'], strict_slashes=False)
 def get_baby():
     mrn = request.args.get('mrn')
-    first_name = request.args.get('first_name')
-    last_name = request.args.get('last_name')
 
-    if mrn:
-        baby_data = retrieve_babies(fs_client, 'mrn', mrn)
-        baby_data = baby_data[0] if len(baby_data) == 1 else baby_data
-    elif first_name:
-        baby_data = retrieve_babies(fs_client, 'first_name', first_name)
-    elif last_name:
-        baby_data = retrieve_babies(fs_client, 'last_name', last_name)
-    else:
-        baby_data = retrieve_babies(fs_client)
+    baby_data = retrieve_from_collection(fs_client, collection="babies", mrn_uid=mrn)
 
-    if len(baby_data) == 0:
-        return make_response(
-            "Baby MRN not found!" if mrn else "No Babies Found!",
-            400 if mrn else 200
-        )
-    else:
-        return make_response(
-            jsonify(baby_data),
-            200
-        )
+    return make_response(
+        jsonify(baby_data[0] if mrn and len(baby_data) == 1 else baby_data),
+        400 if mrn and len(baby_data) == 0 else 200
+    )
 
 #  Fetches all milk entries as a list and returns it in order (default is DESC), or fetches milk entry object by UID
 @app.route('/milk_entries', methods=['GET'], strict_slashes=False)
@@ -103,24 +70,15 @@ def get_milk_entry():
     uid = request.args.get('uid')
     order = request.args.get('order')
     
-    if uid:
-        milk_entry_data = retrieve_milk_entries(fs_client, 'uid', uid)
-        milk_entry_data = milk_entry_data[0] if len(milk_entry_data) == 1 else milk_entry_data
-    elif order:
-        milk_entry_data = retrieve_milk_entries(fs_client, order=order)
+    if order:
+        milk_entry_data = retrieve_from_collection(fs_client, collection="milk_entries", order=order)
     else:
-        milk_entry_data = retrieve_milk_entries(fs_client)
+        milk_entry_data = retrieve_from_collection(fs_client, collection="milk_entries", mrn_uid=uid)
 
-    if len(milk_entry_data) == 0:
-        return make_response(
-            "Milk Entry UID not found!" if uid else "No Milk Entries Registered",
-            400 if uid else 200
-        )
-    else:
-        return make_response(
-            jsonify(milk_entry_data),
-            200
-        )
+    return make_response(
+        jsonify(milk_entry_data[0] if uid and len(milk_entry_data) == 1 else milk_entry_data),
+        400 if uid and len(milk_entry_data) == 0 else 200
+    )
     
 #  Fetches all related mother matches by keyword
 @app.route('/mothers/search', methods=['GET'], strict_slashes=False)
