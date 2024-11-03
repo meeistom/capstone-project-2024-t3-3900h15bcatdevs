@@ -5,10 +5,12 @@ certifi==2024.8.30
 cffi==1.17.1
 charset-normalizer==3.4.0
 click==8.1.7
+colorama==0.4.6
 cryptography==43.0.1
 firebase-admin==6.5.0
 Flask==3.0.3
 Flask-Cors==5.0.0
+flask-swagger-ui==4.11.1
 google-api-core==2.21.0
 google-api-python-client==2.149.0
 google-auth==2.35.0
@@ -29,7 +31,6 @@ MarkupSafe==3.0.1
 msgpack==1.1.0
 numpy==2.1.2
 pillow==10.4.0
-ppf-datamatrix==0.2
 proto-plus==1.24.0
 protobuf==5.28.2
 pyasn1==0.6.1
