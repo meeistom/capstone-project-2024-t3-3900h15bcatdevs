@@ -220,3 +220,16 @@ Returns:
 ```
 
 (JSON - 200) Returns ```list``` of notification objects.
+
+
+## Preview Milk Label
+
+- ```/preview_milk_label?uid=<milk_uid>```
+
+Frontend can use this route to generate a milk label. Requires a `milk_uid` which it will then use to generate a label in HTML format.
+
+Parameter: `uid`
+
+Returns:
+- `200`
+- `label: (str)`

@@ -227,6 +227,21 @@ def get_update_notifications():
 
     return make_response(jsonify(notifications), 200)
 
+# Generate milk label
+@app.route('/preview_milk_label', methods=['GET'], strict_slashes=False)
+def get_milk_label_preview():
+    uid = request.args.get('uid')
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001, debug=True)
+    milk = retrieve_milk_entry_by_uid(fs_client, uid)
+    baby = retrieve_baby_by_mrn(fs_client, milk['baby_mrn'])
+    mother = retrieve_mother_by_mrn(fs_client, baby['mother_mrn'])
+
+    label = get_milk_label((uid, mother['first_name'], baby['last_name'], baby['mrn']))
+
+    return make_response(
+        label,
+        200
+    )
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5001, debug=True)
