@@ -13,6 +13,8 @@ from firebase.verify import *
 from firebase.notify import *
 from firebase.search import *
 
+from labels.labels import *
+
 cred = credentials.Certificate("./.key/key2.json")
 fba.initialize_app(cred)
 fs_client = firestore.client()
