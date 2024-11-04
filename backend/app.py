@@ -25,7 +25,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route('/')
 def passes():
-    return 'DEFAULT'
+    return 'Hi'
 
 # Homepage shows the formatted milks as default
 # Fetches & formats milks with mother and baby info
