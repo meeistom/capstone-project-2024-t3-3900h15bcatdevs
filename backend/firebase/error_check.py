@@ -27,15 +27,14 @@ def is_valid_data_field(object_name: str, field: str) -> bool:
     assert type(object_name) == str
     assert type(field) == str
 
-    match object_name:
-        case "mothers":
-            return field in mother_data_fields
-        case "babies":
-            return field in baby_data_fields
-        case "milk_entries":
-            return field in milk_entry_data_fields
-        case _:
-            return False
+    if object_name == "mothers":
+        return field in mother_data_fields
+    elif object_name == "babies":
+        return field in baby_data_fields
+    elif object_name == "milk_entries":
+        return field in milk_entry_data_fields
+    else:
+        return False
 
 
 # Checks if a MRN or UID exists in a specified collection
