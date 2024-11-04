@@ -3,14 +3,6 @@ from datetime import datetime, timedelta, timezone
 
 SYDNEY_TIMEZONE = timezone(timedelta(hours=11))
 
-# # TESTING
-# import firebase_admin as fba
-# from firebase_admin import firestore, credentials
-# cred = credentials.Certificate('./.key/key.json')
-# fba.initialize_app(cred)
-# fs_client = firestore.client()
-
-
 def get_milk_updates(firestore_client):
     """
     Constructs notification objects on milk entries that are close to expiring or expired.
@@ -62,6 +54,3 @@ def get_milk_updates(firestore_client):
         notifications.append(notif_object)
     
     return notifications
-
-# if __name__ == '__main__':
-#     get_milk_updates(fs_client)
