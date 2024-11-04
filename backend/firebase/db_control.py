@@ -5,14 +5,9 @@ import json
 import firebase_admin as fba
 from firebase_admin import firestore, credentials
 
-from firebase.error_check import *
+from error_check import *
 
-# cred = credentials.Certificate('./firebase/key_gabe.json')
-# cred = credentials.Certificate('./firebase/key_cynthia.json')
-cred = credentials.Certificate('../firebase/key_aolin.json')
-# cred = credentials.Certificate('./firebase/key_parker.json')
-# cred = credentials.Certificate('./firebase/key_tom.json')
-# cred = credentials.Certificate('./firebase/key_parker.json')
+cred = credentials.Certificate('./.key/key2.json')
 
 fba.initialize_app(cred)
 fs_client = firestore.client()

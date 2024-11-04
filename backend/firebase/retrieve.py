@@ -1,126 +1,121 @@
 from firebase.error_check import *
-from firebase_admin import firestore
+from typing import Tuple
 
-def retrieve_mother_by_mrn(firestore_client, mrn: str) -> dict:
+
+def retrieve_from_collection(
+    firestore_client, collection: str, mrn_uid: str = None, order: str = "DESC"
+) -> list:
     """
-    Gets a mother from the database
+    Retrieves all documents from a collection. If MRN/UID provided then returns appropriate document.
+
+    Args:
+        firestore_client (Firestore Client): Firestore Client object.
+        collection (str): Collection to retrieve from.
+        mrn (str, optional): MRN of mother/baby. Defaults to None.
+        order (str, optional): Order to return the results in. Defaults to "DESC".
+
+    Returns:
+        list: List of mother objects.
     """
-    if not exists_in_collection(firestore_client, 'mothers', mrn):
-        print(f"GET MOTHER: Mother MRN: {mrn} does not exist")
-        return {}
+    assert collection in collection_names
+
+    collection_stream = firestore_client.collection(collection).stream()
+
+    return_list = []
+
+    if mrn_uid:
+        # Check if document exists
+        if not exists_in_collection(firestore_client, collection, mrn_uid):
+            return []
+
+        doc = firestore_client.collection(collection).document(mrn_uid).get()
+        return_list.append(doc.to_dict())
     else:
-        mother_collection = firestore_client.collection("mothers")
-        try:
-            return mother_collection.document(mrn).get().to_dict()
-        except Exception as e:
-            print(f"GET MOTHER: An error occurred while getting data: {e}")
-           
+        for doc in collection_stream:
+            return_list.append(doc.to_dict())
+
+    # If milk, entries, sorts for returning most recently created first
+    if collection == "milk_entries":
+        return_list.sort(key=lambda x: x["created_at"], reverse=(order == "DESC"))
+ 
+    # Add babies names to mother objects
+    if collection == 'mothers':
+        for mother in return_list:
+            mother['babies'] = get_baby_names(firestore_client, mother_mrn=mother['mrn'])
+
+    # Add mother names to return baby objects
+    if collection == 'babies':
+        for baby in return_list:
+            baby['mother_name'] = get_mother_name(firestore_client, baby_mrn=baby['mrn'])
+
+    return return_list
+
+
+def retrieve_milk_entries(
+    firestore_client, field: str = None, search_value: str = None, order: str = "DESC"
+) -> list:
+    """
+    Gets milk entries from the database by field specified matches, otherwise returns all in descending order from creation
+
+    Args:
+        firestore_client (Firestore Client): Firestore Client object.
+        field (str): Field to search in milk entry objects.
+        search_value (str): Value to search for in the field.
+        order (str): Order to return the results in.
+
+    Returns:
+        list: Milk entries with the specified uid or all milk entries if no selection.
+    """
+    if field:
+        assert is_valid_data_field("milk_entries", field)
+
+    milk_entries_collection = firestore_client.collection("milk_entries").stream()
+
+    milk_entries_list = []
+    for milk_doc in milk_entries_collection:
+        if field == "uid" and milk_doc.id != search_value:
+            continue
+
+        milk_entries_list.append(milk_doc.to_dict())
+
+    # Sorts for returning most recently created first
+    milk_entries_list.sort(key=lambda x: x["created_at"], reverse=(order == "DESC"))
+
+    return milk_entries_list
+
+
+def get_mother_name(firestore_client, baby_mrn: str) -> str:
+    """
+    Gets the mother's name from the database given a baby's MRN.
+
+    Args:
+        firestore_client (Firestore Client): Firestore Client object.
+        baby_mrn (str): MRN of baby.
+
+    Returns:
+        str: Mother's name
+    """
+    if not exists_in_collection(firestore_client, collection_name="babies", mrn_uid=baby_mrn):
+        return ""
     
-def retrieve_mother_by_name(firestore_client, field: str, name: str) -> list:
+    baby_document = firestore_client.collection('babies').document(baby_mrn).get().to_dict()
+    mother_mrn = baby_document['mother_mrn']
+    mother_document = firestore_client.collection('mothers').document(mother_mrn).get().to_dict()
+
+    return mother_document['first_name'] + ' ' + mother_document['last_name']
+
+def get_baby_names(firestore_client, mother_mrn: str) -> list:
     """
-    Gets mothers from the database by 'first_name' or 'last_name' case insensitive.
+    Gets a list of baby names associated with a mother's MRN, in her babies mrn list
     """
-    query = firestore_client.collection("mothers").get()
-    name_lower = name.lower()
-
-    mothers_list = [
-        doc_dict for doc in query
-        if (doc_dict := doc.to_dict()).get(field, "").lower() == name_lower
-    ]
-
-    if not mothers_list:
-        print(f"GET MOTHERS: No mothers found with {field}: {name}")
-        
-    return mothers_list
-
-def retrieve_baby_by_mrn(firestore_client, mrn: str) -> dict:
-    """
-    Gets a baby from the database
-    """
-    if not exists_in_collection(firestore_client, 'babies', mrn):
-        # print("GET BABY: Baby does not exist")
-        return {}
-    else:
-        baby_collection = firestore_client.collection("babies")
-        try:
-            return baby_collection.document(mrn).get().to_dict()
-        except Exception as e:
-            print(f"GET BABY: An error occurred while getting data: {e}")
-
-def retrieve_milk_entry_by_uid(firestore_client, uid: str) -> dict:
-    """
-    Gets a milk entry from the database
-    """
-    if not exists_in_collection(firestore_client, 'milk_entries', uid):
-        # print("GET MILK ENTRY: Milk entry does not exist")
-        return {}
-    else:
-        milk_collection = firestore_client.collection("milk_entries")
-    try:
-        return milk_collection.document(uid).get().to_dict()
-    except Exception as e:
-        print(f"GET MILK ENTRY: An error occurred while getting data: {e}")
-
-def retrieve_all_mothers(firestore_client) -> list:
-    """
-    Gets all mothers from the database
-    """
-    mothers_collection = firestore_client.collection("mothers")
-    mothers_list = []
-    for mother in mothers_collection.stream():
-        mothers_list.append(mother.to_dict())
-        
-    return mothers_list
-
-def retrieve_all_babies(firestore_client) -> list:
-    """
-    Gets all babies from the database
-    """
-    babies_collection = firestore_client.collection("babies")
-    babies_list = []
-    for baby in babies_collection.stream():
-        babies_list.append(baby.to_dict())
-
-    return babies_list
-
-def retrieve_all_milk_entries(firestore_client, order_direction: str="DESC"):
-    milk_entries_collection = firestore_client.collection('milk_entries')
-
-    direction = firestore.Query.ASCENDING if order_direction.upper() == "ASC" else firestore.Query.DESCENDING
-
-    query = milk_entries_collection.order_by('created_at', direction=direction)
-    results = query.stream()
-
-    entries = []
+    if not exists_in_collection(firestore_client, collection_name="mothers", mrn_uid=mother_mrn):
+        return []
     
-    for doc in results:
-        entries.append(doc.to_dict())
-    
-    return entries
+    mother_document = firestore_client.collection('mothers').document(mother_mrn).get().to_dict()
+    baby_mrns = mother_document['babies']
+    baby_names = []
+    for baby_mrn in baby_mrns:
+        baby_document = firestore_client.collection('babies').document(baby_mrn).get().to_dict()
+        baby_names.append(baby_document['first_name'] + ' ' + baby_document['last_name'])
 
-def retrieve_by_keyword(firestore_client, keyword: str) -> dict:
-    """
-    Gets any matches from the database by a keyword.
-    """
-    collections = ["mothers", "babies", "milk_entries"]
-    results = {}
-    keyword_lower = keyword.lower()  # for case-insensitive search
-
-    for collection_name in collections:
-        collection = firestore_client.collection(collection_name)
-
-        try:
-            query = collection.stream()
-            results[collection_name] = [
-                doc_dict for doc in query
-                if keyword_lower in str(doc_dict := doc.to_dict()).lower()
-            ]
-
-            if not results[collection_name]:
-                print(f"GET {collection_name.upper()}: No matches found for keyword='{keyword}' in {collection_name}")
-
-        except Exception as e:
-            print(f"GET {collection_name.upper()}: An error occurred while querying data: {e}")
-            results[collection_name] = []
-
-    return results
+    return baby_names
