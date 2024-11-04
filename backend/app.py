@@ -232,9 +232,17 @@ def get_update_notifications():
 def get_milk_label_preview():
     uid = request.args.get('uid')
 
-    milk = retrieve_milk_entry_by_uid(fs_client, uid)
-    baby = retrieve_baby_by_mrn(fs_client, milk['baby_mrn'])
-    mother = retrieve_mother_by_mrn(fs_client, baby['mother_mrn'])
+    milk = retrieve_from_collection(fs_client, collection="milk_entries", mrn_uid=uid)
+    assert len(milk) == 1
+    milk = milk[0]
+
+    baby = retrieve_from_collection(fs_client, collection="babies", mrn_uid=milk['baby_mrn'])
+    assert len(baby) == 1
+    baby = baby[0]
+
+    mother = retrieve_from_collection(fs_client, collection="mothers", mrn_uid=baby['mother_mrn'])
+    assert len(mother) == 1
+    mother = mother[0]
 
     label = get_milk_label((uid, mother['first_name'], baby['last_name'], baby['mrn']))
 
