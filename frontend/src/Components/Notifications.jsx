@@ -40,14 +40,18 @@ function Notifications({ notifData, confirmDelete }) {
         <>
           <div className="notification">
             <div className="content">
-              Milk {notif.milk_uid} for baby {notif.baby_name} 
+              Milk {notif.uid} for baby {notif.baby_name} 
               {notif.expired == false ? " will expire in " : " expired "}
               {getExpiryMessage(
-                notif.expired, Math.abs(notif.days_expiry), notif.hours_expiry
+                notif.expired, 
+                Math.abs(notif.days_expiry), 
+                Math.abs(notif.hours_expiry)
               )}
               <br></br>
               {notif.expired && (
-                <p className="discard-btn" onClick={() => confirmDelete(notif.milk_uid)}>discard</p>
+                <p className="discard-btn" onClick={() => 
+                  confirmDelete(notif)}>discard
+                </p>
               )}
             </div>
             <div className=
