@@ -16,7 +16,7 @@ def get_milk_label(info_tuple: tuple) -> str:
     }))
     required = convert_info_to_html(fill_info(required_info_path, {}))
 
-    dm = scale_data_matrix(generate_barcode(uid, 'data-matrix'), 4)
+    dm = scale_data_matrix(generate_barcode(uid, 'data-matrix'), 4) + f'<p>{uid}</p>'
 
     return generate_milk_label(required, dm, optional)
 
