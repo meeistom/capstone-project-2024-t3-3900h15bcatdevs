@@ -245,14 +245,11 @@ def get_update_notifications():
 # Generate milk label
 @app.route('/preview_milk_label', methods=['GET'], strict_slashes=False)
 def get_milk_label_preview():
-    ids = request.get_json()
+    uid = request.args.get('uid')
 
-    uid = ids['uid']
-    baby_mrn = ids['baby_mrn']
-    mother_mrn = ids['mother_mrn']
-
-    mother = retrieve_mother_by_mrn(fs_client, mother_mrn)
-    baby = retrieve_baby_by_mrn(fs_client, baby_mrn)
+    milk = retrieve_milk_entry_by_uid(fs_client, uid)
+    baby = retrieve_baby_by_mrn(fs_client, milk['baby_mrn'])
+    mother = retrieve_mother_by_mrn(fs_client, baby['mother_mrn'])
 
     label = get_milk_label((uid, mother['first_name'], baby['last_name'], baby['mrn']))
 

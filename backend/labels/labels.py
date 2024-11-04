@@ -9,12 +9,12 @@ font_path = './labels/assets/cour.ttf'
 def get_milk_label(info_tuple: tuple) -> str:
     uid, bo_name, sure_name, baby_mrn = info_tuple
 
-    optional = fill_info(optional_info_path, {
+    optional = convert_info_to_html(fill_info(optional_info_path, {
         '<<babySureName>>': sure_name,
         '<<BOName>>': bo_name,
         '<<MRNCODE>>': baby_mrn
-    })
-    required = fill_info(required_info_path, {})
+    }))
+    required = convert_info_to_html(fill_info(required_info_path, {}))
 
     dm = scale_data_matrix(generate_barcode(uid, 'data-matrix'), 4)
 
