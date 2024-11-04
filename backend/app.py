@@ -12,8 +12,6 @@ from firebase.home_milk_page import *
 from firebase.verify import *
 from firebase.notify import *
 
-from labels.labels import get_milk_label
-
 cred = credentials.Certificate('./.key/key2.json')
 fba.initialize_app(cred)
 fs_client = firestore.client()
@@ -27,7 +25,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route('/')
 def passes():
-    return 'DEFAULT'
+    return 'Hi'
 
 # Homepage shows the formatted milks as default
 # Fetches & formats milks with mother and baby info
@@ -257,7 +255,6 @@ def get_milk_label_preview():
         label,
         200
     )
-    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)

@@ -1,5 +1,5 @@
 from typing import Optional
-from .barcodes.barcodes import generate_barcode, scale_data_matrix
+from barcodes.barcodes import generate_barcode, scale_data_matrix
 
 # Paths
 required_info_path = './labels/assets/template/required_info.txt'
