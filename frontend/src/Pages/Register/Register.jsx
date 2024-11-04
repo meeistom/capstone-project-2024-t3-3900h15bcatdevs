@@ -37,8 +37,6 @@ function Register() {
   const [milkType, setMilkType] = useState("ehm");
   const [storageType, setStorageType] = useState("fridge");
 
-  const URL = "http://localhost:5001";
-
   const imageRef = useRef(null);
 
   const navigate = useNavigate();

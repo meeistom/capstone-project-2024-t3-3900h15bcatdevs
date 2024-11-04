@@ -28,8 +28,6 @@ function AddMilkModal({ addMilk, closeModal, version }) {
   const [body, setBody] = useState(null);
   const [footer, setFooter] = useState(null);
 
-  const URL = "http://localhost:5001";
-
   useEffect(() => {
     if (scannerInputRef.current) {
       scannerInputRef.current.focus();
