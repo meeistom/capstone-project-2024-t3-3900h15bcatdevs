@@ -5,14 +5,9 @@ import json
 import firebase_admin as fba
 from firebase_admin import firestore, credentials
 
-from firebase.error_check import *
+from error_check import *
 
-# cred = credentials.Certificate('./firebase/key_gabe.json')
-# cred = credentials.Certificate('./firebase/key_cynthia.json')
-cred = credentials.Certificate('../firebase/key_aolin.json')
-# cred = credentials.Certificate('./firebase/key_parker.json')
-# cred = credentials.Certificate('./firebase/key_tom.json')
-# cred = credentials.Certificate('./firebase/key_parker.json')
+cred = credentials.Certificate('./.key/key2.json')
 
 fba.initialize_app(cred)
 fs_client = firestore.client()
@@ -35,12 +30,12 @@ def add_dummy_data(firestore_client, collection_name: str, json_path: str):
             key = 'uid' if collection_name == 'milk_entries' else 'mrn'
             collection_ref.document(entry[key]).set(entry)
 
-# if __name__ == '__main__':
-#     clear_collection(fs_client, "mothers")
-#     print("cleared");
-#     clear_collection(fs_client, "babies")
-#     clear_collection(fs_client, "milk_entries")
+if __name__ == '__main__':
+    clear_collection(fs_client, "mothers")
+    print("cleared");
+    clear_collection(fs_client, "babies")
+    clear_collection(fs_client, "milk_entries")
 
-#     add_dummy_data(fs_client, "mothers", "../firebase/data/mother_details.json")
-#     add_dummy_data(fs_client, "babies", "../firebase/data/baby_details.json")
-#     add_dummy_data(fs_client, "milk_entries", "../firebase/data/bottle_details.json")
+    add_dummy_data(fs_client, "mothers", "../firebase/data/mother_details.json")
+    add_dummy_data(fs_client, "babies", "../firebase/data/baby_details.json")
+    add_dummy_data(fs_client, "milk_entries", "../firebase/data/bottle_details.json")
