@@ -18,8 +18,7 @@ function DeleteMilkModal({ closeModal, entry, deleteMilk }) {
               </div>
               <div className="modal-body">
                 <p>Are you sure you want to delete this milk entry?</p>
-                UID: {entry.uid} <br />
-                belongs to {entry.baby_name}, baby of {entry.mother_name}
+                Milk {entry.uid} belongs to: <br></br> {entry.baby_name}, baby of {entry.mother_name}
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => closeModal(false)}>Close</button>

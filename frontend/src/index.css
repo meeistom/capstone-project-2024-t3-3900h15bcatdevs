@@ -401,6 +401,7 @@ input::-webkit-inner-spin-button {
 .notification .discard-btn {
   color: #1E8FFF;
   display: inline-block;
+  width: 50px;
   margin-top: 8.5px;
   margin-bottom: 0;
 }
