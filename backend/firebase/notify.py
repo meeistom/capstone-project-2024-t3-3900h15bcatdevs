@@ -34,8 +34,7 @@ def get_milk_updates(firestore_client):
         minutes = int((seconds / 60) - hours * 60)
 
         # Get baby info
-        baby_doc = retrieve_baby_by_mrn(firestore_client, milk_entry['baby_mrn'])
-        if baby_doc == {}:
+        if not exists_in_collection(firestore_client, 'babies', milk_entry['baby_mrn']):
             continue
         
         baby_document = firestore_client.collection('babies').document(milk_entry['baby_mrn']).get().to_dict()
