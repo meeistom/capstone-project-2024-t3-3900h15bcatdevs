@@ -45,6 +45,7 @@ def get_milk_updates(firestore_client):
 
         notif_object = {
             'uid': milk_entry['uid'],
+            'expiration_timestamp': milk_entry['expiration_time'],
             'days_expiry': days,
             'hours_expiry': hours,
             'minutes_expiry': minutes,
@@ -54,7 +55,7 @@ def get_milk_updates(firestore_client):
         }
         notifications.append(notif_object)
     
-    # Sort in order of most expired first
-    sorted_notifications = sorted(notifications, key=lambda obj: "expiration_time")
+    # If milk, entries, sorts for returning most recently created first
+    notifications.sort(key=lambda x: x["expiration_timestamp"], reverse=False)
 
-    return sorted_notifications
+    return notifications
