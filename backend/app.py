@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
+from flask_swagger_ui import get_swaggerui_blueprint
 
 import firebase_admin as fba
 from firebase_admin import firestore, credentials
@@ -24,7 +25,20 @@ Basic Skeleton for a Flask app that you can use in a docker container.
 """
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "*"}}) 
+
+SWAGGER_URL = '/api/docs' 
+API_URL = '/static/swagger.json' 
+
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL, 
+    API_URL,
+    config={
+        'app_name': "Milk Guard Swagger Docs"
+    }
+)
+
+app.register_blueprint(swaggerui_blueprint)
 
 
 @app.route("/")
