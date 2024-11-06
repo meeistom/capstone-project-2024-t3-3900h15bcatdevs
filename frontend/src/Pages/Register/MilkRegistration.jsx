@@ -107,6 +107,7 @@ function MilkRegistration({
                     <div className="col">
                       <div className="register-form-label">Baby MRN</div>
                       <Form.Control
+                        id="baby-mrn"
                         type="number"
                         name="baby-mrn"
                         placeholder="Enter MRN"
