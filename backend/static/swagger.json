@@ -477,7 +477,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Milks"
+                  "$ref": "#/components/schemas/Milk Entries"
                 },
                 "example": [
                   {
@@ -515,7 +515,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Milks"
+                  "$ref": "#/components/schemas/Milk Entries"
                 },
                 "example": {
                   "baby_mrn": "0000",
@@ -937,7 +937,7 @@
           }
         }
       },
-      "Milk Entry": {
+      "Milk Entries": {
         "type": "object",
         "properties": {
           "baby_mrn": {
