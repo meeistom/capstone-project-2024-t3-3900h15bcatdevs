@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Milk Guard",
-    "description": "This is the API docs for Milk Guard.\n\n## ❗ ️Info on Data\nFor more information checkout the database schema in ```firebase/firestore-data.md```\n\n## Dummy Data\nTo add dummy data or clear data from the database, uncomment/run the appropriate functions in ```backend/firebase/db_control.py```.\n\n```\nif __name__ == '__main__':\n    # clear_collection(fs_client, \"mothers\")\n    # clear_collection(fs_client, \"babies\")\n    # clear_collection(fs_client, \"milk_entries\")\n\n    add_dummy_data(fs_client, \"mothers\", \"./firebase/data/mother_details.json\")\n    add_dummy_data(fs_client, \"babies\", \"./firebase/data/baby_details.json\")\n    add_dummy_data(fs_client, \"milk_entries\", \"./firebase/data/bottle_details.json\")\n```\n## ❗ ️Disclaimer\nThe example responses are not indicative of what is in the database. It is purely a template of what the object should look like. In addition, the example value for preview_milk_label is a html and idk how to store that in json. If any questions arise or something if not correct, feel free to reach out to Aolin",
+    "description": "This is the API docs for Milk Guard.\n\n## ❗ ️Info on Data\nFor more information checkout the database schema in ```firebase/firestore-data.md```\n\n## Dummy Data\nTo add dummy data or clear data from the database, uncomment/run the appropriate functions in ```backend/firebase/db_control.py```.\n\n```\nif __name__ == '__main__':\n    # clear_collection(fs_client, \"mothers\")\n    # clear_collection(fs_client, \"babies\")\n    # clear_collection(fs_client, \"milk_entries\")\n\n    add_dummy_data(fs_client, \"mothers\", \"./firebase/data/mother_details.json\")\n    add_dummy_data(fs_client, \"babies\", \"./firebase/data/baby_details.json\")\n    add_dummy_data(fs_client, \"milk_entries\", \"./firebase/data/bottle_details.json\")\n```\n## ❗ ️Disclaimer\nThe example responses are not indicative of what is in the database. It is purely a template of what the object should look like. If any questions arise or something if not correct, feel free to reach out to Aolin",
     "version": "1.0.0"
   },
   "servers": [
@@ -578,16 +578,14 @@
           "200": {
             "description": "Successful operation",
             "content": {
-              "application/json": {
+              "text/html": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/Milks"
-                    },
-                    {
-                      "$ref": "#/components/schemas/Babies"
-                    }
-                  ]
+                  "type": "string"
+                },
+                "examples": {
+                  "html": {
+                    "value": "<div class=\"milk-label\" style=\"display: flex; gap: 10px; font-family: monospace;\">\n<div style=\"display: flex; flex-direction: column;\">\n<div class=\"info\">\n<p>Holyard</p>\n<p>b/o Gianina</p>\n<p>MRN 1215</p>\n<p>Initial 1_____ Initial 2_____</p>\n</div>\n<div>\n<?xml version=\"1.0\" encoding=\"utf-8\" ?><svg baseProfile=\"tiny\" version=\"1.2\" height=\"48px\" width=\"48px\" viewBox=\"0 0 12 12\" style=\"background-color:#FFF\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:ev=\"http://www.w3.org/2001/xml-events\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"><path d=\"M1,1.5 h1m1,0h1m1,0h1m1,0h1m1,0h1m1,0m-10,1h2m2,0h1m1,0h4m-10,1h1m4,0h2m3,0m-10,1h1m1,0h1m2,0h1m1,0h1m1,0h1m-10,1h1m1,0h2m2,0h1m3,0m-10,1h1m2,0h2m3,0h2m-10,1h1m1,0h1m2,0h2m1,0h1m1,0m-10,1h2m1,0h1m2,0h1m2,0h1m-10,1h3m1,0h2m4,0m-10,1h10m-10,1\" stroke=\"#000\" stroke-width=\"1\"/></svg><p>000024</p>\n</div>\n</div>\n<div class=\"info\">\n<p>EHM/PDHM    expressed/defrosted</p>\n<p>PDHM batch#__________________________________</p>\n<p>        date____________time____________am/pm</p>\n<p>expired date____________time____________am/pm</p>\n<p>Humavant 6/Cream/HMF</p>\n<p>Humavant batch#______________________________</p>\n<p>expired date____________time____________am/pm</p>\n</div>\n</div>\n"
+                  }
                 }
               }
             }
