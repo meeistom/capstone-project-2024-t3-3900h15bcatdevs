@@ -1,0 +1,235 @@
+# USING THE BACKEND (for frontend peeps)
+
+> ❗️ Info on Data
+>
+> Data Structure/Schema/Layout -> ```firebase/firestore-data.md```
+
+## Dummy Data
+To add dummy data or clear data from the database, uncomment/run the appropriate functions in ```backend/firebase/db_control.py```.
+
+```
+if __name__ == '__main__':
+    # clear_collection(fs_client, "mothers")
+    # clear_collection(fs_client, "babies")
+    # clear_collection(fs_client, "milk_entries")
+
+    add_dummy_data(fs_client, "mothers", "./firebase/data/mother_details.json")
+    add_dummy_data(fs_client, "babies", "./firebase/data/baby_details.json")
+    add_dummy_data(fs_client, "milk_entries", "./firebase/data/bottle_details.json")
+```
+
+
+# Available routes on backend
+
+## Home
+- ```/home```
+
+Gets milk entries with mother and baby names for the home page. Gets all milk entries, then adds mother and baby names to each milk entry. 
+
+Returns a list of modified milk entry objects.
+
+## Retrieve all mothers/babies/milk entries
+Get list of mothers OR babies OR milk_entries. Ending with ```/``` is optional.
+- ```/mothers```
+- ```/babies```
+- ```/milk_entries```
+```
+// Example for list of mothers (200)
+[
+    {
+        "first_name": "Felicia",
+        "last_name": "Smith",
+        "mrn": "0000",
+        "babies": ["0000", "0001"],
+        "milks": ["000000", "000001"]
+    },
+    {
+        "first_name": "Anna",
+        "last_name": "Meyers",
+        "mrn": "0001",
+        "babies": ["0002", "0003"],
+        "milks": ["000002", "000003"]
+    }
+]
+OR
+// Example of mother object if retrieve by mrn
+{
+    "first_name": "Anna",
+    "last_name": "Meyers",
+    "mrn": "0001",
+    "babies": ["0002", "0003"],
+    "milks": ["000002", "000003"]
+}
+```
+
+(JSON) (200)  
+Returns ```list``` of mother/baby/milk entry objects. Can be empty if no entries exist
+
+## Get Mother/Baby by MRN, Milk Entry by UID
+Gets invididual mother/baby/milk entry by MRN/UID.
+- ```/mothers?mrn=<mrn>```
+- ```/babies?mrn=<mrn>```
+- ```/milk_entries?uid=<uid>```
+
+(JSON) (200)  
+Returns ```mother```/```baby```/```milk_entry``` object.
+```Mother/Baby/Milk Entry MRN/UID not found!```
+
+## Get Milk Entries from older to newest created.
+Default behaviour is newest to oldest. No need for order param.
+
+- ```/milk_entries?order=DESC``` For most recently created first.
+- ```/milk_entries?order=ASC```
+
+```
+// Example of no mother found (400)
+Mother MRN <mrn> does not exist!
+```
+
+## Search in mothers/babies/milk entries
+Searches all data fields in mother/baby/milk_entry objects for related string & returns related objects. Most importantly, search can handle half-completed strings, eg. searching for "fel" will return "Felicia", "Felicity", "Felicity Smith" etc. 
+
+This includes:
+- ```first_name``` and ```last_name```
+  - Case in-sensitive
+- ```storage_type``` and ```storage_location```
+  - For eg. searching for "frozen" will return milk entries with "frozen" in storage_location.
+- ```extra_notes```
+
+Routes:
+- ```/mothers/search?keyword=<search_string>```
+- ```/babies/search?keyword=<search_string>```
+- ```/milk_entries/search?keyword=<search_string>```
+
+(JSON) (200)
+Returns list of related objects in the respective page/collection. Can be empty if no relevant information.
+
+## Add Mother/Baby/Milk Entry
+- ```/add_mother```
+- ```/add_baby```
+- ```/add_milk_entry```
+
+```
+{ // Mother JSON body
+    "mrn": "0000",
+    "first_name": "Anne",
+    "last_name": "Blot"
+}
+// Baby JSON body
+{
+    "mrn": "0003",
+    "first_name": "James",
+    "last_name": "Blot",
+    "mother_mrn": "0000"
+}
+OR
+{ // Milk entry JSON body
+    "milk_type": "EHA",
+    "express_time": <unixtimestamp>,
+    "expiration_time": <unixtimestamp>,
+    "storage_type": "fresh",
+    "storage_location": "fridge",
+    "volume_ml": 100,
+    "baby_mrn": "0000",
+    "extra_notes": "extra notes???????"
+
+    // Added by backend, should not be in the json that frontend sends to backend
+    // "uid": "000000"
+    // "created_at": 109383901823
+    // "mother_mrn": "0000"
+}
+```
+
+```uid```, ```mother_mrn```, ```created_at``` is added to milk entry objects by backend alongside provided data.
+
+(JSON - 200) Homepage milk entry object to update (everything in a milk entry + mother and baby name)
+(ERROR - 400) ```Mother/Baby/Milk Entry already exists!```
+
+## Delete Mother/Baby/Milk Entry by MRN
+- ```/delete_mother?mrn=<mrn>```
+- ```/delete_baby?mrn=<mrn>```
+- ```/delete_milk_entry?uid=<uid>```
+
+(JSON - 200) Success message.  
+(ERROR - 400) ```Mother/Baby/Milk Entry does not exist!```
+
+## Verify (2 modes)
+- ```/verify?barcode=<barcode>```  
+Accepts any input from scanning any barcode, searches database and returns whether its a mother/baby/milk entry or not found. If milk entry detected, returns the expiry status of milk entry. 
+
+Frontend can use this function to verify and identify the first scanned barcode in verify feed process. Upon return, frontend stores type object the barcode represents.
+
+Parameter: ```barcode```
+
+Returns:  
+```200``` - Entries found in db
+```404``` - Entries not found in db
+```
+{
+    "collection": <collection_name>,
+    "expiration_time": <timestamp>, // Only when milk entry detected
+    "expired": <bool> // Only when milk entry detected
+}
+```
+
+- ```/verify_feed?milk_uid=<milk_uid>&baby_mrn=<baby_mrn>```  
+Takes mrn of baby and uid of milk entry. Returns match or not, and expiry status of milk entry.
+
+Frontend should be storing the MRN/UID of milk entry or baby, whichever was scanned first and then using this route.
+
+Parameters: 
+- ```milk_uid```
+- ```baby_mrn```
+
+Returns:
+```200``` - match, not expired
+```400``` - entries found in database, (not match) OR (match AND expired)
+```404``` - entries not found in database
+```
+// Match expired/not expired return json
+{
+    "match": <bool>,
+    "expiration_time": <timestamp>,
+    "expired": <bool>
+}
+// No match return json
+{
+    "match": <bool>,
+    "mismatch_baby_name": <baby_name>,
+    "milk_owner_baby_name": <baby_name>
+}
+// No entries found return json
+{
+    "error": <str>,
+}
+```
+## Notifications
+
+- ```/notifications```
+
+```
+// Notification Object
+{
+    "milk_uid": <milk_uid>,
+    "days_expiry": <int>,
+    "hours_expiry": <int>,
+    "minutes_expiry": <int>,
+    "expired": <bool>,
+    "baby_name": <str>,
+}
+```
+
+(JSON - 200) Returns ```list``` of notification objects.
+
+
+## Preview Milk Label
+
+- ```/preview_milk_label?uid=<milk_uid>```
+
+Frontend can use this route to generate a milk label. Requires a `milk_uid` which it will then use to generate a label in HTML format.
+
+Parameter: `uid`
+
+Returns:
+- `200`
+- `label: (str)`
