@@ -6,7 +6,7 @@ import { ViewInfoModal } from './ViewInfoModal';
 
 export {Table};
 
-function Table({ deleteMilk, data, setOpenModal, viewType }) {
+function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType }) {
 
   const viewConfigs = {
     "viewMilk": [
@@ -39,7 +39,6 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
   const [openEntryModal, setOpenEntryModal] = useState(false);
   const [info, setInfo] = useState(null);
   const URL = "http://127.0.0.1:5001";
-  const [displayData, setDisplayData] = useState(data);
   const [searchValue, setSearchValue] = useState('');
 
   const handlePopUp = (entry) => {
@@ -99,7 +98,7 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
                   <div className="search-bar input-group">
                     <input onChange={(e) => setSearchValue(e.target.value)} onKeyDown={(e) => (e.key === 'Enter' ? handleSearch() : null)} value={searchValue} type="text" className="form-control" placeholder="Seach..." aria-describedby="button-search"/>
                     <button onClick={() => handleSearch()} className="btn btn-outline-secondary" type="button" id="button-search"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
-                    <button onClick={() => setDisplayData(data)} className="btn btn-outline-secondary"><FontAwesomeIcon icon={faArrowsRotate} /></button>
+                    <button onClick={() => setDisplayData(displayData)} className="btn btn-outline-secondary"><FontAwesomeIcon icon={faArrowsRotate} /></button>
                   </div>
                   {viewType === "viewMilk" && <Button id="scan-btn" onClick={() => setOpenModal(true)}> 
                     <FontAwesomeIcon icon={faPlus} /> New Milk Entry
