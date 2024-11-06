@@ -75,16 +75,13 @@ function Home() {
   }
 
   const handleConfirmDelete = (entry) => {
-    console.log(`deleting ${entry.uid}, pop uppppp`)
     setConfirmDelete(true);
     setDeleteEntry(entry);
   }
 
   const handleDeleteMilk = (uid) => {
-    console.log(uid);
     axios.delete(`${URL}/delete_milk_entry?uid=${uid}`)
       .then(_ => {
-        console.log(`Deleted milk with ID ${uid}`);
         const updatedData = data.filter(item => item.uid !== uid);
         setData(updatedData);
         setDisplayData(updatedData);
@@ -94,10 +91,7 @@ function Home() {
       .catch(error => {
         console.error(error);
         setError(error);
-      })
-      .finally(_ => {
-        console.log(`data is ${data} and display data is ${displayData}`);
-      })
+      });
   }
 
   
