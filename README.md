@@ -1,6 +1,6 @@
 # capstone-project-2024-t3-3900h15bcatdevs
 
-## Running with Docker (Do this before you create a PR)
+# Running with Docker (Do this before you create a PR)
 
 When we add dependencies to either frontend or backend, please add to `requirements.txt` or `package.json` respectively. We will need to rebuild the docker image after adding dependencies.
 
@@ -24,9 +24,11 @@ docker compose down
 
 if you make changes to the code, then run docker compose down, then docker compose build, then docker compose up
 
+# Development
 
-### Development - Running the backend (in backend)
+## Running the Backend 
 
+You can run the backend in `/backend`. 
 Sync/install all dependencies for the `/backend`:
 
 ```
@@ -39,8 +41,9 @@ To have access to the database, please make sure you have your `key.json` file i
 
 Run `python app.py` in `/backend`.
 
-### Development - Running the frontend (in frontend)
+## Running the Frontend 
 
+You can run Frontend in `/frontend`.
 This project is using node 16. Using `nvm` is highly recommended.
 
 Install node 16:
@@ -63,7 +66,7 @@ npm install
 
 Run `npm start` in `/frontend`.
 
-### Development - Running both frontend and backend (in root)
+## Development - Running both frontend and backend (in root)
 
 Run `npm run start-both` in `/root`.
 
