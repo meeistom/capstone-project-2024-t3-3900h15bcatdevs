@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Milk Guard",
-    "description": "This is the API docs for Milk Guard.\n\n## ❗ ️Info on Data\nData Structure/Schema/Layout in ```firebase/firestore-data.md```\n\n## Dummy Data\nTo add dummy data or clear data from the database, uncomment/run the appropriate functions in ```backend/firebase/db_control.py```.\n\n```\nif __name__ == '__main__':\n    # clear_collection(fs_client, \"mothers\")\n    # clear_collection(fs_client, \"babies\")\n    # clear_collection(fs_client, \"milk_entries\")\n\n    add_dummy_data(fs_client, \"mothers\", \"./firebase/data/mother_details.json\")\n    add_dummy_data(fs_client, \"babies\", \"./firebase/data/baby_details.json\")\n    add_dummy_data(fs_client, \"milk_entries\", \"./firebase/data/bottle_details.json\")\n```",
+    "description": "This is the API docs for Milk Guard.\n\n## ❗ ️Info on Data\nFor more information checkout the database schema in ```firebase/firestore-data.md```\n\n## Dummy Data\nTo add dummy data or clear data from the database, uncomment/run the appropriate functions in ```backend/firebase/db_control.py```.\n\n```\nif __name__ == '__main__':\n    # clear_collection(fs_client, \"mothers\")\n    # clear_collection(fs_client, \"babies\")\n    # clear_collection(fs_client, \"milk_entries\")\n\n    add_dummy_data(fs_client, \"mothers\", \"./firebase/data/mother_details.json\")\n    add_dummy_data(fs_client, \"babies\", \"./firebase/data/baby_details.json\")\n    add_dummy_data(fs_client, \"milk_entries\", \"./firebase/data/bottle_details.json\")\n```\n## ❗ ️Disclaimer\nThe example responses are not indicative of what is in the database. It is purely a template of what the object should look like. In addition, the example value for preview_milk_label is a html and idk how to store that in json. If any questions arise or something if not correct, feel free to reach out to Aolin",
     "version": "1.0.0"
   },
   "servers": [
@@ -12,534 +12,422 @@
   ],
   "tags": [
     {
+      "name": "home",
+      "description": "API endpoint related to home page of \"milk_entries\" object"
+    },
+    {
       "name": "mothers",
-      "description": "Get mothers by name or MRN"
+      "description": "API endpoints related to \"mothers\" collection"
     },
     {
       "name": "babies",
-      "description": "Get babies by MRN"
+      "description": "API endpoints related to \"babies\" collection"
     },
     {
       "name": "milk_entries",
-      "description": "Get milk entries in order"
+      "description": "API endpoints related to \"milk_entries\" collection"
     },
     {
-      "name": "home",
-      "description": "Get table information for home page."
-    },
-    {
-      "name": "search",
-      "description": "Search database with a keyword"
+      "name": "milk_label",
+      "description": "API endpoint related to milk preview page of \"label\""
     },
     {
       "name": "verify",
-      "description": "Verification of barcode and feeds"
+      "description": "API endpoints related to verfication"
     },
     {
       "name": "notifications",
-      "description": "Provides latest notifications update on statuses of all milks"
+      "description": "API endpoints related to notifications"
     }
   ],
   "paths": {
     "/home": {
       "get": {
-        "tags": ["home"],
-        "summary": "Gets milk entries with mother and baby names for the home page.",
-        "description": "Gets all milk entries, then adds mother and baby names to each milk entry. Number of reads = \\# mothers + \\# babies.",
+        "tags": [
+          "home"
+        ],
+        "summary": "Displays the formated homepage.",
+        "description": "Returns a formated milk_entries object with mother and baby mrn and name",
         "responses": {
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": "#/components/schemas/Home"
+                },
+                "example": {
+                  "baby_mrn": "0000",
+                  "baby_name": "Mei Lin",
+                  "created_at": 1730866439,
+                  "expiration_time": 1730866500,
+                  "express_time": 1730866380,
+                  "extra_notes": "",
+                  "milk_type": "ehm",
+                  "mother_mrn": "0000",
+                  "mother_name": "Hong Lin",
+                  "storage_location": "level 1",
+                  "storage_type": "fridge",
+                  "uid": "000028",
+                  "volume_ml": 50
                 }
               }
             }
           },
           "400": {
-            "description": "Failed to get entries"
+            "description": "Bad request"
           }
         }
       }
     },
     "/mothers": {
       "get": {
-        "tags": ["mothers"],
-        "summary": "Gets list of all mothers",
-        "description": "Gets list of all mothers.",
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              }
-            }
+        "tags": [
+          "mothers"
+        ],
+        "summary": "Gets all mothers or a specific mother",
+        "description": "If no parameters are provided, a list of all mother objects are returned. To find a specific mother, provide mother MRN",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "mrn",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
           }
-        }
-      }
-    },
-    "/mothers/{mrn}": {
-      "get": {
-        "tags": ["mothers"],
-        "summary": "Gets mother by MRN",
-        "description": "Gets mother by MRN.",
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": "#/components/schemas/Mothers"
+                },
+                "example": {
+                  "babies": [
+                    "0000"
+                  ],
+                  "first_name": "Hong",
+                  "last_name": "Lin",
+                  "mrn": "0000",
+                  "milks": [
+                    "000002",
+                    "000009"
+                  ]
                 }
               }
             }
           },
           "400": {
-            "description": "Mother MRN not found"
-          }
-        }
-      }
-    },
-    "/mothers/{first_name}": {
-      "get": {
-        "tags": ["mothers"],
-        "summary": "Gets mother by first name",
-        "description": "Gets mother by first name.",
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "No mothers registered"
-          }
-        }
-      }
-    },
-    "/mothers/{last_name}": {
-      "get": {
-        "tags": ["mothers"],
-        "summary": "Gets mother by first name",
-        "description": "Gets mother by first name.",
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "No mothers registered"
-          }
-        }
-      }
-    },
-    "/babies": {
-      "get": {
-        "tags": ["babies"],
-        "summary": "Gets list of all babies",
-        "description": "Gets list of all babies.",
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/babies/{mrn}": {
-      "get": {
-        "tags": ["babies"],
-        "summary": "Gets baby by MRN",
-        "description": "Gets baby by MRN.",
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Baby MRN not found"
-          }
-        }
-      }
-    },
-    "/milk_entries": {
-      "get": {
-        "tags": ["milk_entries"],
-        "summary": "Gets milk entries",
-        "description": "Gets milk entries.",
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "No Milk Entries Registered"
-          }
-        }
-      }
-    },
-    "/milk_entries/{uid}": {
-      "get": {
-        "tags": ["milk_entries"],
-        "summary": "Gets milk entries by UID",
-        "description": "Gets milk entries by UID.",
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Milk Entry UID not found!"
-          }
-        }
-      }
-    },
-    "/search": {
-      "get": {
-        "tags": ["search"],
-        "summary": "Fetches matching items in database with keywords",
-        "description": "Fetches matching items in database with keywords.",
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "No matches with the keyword"
+            "description": "Bad request"
           }
         }
       }
     },
     "/add_mother": {
       "post": {
-        "tags": ["mothers"],
+        "tags": [
+          "mothers"
+        ],
         "summary": "Registers a new mother",
-        "description": "Registers a new mother with MRN, first and last name.",
-        "operationId": "addMother",
-        "parameters": [
-          {
-            "name": "mrn",
-            "in": "query",
-            "description": "MRN of mother that is being registered",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "first_name",
-            "in": "query",
-            "description": "First name of mother that is being registered",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "last_name",
-            "in": "query",
-            "description": "Last name of mother that is being registered",
-            "required": true,
-            "schema": {
-              "type": "string"
+        "description": "Registers a new mother with the provided MRN, first and last name.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mothers"
+              },
+              "example": {
+                "first_name": "Hong",
+                "last_name": "Lin",
+                "mrn": "0000",
+                "babies": [
+                  "0000"
+                ],
+                "milks": [
+                  "000002",
+                  "000009"
+                ]
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
-            "description": "Successfully added baby"
+            "description": "Successful operation"
           },
           "400": {
-            "description": "Invalid mother data, Mother already exists"
-          }
-        }
-      }
-    },
-    "/add_baby": {
-      "post": {
-        "tags": ["babies"],
-        "summary": "Registers a new baby",
-        "description": "Registers a new baby with MRN, mother MRN, first and last name.",
-        "operationId": "addBaby",
-        "parameters": [
-          {
-            "name": "mrn",
-            "in": "query",
-            "description": "MRN of baby that is being registered",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "mother_mrn",
-            "in": "query",
-            "description": "MRN of mother that is being registered",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "first_name",
-            "in": "query",
-            "description": "First name of mother that is being registered",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "last_name",
-            "in": "query",
-            "description": "Last name of mother that is being registered",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully added mother"
-          },
-          "400": {
-            "description": "Invalid baby data, Mother does not exist, Baby already exists"
-          }
-        }
-      }
-    },
-    "/add_milk_entry": {
-      "post": {
-        "tags": ["milk_entries"],
-        "summary": "Adds a new milk entry",
-        "description": "Registers a new baby with MRN, mother MRN, first and last name.",
-        "operationId": "addMilk",
-        "parameters": [
-          {
-            "name": "milk_type",
-            "in": "query",
-            "description": "Type of milk being registered",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "express_time",
-            "in": "query",
-            "description": "Express time of milk being registered",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "unix timestamp"
-            }
-          },
-          {
-            "name": "expiration_time",
-            "in": "query",
-            "description": "Expiration time of milk being registered",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "unix timestamp"
-            }
-          },
-          {
-            "name": "storage_type",
-            "in": "query",
-            "description": "Storage type of milk being registered",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "storage_location",
-            "in": "query",
-            "description": "Storage location of milk being registered",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "volume_ml",
-            "in": "query",
-            "description": "Volume(ml) of milk being registered",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "baby_mrn",
-            "in": "query",
-            "description": "MRN of milk's baby",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "extra_notes",
-            "in": "query",
-            "description": "Additional notes of milk",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully added milk"
-          },
-          "400": {
-            "description": "Invalid milk entry data, Baby does not exist, Stats document error, A firebase error occurred"
+            "description": "Bad request"
           }
         }
       }
     },
     "/delete_mother": {
       "delete": {
-        "tags": ["mothers"],
-        "summary": "Deletes a mother",
-        "description": "Deletes a mother",
-        "operationId": "deleteMother",
+        "tags": [
+          "mothers"
+        ],
+        "summary": "Deletes mother",
+        "description": "Deletes mother with the provided MRN",
         "parameters": [
           {
+            "in": "query",
             "name": "mrn",
-            "in": "path",
-            "description": "MRN of mother to delete",
-            "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "required": false
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfully deleted document"
+            "description": "Successful operation"
           },
-          "500": {
-            "description": "No MRN/UID given, MRN/UID {mrn} does not exist in collection mothers, Failed to delete document"
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/babies": {
+      "get": {
+        "tags": [
+          "babies"
+        ],
+        "summary": "Gets all babies or a specific baby",
+        "description": "If no parameters are provided, a list of all babies objects are returned. To find a specific baby, provide their MRN.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "mrn",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mothers"
+                },
+                "example": {
+                  "first_name": "Mei",
+                  "last_name": "Lin",
+                  "mother_mrn": "0000",
+                  "mother_name": "Hong Lin",
+                  "mrn": "0000"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/add_baby": {
+      "post": {
+        "tags": [
+          "babies"
+        ],
+        "summary": "Registers a new baby",
+        "description": "Registers a new baby with the provided baby MRN, first and last name and mother's MRN.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Babies"
+              },
+              "example": {
+                "first_name": "Mei",
+                "last_name": "Lin",
+                "mother_mrn": "0000",
+                "mother_name": "Hong Lin",
+                "mrn": "0000"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad request"
           }
         }
       }
     },
     "/delete_baby": {
       "delete": {
-        "tags": ["babies"],
-        "summary": "Deletes a baby",
-        "description": "Deletes a baby",
-        "operationId": "deleteBaby",
+        "tags": [
+          "babies"
+        ],
+        "summary": "Deletes baby",
+        "description": "Deletes baby with the provided MRN",
         "parameters": [
           {
+            "in": "query",
             "name": "mrn",
-            "in": "path",
-            "description": "MRN of baby to delete",
-            "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "required": false
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfully deleted document"
+            "description": "Successful operation"
           },
-          "500": {
-            "description": "No MRN/UID given, MRN/UID {mrn} does not exist in collection babies, Failed to delete document"
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/milk_entries": {
+      "get": {
+        "tags": [
+          "milk_entries"
+        ],
+        "summary": "Gets all milk entries in order or a specific milk entry (default order is descending)",
+        "description": "If no parameters are provided, a list of all milk entry objects are returned in descending order by \"created_at\". To find a specific milk entry, provide the UID.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uid",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mothers"
+                },
+                "example": {
+                  "baby_mrn": "0000",
+                  "created_at": 1730782424,
+                  "expiration_time": 1731041580,
+                  "express_time": 1730782380,
+                  "extra_notes": "",
+                  "milk_type": "ehm",
+                  "mother_mrn": "0000",
+                  "storage_location": "level 1",
+                  "storage_type": "fridge",
+                  "uid": "555555",
+                  "volume_ml": 50
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/add_milk_entry": {
+      "post": {
+        "tags": [
+          "milk_entries"
+        ],
+        "summary": "Registers a new milk entry",
+        "description": "Registers a new milk entry with the provided milk UID, milk type, express time, expiration time, storage type, storage location, volume, baby mrn, and optional notes",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Milks"
+              },
+              "example": {
+                "baby_mrn": "0000",
+                "created_at": 1730782424,
+                "expiration_time": 1731041580,
+                "express_time": 1730782380,
+                "extra_notes": "",
+                "milk_type": "ehm",
+                "mother_mrn": "0000",
+                "storage_location": "level 1",
+                "storage_type": "fridge",
+                "uid": "555555",
+                "volume_ml": 50
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad request"
           }
         }
       }
     },
     "/delete_milk_entry": {
       "delete": {
-        "tags": ["milk_entries"],
-        "summary": "Deletes a milk entry",
-        "description": "Deletes a milk entry",
-        "operationId": "deleteMilk",
+        "tags": [
+          "milk_entries"
+        ],
+        "summary": "Deletes milk entry",
+        "description": "Deletes milk entry with the provided UID",
         "parameters": [
           {
+            "in": "query",
             "name": "uid",
-            "in": "path",
-            "description": "uid of milk bottle to delete",
-            "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "required": false
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfully deleted document"
+            "description": "Successful operation"
           },
-          "500": {
-            "description": "No MRN/UID given, MRN/UID {uid} does not exist in collection milk_entries, Failed to delete document"
+          "400": {
+            "description": "Bad request"
           }
         }
       }
     },
     "/verify": {
       "get": {
-        "tags": ["verify"],
-        "summary": "Verify the existence of a scanned barcode in the database",
-        "description": "Verify the existence of a scanned barcode in the database",
+        "tags": [
+          "verify"
+        ],
+        "summary": "Verify the existence of a barcode in the database",
+        "description": "Verifies if a given barcode (mrn or uid) exists in the database and returns details about the item, including information from related collections such as mothers, milks, or babies.",
         "parameters": [
           {
+            "in": "query",
             "name": "barcode",
-            "in": "path",
-            "description": "barcode to be verified",
-            "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -548,40 +436,62 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Mothers"
+                    },
+                    {
+                      "$ref": "#/components/schemas/Milks"
+                    },
+                    {
+                      "$ref": "#/components/schemas/Babies"
+                    }
+                  ]
+                },
+                "example": {
+                  "babies": [
+                    "9172"
+                  ],
+                  "first_name": "Rachele",
+                  "last_name": "Sandbatch",
+                  "mrn": "2667",
+                  "milks": [
+                    "000002",
+                    "000009"
+                  ]
                 }
               }
             }
           },
-          "404": {
-            "description": "Invalid request. No inputs given"
+          "400": {
+            "description": "Bad request"
           }
         }
       }
     },
     "/verify_feed": {
       "get": {
-        "tags": ["verify"],
-        "summary": "Verifies feed",
-        "description": "Verify that the specified milk UID belongs to the specified baby MRN.",
+        "tags": [
+          "verify"
+        ],
+        "summary": "Verifies the feed",
+        "description": "Verifies the association between a specified milk UID and a baby MRN to ensure a correct feed. Returns detailed information about the milk and baby if the provided identifiers match and the milk is not expired.",
         "parameters": [
           {
+            "in": "query",
             "name": "milk_uid",
-            "in": "path",
-            "description": "Milk to be verified",
-            "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "required": true
           },
           {
+            "in": "query",
             "name": "baby_mrn",
-            "in": "path",
-            "description": "Baby to be verified with the milk",
-            "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -590,35 +500,100 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "type": "object",
+                  "properties": {
+                    "milk_details": {
+                      "$ref": "#/components/schemas/Milks"
+                    },
+                    "baby_details": {
+                      "$ref": "#/components/schemas/Babies"
+                    }
+                  },
+                  "required": [
+                    "milk_details",
+                    "baby_details"
+                  ]
                 }
               }
             }
           },
           "400": {
-            "description": "Invalid request. Incorrect inputs given"
-          },
-          "404": {
-            "description": "Invalid milk barcode, Invalid baby barcode"
+            "description": "Bad request"
           }
         }
       }
     },
     "/notifications": {
       "get": {
-        "tags": ["notifications"],
-        "summary": "Fetches latest notifications",
-        "description": "Fetches latest notifications.",
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Gets notifications on milk entries",
+        "description": "Gets the notifications on milk entries that are close to expiring or expired",
         "responses": {
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": "#/components/schemas/Notification"
+                },
+                "example": {
+                  "baby_name": "Mei Lin",
+                  "days_expiry": -977,
+                  "expiration_timestamp": 1646410000,
+                  "expired": true,
+                  "hours_expiry": -17,
+                  "minutes_expiry": -1406895,
+                  "mother_name": "Hong Lin",
+                  "uid": "555555"
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/preview_milk_label": {
+      "get": {
+        "tags": [
+          "milk_label"
+        ],
+        "summary": "Preview milk label",
+        "description": "Gets the milk label with provided milk uid",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uid",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Milks"
+                    },
+                    {
+                      "$ref": "#/components/schemas/Babies"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
           }
         }
       }
@@ -626,281 +601,207 @@
   },
   "components": {
     "schemas": {
-      "Order": {
+      "Mothers": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 10
-          },
-          "petId": {
-            "type": "integer",
-            "format": "int64",
-            "example": 198772
-          },
-          "quantity": {
-            "type": "integer",
-            "format": "int32",
-            "example": 7
-          },
-          "shipDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "status": {
-            "type": "string",
-            "description": "Order Status",
-            "example": "approved",
-            "enum": ["placed", "approved", "delivered"]
-          },
-          "complete": {
-            "type": "boolean"
-          }
-        },
-        "xml": {
-          "name": "order"
-        }
-      },
-      "Customer": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 100000
-          },
-          "username": {
-            "type": "string",
-            "example": "fehguy"
-          },
-          "address": {
+          "babies": {
             "type": "array",
-            "xml": {
-              "name": "addresses",
-              "wrapped": true
-            },
+            "description": "List of babies full names",
             "items": {
-              "$ref": "#/components/schemas/Address"
+              "type": "string"
             }
-          }
-        },
-        "xml": {
-          "name": "customer"
-        }
-      },
-      "Address": {
-        "type": "object",
-        "properties": {
-          "street": {
+          },
+          "first_name": {
             "type": "string",
-            "example": "437 Lytton"
+            "description": "Mother's first name"
           },
-          "city": {
+          "last_name": {
             "type": "string",
-            "example": "Palo Alto"
+            "description": "Mother's last name"
           },
-          "state": {
+          "mrn": {
             "type": "string",
-            "example": "CA"
+            "description": "Mother's mrn"
           },
-          "zip": {
-            "type": "string",
-            "example": "94301"
-          }
-        },
-        "xml": {
-          "name": "address"
-        }
-      },
-      "Category": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 1
-          },
-          "name": {
-            "type": "string",
-            "example": "Dogs"
-          }
-        },
-        "xml": {
-          "name": "category"
-        }
-      },
-      "User": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 10
-          },
-          "username": {
-            "type": "string",
-            "example": "theUser"
-          },
-          "firstName": {
-            "type": "string",
-            "example": "John"
-          },
-          "lastName": {
-            "type": "string",
-            "example": "James"
-          },
-          "email": {
-            "type": "string",
-            "example": "john@email.com"
-          },
-          "password": {
-            "type": "string",
-            "example": "12345"
-          },
-          "phone": {
-            "type": "string",
-            "example": "12345"
-          },
-          "userStatus": {
-            "type": "integer",
-            "description": "User Status",
-            "format": "int32",
-            "example": 1
-          }
-        },
-        "xml": {
-          "name": "user"
-        }
-      },
-      "Tag": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          }
-        },
-        "xml": {
-          "name": "tag"
-        }
-      },
-      "Pet": {
-        "required": ["name", "photoUrls"],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 10
-          },
-          "name": {
-            "type": "string",
-            "example": "doggie"
-          },
-          "category": {
-            "$ref": "#/components/schemas/Category"
-          },
-          "photoUrls": {
+          "milks": {
             "type": "array",
-            "xml": {
-              "wrapped": true
-            },
+            "description": "List of milks identifiers",
             "items": {
-              "type": "string",
-              "xml": {
-                "name": "photoUrl"
-              }
+              "type": "string"
             }
-          },
-          "tags": {
-            "type": "array",
-            "xml": {
-              "wrapped": true
-            },
-            "items": {
-              "$ref": "#/components/schemas/Tag"
-            }
-          },
-          "status": {
-            "type": "string",
-            "description": "pet status in the store",
-            "enum": ["available", "pending", "sold"]
           }
-        },
-        "xml": {
-          "name": "pet"
         }
       },
-      "ApiResponse": {
+      "Babies": {
         "type": "object",
         "properties": {
-          "code": {
+          "first_name": {
+            "type": "string",
+            "description": "Baby's first name"
+          },
+          "last_name": {
+            "type": "string",
+            "description": "Baby's last name"
+          },
+          "mother_mrn": {
+            "type": "string",
+            "description": "Mother's mrn"
+          },
+          "mother_name": {
+            "type": "string",
+            "description": "Mother's full name"
+          },
+          "mrn": {
+            "type": "string",
+            "description": "Baby's mrn"
+          }
+        }
+      },
+      "Milks": {
+        "type": "object",
+        "properties": {
+          "baby_mrn": {
+            "type": "string",
+            "description": "Baby's mrn"
+          },
+          "created_at": {
             "type": "integer",
-            "format": "int32"
+            "description": "Timestamp indicating when the record was created (in Unix time)"
           },
-          "type": {
-            "type": "string"
+          "expiration_time": {
+            "type": "integer",
+            "description": "Expiration time of the milk (in Unix time)"
           },
-          "message": {
-            "type": "string"
-          }
-        },
-        "xml": {
-          "name": "##default"
-        }
-      }
-    },
-    "requestBodies": {
-      "Pet": {
-        "description": "Pet object that needs to be added to the store",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Pet"
-            }
+          "express_time": {
+            "type": "integer",
+            "description": "Time when the milk was expressed (in Unix time)"
           },
-          "application/xml": {
-            "schema": {
-              "$ref": "#/components/schemas/Pet"
-            }
+          "extra_notes": {
+            "type": "string",
+            "description": "Additional notes or special instructions related to the milk"
+          },
+          "milk_type": {
+            "type": "string",
+            "description": "Type of milk"
+          },
+          "mother_mrn": {
+            "type": "string",
+            "description": "Mother's mrn"
+          },
+          "storage_location": {
+            "type": "string",
+            "description": "Location where the milk is stored (e.g., room 1)"
+          },
+          "storage_type": {
+            "type": "string",
+            "description": "Type where the milk is stored (e.g., fridge, freezer)"
+          },
+          "uid": {
+            "type": "string",
+            "description": "Unique identifier for the milk entry"
+          },
+          "volume_ml": {
+            "type": "integer",
+            "description": "Volume of milk in milliliters"
           }
         }
       },
-      "UserArray": {
-        "description": "List of user object",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        }
-      }
-    },
-    "securitySchemes": {
-      "petstore_auth": {
-        "type": "oauth2",
-        "flows": {
-          "implicit": {
-            "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize",
-            "scopes": {
-              "write:pets": "modify pets in your account",
-              "read:pets": "read your pets"
-            }
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "baby_name": {
+            "type": "string",
+            "description": "Baby's full name"
+          },
+          "days_expiry": {
+            "type": "integer",
+            "description": "Number of days until the milk expires. Negative values indicates how long the milk has already expired for"
+          },
+          "expiration_timestamp": {
+            "type": "integer",
+            "description": "Unix timestamp of when the milk will expire."
+          },
+          "expired": {
+            "type": "boolean",
+            "description": "Indicates whether the milk has already expired."
+          },
+          "hours_expiry": {
+            "type": "integer",
+            "description": "Number of hours until the milk expires. Negative values indicates how long the milk has already expired for"
+          },
+          "minutes_expiry": {
+            "type": "integer",
+            "description": "Number of minutes until the milk expires. Negative values indicates how long the milk has already expired for"
+          },
+          "mother_name": {
+            "type": "string",
+            "description": "Mother's full name"
+          },
+          "uid": {
+            "type": "string",
+            "description": "Unique identifier for the milk entry."
           }
         }
       },
-      "api_key": {
-        "type": "apiKey",
-        "name": "api_key",
-        "in": "header"
+      "Home": {
+        "type": "object",
+        "properties": {
+          "baby_mrn": {
+            "type": "string",
+            "description": "Unique identifier for the milk entry."
+          },
+          "baby_name": {
+            "type": "string",
+            "description": "Full name of the baby."
+          },
+          "created_at": {
+            "type": "integer",
+            "format": "unix-time",
+            "description": "Timestamp of when the entry was created."
+          },
+          "expiration_time": {
+            "type": "integer",
+            "format": "unix-time",
+            "description": "Timestamp of when the milk will expire."
+          },
+          "express_time": {
+            "type": "integer",
+            "format": "unix-time",
+            "description": "Timestamp of when the milk was expressed."
+          },
+          "extra_notes": {
+            "type": "string",
+            "description": "Additional notes about the milk entry, if any."
+          },
+          "milk_type": {
+            "type": "string",
+            "description": "Type of milk."
+          },
+          "mother_mrn": {
+            "type": "string",
+            "description": "Full name of the mother."
+          },
+          "mother_name": {
+            "type": "string",
+            "description": "Full name of the mother."
+          },
+          "storage_location": {
+            "type": "string",
+            "description": "Physical location of the milk storage."
+          },
+          "storage_type": {
+            "type": "string",
+            "description": "Storage type, e.g., fridge or freezer."
+          },
+          "uid": {
+            "type": "integer",
+            "description": "."
+          },
+          "volume_ml": {
+            "type": "integer",
+            "description": "Volume of the milk in milliliters."
+          }
+        }
       }
     }
   }
