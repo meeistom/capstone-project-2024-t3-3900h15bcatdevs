@@ -1,7 +1,7 @@
 from typing import Tuple
 from datetime import datetime
 
-collection_names = ["mothers", "babies", "milk_entries"]
+collection_names = ["mothers", "babies", "milk_entries", "history_log"]
 
 mother_data_fields = ["first_name", "last_name", "mrn", "babies", "milks"]
 baby_data_fields = ["first_name", "last_name", "mrn", "mother_mrn"]
