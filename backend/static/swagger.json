@@ -47,16 +47,17 @@
           "home"
         ],
         "summary": "Displays the formated homepage.",
-        "description": "Returns a formated milk_entries object with mother and baby mrn and name",
+        "description": "Returns a list of formated milk_entries objects with mother/baby mrn and name",
         "responses": {
           "200": {
-            "description": "Successful operation",
+            "description": "Successfully returned homepage formatted milks.",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Home"
                 },
-                "example": {
+                "example": [
+                  {
                   "baby_mrn": "0000",
                   "baby_name": "Mei Lin",
                   "created_at": 1730866439,
@@ -70,12 +71,33 @@
                   "storage_type": "fridge",
                   "uid": "000028",
                   "volume_ml": 50
-                }
+                  },
+                  {
+                  "baby_mrn": "0012",
+                  "baby_name": "Hey Lin",
+                  "created_at": 1730866439,
+                  "expiration_time": 1730866500,
+                  "express_time": 1730866380,
+                  "extra_notes": "",
+                  "milk_type": "ehm",
+                  "mother_mrn": "0000",
+                  "mother_name": "Hong Lin",
+                  "storage_location": "level 1",
+                  "storage_type": "fridge",
+                  "uid": "000029",
+                  "volume_ml": 82
+                  }
+                ]
               }
             }
           },
           "400": {
-            "description": "Bad request"
+            "description": "No milks found in system.",
+            "content": {
+              "application/json": {
+                "example": []
+              }
+            }
           }
         }
       }
@@ -86,7 +108,7 @@
           "mothers"
         ],
         "summary": "Gets all mothers or a specific mother",
-        "description": "If no parameters are provided, a list of all mother objects are returned. To find a specific mother, provide mother MRN",
+        "description": "If 'mrn' paramter is provided, a specific mother object is returned. Otherwise a list of all mother objects is returned. Mother objects returned have a list of baby names.",
         "parameters": [
           {
             "in": "query",
@@ -98,8 +120,40 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Successful operation",
+          "200 (list)": {
+            "description": "No parameters. List of all mother objects returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mothers"
+                },
+                "example": [
+                  {
+                    "babies": [
+                      "Mei Lin",
+                      "Hey Lin"
+                    ],
+                    "first_name": "Hong",
+                    "last_name": "Lin",
+                    "mrn": "0000",
+                    "milks": [
+                      "000002",
+                      "000009"
+                    ]
+                  },
+                  {
+                    "babies": [],
+                    "first_name": "Rachel",
+                    "last_name": "Lee",
+                    "mrn": "0001",
+                    "milks": []
+                  }
+                ]
+              }
+            }
+          },
+          "200 (object)": {
+            "description": "MRN provided. Mother object returned.",
             "content": {
               "application/json": {
                 "schema": {
@@ -107,7 +161,8 @@
                 },
                 "example": {
                   "babies": [
-                    "0000"
+                    "Mei Lin",
+                    "Hey Lin"
                   ],
                   "first_name": "Hong",
                   "last_name": "Lin",
@@ -137,29 +192,33 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Mothers"
+                "type": "object",
+                "properties": {
+                  "mrn": { "type": "string" },
+                  "first_name": { "type": "string" },
+                  "last_name": { "type": "string" }
+                }
               },
               "example": {
-                "first_name": "Hong",
-                "last_name": "Lin",
                 "mrn": "0000",
-                "babies": [
-                  "0000"
-                ],
-                "milks": [
-                  "000002",
-                  "000009"
-                ]
+                "first_name": "Hong",
+                "last_name": "Lin"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Successful operation"
+            "description": "Successfully added mother"
           },
           "400": {
-            "description": "Bad request"
+            "description": "Bad data provided.",
+            "content": {
+              "text/plain": {
+                "schema": { "type": "string" },
+                "example": "Invalid mother data OR Mother already exists OR A firebase error occurred."
+              }
+            }
           }
         }
       }
@@ -178,15 +237,21 @@
             "schema": {
               "type": "string"
             },
-            "required": false
+            "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful operation"
+            "description": "Successfully deleted document {document_number}"
           },
           "400": {
-            "description": "Bad request"
+            "description": "Bad data provided.",
+            "content": {
+              "text/plain": {
+                "schema": { "type": "string" },
+                "example": "No MRN/UID given OR MRN/UID {mrn_uid} does not exist in collection 'mothers'"
+              }
+            }
           }
         }
       }
