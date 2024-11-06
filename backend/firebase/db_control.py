@@ -1,13 +1,15 @@
 # USE TO ADD & CLEAR FIREBASE DB
 # WARNING: DESTRUCTIVE STUFF
 
+# !!! Please run in firebase folder.
+
 import json
 import firebase_admin as fba
 from firebase_admin import firestore, credentials
 
 from error_check import *
 
-cred = credentials.Certificate('./.key/key2.json')
+cred = credentials.Certificate('../.key/key2.json')
 
 fba.initialize_app(cred)
 fs_client = firestore.client()
@@ -38,4 +40,4 @@ if __name__ == '__main__':
 
     add_dummy_data(fs_client, "mothers", "../firebase/data/mother_details.json")
     add_dummy_data(fs_client, "babies", "../firebase/data/baby_details.json")
-    add_dummy_data(fs_client, "milk_entries", "../firebase/data/bottle_details.json")
+    add_dummy_data(fs_client, "milk_entries", "../firebase/data/milk_details.json")
