@@ -1,8 +1,10 @@
 # capstone-project-2024-t3-3900h15bcatdevs
 
-# Running with Docker (Do this before you create a PR)
+# Running with Docker (main method)
 
-When we add dependencies to either frontend or backend, please add to `requirements.txt` or `package.json` respectively. We will need to rebuild the docker image after adding dependencies.
+Docker runs the frontend and the backend. It installs all the frontend and backend dependencies and works with hot reload. 
+
+When NEW dependencies are added to either frontend or backend, please add to `requirements.txt` or `package.json` respectively. We will need to rebuild the docker image after adding dependencies.
 
 Build the docker image:
 
@@ -64,10 +66,6 @@ npm install
 ```
 
 Run `npm start` in `/frontend`.
-
-## Development - Running both frontend and backend (in root)
-
-Run `npm run start-both` in `/root`.
 
 # Testing
 
