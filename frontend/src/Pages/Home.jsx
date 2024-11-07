@@ -6,19 +6,20 @@ import { Navibar } from "../Components/Navibar";
 import { AddMilkModal } from "../Components/AddMilkModal";
 import { Table } from "../Components/Table";
 import { DeleteMilkModal } from "../Components/DeleteMilkModal";
-import { Notifications} from "../Components/Notifications"
+import { Notifications } from "../Components/Notifications";
+import { URL } from "../constants";
 
 export { Home };
 
 function Home() {
   const [openModal, setOpenModal] = useState(false);
   const [data, setData] = useState(null);
+  const [displayData, setDisplayData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleteEntry, setDeleteEntry] = useState(null);
   const [notificationData, setNotificationData] = useState(null);
-  const URL = "http://127.0.0.1:5001";
 
   const fetchNotifications = async () => {
     try {
@@ -27,37 +28,42 @@ function Home() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const fetchData = async () => {
     try {
       const response = await fetch(`${URL}/home`);
       if (!response.ok) {
-        throw new Error('Having errors fetching milk details');
+        throw new Error("Having errors fetching milk details");
       }
       const result = await response.json();
       setData(result);
-      localStorage.setItem('myMilkData', JSON.stringify(result)); 
+      setDisplayData(result);
+      localStorage.setItem("myMilkData", JSON.stringify(result));
     } catch (error) {
-      setError(error); 
+      setError(error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    const cachedData = localStorage.getItem('myMilkData');
+    const cachedData = localStorage.getItem("myMilkData");
     if (cachedData) {
       setData(JSON.parse(cachedData));
+      setDisplayData(JSON.parse(cachedData));
       setLoading(false);
     }
     fetchData();
     fetchNotifications();
   }, []);
 
-  const handleRefresh = (newMilk) => {
-    data.unshift(newMilk);
-    localStorage.setItem('myMilkData', JSON.stringify(data)); 
+  const handleRefreshAfterAdd = (newMilk) => {
+    const updatedData = [newMilk, ...data];
+
+    setData(updatedData);
+    setDisplayData(updatedData);
+    localStorage.setItem("myMilkData", JSON.stringify(updatedData));
   };
 
   if (loading) {
@@ -69,28 +75,26 @@ function Home() {
   }
 
   const handleConfirmDelete = (entry) => {
-    console.log(`deleting ${entry.uid}, pop uppppp`)
     setConfirmDelete(true);
     setDeleteEntry(entry);
-  }
+  };
 
   const handleDeleteMilk = (uid) => {
-    console.log(uid);
-    axios.delete(`${URL}/delete_milk_entry?uid=${uid}`)
-      .then(_ => {
-        console.log(`Deleted milk with ID ${uid}`);
-        const updatedData = data.filter(item => item.uid !== uid);
+    axios
+      .delete(`${URL}/delete_milk_entry?uid=${uid}`)
+      .then((_) => {
+        const updatedData = data.filter((item) => item.uid !== uid);
         setData(updatedData);
-        localStorage.setItem('myMilkData', JSON.stringify(updatedData));
+        setDisplayData(updatedData);
+        localStorage.setItem("myMilkData", JSON.stringify(updatedData));
         setConfirmDelete(false);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         setError(error);
       });
-  }
+  };
 
-  
   return (
     <>
       <section id="Home">
@@ -99,16 +103,33 @@ function Home() {
           <div className="page-container">
             <h1 className="page-title">List of Milk Entries</h1>
             <p>Total Number of Milk Entries: {data.length}</p>
-            <Table deleteMilk={handleConfirmDelete} data={data} setOpenModal={setOpenModal} viewType="viewMilk"/>
+            <Table
+              deleteMilk={handleConfirmDelete}
+              displayData={displayData}
+              setDisplayData={setDisplayData}
+              setOpenModal={setOpenModal}
+              viewType="viewMilk"
+            />
           </div>
           {openModal && (
-            <AddMilkModal addMilk={handleRefresh} closeModal={setOpenModal} version="addMilk1" />
+            <AddMilkModal
+              addMilk={handleRefreshAfterAdd}
+              closeModal={setOpenModal}
+              version="addMilk1"
+            />
           )}
           {confirmDelete && (
-            <DeleteMilkModal entry={deleteEntry} closeModal={setConfirmDelete} deleteMilk={handleDeleteMilk}/>
+            <DeleteMilkModal
+              entry={deleteEntry}
+              closeModal={setConfirmDelete}
+              deleteMilk={handleDeleteMilk}
+            />
           )}
           {notificationData && (
-            <Notifications notifData={notificationData} confirmDelete={handleConfirmDelete}></Notifications>
+            <Notifications
+              notifData={notificationData}
+              confirmDelete={handleConfirmDelete}
+            ></Notifications>
           )}
         </div>
       </section>

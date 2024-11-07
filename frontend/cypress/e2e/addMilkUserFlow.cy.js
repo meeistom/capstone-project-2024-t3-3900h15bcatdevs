@@ -1,34 +1,32 @@
 const url = "http://localhost:3000/";
 
 describe("user add milk bottle happy path", () => {
-  it("should navigate to the home page successfully", () => {
+  beforeEach(() => {
+    cy.intercept("/home").as("home");
+    cy.intercept("/notifications").as("notifications");
     cy.visit(url);
+    cy.wait(["@home", "@notifications"]);
+    cy.get("#scan-btn").click();
+  });
+
+  it("should navigate to the home page successfully", () => {
     cy.url().should("include", url);
   });
 
   it("should be able to open add milk modal", () => {
-    cy.visit(url);
-    cy.get('button[name="scan-btn"]').click();
     cy.get("#add-milk-modal").should("be.visible");
   });
 
   it("should be able to close milk modal", () => {
-    cy.visit(url);
-    cy.get('button[name="scan-btn"]').click();
     cy.get('button[name="close-modal"]').click();
     cy.get("#add-milk-modal").should("not.exist");
   });
 
   it("should have the barcode input automatically focused", () => {
-    cy.visit(url);
-    cy.get('button[name="scan-btn"]').click();
     cy.get('input[name="scanner-input"]').should("have.focus");
   });
 
   it("should be able to enter barcode details", () => {
-    cy.visit(url);
-    cy.get('button[name="scan-btn"]').click();
-
     const validMRN = "5049";
     cy.get('input[name="scanner-input"]').type(validMRN);
     cy.get('input[name="scanner-input"]').should("have.value", validMRN);
@@ -39,9 +37,6 @@ describe("user add milk bottle happy path", () => {
   });
 
   it("should not progress to the add milk form if the MRN is invalid", () => {
-    cy.visit(url);
-    cy.get('button[name="scan-btn"]').click();
-
     const invalidMRN = "0000";
     cy.get('input[name="scanner-input"]').type(invalidMRN);
 
@@ -49,9 +44,6 @@ describe("user add milk bottle happy path", () => {
   });
 
   it("should be able to fill in milk details", () => {
-    cy.visit(url);
-    cy.get('button[name="scan-btn"]').click();
-
     const validMRN = "5049";
     cy.get('input[name="scanner-input"]').type(validMRN);
 
@@ -74,13 +66,10 @@ describe("user add milk bottle happy path", () => {
 
     cy.get("button[name='preview-sticker']").click();
 
-    cy.get('img[alt="sticker"]').should("exist");
+    cy.get(".body").find("svg").should("exist");
   });
 
   it("should not submit form if not all fields are valid", () => {
-    cy.visit(url);
-    cy.get('button[name="scan-btn"]').click();
-
     const validMRN = "5049";
     cy.get('input[name="scanner-input"]').type(validMRN);
 
@@ -88,13 +77,10 @@ describe("user add milk bottle happy path", () => {
 
     cy.get("button[name='preview-sticker']").click();
 
-    cy.get('img[alt="sticker"]').should("not.exist");
+    cy.get(".body").find("svg").should("not.exist");
   });
 
   it("should have a confirmation page of the milk submission", () => {
-    cy.visit(url);
-    cy.get('button[name="scan-btn"]').click();
-
     const validMRN = "5049";
     cy.get('input[name="scanner-input"]').type(validMRN);
 
@@ -116,7 +102,7 @@ describe("user add milk bottle happy path", () => {
     cy.get("#expiry-date").should("have.value", expiryDate);
 
     cy.get("button[name='preview-sticker']").click();
-    cy.get('img[alt="sticker"]').should("exist");
+    cy.get(".body").find("svg").should("exist");
 
     cy.get("button[name='confirm-and-print']").click();
     cy.get('img[alt="Confirmation Icon"]').should("exist");

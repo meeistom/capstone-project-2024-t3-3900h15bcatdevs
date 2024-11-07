@@ -1,19 +1,48 @@
-import { React, useRef, useEffect } from "react";
+import { React, useEffect, useState } from "react";
+import { submitMilk } from "../../Utils/submitMilk";
+import { URL } from "../../constants";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import sticker from "../../Assets/milk1_label.png";
 import "../../index.css";
 
 export { PreviewGeneratedLabel };
 
-function PreviewGeneratedLabel({ setImageRef, milkChecked }) {
-  const imgRef = useRef(null);
+function PreviewGeneratedLabel({ milkInfo, milkChecked, setLabelPrint }) {
+  const [uid, setUid] = useState("");
+  const [label, setLabel] = useState("");
 
-  // Pass the ref to the parent component
   useEffect(() => {
-    if (setImageRef) {
-      setImageRef(imgRef);
+    const setupMilk = async () => {
+      await submitMilk(milkInfo, setUid);
+    };
+    if (milkChecked) {
+      setupMilk();
     }
-  }, [setImageRef]);
+  }, []);
+
+  useEffect(() => {
+    const setupLabel = async () => {
+      if (milkChecked) await generateLabel();
+    };
+    if (uid !== "") {
+      setupLabel();
+      console.log(uid, "after generating label");
+    }
+  }, [uid]);
+
+  const generateLabel = async () => {
+    console.log(uid);
+
+    const url = `${URL}/preview_milk_label?uid=${uid}`;
+    try {
+      await axios.get(url).then((res) => {
+        setLabel(res.data);
+        setLabelPrint(res.data);
+      });
+    } catch (e) {
+      console.error("Error generating label", e);
+    }
+  };
 
   return (
     <>
@@ -23,7 +52,11 @@ function PreviewGeneratedLabel({ setImageRef, milkChecked }) {
           {!milkChecked && <h2>Register Complete</h2>}
         </div>
         <div className="body d-flex flex-column justify-content-between fs-5">
-          {milkChecked && <img ref={imgRef} src={sticker} alt="sticker" />}
+          {milkChecked && (
+            <>
+              <div dangerouslySetInnerHTML={{ __html: label }} />
+            </>
+          )}
           {!milkChecked && (
             <p>
               Registration has been successfully completed. You may return to

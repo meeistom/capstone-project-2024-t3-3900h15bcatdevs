@@ -159,16 +159,18 @@ describe("register flow", () => {
     const expiryDate = "2024-11-01T14:30";
     const milkType = "pdhm";
     const storageType = "fridge";
+    const babyMRN = "5049";
 
     cy.get("#milk-type").select(milkType);
     cy.get("#milk-storage").select(storageType);
     cy.get("#express-date").type(expressDate);
     cy.get("#expiry-date").type(expiryDate);
+    cy.get("#baby-mrn").type(babyMRN);
 
     cy.get("#next-btn").click();
     cy.get("#next-btn").click();
 
-    cy.get(".body").find("img").should("exist");
+    cy.get(".body").find("svg").should("exist");
   });
 
   it("should be able to print the generated label", () => {
