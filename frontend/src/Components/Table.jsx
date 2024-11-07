@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from "react-bootstrap/Button";
-import { faPlus, faFilter, faTrash, faMagnifyingGlass, faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faFilter, faTrash, faMagnifyingGlass, faArrowsRotate, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ViewInfoModal } from './ViewInfoModal';
 
@@ -24,6 +24,7 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
       { label: "Associate Babies", key: "babies" }
     ],
     "viewBaby": [
+      { label: ""},
       { label: "MRN", key: "mrn" },
       { label: "First Name", key: "first_name" },
       { label: "Last Name", key: "last_name"},
@@ -111,6 +112,9 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
             {columns.map((column) => (
               column.key === "storage_type" ? ( 
                 <th colSpan={2} key={column.key}>{column.label}</th>
+              ) : 
+              column.key === "MRN" && viewType === "viewBaby" ? (
+                <th className="margin-left-50px" key={column.key}>{column.label}</th>
               ) : (
                 <th key={column.key}>{column.label}</th>
               )
@@ -124,12 +128,18 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
               <tr key={item.uid || item.mrn || index} className={index % 2 === 0 ? "even-row" : "odd-row"}>
                 {columns.map((column) => (
                   // only milk entries(on the home page) will activate a pop up for details when clicking onto an entry
-                  viewType === "viewMilk" ? (
+                  viewType === "viewMilk" ? ( 
                     <td onClick={() => handlePopUp(item)} key={column.key}>
                       {item[column.key]}
                     </td>
                   ) : (
                     <td key={column.key}>
+                      {viewType === "viewBaby" && column.key === "" && (
+                        <>
+                          <button type="button" className="btn btn-outline-none btn-sm"><FontAwesomeIcon icon={faCaretRight} /></button>
+                          <t>dfkdsjfdkslffdkfdlf</t>
+                        </>
+                      )}
                       {item[column.key]}
                     </td>
                   )
