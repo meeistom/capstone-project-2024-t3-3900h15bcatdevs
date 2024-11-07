@@ -13,7 +13,7 @@ docker compose build
 Run the containers:
 
 ```
-docker compose up -d 
+docker compose up -d / docker compose up
 ```
 
 Stop the containers:
@@ -21,8 +21,7 @@ Stop the containers:
 ```
 docker compose down
 ```
-
-if you make changes to the code, then run docker compose down, then docker compose build, then docker compose up
+Hot reload now works so if any changes are made to the code just refresh the page (no need to rebuild everytime)
 
 # Development
 
