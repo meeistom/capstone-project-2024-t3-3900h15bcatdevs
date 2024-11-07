@@ -54,7 +54,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Home"
+                  "$ref": "#/components/schemas/Home Formatted Milk Entries"
                 },
                 "example": [
                   {
