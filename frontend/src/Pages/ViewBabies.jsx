@@ -52,7 +52,8 @@ function ViewBabies() {
           <p>Total number of babies: {data.length}</p>
           <Table
             delete={null}
-            data={data}
+            displayData={data}
+            setDisplayData={setData}
             setOpenModal={null}
             viewType="viewBaby"
           />

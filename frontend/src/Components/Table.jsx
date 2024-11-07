@@ -9,11 +9,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ViewInfoModal } from "./ViewInfoModal";
-import { URL } from "../constants";
 
 export { Table };
 
-function Table({ deleteMilk, data, setOpenModal, viewType }) {
+function Table({
+  deleteMilk,
+  displayData,
+  setDisplayData,
+  setOpenModal,
+  viewType,
+}) {
   const viewConfigs = {
     viewMilk: [
       { label: "milk ID", key: "uid" },
@@ -44,7 +49,7 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
   const columns = viewConfigs[viewType] || [];
   const [openEntryModal, setOpenEntryModal] = useState(false);
   const [info, setInfo] = useState(null);
-  const [displayData, setDisplayData] = useState(data);
+  const URL = "http://127.0.0.1:5001";
   const [searchValue, setSearchValue] = useState("");
 
   const handlePopUp = (entry) => {
@@ -130,7 +135,7 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                   </button>
                   <button
-                    onClick={() => setDisplayData(data)}
+                    onClick={() => setDisplayData(displayData)}
                     className="btn btn-outline-secondary"
                   >
                     <FontAwesomeIcon icon={faArrowsRotate} />

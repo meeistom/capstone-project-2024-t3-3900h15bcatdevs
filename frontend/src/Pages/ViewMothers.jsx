@@ -53,7 +53,8 @@ function ViewMothers() {
           <p>Total number of mothers: {data.length}</p>
           <Table
             delete={null}
-            data={data}
+            displayData={data}
+            setDisplayData={setData}
             setOpenModal={null}
             viewType="viewMother"
           />
