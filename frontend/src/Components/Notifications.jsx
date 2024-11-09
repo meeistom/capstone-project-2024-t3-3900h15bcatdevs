@@ -38,7 +38,7 @@ function Notifications({ notifData, confirmDelete }) {
     return (
       notifData.map(notif => (
         <>
-          <div className="notification">
+          <div className="notification" key={`${notif.uid}-notif-id`}>
             <div className="content">
               Milk {notif.uid} for baby {notif.baby_name} 
               {notif.expired == false ? " will expire in " : " expired "}
