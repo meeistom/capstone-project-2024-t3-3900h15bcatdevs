@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
@@ -12,90 +13,56 @@ function DeleteMilkModal({ closeModal, entry, deleteMilk }) {
   const [notes, setNotes] = useState("");
 
   return (
-    <>
-      <div
-        id={`${entry.uid}-deletion-modal`}
-        className="modal-background position-fixed d-flex justify-content-center align-items-center w-100 h-100"
-      >
-        <div
-          className="modal fade show"
-          style={{ display: "block" }}
-          tabIndex="-1"
+    <Modal
+      show
+      onHide={() => closeModal(false)}
+      centered
+      backdrop="static"
+      id={`${entry.uid}-deletion-modal`}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>Deletion Confirmation</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p>
+          Milk #{entry.uid} belongs to: <br /> {entry.baby_name}, baby of{" "}
+          {entry.mother_name}
+        </p>
+        <Form.Group controlId="milk-removal-reason">
+          <Form.Label>Reason for milk removal*</Form.Label>
+          <Form.Select
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+          >
+            <option value="expired">Expired</option>
+            <option value="discharged">Baby discharged</option>
+            <option value="other">Other</option>
+          </Form.Select>
+        </Form.Group>
+        {reason === "other" && (
+          <Form.Group controlId="removal-notes" className="pt-2">
+            <Form.Label>Notes*</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={2}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            />
+          </Form.Group>
+        )}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="outline-secondary" onClick={() => closeModal(false)}>
+          Close
+        </Button>
+        <Button
+          variant="danger"
+          disabled={reason === "other" && notes === ""}
+          onClick={() => deleteMilk(entry.uid, reason, notes)}
         >
-          <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Deletion Confirmation</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                  onClick={() => closeModal(false)}
-                ></button>
-              </div>
-              <div className="modal-body d-flex flex-column ">
-                <p>
-                  Milk #{entry.uid} belongs to: <br /> {entry.baby_name}, baby
-                  of {entry.mother_name}
-                </p>
-                <div className="removal-form">
-                  <Form.Label htmlFor="milk-storage" className="form-label">
-                    Reason for milk removal*
-                  </Form.Label>
-                  <Form.Select
-                    id="milk-removal-reason"
-                    className="form-select form-select-sm"
-                    defaultValue={reason}
-                    onChange={(e) => {
-                      setReason(e.target.value);
-                    }}
-                  >
-                    <option value="expired">Expired</option>
-                    <option value="discharged">Baby discharged</option>
-                    <option value="other">Other</option>
-                  </Form.Select>
-                  {reason === "other" && (
-                    <div className="removal-notes">
-                      <Form.Label
-                        htmlFor="removal-notes"
-                        className="form-label pt-2"
-                      >
-                        Notes*
-                      </Form.Label>
-                      <textarea
-                        className="form-control pt-2"
-                        id="removal-notes"
-                        rows="2"
-                        value={notes}
-                        onChange={(e) => {
-                          setNotes(e.target.value);
-                        }}
-                      ></textarea>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="modal-footer">
-                <Button
-                  variant="secondary"
-                  data-bs-dismiss="modal"
-                  onClick={() => closeModal(false)}
-                >
-                  Close
-                </Button>
-                <Button
-                  variant="danger"
-                  disabled={reason === "other" && notes === ""}
-                  onClick={() => deleteMilk(entry.uid, reason, notes)}
-                >
-                  Delete
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+          Delete
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
