@@ -51,6 +51,7 @@ function Table({
   const [info, setInfo] = useState(null);
   const URL = "http://127.0.0.1:5001";
   const [searchValue, setSearchValue] = useState("");
+  const [data, setData] = useState(displayData);
 
   const handlePopUp = (entry) => {
     setInfo(entry);
@@ -67,7 +68,7 @@ function Table({
     let result;
     try {
       console.log("Quering backend");
-      const response = await fetch(`${URL}/search?keyword=${searchValue}`);
+      const response = await fetch(`${URL}/milk_entries/search?keyword=${searchValue}`);
       if (!response.ok) {
         throw new Error("Could not find relative entry with such keyword");
       }
@@ -77,32 +78,38 @@ function Table({
     } finally {
       if (result) {
         console.log(result);
-        switch (viewType) {
-          case "viewMilk":
-            result = result.milk_entries;
-            const milk_uids = result.map((entry) => entry.uid);
-            setDisplayData(
-              displayData.filter((entry) => milk_uids.includes(entry.uid))
-            );
-            break;
-          case "viewMother":
-            result = result.mothers;
-            const mother_ids = result.map((entry) => entry.mrn);
-            setDisplayData(
-              displayData.filter((entry) => mother_ids.includes(entry.mrn))
-            );
-            break;
-          case "viewBaby":
-            result = result.babies;
-            const baby_ids = result.map((entry) => entry.mrn);
-            setDisplayData(
-              displayData.filter((entry) => baby_ids.includes(entry.mrn))
-            );
-            break;
-        }
+        const milk_uids = result.map((entry) => entry.uid);
+        setDisplayData(
+          displayData.filter((entry) => milk_uids.includes(entry.uid))
+        );
+        console.log(`data is ${data}`);
+        // switch (viewType) {
+        //   case "viewMilk":
+        //     result = result.milk_entries;
+        //     const milk_uids = result.map((entry) => entry.uid);
+        //     setDisplayData(
+        //       displayData.filter((entry) => milk_uids.includes(entry.uid))
+        //     );
+        //     break;
+        //   case "viewMother":
+        //     result = result.mothers;
+        //     const mother_ids = result.map((entry) => entry.mrn);
+        //     setDisplayData(
+        //       displayData.filter((entry) => mother_ids.includes(entry.mrn))
+        //     );
+        //     break;
+        //   case "viewBaby":
+        //     result = result.babies;
+        //     const baby_ids = result.map((entry) => entry.mrn);
+        //     setDisplayData(
+        //       displayData.filter((entry) => baby_ids.includes(entry.mrn))
+        //     );
+        //     break;
+        // }
       }
     }
   };
+  
 
   return (
     <div className="table-container">
@@ -135,7 +142,7 @@ function Table({
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                   </button>
                   <button
-                    onClick={() => setDisplayData(displayData)}
+                    onClick={() => setDisplayData(data)}
                     className="btn btn-outline-secondary"
                   >
                     <FontAwesomeIcon icon={faArrowsRotate} />
