@@ -52,11 +52,16 @@ function DeleteMilkModal({ closeModal, entry, deleteMilk }) {
         )}
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="outline-secondary" onClick={() => closeModal(false)}>
+        <Button
+          variant="outline-secondary"
+          id="close-dlt-milk-modal"
+          onClick={() => closeModal(false)}
+        >
           Close
         </Button>
         <Button
           variant="danger"
+          id="confirm-dlt-milk-btn"
           disabled={reason === "other" && notes === ""}
           onClick={() => deleteMilk(entry.uid, reason, notes)}
         >
