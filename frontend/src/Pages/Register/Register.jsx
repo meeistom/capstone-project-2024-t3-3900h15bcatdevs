@@ -35,6 +35,7 @@ function Register() {
   const [expressDate, setExpressDate] = useState("");
   const [notes, setNotes] = useState("");
   const [milkType, setMilkType] = useState("ehm");
+  const [additive, setAdditive] = useState("none");
   const [storageType, setStorageType] = useState("fridge");
   const [labelPrint, setLabelPrint] = useState("");
 
@@ -182,6 +183,7 @@ function Register() {
         volume_ml: 100,
         baby_mrn: babyMRN,
         extra_notes: notes,
+        additive,
       };
       setRenderedPage(
         <PreviewGeneratedLabel
@@ -239,6 +241,8 @@ function Register() {
             setMilkType={setMilkType}
             storageType={storageType}
             setStorageType={setStorageType}
+            additive={additive}
+            setAdditive={setAdditive}
           />
         );
         break;
