@@ -8,16 +8,16 @@ function ViewInfoForm({ info }) {
   const create_time = new Date( info.created_at * 1000 ).toISOString().slice(0, 16);
   return (
   <>
-    <div className="container text-center">
-      <span>Created by {create_time}</span>
-      <h5>Patient Details</h5>
+    <div className="container text-start">
+      <span>Created at {create_time}</span>
+      <h5 className="mt-4 mb-2">Patient Details</h5>
       <div className="row row-cols-2 info-section">
-        <div className="col"><strong>Baby</strong></div>
-        <div className="col">{info.baby_name}<br/>{info.baby_mrn}</div>
-        <div className="col"><strong>Mother</strong></div>
-        <div className="col">{info.mother_name}<br/>{info.mother_mrn}</div>
+        <div className="col">Baby name</div>
+        <div className="col">{info.baby_name}<br/></div>
+        <div className="col">Baby MRN</div>
+        <div className="col">{info.baby_mrn}<br/></div>
       </div>
-      <h5>Milk Details</h5>
+      <h5 className="mt-4 mb-2">Milk Details</h5>
       <div className="row row-cols-2 info-section">
         <div className="col">Expressed time</div>
         <div><input className="form-control" type="datetime-local" readOnly value={`${express_time}`}/></div>
@@ -63,12 +63,10 @@ function ViewInfoForm({ info }) {
         </div>
       </div>
       <div className="row row-cols-2 info-section">
-        <div className="col">Volume(ml)</div>
-        <div className="col">{info.volume_ml}</div>
         <div className="col">Storage Location</div>
         <div className="col">{info.storage_location}</div>
       </div>
-      <label htmlFor="milk-notes" className="form-label"><h5>Notes</h5>
+      <label htmlFor="milk-notes" className="form-label"><h5 className="mt-4 mb-2">Additional Notes</h5>
       </label>
       <textarea
         className="form-control"
