@@ -16,18 +16,16 @@ export { AddMilkModal };
 function AddMilkModal({ addMilk, closeModal, version }) {
   const scannerInputRef = useRef(null);
   const [modalVersion, setModalVersion] = useState(version);
-  const [scannedValue, setScannedValue] = useState(0);
   const [expiryDate, setExpiryDate] = useState("");
   const [expressDate, setExpressDate] = useState("");
-  const [milkType, setMilkType] = useState("ehm");
-  const [storageType, setStorageType] = useState("fridge");
+  const [milkType, setMilkType] = useState("");
+  const [storageType, setStorageType] = useState("");
   const [notes, setNotes] = useState("");
   const [motherData, setMotherData] = useState(null);
   const [babyData, setBabyData] = useState(null);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState(null);
   const [footer, setFooter] = useState(null);
-  const [labelPrint, setLabelPrint] = useState("");
 
   useEffect(() => {
     if (scannerInputRef.current) {
@@ -70,7 +68,6 @@ function AddMilkModal({ addMilk, closeModal, version }) {
   const handleInput = async (event) => {
     const barcode = event.target.value;
     console.log(barcode);
-    setScannedValue(barcode);
     if (barcode.length === 4) {
       const babyDetails = await getBabyDetails(barcode);
       if (babyDetails && babyDetails.mother_mrn) {
@@ -79,7 +76,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     }
   };
 
-  const handleSubmitMilkInfo = async () => {
+  const handleSubmitMilkInfo = async() => {
     const bottleDetails = {
       milk_type: milkType,
       express_time: new Date(expressDate).getTime() / 1000,
@@ -90,16 +87,12 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       baby_mrn: babyData.mrn,
       extra_notes: notes,
     };
-    console.log(bottleDetails);
     axios
       .post(`${URL}/add_milk_entry`, bottleDetails)
       .then((response) => {
         console.log(`Bottle details added: ${response}`, response.data);
         addMilk(response.data);
-        return response.data.uid;
-      })
-      .then(async (uid) => {
-        await generateLabel(uid);
+        setModalVersion("addMilk4");
       })
       .catch((error) => {
         console.log("Error posting bottle details:", error);
@@ -107,20 +100,11 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       });
   };
 
-  const generateLabel = async (uid) => {
-    const url = `${URL}/preview_milk_label?uid=${uid}`;
-    try {
-      await axios.get(url).then((res) => {
-        setLabelPrint(res.data);
-      });
-    } catch (e) {
-      console.error("Error generating label", e);
-    }
-  };
-
   const printImage = () => {
     const printWindow = window.open("", "_blank");
-    printWindow.document.write(labelPrint);
+    printWindow.document.write(
+      `<img src="${sticker}" alt="sticker" style="max-width: 100%;" />`
+    );
     printWindow.document.close();
     printWindow.print();
   };
@@ -129,14 +113,17 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     if (!expiryDate || !expressDate) {
       alert("Please fill in all relevant information");
     } else {
-      handleSubmitMilkInfo();
       setModalVersion("addMilk3");
     }
   };
 
-  const handlePrintAndMovePage = async () => {
-    setModalVersion("addMilk4");
-    printImage();
+  const handlePrintAndMovePage = async() => {
+    try {
+      await handleSubmitMilkInfo();
+      printImage();
+    } catch (error) {
+      console.error("Error submitting milk info:", error);
+    }
   };
 
   const useEffectDependencies = [
@@ -146,7 +133,6 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     milkType,
     storageType,
     notes,
-    labelPrint,
   ];
 
   // Handles which version of modal is rendered
@@ -178,6 +164,11 @@ function AddMilkModal({ addMilk, closeModal, version }) {
             <AddMilkForm
               babyData={babyData}
               motherData={motherData}
+              expiryDate={expiryDate}
+              expressDate={expressDate}
+              milkType={milkType}
+              storageType={storageType}
+              notes={notes}
               setExpressDate={setExpressDate}
               setExpiryDate={setExpiryDate}
               setMilkType={setMilkType}
@@ -204,9 +195,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       case "addMilk3":
         setTitle("Sticker Preview");
         setBody(
-          <>
-            <div dangerouslySetInnerHTML={{ __html: labelPrint }} />
-          </>
+          <img src={sticker} alt="sticker" className="preview-sticker my-4" />
         );
         setFooter(
           <div id="btn-group">
@@ -218,7 +207,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
             </Button>
             <Button
               name="confirm-and-print"
-              onClick={() => handlePrintAndMovePage()}
+              onClick={handlePrintAndMovePage}
               variant="primary"
             >
               Confirm and Print
