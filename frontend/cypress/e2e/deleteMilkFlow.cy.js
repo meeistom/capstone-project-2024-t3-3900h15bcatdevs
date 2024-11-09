@@ -1,7 +1,14 @@
+const url = "http://localhost:3000/";
+
 describe("delete milk flow", () => {
-  it("passes", () => {
-    cy.visit("https://example.cypress.io");
+  beforeEach(() => {
+    cy.intercept("/home").as("home");
+    cy.intercept("/notifications").as("notifications");
+    cy.visit(url);
+    cy.wait(["@home", "@notifications"]);
   });
+
+  it("should open the delete milk modal when delete button pressed", () => {});
 });
 // pressing on delete button opens delete modal
 // milk id, baby and mom name is visible
