@@ -82,7 +82,7 @@ def log_verification_event(firestore_client, data: dict) -> bool:
     verification_event_data = {
         "type": "Verification",
         "message": message,
-        "details": {} if "error" in data else data,
+        "details": data,
         "timestamp": int(datetime.now().timestamp()),
     }
 
@@ -145,7 +145,7 @@ def log_event(firestore_client, event_data: dict) -> bool:
         # Add event to history collection
         history_collection = firestore_client.collection("history")
         history_collection.document(new_event_id).set(event_data)
-
+        
         # Increment counter on database
         stats_collection.document("counters").update(
             {"event_counter": firestore.Increment(1)}
