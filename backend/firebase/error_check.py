@@ -1,7 +1,8 @@
 from typing import Tuple
 from datetime import datetime
 
-collection_names = ["mothers", "babies", "milk_entries", "history"]
+all_collection_names = ["mothers", "babies", "milk_entries", "history"]
+data_collection_names = ["mothers", "babies", "milk_entries"]
 
 # Data fields in database when mothers, babies and milk_entries are added
 mother_data_fields = ["first_name", "last_name", "mrn", "babies", "milks"]
@@ -58,7 +59,7 @@ def exists_in_collection(firestore_client, collection_name: str, mrn_uid: str) -
     """
     Checks if a MRN or UID exists in the database
     """
-    if collection_name not in collection_names:
+    if collection_name not in all_collection_names:
         print("Collection name is not valid")
         return False
 
@@ -72,8 +73,9 @@ def exists_in_db(firestore_client, mrn_uid: str) -> Tuple[bool, str]:
     Checks if a MRN or UID exists in the database.
     Returns bool and the collection name if found
     """
-    for collection_name in collection_names:
+    for collection_name in data_collection_names:
         if exists_in_collection(firestore_client, collection_name, mrn_uid):
+            # print(f"Found {mrn_uid} in {collection_name}")
             return True, collection_name
     return False, None
 

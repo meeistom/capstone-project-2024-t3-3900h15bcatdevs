@@ -17,7 +17,7 @@ def retrieve_from_collection(
     Returns:
         list: List of mother objects.
     """
-    assert collection in collection_names
+    assert collection in all_collection_names
 
     collection_stream = firestore_client.collection(collection).stream()
 
