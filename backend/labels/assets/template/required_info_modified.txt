@@ -1,0 +1,5 @@
+<<milkType>>        expressed/defrosted
+Volume: <<volume>>ml
+<<preparedDate>>
+<<expiryDate>>
+<<additives>>
