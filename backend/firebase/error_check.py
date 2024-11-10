@@ -82,7 +82,7 @@ def is_milk_expired(firestore_client, milk_uid: str) -> Tuple[bool, str]:
     Checks if a milk entry is expired. Assumes a valid milk uid is passed
     Returns a tuple of a bool and the formatted expiry time
     """
-    # Get milk expiry time
+
     milk_document = firestore_client.collection("milk_entries").document(milk_uid)
     milk_expiry_time = datetime.fromtimestamp(
         milk_document.get().to_dict()["expiration_time"]
@@ -91,8 +91,8 @@ def is_milk_expired(firestore_client, milk_uid: str) -> Tuple[bool, str]:
     # Frontend niceties
     formatted_expiry_time = milk_expiry_time.strftime("%I:%S%p, on %a %d of %b %Y")
 
+    # Check again if periodic handler hasn't caught it yet
     return datetime.now() > milk_expiry_time, formatted_expiry_time
-
 
 def is_valid_event_data(event_data: dict) -> bool:
     """
