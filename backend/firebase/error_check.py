@@ -18,6 +18,7 @@ milk_entry_data_fields = [
     "storage_type",
     "uid",
     "volume_ml",
+    "expired"
 ]
 
 event_object_fields = ["type", "message", "details", "timestamp"]
@@ -76,18 +77,21 @@ def exists_in_db(firestore_client, mrn_uid: str) -> Tuple[bool, str]:
             return True, collection_name
     return False, None
 
-def is_milk_expired(firestore_client, milk_uid: str) -> Tuple[bool, int]:
+def is_milk_expired(firestore_client, milk_uid: str) -> Tuple[bool, str]:
     """
-    Checks if a milk entry is expired
-    Assumes a valid milk uid is passed
-    Returns a tuple of a bool and the expiry time
+    Checks if a milk entry is expired. Assumes a valid milk uid is passed
+    Returns a tuple of a bool and the formatted expiry time
     """
+    # Get milk expiry time
     milk_document = firestore_client.collection("milk_entries").document(milk_uid)
     milk_expiry_time = datetime.fromtimestamp(
         milk_document.get().to_dict()["expiration_time"]
     )
+
+    # Frontend niceties
     formatted_expiry_time = milk_expiry_time.strftime("%I:%S%p, on %a %d of %b %Y")
-    return milk_expiry_time < datetime.now(), formatted_expiry_time
+
+    return datetime.now() > milk_expiry_time, formatted_expiry_time
 
 
 def is_valid_event_data(event_data: dict) -> bool:
