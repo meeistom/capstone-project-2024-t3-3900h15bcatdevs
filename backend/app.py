@@ -13,8 +13,11 @@ from firebase.home_milk_page import *
 from firebase.verify import *
 from firebase.notify import *
 from firebase.search import *
+from firebase.expiration_handler import *
 
 from labels.labels import *
+
+from threading import Thread
 
 cred = credentials.Certificate("./.key/key2.json")
 fba.initialize_app(cred)
@@ -269,3 +272,8 @@ def get_milk_label_preview():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
+
+    # Run thread that checks milks for expirations and logs em
+    milk_checker_thread = Thread(target=check_milk_thread_function)
+    milk_checker_thread.daemon = True
+    milk_checker_thread.start()
