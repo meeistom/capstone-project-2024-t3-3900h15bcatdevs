@@ -50,40 +50,6 @@ def retrieve_from_collection(
 
     return return_list
 
-
-def retrieve_milk_entries(
-    firestore_client, field: str = None, search_value: str = None, order: str = "DESC"
-) -> list:
-    """
-    Gets milk entries from the database by field specified matches, otherwise returns all in descending order from creation
-
-    Args:
-        firestore_client (Firestore Client): Firestore Client object.
-        field (str): Field to search in milk entry objects.
-        search_value (str): Value to search for in the field.
-        order (str): Order to return the results in.
-
-    Returns:
-        list: Milk entries with the specified uid or all milk entries if no selection.
-    """
-    if field:
-        assert is_valid_data_field("milk_entries", field)
-
-    milk_entries_collection = firestore_client.collection("milk_entries").stream()
-
-    milk_entries_list = []
-    for milk_doc in milk_entries_collection:
-        if field == "uid" and milk_doc.id != search_value:
-            continue
-
-        milk_entries_list.append(milk_doc.to_dict())
-
-    # Sorts for returning most recently created first
-    milk_entries_list.sort(key=lambda x: x["created_at"], reverse=(order == "DESC"))
-
-    return milk_entries_list
-
-
 def get_mother_name(firestore_client, baby_mrn: str) -> str:
     """
     Gets the mother's name from the database given a baby's MRN.
