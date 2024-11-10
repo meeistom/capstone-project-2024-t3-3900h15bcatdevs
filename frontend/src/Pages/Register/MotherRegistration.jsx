@@ -1,4 +1,4 @@
-import { React, useEffect } from "react";
+import { React } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../index.css";
 import Form from "react-bootstrap/Form";

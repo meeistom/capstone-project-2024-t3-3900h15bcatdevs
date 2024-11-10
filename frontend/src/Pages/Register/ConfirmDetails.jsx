@@ -1,7 +1,7 @@
-import { React } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../../index.css";
-import { dateTimeToString } from "../../Utils/utils";
+import { React } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../../index.css';
+import { dateTimeToString } from '../../Utils/utils';
 
 export { ConfirmDetails };
 
@@ -17,13 +17,13 @@ function ConfirmDetails({
   notes,
   milkType,
   storageType,
-  checked,
+  checked
 }) {
   return (
     <>
       <div className="register-details-container confirm-details d-flex flex-column">
         <div className="title align-self-center mb-3">
-          <h2>{"Confirm Details"}</h2>
+          <h2>{'Confirm Details'}</h2>
         </div>
         <div className="body d-flex flex-column text-start fs-5">
           {checked.momPage && (
@@ -56,7 +56,7 @@ function ConfirmDetails({
               <div className="bottom-layer">
                 <div>Milk Type: {milkType.toUpperCase()}</div>
                 <div>Storage Type: {storageType.toUpperCase()}</div>
-                {notes !== "" && <div className="notes">Notes: {notes}</div>}
+                {notes !== '' && <div className="notes">Notes: {notes}</div>}
               </div>
             </div>
           )}
