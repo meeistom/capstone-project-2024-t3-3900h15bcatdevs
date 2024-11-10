@@ -263,7 +263,17 @@ def get_milk_label_preview():
     assert len(mother) == 1
     mother = mother[0]
 
-    label = get_milk_label((uid, mother['first_name'], baby['last_name'], baby['mrn']))
+    label = get_milk_label((
+        uid,
+        mother['first_name'],
+        baby['last_name'],
+        baby['mrn'],
+        milk['milk_type'],
+        milk['volume_ml'],
+        milk['express_time'],
+        milk['expiration_time'],
+        ['to', 'be', 'added'] # milk['additives']
+    ))
 
     return make_response(
         label,
