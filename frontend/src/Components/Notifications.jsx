@@ -34,10 +34,16 @@ function Notifications({ notifData, confirmDelete }) {
     )
   }
 
-  function displayNotifications () {
     return (
-      notifData.map(notif => (
-        <>
+    <div className="notifications-outer-container">
+      <div className="title-box">
+        Notifications
+      </div>
+      <div className="subtitle-2">
+        Total Notifications: {notifData.length}
+      </div>
+      <div className="notifications-inner-container">
+        {notifData.map(notif => (
           <div className="notification" key={`${notif.uid}-notif-id`}>
             <div className="content">
               Milk {notif.uid} for baby {notif.baby_name} 
@@ -58,21 +64,7 @@ function Notifications({ notifData, confirmDelete }) {
             {notif.expired == false ? "near-expiry-status" : "expired-status"}>
             </div>
           </div>
-        </>
-      ))
-    )
-  }
-
-    return (
-      <div className="notifications-outer-container">
-      <div className="title-box">
-        Notifications
-      </div>
-      <div className="subtitle-2">
-        Total Notifications: {notifData.length}
-      </div>
-      <div className="notifications-inner-container">
-        {displayNotifications()}
+        ))}
       </div>
     </div>
   )  
