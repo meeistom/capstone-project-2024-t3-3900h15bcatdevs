@@ -36,7 +36,7 @@ function PreviewGeneratedLabel({ milkInfo, milkChecked, setLabelPrint }) {
     const url = `${URL}/preview_milk_label?uid=${uid}`;
     try {
       await axios.get(url).then((res) => {
-        setLabel(res.data);
+        setLabel(`data:image/png;base64,${res.data}`);
         setLabelPrint(res.data);
       });
     } catch (e) {
@@ -54,7 +54,7 @@ function PreviewGeneratedLabel({ milkInfo, milkChecked, setLabelPrint }) {
         <div className="body d-flex flex-column justify-content-between fs-5">
           {milkChecked && (
             <>
-              <div dangerouslySetInnerHTML={{ __html: label }} />
+              <img src={label} />
             </>
           )}
           {!milkChecked && (

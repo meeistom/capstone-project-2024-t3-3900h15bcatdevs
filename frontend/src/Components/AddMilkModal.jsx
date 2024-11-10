@@ -120,7 +120,8 @@ function AddMilkModal({ addMilk, closeModal, version }) {
 
   const printImage = () => {
     const printWindow = window.open("", "_blank");
-    printWindow.document.write(labelPrint);
+    const imgSrc = `data:image/png;base64,${labelPrint}`;
+    printWindow.document.write(`<img src="${imgSrc}" />`);
     printWindow.document.close();
     printWindow.print();
   };
@@ -202,10 +203,11 @@ function AddMilkModal({ addMilk, closeModal, version }) {
         );
         break;
       case "addMilk3":
+        const imgSrc = `data:image/png;base64,${labelPrint}`;
         setTitle("Sticker Preview");
         setBody(
           <>
-            <div dangerouslySetInnerHTML={{ __html: labelPrint }} />
+            <img src={imgSrc} />
           </>
         );
         setFooter(
