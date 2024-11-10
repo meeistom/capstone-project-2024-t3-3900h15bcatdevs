@@ -41,7 +41,7 @@ function Home() {
       setDisplayData(result);
       localStorage.setItem("myMilkData", JSON.stringify(result));
     } catch (error) {
-      setError(error);
+      console.log(error);
     } finally {
       setLoading(false);
     }

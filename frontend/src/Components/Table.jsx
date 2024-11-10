@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ViewInfoModal } from "./ViewInfoModal";
+import { URL } from "../constants.jsx";
 
 export { Table };
 
@@ -49,7 +50,6 @@ function Table({
   const columns = viewConfigs[viewType] || [];
   const [openEntryModal, setOpenEntryModal] = useState(false);
   const [info, setInfo] = useState(null);
-  const URL = "http://127.0.0.1:5001";
   const [searchValue, setSearchValue] = useState("");
   const [data, setData] = useState(displayData);
 
@@ -68,44 +68,38 @@ function Table({
     let result;
     try {
       console.log("Quering backend");
-      const response = await fetch(`${URL}/milk_entries/search?keyword=${searchValue}`);
+      let response;
+      switch (viewType) {
+        case "viewMilk":
+          response = await fetch(`${URL}/milk_entries/search?keyword=${searchValue}`);
+          break;
+        case "viewMother":
+          response = await fetch(`${URL}/mothers/search?keyword=${searchValue}`);
+          break;
+        case "viewBaby":
+          response = await fetch(`${URL}/babies/search?keyword=${searchValue}`);
+          break;
+      }
       if (!response.ok) {
         throw new Error("Could not find relative entry with such keyword");
       }
       result = await response.json();
     } catch (error) {
-      setError(error);
+      console.log(error);
     } finally {
       if (result) {
         console.log(result);
-        const milk_uids = result.map((entry) => entry.uid);
-        setDisplayData(
-          displayData.filter((entry) => milk_uids.includes(entry.uid))
-        );
-        console.log(`data is ${data}`);
-        // switch (viewType) {
-        //   case "viewMilk":
-        //     result = result.milk_entries;
-        //     const milk_uids = result.map((entry) => entry.uid);
-        //     setDisplayData(
-        //       displayData.filter((entry) => milk_uids.includes(entry.uid))
-        //     );
-        //     break;
-        //   case "viewMother":
-        //     result = result.mothers;
-        //     const mother_ids = result.map((entry) => entry.mrn);
-        //     setDisplayData(
-        //       displayData.filter((entry) => mother_ids.includes(entry.mrn))
-        //     );
-        //     break;
-        //   case "viewBaby":
-        //     result = result.babies;
-        //     const baby_ids = result.map((entry) => entry.mrn);
-        //     setDisplayData(
-        //       displayData.filter((entry) => baby_ids.includes(entry.mrn))
-        //     );
-        //     break;
-        // }
+        switch (viewType) {
+          case "viewMilk":
+            const milk_uids = result.map((entry) => entry.uid);
+            setDisplayData(
+              displayData.filter((entry) => milk_uids.includes(entry.uid))
+            );
+            break;
+          default:
+            setDisplayData(result);
+            break;
+        }
       }
     }
   };
