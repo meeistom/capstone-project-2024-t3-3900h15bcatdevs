@@ -14,6 +14,7 @@ function AddMilkForm({
   expiryDate,
   setExpiryDate,
   setNotes,
+  setAdditive,
 }) {
   return (
     <div className="form-container w-100">
@@ -50,6 +51,8 @@ function AddMilkForm({
                   id="additive-type"
                   className="form-select form-select-sm"
                   defaultValue="none"
+                  onChange={(e) => {console.log("Selected Additive:", e.target.value);
+                    setAdditive(e.target.value);}}
                 >
                   <option value="none">None</option>
                   <option value="humavant6">Humavant+6</option>
