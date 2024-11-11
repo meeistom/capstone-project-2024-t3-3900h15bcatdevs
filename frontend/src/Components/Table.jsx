@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import {
   faPlus,
@@ -43,9 +43,9 @@ function Table({
       { label: "Mother", key: "mother_mrn" },
     ],
     viewLog: [
-      { label: "Log ID", key: "logId" },
+      { label: "Action", key: "type" },
       { label: "Timestamp", key: "timestamp" },
-      { label: "Event", key: "event" },
+      { label: "Event", key: "message" },
     ],
   };
   const columns = viewConfigs[viewType] || [];
@@ -53,6 +53,10 @@ function Table({
   const [info, setInfo] = useState(null);
   const [searchValue, setSearchValue] = useState("");
   const [data, setData] = useState(displayData);
+
+  useEffect(() => {
+    
+  }, [])
 
   const handlePopUp = (entry) => {
     setInfo(entry);
