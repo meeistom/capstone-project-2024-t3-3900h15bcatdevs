@@ -33,10 +33,7 @@ function MilkRegistration({
             <div className="container">
               <div className="row row-cols-2">
                 <div className="col">
-                  <Form.Label
-                    htmlFor="milk-type"
-                    className="register-form-label"
-                  >
+                  <Form.Label htmlFor="milk-type" className="register-form-label">
                     Milk Type*
                   </Form.Label>
                   <Form.Select
@@ -45,16 +42,13 @@ function MilkRegistration({
                     value={milkType}
                     onChange={(e) => setMilkType(e.target.value)}
                   >
-                    <option value="ehm">EHM</option>
+                    <option value="ehm">HII</option>
                     <option value="pdhm">PDHM</option>
                     <option value="formula">Formula</option>
                   </Form.Select>
                 </div>
                 <div className="col">
-                  <Form.Label
-                    htmlFor="additive-type"
-                    className="register-form-label"
-                  >
+                  <Form.Label htmlFor="additive-type" className="register-form-label">
                     Additive Type
                   </Form.Label>
                   <Form.Select
@@ -72,10 +66,7 @@ function MilkRegistration({
                   </Form.Select>
                 </div>
                 <div className="col">
-                  <Form.Label
-                    htmlFor="milk-storage"
-                    className="register-form-label"
-                  >
+                  <Form.Label htmlFor="milk-storage" className="register-form-label">
                     Storage Type*
                   </Form.Label>
                   <Form.Select
@@ -91,10 +82,7 @@ function MilkRegistration({
                 </div>
                 <div className="col"></div>
                 <div className="col">
-                  <Form.Label
-                    htmlFor="express-date"
-                    className="register-form-label"
-                  >
+                  <Form.Label htmlFor="express-date" className="register-form-label">
                     Expressed Date*
                   </Form.Label>
                   <input
@@ -108,10 +96,7 @@ function MilkRegistration({
                   />
                 </div>
                 <div className="col">
-                  <Form.Label
-                    htmlFor="expiry-date"
-                    className="register-form-label"
-                  >
+                  <Form.Label htmlFor="expiry-date" className="register-form-label">
                     Expiry Date*
                   </Form.Label>
                   <input
