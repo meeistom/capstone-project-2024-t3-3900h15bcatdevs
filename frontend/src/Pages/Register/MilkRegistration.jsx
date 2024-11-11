@@ -45,7 +45,6 @@ function MilkRegistration({
                     <option value="humavant6">Humavant 6</option>
                     <option value="Cream">Cream</option>
                     <option value="HMF">HMF</option>
-                    <option value="HAHAHA">HAHAH</option>
                   </Form.Select>
                 </div>
                 <div className="col">
