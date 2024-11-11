@@ -66,6 +66,16 @@ def get_baby():
         400 if mrn and len(baby_data) == 0 else 200,
     )
 
+# Fetches all babies including all their associated milks
+@app.route("/home1", methods=["GET"], strict_slashes=False)
+def get_babies_and_milks():
+    baby_data = get_babies_associated_milks(fs_client)
+    
+    return make_response(
+        jsonify(baby_data),
+        200,
+    )
+    
 
 #  Fetches all milk entries as a list and returns it in order (default is DESC), or fetches milk entry object by UID
 @app.route("/milk_entries", methods=["GET"], strict_slashes=False)

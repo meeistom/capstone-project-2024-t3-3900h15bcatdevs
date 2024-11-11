@@ -119,3 +119,22 @@ def get_baby_names(firestore_client, mother_mrn: str) -> list:
         baby_names.append(baby_document['first_name'] + ' ' + baby_document['last_name'])
 
     return baby_names
+
+def get_babies_associated_milks(firestore_client) -> list:
+    """
+    Returns a list of babies with an extra field that includes a list of their 
+    associated milk entries
+    
+    Args:
+        firestore_client (Firestore Client): Firestore Client object.
+
+    Returns:
+        list: All babies with associated milks.
+    """
+    baby_list = retrieve_from_collection(firestore_client, collection="babies")
+    
+    for baby in baby_list:
+        associated_milks = retrieve_milk_entries(firestore_client, "baby_mrn", baby['mrn'], "DESC")
+        baby['associated_milks'] = associated_milks 
+        
+    return baby_list
