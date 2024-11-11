@@ -183,7 +183,7 @@ function Register() {
         volume_ml: 100,
         baby_mrn: babyMRN,
         extra_notes: notes,
-        additive,
+        additives: additive,
       };
       setRenderedPage(
         <PreviewGeneratedLabel
