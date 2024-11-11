@@ -1,5 +1,5 @@
-import axios from "axios";
-import { URL } from "../constants";
+import axios from 'axios';
+import { URL } from '../constants';
 
 export { submitMilk };
 
@@ -10,6 +10,7 @@ async function submitMilk(milkInfo, setUid) {
       setUid(res.data.uid);
     });
   } catch (e) {
-    console.error("Error posting bottle details:", e.response);
+    console.log(milkInfo);
+    console.error('Error posting bottle details:', e.response);
   }
 }

@@ -5,20 +5,7 @@ import { dateTimeToString } from '../../Utils/utils';
 
 export { ConfirmDetails };
 
-function ConfirmDetails({
-  momMRN,
-  momFirstName,
-  momLastName,
-  babyMRN,
-  babyFirstName,
-  babyLastName,
-  expiryDate,
-  expressDate,
-  notes,
-  milkType,
-  storageType,
-  checked
-}) {
+function ConfirmDetails({ momForm, babyForm, milkForm, checked }) {
   return (
     <>
       <div className="register-details-container confirm-details d-flex flex-column">
@@ -29,20 +16,20 @@ function ConfirmDetails({
           {checked.momPage && (
             <div className="mother-details ">
               <div className="sub-title fw-bold">Mother Details</div>
-              <div className="top-layer">MRN: {momMRN}</div>
+              <div className="top-layer">MRN: {momForm.mrn}</div>
               <div className="bottom-layer">
-                <div>First Name: {momFirstName}</div>
-                <div>Last Name: {momLastName}</div>
+                <div>First Name: {momForm.first_name}</div>
+                <div>Last Name: {momForm.last_name}</div>
               </div>
             </div>
           )}
           {checked.babyPage && (
             <div className="baby-details">
               <div className="sub-title fw-bold">Baby Details</div>
-              <div className="top-layer">MRN: {babyMRN}</div>
+              <div className="top-layer">MRN: {babyForm.mrn}</div>
               <div className="bottom-layer">
-                <div>First Name: {babyFirstName}</div>
-                <div>Last Name: {babyLastName}</div>
+                <div>First Name: {babyForm.first_name}</div>
+                <div>Last Name: {babyForm.last_name}</div>
               </div>
             </div>
           )}
@@ -50,13 +37,15 @@ function ConfirmDetails({
             <div className="milk-details">
               <div className="sub-title fw-bold">Milk Details</div>
               <div className="top-layer">
-                <div>Express Date: {dateTimeToString(expressDate)}</div>
-                <div>Expiry Date: {dateTimeToString(expiryDate)}</div>
+                <div>Express Date: {dateTimeToString(milkForm.express_time)}</div>
+                <div>Expiry Date: {dateTimeToString(milkForm.expiration_time)}</div>
               </div>
               <div className="bottom-layer">
-                <div>Milk Type: {milkType.toUpperCase()}</div>
-                <div>Storage Type: {storageType.toUpperCase()}</div>
-                {notes !== '' && <div className="notes">Notes: {notes}</div>}
+                <div>Milk Type: {milkForm.milk_type.toUpperCase()}</div>
+                <div>Storage Type: {milkForm.storage_type.toUpperCase()}</div>
+                {milkForm.extra_notes !== '' && (
+                  <div className="notes">Notes: {milkForm.extra_notes}</div>
+                )}
               </div>
             </div>
           )}

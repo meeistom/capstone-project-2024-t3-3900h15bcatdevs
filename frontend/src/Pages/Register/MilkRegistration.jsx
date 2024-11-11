@@ -1,48 +1,67 @@
-import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../../index.css";
+import React, { useEffect } from 'react';
+import Form from 'react-bootstrap/Form';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../../index.css';
 
 export { MilkRegistration };
 
 function MilkRegistration({
   babyChecked,
-  babyMRN,
-  setBabyMRN,
-  expiryDate,
-  setExpiryDate,
-  expressDate,
-  setExpressDate,
-  notes,
-  setNotes,
-  milkType,
-  setMilkType,
-  storageType,
-  setStorageType,
+  babyForm,
+  setBabyForm,
+  milkForm,
+  setMilkForm,
+  setValidForm
 }) {
+  const handleChange = (e, name) => {
+    const value = e.target.value;
+    setMilkForm((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleBabyChange = (e) => {
+    const value = e.target.value;
+    setBabyForm((prev) => ({
+      ...prev,
+      mrn: value
+    }));
+  };
+
+  const babyPageIsValid = () => {
+    return babyForm.mrn !== '';
+  };
+
+  const milkPageIsValid = () => {
+    return milkForm.express_time !== '' && milkForm.expiration_time !== '';
+  };
+
+  useEffect(() => {
+    if (milkPageIsValid() && babyPageIsValid()) {
+      setValidForm(true);
+    } else setValidForm(false);
+  }, [milkForm, babyForm]);
+
   return (
     <>
       <div className="register-details-container d-flex flex-column">
         <div className="title align-self-center">
-          <h2>{"Milk Details"}</h2>
+          <h2>{'Milk Details'}</h2>
         </div>
         <Form>
           <div className="form-milk-detail mb-3">
             <div className="container">
               <div className="row row-cols-2">
                 <div className="col">
-                  <Form.Label
-                    htmlFor="milk-type"
-                    className="register-form-label"
-                  >
+                  <Form.Label htmlFor="milk-type" className="register-form-label">
                     Milk Type*
                   </Form.Label>
                   <Form.Select
                     id="milk-type"
                     className="form-select form-select-sm"
-                    value={milkType}
-                    onChange={(e) => setMilkType(e.target.value)}
-                  >
+                    value={milkForm.milk_type}
+                    onChange={(e) => handleChange(e, 'milk_type')}>
                     <option value="ehm">EHM</option>
                     <option value="pdhm">PDHM</option>
                     <option value="humavant6">Humavant 6</option>
@@ -51,34 +70,27 @@ function MilkRegistration({
                   </Form.Select>
                 </div>
                 <div className="col">
-                  <Form.Label
-                    htmlFor="milk-storage"
-                    className="register-form-label"
-                  >
+                  <Form.Label htmlFor="milk-storage" className="register-form-label">
                     Storage Type*
                   </Form.Label>
                   <Form.Select
                     id="milk-storage"
                     className="form-select form-select-sm"
-                    value={storageType}
-                    onChange={(e) => setStorageType(e.target.value)}
-                  >
+                    value={milkForm.storage_type}
+                    onChange={(e) => handleChange(e, 'storage_type')}>
                     <option value="fridge">Fridge</option>
                     <option value="fresh">Fresh</option>
                     <option value="defrost">Defrost</option>
                   </Form.Select>
                 </div>
                 <div className="col">
-                  <Form.Label
-                    htmlFor="express-date"
-                    className="register-form-label"
-                  >
+                  <Form.Label htmlFor="express-date" className="register-form-label">
                     Expressed Date*
                   </Form.Label>
                   <input
-                    value={expressDate}
+                    value={milkForm.express_time}
                     onChange={(e) => {
-                      setExpressDate(e.target.value);
+                      handleChange(e, 'express_time');
                     }}
                     className="form-control"
                     id="express-date"
@@ -86,16 +98,13 @@ function MilkRegistration({
                   />
                 </div>
                 <div className="col">
-                  <Form.Label
-                    htmlFor="expiry-date"
-                    className="register-form-label"
-                  >
+                  <Form.Label htmlFor="expiry-date" className="register-form-label">
                     Expiry Date*
                   </Form.Label>
                   <input
-                    value={expiryDate}
+                    value={milkForm.expiration_time}
                     onChange={(e) => {
-                      setExpiryDate(e.target.value);
+                      handleChange(e, 'expiration_time');
                     }}
                     className="form-control"
                     id="expiry-date"
@@ -111,9 +120,9 @@ function MilkRegistration({
                         type="number"
                         name="baby-mrn"
                         placeholder="Enter MRN"
-                        value={babyMRN}
+                        value={babyForm.mrn}
                         maxLength={4}
-                        onChange={(e) => setBabyMRN(e.target.value)}
+                        onChange={(e) => handleBabyChange(e)}
                       />
                       <Form.Text className="text-muted"></Form.Text>
                     </div>
@@ -130,9 +139,8 @@ function MilkRegistration({
               className="form-control"
               id="milk-notes"
               rows="3"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-            ></textarea>
+              value={milkForm.notes}
+              onChange={(e) => handleChange(e, 'extra_notes')}></textarea>
           </div>
         </Form>
       </div>
