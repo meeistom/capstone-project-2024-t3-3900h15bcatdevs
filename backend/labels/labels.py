@@ -3,7 +3,6 @@ from labels.barcodes.barcodes import generate_barcode, scale_data_matrix
 from datetime import datetime
 import imgkit
 import base64
-from io import BytesIO
 
 # Paths
 # required_info_path = './labels/assets/template/required_info.txt'
