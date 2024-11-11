@@ -14,7 +14,7 @@ function ViewInfoModal({ info, closeModal }) {
   const [footer, setFooter] = useState(null);
 
   useEffect(() => {
-    setTitle(`Milk Entry: ${info.uid}`);
+    setTitle(`Milk ID #${info.uid}`);
     setBody(<ViewInfoForm info={info}/>);
     setFooter(
       <>

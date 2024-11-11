@@ -37,7 +37,7 @@ body {
 }
 
 .modal-container {
-  width: 31rem;
+  width: 35.1rem;
   height: 39rem;
   overflow: auto;
 }
@@ -353,7 +353,7 @@ input::-webkit-inner-spin-button {
 }
 
 .notifications-inner-container {
-  border: 2px solid #E9EAEC;
+  border: 2px solid #e9eaec;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -368,7 +368,7 @@ input::-webkit-inner-spin-button {
   background-color: #f7f9fd;
   padding: 12px;
   border-radius: 8px;
-  border: 1.7px solid  #E9EAEC;
+  border: 1.7px solid #e9eaec;
   gap: 8px;
 }
 
@@ -399,7 +399,7 @@ input::-webkit-inner-spin-button {
 }
 
 .notification .discard-btn {
-  color: #1E8FFF;
+  color: #1e8fff;
   display: inline-block;
   width: 50px;
   margin-top: 8.5px;
@@ -415,13 +415,13 @@ input::-webkit-inner-spin-button {
 .table-container {
   border-radius: 10px;
   height: 100%;
-  border: 2px solid #E9EAEC;
+  border: 2px solid #e9eaec;
   overflow: auto;
 }
 
 table {
   width: 100%;
-  border-radius: 10px; 
+  border-radius: 10px;
   border-collapse: collapse;
 }
 
@@ -431,7 +431,8 @@ thead {
   z-index: 2;
 }
 
-th, td {
+th,
+td {
   padding: 8px;
   text-align: left;
 }
@@ -454,7 +455,7 @@ th, td {
 .sort-btn {
   padding: 5px 12 px;
   margin: 1%;
-  font-size: small; 
+  font-size: small;
   border: 1px solid #c3c6cd;
 }
 
