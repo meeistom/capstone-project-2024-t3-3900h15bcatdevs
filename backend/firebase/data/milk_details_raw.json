@@ -3,11 +3,16 @@
         "milk_type": "fresh",
         "express_time": 1696417646,
         "expiration_time": 1732021200,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 3",
         "volume_ml": 63,
         "baby_mrn": "5675",
-        "extra_notes": "id luctus"
+        "extra_notes": "id luctus",
+        "additives": [
+            "cream",
+            "hmf",
+            "humavant6"
+        ]
     },
     {
         "milk_type": "defrosted",
@@ -18,7 +23,11 @@
         "volume_ml": 13,
         "mother_mrn": "5146",
         "baby_mrn": "1215",
-        "extra_notes": ""
+        "extra_notes": "",
+        "additivies": [
+            "cream",
+            "humavant6"
+        ]
     },
     {
         "milk_type": "fresh",
@@ -28,7 +37,13 @@
         "storage_location": "Room 3",
         "volume_ml": 34,
         "baby_mrn": "9172",
-        "extra_notes": ""
+        "extra_notes": "",
+        "additivies": [
+            "cream",
+            "hmf",
+            "humavant6"
+        ]
+
     },
     {
         "milk_type": "frozen",
@@ -38,17 +53,21 @@
         "storage_location": "Room 2",
         "volume_ml": 20,
         "baby_mrn": "3712",
-        "extra_notes": "lorem"
+        "extra_notes": "lorem",
+        "additivies": []
     },
     {
         "milk_type": "fresh",
         "express_time": 1717412794,
         "expiration_time": 1732021200,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 1",
         "volume_ml": 50,
         "baby_mrn": "4697",
-        "extra_notes": ""
+        "extra_notes": "",
+        "additivies": [
+            "humavant6"
+        ]
     },
     {
         "milk_type": "frozen",
@@ -58,7 +77,10 @@
         "storage_location": "Room 3",
         "volume_ml": 3,
         "baby_mrn": "5675",
-        "extra_notes": "risus praesent lectus vestibulum quam sapien varius"
+        "extra_notes": "risus praesent lectus vestibulum quam sapien varius",
+        "additivies": [
+            "hmf"
+        ]
     },
     {
         "milk_type": "defrosted",
@@ -68,27 +90,34 @@
         "storage_location": "Room 2",
         "volume_ml": 43,
         "baby_mrn": "5675",
-        "extra_notes": "ipsum aliquam non mauris morbi non"
+        "extra_notes": "ipsum aliquam non mauris morbi non",
+        "additivies": [
+            "humavant6"
+        ]
     },
     {
         "milk_type": "fresh",
         "express_time": 1716870400,
         "expiration_time": 1732021200,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 2",
         "volume_ml": 35,
         "baby_mrn": "4697",
-        "extra_notes": "magnis dis"
+        "extra_notes": "magnis dis",
+        "additivies": []
     },
     {
         "milk_type": "fresh",
         "express_time": 1727332287,
         "expiration_time": 1732021200,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 3",
         "volume_ml": 32,
         "baby_mrn": "3712",
-        "extra_notes": ""
+        "extra_notes": "",
+        "additivies": [
+            "humavant6"
+        ]
     },
     {
         "milk_type": "fresh",
@@ -98,6 +127,9 @@
         "storage_location": "Room 3",
         "volume_ml": 56,
         "baby_mrn": "9172",
-        "extra_notes": ""
+        "extra_notes": "",
+        "additivies": [
+            "humavant6"
+        ]
     }
 ]
