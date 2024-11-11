@@ -18,8 +18,8 @@ function AddMilkModal({ addMilk, closeModal, version }) {
   const [modalVersion, setModalVersion] = useState(version);
   const [expiryDate, setExpiryDate] = useState("");
   const [expressDate, setExpressDate] = useState("");
-  const [milkType, setMilkType] = useState("");
-  const [storageType, setStorageType] = useState("");
+  const [milkType, setMilkType] = useState("EHM");
+  const [storageType, setStorageType] = useState("fridge");
   const [notes, setNotes] = useState("");
   const [motherData, setMotherData] = useState(null);
   const [babyData, setBabyData] = useState(null);
