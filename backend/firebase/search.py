@@ -14,7 +14,7 @@ def search_by_keyword(firestore_client, collection: str, keyword: str) -> dict:
         dict: Dictionary of collection name and lists of relevant documents
     """
     # Check if collection exists
-    assert collection in collection_names
+    assert collection in all_collection_names
 
     results = []
 

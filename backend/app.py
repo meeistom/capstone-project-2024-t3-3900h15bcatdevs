@@ -13,8 +13,11 @@ from firebase.home_milk_page import *
 from firebase.verify import *
 from firebase.notify import *
 from firebase.search import *
+from firebase.expiration_handler import *
 
 from labels.labels import *
+
+from threading import Thread
 
 cred = credentials.Certificate("./.key/key2.json")
 fba.initialize_app(cred)
@@ -43,7 +46,7 @@ app.register_blueprint(swaggerui_blueprint)
 
 @app.route("/")
 def passes():
-    return 'Hi'
+    return 'Ni hao'
 
 # Homepage shows the formatted milks as default
 # Fetches & formats milks with mother and baby info
@@ -277,5 +280,19 @@ def get_milk_label_preview():
         200
     )
 
+# Gets log of history
+@app.route('/history', methods=['GET'], strict_slashes=False)
+def get_history():
+    history_log = retrieve_from_collection(fs_client, collection="history")
+
+    return make_response(jsonify(history_log), 200)
+
 if __name__ == '__main__':
+    # Run thread that checks milks for expirations and logs em
+    milk_checker_thread = Thread(target=check_milk_thread_function, args=(fs_client,))
+    milk_checker_thread.daemon = True
+    milk_checker_thread.start()
+
+    # app.run(host='0.0.0.0', port=5001)
     app.run(host='0.0.0.0', port=5001, debug=True)
+
