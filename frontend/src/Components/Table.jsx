@@ -10,6 +10,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ViewInfoModal } from "./ViewInfoModal";
 import { URL } from "../constants.jsx";
+import { unixToTimeStr } from "../Utils/utils.jsx";
 
 export { Table };
 
@@ -124,7 +125,7 @@ function Table({
                     value={searchValue}
                     type="text"
                     className="form-control"
-                    placeholder="Seach..."
+                    placeholder="Search..."
                     aria-describedby="button-search"
                   />
                   <button

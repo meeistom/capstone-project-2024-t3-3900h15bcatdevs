@@ -8,3 +8,8 @@ export const dateTimeToString = (dateTime) => {
   const [year, month, day] = date.split("-");
   return `${day}/${month}/${year} ${time}`;
 };
+
+export const unixToTimeStr = (unixTime) => {
+  const date = new Date(unixTime);
+  return date.toLocaleString();
+}
