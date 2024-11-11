@@ -50,7 +50,7 @@ def passes():
 
 # Homepage shows the formatted milks as default
 # Fetches & formats milks with mother and baby info
-@app.route("/homexw", methods=["GET"], strict_slashes=False)
+@app.route("/home", methods=["GET"], strict_slashes=False)
 def default_home_milks():
 
     success, home_page_milks = get_home_page_formatted_milks(fs_client)
