@@ -20,19 +20,11 @@ def get_home_page_formatted_milks(firestore_client) -> Tuple[bool, list]:
         return False, []
 
     for milk_entry in milk_entries:
-        # Get mother details, should always have a valid mother mrn
-        mother_doc = retrieve_from_collection(firestore_client, collection='mothers', mrn_uid=milk_entry['mother_mrn'])
+        # Get mother & baby names, should always have a valid mrns
+        mother_name = get_full_name(firestore_client, mrn=milk_entry['mother_mrn'])
+        baby_name = get_full_name(firestore_client, mrn=milk_entry['baby_mrn'])
 
-        assert len(mother_doc) == 1
-        mother_doc = mother_doc[0]
-
-        # Get baby details, should always have a valid baby mrn
-        baby_doc = retrieve_from_collection(firestore_client, collection="babies", mrn_uid=milk_entry['baby_mrn'])
-
-        assert len(baby_doc) == 1
-        baby_doc = baby_doc[0]
-
-        milk_entry['mother_name'] = mother_doc['first_name'] + ' ' + mother_doc['last_name']
-        milk_entry['baby_name'] = baby_doc['first_name'] + ' ' + baby_doc['last_name'] if baby_doc else ""
+        milk_entry['mother_name'] = mother_name
+        milk_entry['baby_name'] = baby_name
 
     return True, milk_entries
