@@ -85,3 +85,22 @@ def get_baby_names(firestore_client, mother_mrn: str) -> list:
         baby_names.append(baby_document['first_name'] + ' ' + baby_document['last_name'])
 
     return baby_names
+
+def get_full_name(firestore_client, mrn: str) -> Tuple[bool, str]:
+    """
+    Gets the full name of a mother/baby from the database given their MRN.
+    """
+    # Ensures that mrn exists
+    exists, collection_name = exists_in_db(firestore_client, mrn_uid=mrn)
+    if not exists:
+        return False, "MRN does not exist in mothers or babies collections"
+    
+    # Ensures that mrn is in mothers or babies
+    if collection_name not in ['mothers', 'babies']:
+        return False, "MRN does not exist in mothers or babies collections"
+    
+    # Gets the full name
+    document = firestore_client.collection(collection_name).document(mrn).get().to_dict()
+    return True, document['first_name'] + ' ' + document['last_name']
+
+        

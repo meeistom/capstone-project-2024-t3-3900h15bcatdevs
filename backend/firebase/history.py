@@ -14,7 +14,27 @@ def log_milk_added_event(firestore_client, data: dict) -> bool:
     """
     Formats and logs an event to the database: Milk Added.
 
-    Just addeds
+    Args:
+        firestore_client: Firestore client
+        data: Json data containing data to be logged
+
+    Returns:
+        True if successful, False otherwise
+    """
+    mother_name = data["mother_name"]
+    baby_name = data["baby_name"]
+    milk_added_event_data = {
+        "type": "Milk Added",
+        "message": f"Milk from Mother {mother_name} for Baby {baby_name} added to MilkGuard",
+        "details": data,
+        "timestamp": int(datetime.now().timestamp()),
+    }
+
+    return log_event(firestore_client, milk_added_event_data)
+
+def log_milk_deleted_event(firestore_client, data: dict) -> bool:
+    """
+    Formats and logs an event to the database: Milk Deleted.
 
     Args:
         firestore_client: Firestore client
@@ -24,14 +44,14 @@ def log_milk_added_event(firestore_client, data: dict) -> bool:
         True if successful, False otherwise
     """
     mother_name = data["mother_name"]
-    milk_added_event_data = {
-        "type": "Milk Added",
-        "message": f"Milk from Mother {mother_name} for Baby {data['baby_name']} added to MilkGuard",
+    baby_name = data["baby_name"]
+    milk_deleted_event_data = {
+        "type": "Milk Deleted",
+        "message": f"Milk from Mother {mother_name} for Baby {baby_name} deleted from MilkGuard",
         "details": data,
         "timestamp": int(datetime.now().timestamp()),
     }
-
-    return log_event(firestore_client, milk_added_event_data)
+    return log_event(firestore_client, milk_deleted_event_data)
 
 
 def log_milk_expiration_event(firestore_client, data: dict) -> Tuple[bool, str]:

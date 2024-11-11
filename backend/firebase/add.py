@@ -140,7 +140,9 @@ def add_milk_entry(firestore_client, milk_entry_json_data: dict) -> Tuple[bool, 
             "extra_notes": milk_entry_json_data["extra_notes"],
             "created_at": int(datetime.now().timestamp()),
             "expired": False,
+            'additives': milk_entry_json_data['additives']
         }
+        
         milk_collection.document(new_milk_uid).set(new_milk_entry)
 
         # Update the mother milk list
