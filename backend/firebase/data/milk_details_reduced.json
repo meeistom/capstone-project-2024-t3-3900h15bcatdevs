@@ -11,7 +11,7 @@
         "baby_mrn": "5675",
         "extra_notes": "id luctus",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -29,7 +29,7 @@
         "baby_mrn": "1215",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "humavant6"
         ]
@@ -46,7 +46,7 @@
         "baby_mrn": "9172",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -64,7 +64,7 @@
         "baby_mrn": "3712",
         "extra_notes": "lorem",
         "created_at": 1696410000,
-        "additivies": []
+        "additives": []
     },
     {
         "uid": "000004",
@@ -78,7 +78,7 @@
         "baby_mrn": "4697",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "humavant6"
         ]
     },
@@ -94,7 +94,7 @@
         "baby_mrn": "5675",
         "extra_notes": "risus praesent lectus vestibulum quam sapien varius",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "hmf"
         ]
     },
@@ -110,7 +110,7 @@
         "baby_mrn": "5675",
         "extra_notes": "ipsum aliquam non mauris morbi non",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "humavant6"
         ]
     },
@@ -126,7 +126,7 @@
         "baby_mrn": "4697",
         "extra_notes": "magnis dis",
         "created_at": 1696410000,
-        "additivies": []
+        "additives": []
     },
     {
         "uid": "000008",
@@ -140,7 +140,7 @@
         "baby_mrn": "3712",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "humavant6"
         ]
     },
@@ -156,7 +156,7 @@
         "baby_mrn": "9172",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "humavant6"
         ]
     }
