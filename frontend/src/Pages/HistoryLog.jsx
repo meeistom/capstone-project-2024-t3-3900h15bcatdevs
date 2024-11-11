@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Navibar } from "../Components/Navibar";
 import { Table } from "../Components/Table";
 import { URL } from "../constants";
+import { unixToTimeStr } from "../Utils/utils.jsx";
 
 export { HistoryLog };
 
@@ -19,12 +20,17 @@ function HistoryLog() {
         throw new Error("Having errors fetching history logs");
       }
       const result = await response.json();
-      setData(result);
-      setDisplayData(result);
-      localStorage.setItem("myLog", JSON.stringify(result));
+      result.forEach((entry) => {
+        entry.timestamp = unixToTimeStr(entry.timestamp);
+      });
+      const reversed = [...result].reverse();
+      setData(reversed);
+      setDisplayData(reversed);
+      localStorage.setItem("myLog", JSON.stringify(reversed));
     } catch (error) {
       console.log(error);
     } finally {
+      console.log(data)
       setLoading(false);
     }
   };

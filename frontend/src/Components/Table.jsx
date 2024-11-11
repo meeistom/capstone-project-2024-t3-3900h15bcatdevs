@@ -10,7 +10,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ViewInfoModal } from "./ViewInfoModal";
 import { URL } from "../constants.jsx";
-import { unixToTimeStr } from "../Utils/utils.jsx";
 
 export { Table };
 
@@ -26,8 +25,8 @@ function Table({
       { label: "milk ID", key: "uid" },
       { label: "Baby", key: "baby_name" },
       { label: "Mother", key: "mother_name" },
-      { label: "Express time", key: "express_time" },
-      { label: "Expiration time", key: "expiration_time" },
+      { label: "Express time", key: "express_time_str" },
+      { label: "Expiration time", key: "expiration_time_str" },
       { label: "Storage Type", key: "storage_type" },
     ],
     viewMother: [
@@ -43,9 +42,9 @@ function Table({
       { label: "Mother", key: "mother_mrn" },
     ],
     viewLog: [
-      { label: "Action", key: "type" },
+      { label: "Event", key: "type" },
       { label: "Timestamp", key: "timestamp" },
-      { label: "Event", key: "message" },
+      { label: "Message", key: "message" },
     ],
   };
   const columns = viewConfigs[viewType] || [];
