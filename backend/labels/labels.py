@@ -1,24 +1,49 @@
 from typing import Optional
 from labels.barcodes.barcodes import generate_barcode, scale_data_matrix
+from datetime import datetime
+import imgkit
+import base64
 
 # Paths
-required_info_path = './labels/assets/template/required_info.txt'
+# required_info_path = './labels/assets/template/required_info.txt'
+required_info_path = './labels/assets/template/required_info_modified.txt'
 optional_info_path = './labels/assets/template/optional_info.txt'
 font_path = './labels/assets/cour.ttf'
 
 def get_milk_label(info_tuple: tuple) -> str:
-    uid, bo_name, sure_name, baby_mrn = info_tuple
+    '''
+    Get the milk label as a Base64 encoded string.
+    
+    Args:
+        info_tuple (tuple): A tuple containing the information to be printed on the label
+        
+    Returns:
+        (str): The Base64 encoded label.'''
+    uid, bo_name, sure_name, baby_mrn, milk_type, volume, prepared_date, expiry_date, additives = info_tuple
 
     optional = convert_info_to_html(fill_info(optional_info_path, {
         '<<babySureName>>': sure_name,
         '<<BOName>>': bo_name,
         '<<MRNCODE>>': baby_mrn
     }))
-    required = convert_info_to_html(fill_info(required_info_path, {}))
+
+    required = convert_info_to_html(fill_info(required_info_path, {
+        '<<milkType>>': milk_type.upper(),
+        '<<volume>>': str(volume),
+        '<<preparedDate>>': f'Preparation Date: {datetime.fromtimestamp(prepared_date).strftime("%Y-%m-%d %H:%M:%S")}',
+        '<<expiryDate>>': f'Expiry Date: {datetime.fromtimestamp(expiry_date).strftime("%Y-%m-%d %H:%M:%S")}',
+        '<<additives>>': f'Additives: {", ".join(additives)}'
+    }))
 
     dm = scale_data_matrix(generate_barcode(uid, 'data-matrix'), 4) + f'<p>{uid}</p>'
 
-    return generate_milk_label(required, dm, optional)
+    options = {
+        'width': 570
+    }
+
+    label_img = imgkit.from_string(generate_milk_label(required, dm, optional), False, options=options)
+
+    return base64.b64encode(label_img).decode('utf-8')
 
 def generate_milk_label(required_info: str, data_matrix: str, optional_info: Optional[str] = None) -> str:
     '''
@@ -46,10 +71,11 @@ def generate_milk_label(required_info: str, data_matrix: str, optional_info: Opt
     # Make the left part of the label
     data_matrix_div = f'<div>\n{data_matrix}\n</div>'
     items = f'{optional_info}\n{data_matrix_div}' if optional_info != None else data_matrix_div
-    left_part = f'<div style="display: flex; flex-direction: column;">\n{items}\n</div>\n'
+    left_part = f'<div style="display: flex; flex-direction: column; margin-right: 10px;">\n{items}\n</div>\n'
 
     # Make the entire label
-    return f'<div class="milk-label" style="display: flex; gap: 10px; font-family: monospace;">\n{left_part + required_info}\n</div>'
+    return f'<div class="milk-label" style="display: flex; font-family: monospace;">\n{left_part + required_info}\n</div>'
+
 
 def generate_human_label(mrn: str) -> str:
     '''
@@ -136,54 +162,66 @@ if __name__ == '__main__':
     # o_label.save('./generated_labels/o_label.png')
     # no_label.save('./generated_labels/no_label.png')
 
-    optional = fill_info(optional_info_path, {
-        '<<babySureName>>': 'Yamaguchi',
-        '<<BOName>>': 'Hana',
-        '<<MRNCODE>>': '5123' # baby mrn
-    })
-    # print(optional)
-    optional_html = convert_info_to_html(optional)
-    required_html = convert_info_to_html(open(required_info_path, 'r').read())
-    # print(optional_html)
-    # print(required_html)
+    # optional = fill_info(optional_info_path, {
+    #     '<<babySureName>>': 'Yamaguchi',
+    #     '<<BOName>>': 'Hana',
+    #     '<<MRNCODE>>': '5123' # baby mrn
+    # })
+    # # print(optional)
+    # optional_html = convert_info_to_html(optional)
+    # required_html = convert_info_to_html(open(required_info_path, 'r').read())
+    # # print(optional_html)
+    # # print(required_html)
 
-    dm = generate_barcode('000000', 'data-matrix')
-    dm = scale_data_matrix(dm, 4)
-    # print(dm)
+    # dm = generate_barcode('000000', 'data-matrix')
+    # dm = scale_data_matrix(dm, 4)
+    # # print(dm)
 
-    milk_label = generate_milk_label(required_html, dm, optional_html)
+    # milk_label = generate_milk_label(required_html, dm, optional_html)
 
-    print(milk_label)
+    # print(milk_label)
 
-    hl = generate_human_label('4234|Yamaguchi')
+    # hl = generate_human_label('4234|Yamaguchi')
 
-    print(hl)
+    # print(hl)
 
-    print('MUMS')
-    mum1 = generate_human_label('6361')
-    mum2 = generate_human_label('8017')
-    mum3 = generate_human_label('8220')
-    print(mum1, mum2, mum3, sep='\n\n')
-    print('MUMS')
+    # print('MUMS')
+    # mum1 = generate_human_label('6361')
+    # mum2 = generate_human_label('8017')
+    # mum3 = generate_human_label('8220')
+    # print(mum1, mum2, mum3, sep='\n\n')
+    # print('MUMS')
 
-    print('BABIES')
-    baby1_mum1 = generate_human_label('5049')
-    baby2_mum1 = generate_human_label('5675')
-    baby3_mum3 = generate_human_label('3391')
-    print(baby1_mum1, baby2_mum1, baby3_mum3, sep='\n\n')
-    print('BABIES')
+    # print('BABIES')
+    # baby1_mum1 = generate_human_label('5049')
+    # baby2_mum1 = generate_human_label('5675')
+    # baby3_mum3 = generate_human_label('3391')
+    # print(baby1_mum1, baby2_mum1, baby3_mum3, sep='\n\n')
+    # print('BABIES')
 
-    print('MILKS')
-    optional1 = fill_info(optional_info_path, {
-        '<<babySureName>>': 'Bentote',
-        '<<BOName>>': 'Lynelle',
-        '<<MRNCODE>>': '5675' # baby mrn
-    })
-    # print(optional)
-    optional_html1 = convert_info_to_html(optional1)
+    # print('MILKS')
+    # optional1 = fill_info(optional_info_path, {
+    #     '<<babySureName>>': 'Bentote',
+    #     '<<BOName>>': 'Lynelle',
+    #     '<<MRNCODE>>': '5675' # baby mrn
+    # })
+    # # print(optional)
+    # optional_html1 = convert_info_to_html(optional1)
 
-    milk_label1_mum1 = generate_milk_label(required_html, scale_data_matrix(generate_barcode('000000', 'data-matrix'), 4), optional_html1)
-    milk_label2_mum1 = generate_milk_label(required_html, scale_data_matrix(generate_barcode('000005', 'data-matrix'), 4), optional_html1)
-    milk_label3_mum1 = generate_milk_label(required_html, scale_data_matrix(generate_barcode('000006', 'data-matrix'), 4), optional_html1)
-    print(milk_label1_mum1, milk_label2_mum1, milk_label3_mum1, sep='\n\n')
-    print('MILKS')
+    # milk_label1_mum1 = generate_milk_label(required_html, scale_data_matrix(generate_barcode('000000', 'data-matrix'), 4), optional_html1)
+    # milk_label2_mum1 = generate_milk_label(required_html, scale_data_matrix(generate_barcode('000005', 'data-matrix'), 4), optional_html1)
+    # milk_label3_mum1 = generate_milk_label(required_html, scale_data_matrix(generate_barcode('000006', 'data-matrix'), 4), optional_html1)
+    # print(milk_label1_mum1, milk_label2_mum1, milk_label3_mum1, sep='\n\n')
+    # print('MILKS')
+
+    print(get_milk_label((
+        '000001',
+        'hana',
+        'yamaguchi',
+        '1234',
+        'ehm',
+        123,
+        170000000000,
+        170000001000,
+        ['to', 'be', 'added']
+    )))
