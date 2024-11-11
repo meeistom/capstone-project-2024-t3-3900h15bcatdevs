@@ -24,7 +24,7 @@ milk_entry_data_fields = [
 ]
 
 event_object_fields = ["type", "message", "details", "timestamp"]
-event_types = ["Verification", "Baby Registered", "Milk Expiration", "Milk Added"]
+event_types = ["Verification", "Baby Registered", "Milk Expiration", "Milk Added", "Milk Deleted"]
 
 # Data fields expected when request data is sent to server to add new entry into database
 add_mother_request_data = ["first_name", "last_name", "mrn"]
@@ -38,6 +38,7 @@ add_milk_entry_request_data = [
     "volume_ml",
     "baby_mrn",
     "extra_notes",
+    "additives",
 ]
 
 
