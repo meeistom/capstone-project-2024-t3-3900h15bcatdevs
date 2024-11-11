@@ -280,6 +280,13 @@ def get_milk_label_preview():
         200
     )
 
+# Gets log of history
+@app.route('/history', methods=['GET'], strict_slashes=False)
+def get_history():
+    history_log = retrieve_from_collection(fs_client, collection="history")
+
+    return make_response(jsonify(history_log), 200)
+
 if __name__ == '__main__':
     # Run thread that checks milks for expirations and logs em
     milk_checker_thread = Thread(target=check_milk_thread_function, args=(fs_client,))
