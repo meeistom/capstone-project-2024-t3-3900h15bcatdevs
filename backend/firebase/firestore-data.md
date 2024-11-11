@@ -88,6 +88,7 @@ Firebase considers stuff as ```collections``` and ```documents```. Within a coll
     'baby_mrn': <string>, // This is the owner
     'mother_mrn': <string>, 
     'extra_notes': <string>,
-    'created_at': TIMESTAMP
+    'created_at': TIMESTAMP,
+    'additives': [<string>]
 }
 ```

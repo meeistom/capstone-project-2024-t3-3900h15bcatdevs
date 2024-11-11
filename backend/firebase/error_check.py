@@ -8,6 +8,7 @@ data_collection_names = ["mothers", "babies", "milk_entries"]
 mother_data_fields = ["first_name", "last_name", "mrn", "babies", "milks"]
 baby_data_fields = ["first_name", "last_name", "mrn", "mother_mrn"]
 milk_entry_data_fields = [
+    "additives",
     "baby_mrn",
     "created_at",
     "expiration_time",
