@@ -24,7 +24,6 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
       { label: "Associate Babies", key: "babies" }
     ],
     "viewBaby": [
-      { label: ""},
       { label: "MRN", key: "mrn" },
       { label: "First Name", key: "first_name" },
       { label: "Last Name", key: "last_name"},
@@ -88,6 +87,10 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
       }
     }
   }
+
+  const expandMilks = () => {
+    return 1
+  }
   
   return (
       <div className="table-container">
@@ -98,7 +101,7 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
                 <div className="table-header">
                   <button className="btn btn-outline-secondary sort-btn"><FontAwesomeIcon icon={faFilter} /></button>
                   <div className="search-bar input-group">
-                    <input onChange={(e) => setSearchValue(e.target.value)} onKeyDown={(e) => (e.key === 'Enter' ? handleSearch() : null)} value={searchValue} type="text" className="form-control" placeholder="Seach..." aria-describedby="button-search"/>
+                    <input onChange={(e) => setSearchValue(e.target.value)} onKeyDown={(e) => (e.key === 'Enter' ? handleSearch() : null)} value={searchValue} type="text" className="form-control" placeholder="Search..." aria-describedby="button-search"/>
                     <button onClick={() => handleSearch()} className="btn btn-outline-secondary" type="button" id="button-search"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
                     <button onClick={() => setDisplayData(data)} className="btn btn-outline-secondary"><FontAwesomeIcon icon={faArrowsRotate} /></button>
                   </div>
@@ -113,8 +116,8 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
               column.key === "storage_type" ? ( 
                 <th colSpan={2} key={column.key}>{column.label}</th>
               ) : 
-              column.key === "MRN" && viewType === "viewBaby" ? (
-                <th className="margin-left-50px" key={column.key}>{column.label}</th>
+              column.key === "mrn" && viewType === "viewBaby" ? (
+                <th style={{paddingLeft: "35px"}} key={column.key}>{column.label}</th>
               ) : (
                 <th key={column.key}>{column.label}</th>
               )
@@ -134,11 +137,14 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
                     </td>
                   ) : (
                     <td key={column.key}>
-                      {viewType === "viewBaby" && column.key === "" && (
-                        <>
-                          <button type="button" className="btn btn-outline-none btn-sm"><FontAwesomeIcon icon={faCaretRight} /></button>
-                          <t>dfkdsjfdkslffdkfdlf</t>
-                        </>
+                      {viewType === "viewBaby" && column.key === "mrn" && (
+                        <button 
+                          type="button" 
+                          className="btn btn-sm expand-btn" 
+                          onClick={() => expandMilks(item[mrn])}
+                        >
+                          <FontAwesomeIcon icon={faCaretRight} />
+                        </button>
                       )}
                       {item[column.key]}
                     </td>

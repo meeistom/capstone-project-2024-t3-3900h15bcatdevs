@@ -464,6 +464,12 @@ th, td {
   color: #464f60;
 }
 
+.expand-btn {
+  border: none;
+  background-color: inherit;
+  margin-right: 5px;
+}
+
 .search-bar {
   width: 40%;
 }
