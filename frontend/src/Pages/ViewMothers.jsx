@@ -46,7 +46,7 @@ function ViewMothers() {
 
   return (
     <>
-      <section id="Home">
+      <section id="viewMother">
         <Navibar />
         <div className="page-container">
           <h1 className="page-title">Mothers</h1>

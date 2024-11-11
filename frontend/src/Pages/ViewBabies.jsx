@@ -45,7 +45,7 @@ function ViewBabies() {
   }
   return (
     <>
-      <section id="Home">
+      <section id="viewBaby">
         <Navibar />
         <div className="page-container">
           <h1 className="page-title">Babies</h1>
