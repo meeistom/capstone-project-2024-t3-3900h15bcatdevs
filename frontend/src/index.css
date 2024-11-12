@@ -478,12 +478,35 @@ thead tr {
   background-color: #f7f9fd;
 }
 
+tr {
+  width: 100%;
+}
+
 .even-row {
   background-color: white;
 }
 
 .odd-row {
   background-color: #f7f9fd;
+}
+
+/* Milk Sub Table Style */
+.sub-table-container {
+  margin: 10px 28px;
+  border: 1px solid #E9EAEC;
+  border-radius: 6px;
+}
+.sub-table {
+  border-collapse: collapse;
+  border-style: hidden;
+}
+
+.sub-table thead {
+  z-index: inherit;
+}
+
+.sub-table tr {
+  border: 1px solid #E9EAEC;
 }
 
 /* page content style */

@@ -3,6 +3,10 @@ import Button from "react-bootstrap/Button";
 import { faPlus, faFilter, faTrash, faMagnifyingGlass, faArrowsRotate, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ViewInfoModal } from './ViewInfoModal';
+// Bootstrap CSS
+import "bootstrap/dist/css/bootstrap.min.css";
+// To make rows collapsible
+import "bootstrap/js/src/collapse.js";
 
 export {Table};
 
@@ -34,6 +38,12 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
       { label: "Log ID", key: "logId" },
       { label: "Timestamp", key: "timestamp" },
       { label: "Event", key: "event" }
+    ],
+    "viewBabyMilk": [
+      { label: "milk ID", key: "uid" },
+      { label: "Express time", key: "express_time" },
+      { label: "Expiration time", key: "expiration_time"},
+      { label: "Storage Type", key: "storage_type"},
     ]
   };
   const columns = viewConfigs[viewType] || [];
@@ -48,7 +58,7 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
     setOpenEntryModal(true);
     console.log(entry);
   }
-  
+
   const handleClosePopUp = () => {
     setInfo(null);
     setOpenEntryModal(false);
@@ -93,6 +103,47 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
   const expandMilks = () => {
     return 1
   }
+
+  function babyRow () {
+    const [expanded, setExpanded] = React.useState(false);
+    return (
+      <>
+      </>
+    )
+  }
+
+  function milkSubTable (associated_milks) {
+    const milk_columns = viewConfigs['viewBabyMilk']
+    return (
+      <>
+        {associated_milks.length > 0 ? (
+          <div className="sub-table-container">
+            <table className='sub-table'>
+              <thead>
+              {milk_columns.map((column) => (
+                <th key={column.key}>{column.label}</th>
+              )
+            )}
+              </thead>
+              <tbody>
+                {associated_milks.map((item, index) => (
+                  <tr>
+                    {milk_columns.map((column) => (
+                      <td key={column.key}>
+                          {item[column.key]}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p>No milks</p>
+        )}
+      </>
+    )
+  }
   
   return (
       <div className="table-container">
@@ -130,6 +181,7 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
           {displayData.length > 0 ? (
             displayData.map((item, index) => (
               // make the entry colours alternate
+              <>
               <tr key={item.uid || item.mrn || index} className={index % 2 === 0 ? "even-row" : "odd-row"}>
                 {columns.map((column) => (
                   // only milk entries(on the home page) will activate a pop up for details when clicking onto an entry
@@ -165,6 +217,14 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
                   </td>
                 )}
               </tr>
+              {viewType === "viewBaby" && (
+                <tr className={index % 2 === 0 ? "even-row" : "odd-row"}>
+                  <td colSpan={4}>
+                    {milkSubTable(item.associated_milks)}
+                  </td>
+                </tr>
+              )}
+            </>
             ))
           ) : (
               <tr>
