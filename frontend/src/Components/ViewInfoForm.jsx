@@ -45,11 +45,33 @@ function ViewInfoForm({ info }) {
           </select>
         </div>
         <div>
-          <label htmlFor={`${info.uid}-storage-type`} className="form-label">
+          <label htmlFor={`${info.uid}-additive`} className="form-label">
             Storage Type
           </label>
         </div>
         <div>
+          <select
+            id={`${info.uid}-additive`}
+            disabled
+            className="form-select form-select-sm"
+            defaultValue={`${info.additives}`}
+          >
+            <option value="none">None</option>
+            <option value="humavant6">Humavant+6</option>
+            <option value="prenanfm85">Pre Nan FM85</option>
+            <option value="nanoptipropowder">Nan Optipro Powder</option>
+            <option value="neocate powder">Neocate Powder</option>
+            <option value="beneprotein">Beneprotein</option>
+          </select>
+        </div>
+      </div>
+      <div className="row row-cols-2 info-section">
+        <div className="col">
+          <label htmlFor={`${info.uid}-storage-type`} className="form-label">
+            Storage Type
+          </label>
+        </div>
+        <div className="col">
           <select
             id={`${info.uid}-storage-type`}
             disabled
@@ -61,8 +83,6 @@ function ViewInfoForm({ info }) {
             <option value="defrost">Defrost</option>
           </select>
         </div>
-      </div>
-      <div className="row row-cols-2 info-section">
         <div className="col">Storage Location</div>
         <div className="col">{info.storage_location}</div>
       </div>
