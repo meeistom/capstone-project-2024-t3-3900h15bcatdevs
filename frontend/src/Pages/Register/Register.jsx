@@ -88,7 +88,9 @@ function Register() {
 
   const printImage = () => {
     const printWindow = window.open("", "_blank");
-    printWindow.document.write(labelPrint);
+    printWindow.document.write(
+      `<img src="data:image/png;base64,${labelPrint}" />`
+    );
     printWindow.document.close();
     printWindow.print();
   };
