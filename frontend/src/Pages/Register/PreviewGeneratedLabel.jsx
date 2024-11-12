@@ -1,15 +1,15 @@
-import { React, useEffect, useState } from "react";
-import { submitMilk } from "../../Utils/submitMilk";
-import { URL } from "../../constants";
-import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../../index.css";
+import { React, useEffect, useState } from 'react';
+import { submitMilk } from '../../Utils/submitMilk';
+import { URL } from '../../constants';
+import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../../index.css';
 
 export { PreviewGeneratedLabel };
 
 function PreviewGeneratedLabel({ milkInfo, milkChecked, setLabelPrint }) {
-  const [uid, setUid] = useState("");
-  const [label, setLabel] = useState("");
+  const [uid, setUid] = useState('');
+  const [label, setLabel] = useState('');
 
   useEffect(() => {
     const setupMilk = async () => {
@@ -24,9 +24,9 @@ function PreviewGeneratedLabel({ milkInfo, milkChecked, setLabelPrint }) {
     const setupLabel = async () => {
       if (milkChecked) await generateLabel();
     };
-    if (uid !== "") {
+    if (uid !== '') {
       setupLabel();
-      console.log(uid, "after generating label");
+      console.log(uid, 'after generating label');
     }
   }, [uid]);
 
@@ -40,7 +40,7 @@ function PreviewGeneratedLabel({ milkInfo, milkChecked, setLabelPrint }) {
         setLabelPrint(res.data);
       });
     } catch (e) {
-      console.error("Error generating label", e);
+      console.error('Error generating label', e);
     }
   };
 
@@ -54,13 +54,12 @@ function PreviewGeneratedLabel({ milkInfo, milkChecked, setLabelPrint }) {
         <div className="body d-flex flex-column justify-content-between fs-5">
           {milkChecked && (
             <>
-              <img src={label} />
+              <img src={`data:image/png;base64,${label}`} />
             </>
           )}
           {!milkChecked && (
             <p>
-              Registration has been successfully completed. You may return to
-              the home page now.
+              Registration has been successfully completed. You may return to the home page now.
             </p>
           )}
         </div>

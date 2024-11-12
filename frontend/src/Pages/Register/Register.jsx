@@ -40,6 +40,7 @@ function Register() {
     express_time: '',
     expiration_time: '',
     storage_type: 'fridge',
+    additive: 'none',
     extra_notes: ''
   });
   const [labelPrint, setLabelPrint] = useState('');
@@ -154,6 +155,7 @@ function Register() {
         storage_location: milkForm.storage_type,
         volume_ml: 100,
         baby_mrn: babyForm.mrn,
+        additives: milkForm.additive,
         extra_notes: milkForm.extra_notes
       };
       setRenderedPage(
