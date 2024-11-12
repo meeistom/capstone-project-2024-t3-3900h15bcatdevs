@@ -4,14 +4,14 @@
         "milk_type": "fresh",
         "express_time": 1696417646,
         "expiration_time": 1696417818,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 3",
         "volume_ml": 63,
         "mother_mrn": "8668",
         "baby_mrn": "5204",
         "extra_notes": "id luctus",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -29,7 +29,7 @@
         "baby_mrn": "3712",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "humavant6"
         ]
     },
@@ -45,7 +45,7 @@
         "baby_mrn": "9959",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf"
         ]
@@ -62,21 +62,21 @@
         "baby_mrn": "5200",
         "extra_notes": "lorem",
         "created_at": 1696410000,
-        "additivies": []
+        "additives": []
     },
     {
         "uid": "000004",
         "milk_type": "fresh",
         "express_time": 1717412794,
         "expiration_time": 1748731032,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 1",
         "volume_ml": 50,
         "mother_mrn": "6360",
         "baby_mrn": "1246",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "humavant6"
         ]
     },
@@ -92,7 +92,7 @@
         "baby_mrn": "7789",
         "extra_notes": "risus praesent lectus vestibulum quam sapien varius",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -110,21 +110,21 @@
         "baby_mrn": "3886",
         "extra_notes": "ipsum aliquam non mauris morbi non",
         "created_at": 1696410000,
-        "additivies": []
+        "additives": []
     },
     {
         "uid": "000007",
         "milk_type": "fresh",
         "express_time": 1716870400,
         "expiration_time": 1716870572,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 2",
         "volume_ml": 35,
         "mother_mrn": "7240",
         "baby_mrn": "5200",
         "extra_notes": "magnis dis",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "humavant6"
         ]
     },
@@ -133,14 +133,14 @@
         "milk_type": "fresh",
         "express_time": 1727332287,
         "expiration_time": 1727332459,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 3",
         "volume_ml": 32,
         "mother_mrn": "2494",
         "baby_mrn": "8662",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": []
+        "additives": []
     },
     {
         "uid": "000009",
@@ -154,7 +154,7 @@
         "baby_mrn": "1883",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": []
+        "additives": []
     },
     {
         "uid": "000010",
@@ -168,7 +168,7 @@
         "baby_mrn": "3886",
         "extra_notes": "orci eget orci vehicula condimentum curabitur",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream"
         ]
     },
@@ -177,28 +177,28 @@
         "milk_type": "frozen",
         "express_time": 1697456906,
         "expiration_time": 1697457078,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 2",
         "volume_ml": 41,
         "mother_mrn": "1497",
         "baby_mrn": "9025",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": []
+        "additives": []
     },
     {
         "uid": "000012",
         "milk_type": "fresh",
         "express_time": 1698432751,
         "expiration_time": 1728496032,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 3",
         "volume_ml": 75,
         "mother_mrn": "6360",
         "baby_mrn": "1246",
         "extra_notes": "iaculis justo in hac",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "hmf",
             "humavant6"
         ]
@@ -208,14 +208,14 @@
         "milk_type": "defrosted",
         "express_time": 1705843564,
         "expiration_time": 1705843736,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 3",
         "volume_ml": 32,
         "mother_mrn": "2794",
         "baby_mrn": "8384",
         "extra_notes": "eu magna vulputate luctus cum",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -233,7 +233,7 @@
         "baby_mrn": "3391",
         "extra_notes": "quam",
         "created_at": 1696410000,
-        "additivies": []
+        "additives": []
     },
     {
         "uid": "000015",
@@ -247,7 +247,7 @@
         "baby_mrn": "6227",
         "extra_notes": "sollicitudin vitae consectetuer",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "humavant6"
         ]
@@ -264,21 +264,21 @@
         "baby_mrn": "8768",
         "extra_notes": "aliquam lacus morbi quis",
         "created_at": 1696410000,
-        "additivies": []
+        "additives": []
     },
     {
         "uid": "000017",
         "milk_type": "fresh",
         "express_time": 1700083421,
         "expiration_time": 1700083593,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 2",
         "volume_ml": 90,
         "mother_mrn": "8844",
         "baby_mrn": "8971",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -296,7 +296,7 @@
         "baby_mrn": "1215",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream"
         ]
     },
@@ -312,7 +312,7 @@
         "baby_mrn": "6127",
         "extra_notes": "convallis duis consequat",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -330,7 +330,7 @@
         "baby_mrn": "5049",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -341,14 +341,14 @@
         "milk_type": "fresh",
         "express_time": 1709156778,
         "expiration_time": 1734349858,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 1",
         "volume_ml": 3,
         "mother_mrn": "9519",
         "baby_mrn": "6654",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "hmf"
         ]
     },
@@ -364,7 +364,7 @@
         "baby_mrn": "6127",
         "extra_notes": "sed augue aliquam",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "hmf"
         ]
     },
@@ -373,14 +373,14 @@
         "milk_type": "fresh",
         "express_time": 1716972500,
         "expiration_time": 1716972672,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 3",
         "volume_ml": 91,
         "mother_mrn": "8844",
         "baby_mrn": "6719",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "humavant6"
         ]
@@ -397,7 +397,7 @@
         "baby_mrn": "1912",
         "extra_notes": "ut massa quis",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "humavant6"
         ]
     },
@@ -413,7 +413,7 @@
         "baby_mrn": "8384",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "hmf",
             "humavant6"
         ]
@@ -423,14 +423,14 @@
         "milk_type": "defrosted",
         "express_time": 1710698674,
         "expiration_time": 1710698846,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 2",
         "volume_ml": 24,
         "mother_mrn": "2309",
         "baby_mrn": "1912",
         "extra_notes": "ligula suspendisse ornare consequat",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "humavant6"
         ]
     },
@@ -446,7 +446,7 @@
         "baby_mrn": "2153",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream"
         ]
     },
@@ -462,7 +462,7 @@
         "baby_mrn": "3391",
         "extra_notes": "posuere nonummy",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -480,7 +480,7 @@
         "baby_mrn": "5479",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf"
         ]
@@ -490,14 +490,14 @@
         "milk_type": "fresh",
         "express_time": 1701705530,
         "expiration_time": 1712033506,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 3",
         "volume_ml": 51,
         "mother_mrn": "3507",
         "baby_mrn": "6509",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "hmf"
         ]
     },
@@ -513,7 +513,7 @@
         "baby_mrn": "3712",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "hmf",
             "humavant6"
         ]
@@ -523,14 +523,14 @@
         "milk_type": "fresh",
         "express_time": 1719441678,
         "expiration_time": 1719441850,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 2",
         "volume_ml": 75,
         "mother_mrn": "2494",
         "baby_mrn": "8662",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -541,14 +541,14 @@
         "milk_type": "frozen",
         "express_time": 1725897821,
         "expiration_time": 1739541780,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 2",
         "volume_ml": 75,
         "mother_mrn": "4852",
         "baby_mrn": "6127",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "hmf"
         ]
     },
@@ -564,7 +564,7 @@
         "baby_mrn": "1246",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -582,7 +582,7 @@
         "baby_mrn": "4512",
         "extra_notes": "velit nec",
         "created_at": 1696410000,
-        "additivies": []
+        "additives": []
     },
     {
         "uid": "000036",
@@ -596,7 +596,7 @@
         "baby_mrn": "5479",
         "extra_notes": "lacinia nisi venenatis tristique fusce",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -614,7 +614,7 @@
         "baby_mrn": "4978",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "hmf",
             "humavant6"
         ]
@@ -631,7 +631,7 @@
         "baby_mrn": "8768",
         "extra_notes": "suspendisse accumsan tortor quis turpis sed ante",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "humavant6"
         ]
@@ -641,14 +641,14 @@
         "milk_type": "fresh",
         "express_time": 1728080433,
         "expiration_time": 1728080605,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 1",
         "volume_ml": 31,
         "mother_mrn": "7945",
         "baby_mrn": "9959",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf"
         ]
@@ -658,14 +658,14 @@
         "milk_type": "fresh",
         "express_time": 1722568011,
         "expiration_time": 1722568183,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 3",
         "volume_ml": 44,
         "mother_mrn": "2309",
         "baby_mrn": "1912",
         "extra_notes": "nisl nunc nisl",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "humavant6"
         ]
     },
@@ -674,14 +674,14 @@
         "milk_type": "frozen",
         "express_time": 1709838381,
         "expiration_time": 1709838553,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 3",
         "volume_ml": 3,
         "mother_mrn": "9519",
         "baby_mrn": "6654",
         "extra_notes": "vel pede morbi porttitor",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "hmf"
         ]
     },
@@ -690,14 +690,14 @@
         "milk_type": "frozen",
         "express_time": 1713395949,
         "expiration_time": 1713396121,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 3",
         "volume_ml": 64,
         "mother_mrn": "5376",
         "baby_mrn": "4512",
         "extra_notes": "mattis odio",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "hmf"
         ]
     },
@@ -713,7 +713,7 @@
         "baby_mrn": "8384",
         "extra_notes": "sed interdum venenatis turpis enim blandit mi",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream"
         ]
     },
@@ -729,7 +729,7 @@
         "baby_mrn": "8384",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": []
+        "additives": []
     },
     {
         "uid": "000045",
@@ -743,7 +743,7 @@
         "baby_mrn": "5479",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -761,7 +761,7 @@
         "baby_mrn": "1883",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf"
         ]
@@ -778,7 +778,7 @@
         "baby_mrn": "6509",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "humavant6"
         ]
     },
@@ -794,7 +794,7 @@
         "baby_mrn": "3886",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -812,7 +812,7 @@
         "baby_mrn": "5479",
         "extra_notes": "mi sit amet lobortis sapien",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "humavant6"
         ]
     },
@@ -828,7 +828,7 @@
         "baby_mrn": "2153",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -846,7 +846,7 @@
         "baby_mrn": "5204",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "hmf",
             "humavant6"
         ]
@@ -863,7 +863,7 @@
         "baby_mrn": "6023",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "humavant6"
         ]
     },
@@ -879,7 +879,7 @@
         "baby_mrn": "3886",
         "extra_notes": "vivamus metus arcu adipiscing molestie hendrerit",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -890,14 +890,14 @@
         "milk_type": "frozen",
         "express_time": 1715916074,
         "expiration_time": 1715916246,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 1",
         "volume_ml": 50,
         "mother_mrn": "2494",
         "baby_mrn": "8662",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -915,7 +915,7 @@
         "baby_mrn": "1883",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf"
         ]
@@ -932,7 +932,7 @@
         "baby_mrn": "2565",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "hmf"
         ]
     },
@@ -941,14 +941,14 @@
         "milk_type": "defrosted",
         "express_time": 1713044206,
         "expiration_time": 1713044378,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 1",
         "volume_ml": 17,
         "mother_mrn": "8220",
         "baby_mrn": "6023",
         "extra_notes": "at lorem integer tincidunt ante",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream"
         ]
     },
@@ -964,7 +964,7 @@
         "baby_mrn": "1246",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf"
         ]
@@ -981,7 +981,7 @@
         "baby_mrn": "5479",
         "extra_notes": "curabitur convallis duis consequat dui nec nisi",
         "created_at": 1696410000,
-        "additivies": []
+        "additives": []
     },
     {
         "uid": "000060",
@@ -995,7 +995,7 @@
         "baby_mrn": "7140",
         "extra_notes": "justo in blandit",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "hmf",
             "humavant6"
         ]
@@ -1012,7 +1012,7 @@
         "baby_mrn": "1215",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -1023,14 +1023,14 @@
         "milk_type": "frozen",
         "express_time": 1706992447,
         "expiration_time": 1707905691,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 1",
         "volume_ml": 35,
         "mother_mrn": "6361",
         "baby_mrn": "1883",
         "extra_notes": "est phasellus sit amet erat nulla tempus",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "hmf",
             "humavant6"
         ]
@@ -1047,7 +1047,7 @@
         "baby_mrn": "6227",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -1065,7 +1065,7 @@
         "baby_mrn": "1215",
         "extra_notes": "bibendum felis sed interdum venenatis",
         "created_at": 1696410000,
-        "additivies": []
+        "additives": []
     },
     {
         "uid": "000065",
@@ -1079,21 +1079,21 @@
         "baby_mrn": "6509",
         "extra_notes": "quis orci",
         "created_at": 1696410000,
-        "additivies": []
+        "additives": []
     },
     {
         "uid": "000066",
         "milk_type": "frozen",
         "express_time": 1711189165,
         "expiration_time": 1719853737,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 2",
         "volume_ml": 44,
         "mother_mrn": "8371",
         "baby_mrn": "7140",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "hmf"
         ]
     },
@@ -1109,7 +1109,7 @@
         "baby_mrn": "7495",
         "extra_notes": "consequat in consequat",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -1127,21 +1127,21 @@
         "baby_mrn": "6654",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": []
+        "additives": []
     },
     {
         "uid": "000069",
         "milk_type": "defrosted",
         "express_time": 1711719761,
         "expiration_time": 1711719933,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 2",
         "volume_ml": 44,
         "mother_mrn": "9519",
         "baby_mrn": "6654",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream"
         ]
     },
@@ -1157,7 +1157,7 @@
         "baby_mrn": "2565",
         "extra_notes": "in felis eu",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf"
         ]
@@ -1167,14 +1167,14 @@
         "milk_type": "frozen",
         "express_time": 1695926468,
         "expiration_time": 1714361376,
-        "storage_type": "cupboard",
+        "storage_type": "freezer",
         "storage_location": "Room 2",
         "volume_ml": 39,
         "mother_mrn": "7438",
         "baby_mrn": "8768",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -1192,7 +1192,7 @@
         "baby_mrn": "8971",
         "extra_notes": "nisi vulputate",
         "created_at": 1696410000,
-        "additivies": [
+        "additives": [
             "cream",
             "hmf",
             "humavant6"
@@ -1210,7 +1210,7 @@
         "baby_mrn": "3391",
         "extra_notes": "",
         "created_at": 1696410000,
-        "additivies": []
+        "additives": []
     },
     {
         "uid": "000074",
@@ -1224,6 +1224,6 @@
         "baby_mrn": "2565",
         "extra_notes": "orci eget orci vehicula condimentum curabitur in",
         "created_at": 1729580000,
-        "additivies": []
+        "additives": []
     }
 ]
