@@ -13,5 +13,9 @@ export default [
     }
   },
   { files: ['**/*.{js,mjs,cjs,jsx}'] },
-  { languageOptions: { globals: globals.browser } }
+  { languageOptions: { globals: globals.browser } },
+  {
+    files: ['**/*.{cy.js,test.js}'],
+    extends: ['plugin:cypress/recommended']
+  }
 ];
