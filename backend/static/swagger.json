@@ -153,7 +153,11 @@
                         "storage_location": "Room 3",
                         "storage_type": "cupboard",
                         "uid": "000000",
-                        "volume_ml": 63
+                        "volume_ml": 63,
+                        "additives": [
+                          "something",
+                          "something_else"
+                        ]
                     }
                   }
                 ]
