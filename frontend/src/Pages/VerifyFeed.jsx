@@ -119,7 +119,7 @@ function VerifyFeed() {
 
   const handleInput = async () => {
     const scannedValue = scannerInputRef.current.value;
-    if (scannedValue.length >= 4) {
+    if ((babyBarcode !== "" && scannedValue.length >=6) || (milkBarcode !== "" && scannedValue.length >= 4)){
       // Sets scanner input to empty again
       document.getElementById("scanner-input").value = "";
 
