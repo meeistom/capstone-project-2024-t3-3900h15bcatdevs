@@ -51,6 +51,9 @@ def scale_data_matrix(data_matrix: str, scale: int) -> str:
 
     if type(data_matrix) != str:
         raise TypeError(f'data_matrix is of type {type(data_matrix)}, but expected {str}')
+    
+    if type(scale) != int:
+        raise TypeError(f'scale is of type {type(scale)}, but expected {int}')
 
     i = data_matrix.find('height') + 8 # 8 gets you to the first digit of the pixel value: `height="12px"`
     
