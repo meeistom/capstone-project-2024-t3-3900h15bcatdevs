@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ViewInfoModal } from "./ViewInfoModal";
+import { URL } from "../constants";
 
 export { Table };
 
@@ -49,7 +50,6 @@ function Table({
   const columns = viewConfigs[viewType] || [];
   const [openEntryModal, setOpenEntryModal] = useState(false);
   const [info, setInfo] = useState(null);
-  const URL = "http://127.0.0.1:5001";
   const [searchValue, setSearchValue] = useState("");
 
   const handlePopUp = (entry) => {
@@ -57,6 +57,7 @@ function Table({
     setOpenEntryModal(true);
     console.log(entry);
   };
+
   const handleClosePopUp = () => {
     setInfo(null);
     setOpenEntryModal(false);
@@ -181,12 +182,16 @@ function Table({
                 )}
                 {viewType === "viewMilk" && ( // only milk entries are deletable
                   <td key="delete-button">
-                    <button className="dlt-btn">
+                    <Button
+                      variant="link"
+                      id={`dlt-${item.uid}`}
+                      className="dlt-btn"
+                    >
                       <FontAwesomeIcon
                         onClick={() => deleteMilk(item)}
                         icon={faTrash}
                       />
-                    </button>
+                    </Button>
                   </td>
                 )}
               </tr>

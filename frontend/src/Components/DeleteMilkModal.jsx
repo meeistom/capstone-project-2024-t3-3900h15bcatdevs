@@ -1,33 +1,73 @@
-import React from 'react';
+import React, { useState } from "react";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../index.css";
 
 export { DeleteMilkModal };
+
 function DeleteMilkModal({ closeModal, entry, deleteMilk }) {
+  const [reason, setReason] = useState("expired");
+  const [notes, setNotes] = useState("");
 
   return (
-    <>
-      <div
-        id={`${entry.uid}-deletion-modal`}
-        className="modal-background position-fixed d-flex justify-content-center align-items-center w-100 h-100"
-      >
-        <div className="modal fade show" style={{ display: 'block' }} tabIndex="-1">
-          <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Deletion Confirmation</h5>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => closeModal(false)}></button>
-              </div>
-              <div className="modal-body">
-                <p>Are you sure you want to delete this milk entry?</p>
-                Milk {entry.uid} belongs to: <br></br> {entry.baby_name}, baby of {entry.mother_name}
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => closeModal(false)}>Close</button>
-                <button type="button" className="btn btn-danger" onClick={() => deleteMilk(entry.uid)} >Delete</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  )
+    <Modal
+      show
+      onHide={() => closeModal(false)}
+      centered
+      backdrop="static"
+      id={`${entry.uid}-deletion-modal`}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>Deletion Confirmation</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p>
+          Milk #{entry.uid} belongs to: <br /> {entry.baby_name}, baby of{" "}
+          {entry.mother_name}
+        </p>
+        <Form.Group controlId="milk-removal-reason">
+          <Form.Label>Reason for milk removal*</Form.Label>
+          <Form.Select
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+          >
+            <option value="expired">Expired</option>
+            <option value="discharged">Baby discharged</option>
+            <option value="other">Other</option>
+          </Form.Select>
+        </Form.Group>
+        {reason === "other" && (
+          <Form.Group controlId="removal-notes" className="pt-2">
+            <Form.Label>Notes*</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={2}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            />
+          </Form.Group>
+        )}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button
+          variant="outline-secondary"
+          id="close-dlt-milk-modal"
+          onClick={() => closeModal(false)}
+        >
+          Close
+        </Button>
+        <Button
+          variant="danger"
+          id="confirm-dlt-milk-btn"
+          disabled={reason === "other" && notes === ""}
+          onClick={() => deleteMilk(entry.uid, reason, notes)}
+        >
+          Delete
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
 }
