@@ -42,7 +42,7 @@ function MilkRegistration({
                     value={milkType}
                     onChange={(e) => setMilkType(e.target.value)}
                   >
-                    <option value="ehm">HII</option>
+                    <option value="ehm">EHM</option>
                     <option value="pdhm">PDHM</option>
                     <option value="formula">Formula</option>
                   </Form.Select>
