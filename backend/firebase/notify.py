@@ -37,11 +37,8 @@ def get_milk_updates(firestore_client):
         if not exists_in_collection(firestore_client, 'babies', milk_entry['baby_mrn']):
             continue
         
-        baby_document = firestore_client.collection('babies').document(milk_entry['baby_mrn']).get().to_dict()
-        baby_name = baby_document['first_name'] + ' ' + baby_document['last_name']
-
-        mother_document = firestore_client.collection('mothers').document(milk_entry['mother_mrn']).get().to_dict()
-        mother_name = mother_document['first_name'] + ' ' + mother_document['last_name']
+        baby_name = get_full_name(firestore_client, mrn=milk_entry['baby_mrn'])
+        mother_name = get_full_name(firestore_client, mrn=milk_entry['mother_mrn'])
 
         notif_object = {
             'uid': milk_entry['uid'],

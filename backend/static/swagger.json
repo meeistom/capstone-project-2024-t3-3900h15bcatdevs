@@ -54,7 +54,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Home"
+                  "$ref": "#/components/schemas/Home Formatted Milk Entries"
                 },
                 "example": [
                   {
@@ -96,6 +96,71 @@
             "content": {
               "application/json": {
                 "example": []
+              }
+            }
+          }
+        }
+      }
+    },
+    "/history": {
+      "get": {
+        "tags": [
+          "history"
+        ],
+        "summary": "Displays the history log.",
+        "description": "Returns a list of event objects",
+        "responses": {
+          "200": {
+            "description": "Successfully returned homepage formatted milks.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {"type": "string"},
+                    "message": {"type": "string"},
+                    "details": {"type": "object"},
+                    "timestamp": {"type": "integer"}
+                  }
+                },
+                "example": [
+                  {
+                    "type": "Baby Registered",
+                    "message": "Baby Mei Lin (0000) of Mother Daria Edgar registered",
+                    "timestamp": 1730866439,
+                    "details": {
+                      "first_name": "Mei",
+                      "last_name": "Lin",
+                      "mrn": "0000",
+                      "mother_mrn": "0001"
+                    }
+                  },
+                  {
+                    "message": "Milk from Mother Lynelle Bentote for Baby Lori Coat added to MilkGuard",
+                    "timestamp": 1731255192,
+                    "type": "Milk Added",
+                    "details": {
+                        "baby_mrn": "5675",
+                        "baby_name": "Lori Coat",
+                        "created_at": 1731255192,
+                        "expiration_time": 1732021200,
+                        "expired": false,
+                        "express_time": 1696417646,
+                        "extra_notes": "id luctus",
+                        "milk_type": "fresh",
+                        "mother_mrn": "6361",
+                        "mother_name": "Lynelle Bentote",
+                        "storage_location": "Room 3",
+                        "storage_type": "cupboard",
+                        "uid": "000000",
+                        "volume_ml": 63,
+                        "additives": [
+                          "something",
+                          "something_else"
+                        ]
+                    }
+                  }
+                ]
               }
             }
           }
