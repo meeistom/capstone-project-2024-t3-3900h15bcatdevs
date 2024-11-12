@@ -51,6 +51,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
     setOpenEntryModal(true);
     console.log(entry);
   };
+
   const handleClosePopUp = () => {
     setInfo(null);
     setOpenEntryModal(false);
@@ -167,9 +168,16 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
                 )}
                 {viewType === 'viewMilk' && ( // only milk entries are deletable
                   <td key="delete-button">
-                    <button className="dlt-btn">
-                      <FontAwesomeIcon onClick={() => deleteMilk(item)} icon={faTrash} />
-                    </button>
+                    <Button
+                      variant="link"
+                      id={`dlt-${item.uid}`}
+                      className="dlt-btn"
+                    >
+                      <FontAwesomeIcon
+                        onClick={() => deleteMilk(item)}
+                        icon={faTrash}
+                      />
+                    </Button>
                   </td>
                 )}
               </tr>
