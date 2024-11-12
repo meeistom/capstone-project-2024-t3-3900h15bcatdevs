@@ -3,6 +3,9 @@ import { ViewInfoForm } from './ViewInfoForm';
 import { Modal } from './Modal';
 import Button from "react-bootstrap/Button";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../index.css";
+
 export { ViewInfoModal };
 
 function ViewInfoModal({ info, closeModal }) {
@@ -30,7 +33,6 @@ function ViewInfoModal({ info, closeModal }) {
     );
   }, [])
   
-
 
   return (
     <>

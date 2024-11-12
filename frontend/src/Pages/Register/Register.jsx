@@ -1,4 +1,4 @@
-import { React, useEffect, useState, useRef } from "react";
+import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -35,9 +35,9 @@ function Register() {
   const [expressDate, setExpressDate] = useState("");
   const [notes, setNotes] = useState("");
   const [milkType, setMilkType] = useState("ehm");
+  const [additive, setAdditive] = useState("none");
   const [storageType, setStorageType] = useState("fridge");
-
-  const imageRef = useRef(null);
+  const [labelPrint, setLabelPrint] = useState("");
 
   const navigate = useNavigate();
 
@@ -87,14 +87,12 @@ function Register() {
   };
 
   const printImage = () => {
-    if (imageRef.current) {
-      const printWindow = window.open("", "_blank");
-      printWindow.document.write(
-        `<img src="${imageRef.current.src}" alt="sticker" style="max-width: 100%;" />`
-      );
-      printWindow.document.close();
-      printWindow.print();
-    }
+    const printWindow = window.open("", "_blank");
+    printWindow.document.write(
+      `<img src="data:image/png;base64,${labelPrint}" />`
+    );
+    printWindow.document.close();
+    printWindow.print();
   };
 
   const babyPageIsValid = () => {
@@ -149,26 +147,6 @@ function Register() {
     }
   };
 
-  const submitMilkInfo = async () => {
-    const milkInfo = {
-      milk_type: milkType,
-      express_time: toUnix(expressDate),
-      expiration_time: toUnix(expiryDate),
-      storage_type: storageType,
-      storage_location: storageType,
-      volume_ml: 100,
-      baby_mrn: babyMRN,
-      extra_notes: notes,
-    };
-
-    const url = `${URL}/add_milk_entry`;
-    try {
-      await axios.post(url, milkInfo);
-    } catch (e) {
-      console.error("Error posting bottle details:", e.response.data);
-    }
-  };
-
   const useEffectDependencies = [
     selectedPages,
     currentPage,
@@ -183,6 +161,7 @@ function Register() {
     notes,
     milkType,
     storageType,
+    additive,
   ];
 
   useEffect(() => {
@@ -190,10 +169,31 @@ function Register() {
       try {
         if (checked.momPage) await submitMomInfo();
         if (checked.babyPage) await submitBabyInfo();
-        if (checked.milkPage) await submitMilkInfo();
       } catch (error) {
         console.error("Error during submission:", error);
       }
+    };
+
+    const setupPreview = async () => {
+      await submitDataInOrder();
+      const milkInfo = {
+        milk_type: milkType,
+        express_time: toUnix(expressDate),
+        expiration_time: toUnix(expiryDate),
+        storage_type: storageType,
+        storage_location: storageType,
+        volume_ml: 100,
+        baby_mrn: babyMRN,
+        extra_notes: notes,
+        additives: additive,
+      };
+      setRenderedPage(
+        <PreviewGeneratedLabel
+          milkInfo={milkInfo}
+          milkChecked={checked.milkPage}
+          setLabelPrint={setLabelPrint}
+        />
+      );
     };
 
     switch (selectedPages[currentPage]) {
@@ -243,6 +243,8 @@ function Register() {
             setMilkType={setMilkType}
             storageType={storageType}
             setStorageType={setStorageType}
+            additive={additive}
+            setAdditive={setAdditive}
           />
         );
         break;
@@ -260,19 +262,13 @@ function Register() {
             notes={notes}
             milkType={milkType}
             storageType={storageType}
+            additive={additive}
             checked={checked}
           />
         );
         break;
       case "preview":
-        submitDataInOrder();
-        setRenderedPage(
-          <PreviewGeneratedLabel
-            setImageRef={(ref) => (imageRef.current = ref.current)}
-            milkChecked={checked.milkPage}
-          />
-        );
-
+        setupPreview();
         break;
     }
   }, useEffectDependencies);

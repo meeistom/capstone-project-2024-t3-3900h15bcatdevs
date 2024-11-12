@@ -1,8 +1,10 @@
 # capstone-project-2024-t3-3900h15bcatdevs
 
-# Running with Docker (Do this before you create a PR)
+# Running with Docker (main method)
 
-When we add dependencies to either frontend or backend, please add to `requirements.txt` or `package.json` respectively. We will need to rebuild the docker image after adding dependencies.
+Docker runs the frontend and the backend. It installs all the frontend and backend dependencies and works with hot reload.
+
+When NEW dependencies are added to either frontend or backend, please add to `requirements.txt` or `package.json` respectively. We will need to rebuild the docker image after adding dependencies.
 
 Build the docker image:
 
@@ -13,7 +15,7 @@ docker compose build
 Run the containers:
 
 ```
-docker compose up -d 
+docker compose up -d / docker compose up
 ```
 
 Stop the containers:
@@ -22,13 +24,27 @@ Stop the containers:
 docker compose down
 ```
 
-if you make changes to the code, then run docker compose down, then docker compose build, then docker compose up
+Hot reload now works so if any changes are made to the code just refresh the page (no need to rebuild everytime)
+
+If on Windows, additional setup for hot reload is involved to set up readability from Docker to the assigned volume directories
+
+1. Ensure your docker containers are not running (docker compose down)
+2. On Docker Desktop go to "Settings > Resources > File Sharing" then add the directory of your local repository in this location:
+
+![docker](/docker.png)
+
+3. Click "Apply & restart" to update the changes.
+4. Go to the "frontend" directory and apply "chmod 777" on the "node_modules" file
+5. Close Docker Desktop completely
+6. Run Docker Desktop as administrator
+7. Run the containers
+8. Hot reload will work now!
 
 # Development
 
-## Running the Backend 
+## Running the Backend
 
-You can run the backend in `/backend`. 
+You can run the backend in `/backend`.
 Sync/install all dependencies for the `/backend`:
 
 ```
@@ -41,7 +57,7 @@ To have access to the database, please make sure you have your `key.json` file i
 
 Run `python app.py` in `/backend`.
 
-## Running the Frontend 
+## Running the Frontend
 
 You can run Frontend in `/frontend`.
 This project is using node 16. Using `nvm` is highly recommended.
@@ -65,10 +81,6 @@ npm install
 ```
 
 Run `npm start` in `/frontend`.
-
-## Development - Running both frontend and backend (in root)
-
-Run `npm run start-both` in `/root`.
 
 # Testing
 

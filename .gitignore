@@ -5,5 +5,6 @@ backend/firebase/__pycache__/
 backend/labels/__pycache__/
 backend/.key/*
 backend/__pycache__/
+backend/labels/barcodes/__pycache__/
 .DS_*
 key_*

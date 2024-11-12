@@ -5,7 +5,6 @@ import { Modal } from "./Modal.jsx";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import confirmCheck from "../Assets/confirm-check.png";
-import sticker from "../Assets/milk1_label.png";
 import scanner from "../Assets/scanner.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../index.css";
@@ -22,11 +21,13 @@ function AddMilkModal({ addMilk, closeModal, version }) {
   const [milkType, setMilkType] = useState("ehm");
   const [storageType, setStorageType] = useState("fridge");
   const [notes, setNotes] = useState("");
+  const [additive, setAdditive] = useState("none");
   const [motherData, setMotherData] = useState(null);
   const [babyData, setBabyData] = useState(null);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState(null);
   const [footer, setFooter] = useState(null);
+  const [labelPrint, setLabelPrint] = useState("");
 
   useEffect(() => {
     if (scannerInputRef.current) {
@@ -78,7 +79,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     }
   };
 
-  const handleSubmitMilkInfo = async() => {
+  const handleSubmitMilkInfo = async () => {
     const bottleDetails = {
       milk_type: milkType,
       express_time: new Date(expressDate).getTime() / 1000,
@@ -88,6 +89,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       volume_ml: 50,
       baby_mrn: babyData.mrn,
       extra_notes: notes,
+      additives: additive,
     };
     console.log(bottleDetails);
     axios
@@ -95,7 +97,10 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       .then((response) => {
         console.log(`Bottle details added: ${response}`, response.data);
         addMilk(response.data);
-        setModalVersion("addMilk4");
+        return response.data.uid;
+      })
+      .then(async (uid) => {
+        await generateLabel(uid);
       })
       .catch((error) => {
         console.log("Error posting bottle details:", error);
@@ -103,10 +108,21 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       });
   };
 
+  const generateLabel = async (uid) => {
+    const url = `${URL}/preview_milk_label?uid=${uid}`;
+    try {
+      await axios.get(url).then((res) => {
+        setLabelPrint(res.data);
+      });
+    } catch (e) {
+      console.error("Error generating label", e);
+    }
+  };
+
   const printImage = () => {
     const printWindow = window.open("", "_blank");
     printWindow.document.write(
-      `<img src="${sticker}" alt="sticker" style="max-width: 100%;" />`
+      `<img src="data:image/png;base64,${labelPrint}" />`
     );
     printWindow.document.close();
     printWindow.print();
@@ -116,17 +132,14 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     if (!expiryDate || !expressDate) {
       alert("Please fill in all relevant information");
     } else {
+      handleSubmitMilkInfo();
       setModalVersion("addMilk3");
     }
   };
 
-  const handlePrintAndMovePage = async() => {
-    try {
-      await handleSubmitMilkInfo();
-      printImage();
-    } catch (error) {
-      console.error("Error submitting milk info:", error);
-    }
+  const handlePrintAndMovePage = async () => {
+    setModalVersion("addMilk4");
+    printImage();
   };
 
   const useEffectDependencies = [
@@ -136,6 +149,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     milkType,
     storageType,
     notes,
+    labelPrint,
   ];
 
   // Handles which version of modal is rendered
@@ -172,6 +186,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
               setMilkType={setMilkType}
               setStorageType={setStorageType}
               setNotes={setNotes}
+              setAdditive={setAdditive}
             />
           </>
         );
@@ -193,7 +208,9 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       case "addMilk3":
         setTitle("Sticker Preview");
         setBody(
-          <img src={sticker} alt="sticker" className="preview-sticker my-4" />
+          <>
+            <img src={`data:image/png;base64,${labelPrint}`} />
+          </>
         );
         setFooter(
           <div id="btn-group">
@@ -205,7 +222,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
             </Button>
             <Button
               name="confirm-and-print"
-              onClick={handlePrintAndMovePage}
+              onClick={() => handlePrintAndMovePage()}
               variant="primary"
             >
               Confirm and Print

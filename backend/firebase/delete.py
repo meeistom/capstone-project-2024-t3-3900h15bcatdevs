@@ -1,5 +1,8 @@
 from firebase.error_check import *
+from firebase.history import log_event
 from typing import Tuple
+from firebase.retrieve import get_full_name
+from firebase_admin import firestore
 
 def delete_document(
     firestore_client,
@@ -28,11 +31,31 @@ def delete_document(
         
         try:
             collection_ref = firestore_client.collection(collection_name)
+
+            # Get a copy of the document data before deletion
+            document = collection_ref.document(mrn_uid).get().to_dict()
+
             collection_ref.document(mrn_uid).delete()
             deleted_documents.append(mrn_uid)
         except Exception as e:
             print(f"DELETE DOCUMENT: An error occurred while deleting data: {e}")
             return False, "Failed to delete document"
+        
+        if collection_name == "milk_entries":
+            # Remove the milk entry from the mother
+            mother_doc = firestore_client.collection("mothers").document(document["mother_mrn"])
+            mother_doc.update({
+                "milk_entries": firestore.ArrayRemove([document["uid"]])
+            })
+
+            # Log milk deleted event if the document was a milk entry
+            _, mother_name = get_full_name(firestore_client, document["mother_mrn"])
+            _, baby_name = get_full_name(firestore_client, document["baby_mrn"])
+            document['mother_name'] = mother_name
+            document['baby_name'] = baby_name
+            event_success = log_event(firestore_client, event_type="Milk Deleted", data=document)
+            if not event_success:
+                print("(HISTORY) Error logging Milk Added event")
     
 
     return True, f"Successfully deleted document {deleted_documents}"

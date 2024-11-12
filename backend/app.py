@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
+from flask_swagger_ui import get_swaggerui_blueprint
 
 import firebase_admin as fba
 from firebase_admin import firestore, credentials
@@ -12,8 +13,12 @@ from firebase.home_milk_page import *
 from firebase.verify import *
 from firebase.notify import *
 from firebase.search import *
+from firebase.expiration_handler import *
+from firebase.edit import *
 
 from labels.labels import *
+
+from threading import Thread
 
 cred = credentials.Certificate("./.key/key2.json")
 fba.initialize_app(cred)
@@ -26,13 +31,28 @@ Basic Skeleton for a Flask app that you can use in a docker container.
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
+SWAGGER_URL = '/api/docs'
+API_URL = '/static/swagger.json'
+
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "Milk Guard Swagger Docs"
+    }
+)
+
+app.register_blueprint(swaggerui_blueprint)
+
 
 @app.route("/")
 def passes():
-    return 'Hi'
+    return 'Ni hao'
 
 # Homepage shows the formatted milks as default
 # Fetches & formats milks with mother and baby info
+
+
 @app.route("/home", methods=["GET"], strict_slashes=False)
 def default_home_milks():
 
@@ -46,10 +66,12 @@ def default_home_milks():
 def get_mother():
     mrn = request.args.get("mrn")
 
-    mother_data = retrieve_from_collection(fs_client, collection="mothers", mrn_uid=mrn)
+    mother_data = retrieve_from_collection(
+        fs_client, collection="mothers", mrn_uid=mrn)
 
     return make_response(
-        jsonify(mother_data[0] if mrn and len(mother_data) == 1 else mother_data),
+        jsonify(mother_data[0] if mrn and len(
+            mother_data) == 1 else mother_data),
         400 if mrn and len(mother_data) == 0 else 200,
     )
 
@@ -59,7 +81,8 @@ def get_mother():
 def get_baby():
     mrn = request.args.get("mrn")
 
-    baby_data = retrieve_from_collection(fs_client, collection="babies", mrn_uid=mrn)
+    baby_data = retrieve_from_collection(
+        fs_client, collection="babies", mrn_uid=mrn)
 
     return make_response(
         jsonify(baby_data[0] if mrn and len(baby_data) == 1 else baby_data),
@@ -94,7 +117,8 @@ def get_milk_entry():
 
     return make_response(
         jsonify(
-            milk_entry_data[0] if uid and len(milk_entry_data) == 1 else milk_entry_data
+            milk_entry_data[0] if uid and len(
+                milk_entry_data) == 1 else milk_entry_data
         ),
         400 if uid and len(milk_entry_data) == 0 else 200,
     )
@@ -146,6 +170,9 @@ def add_new_mother():
 
     success, message = add_mother(fs_client, new_mother_data)
 
+    if not success:
+        print(message)
+
     return make_response(message, 200 if success else 400)
 
 
@@ -156,6 +183,9 @@ def add_new_baby():
 
     success, message = add_baby(fs_client, new_baby_data)
 
+    if not success:
+        print(message)
+
     return make_response(message, 200 if success else 400)
 
 
@@ -165,6 +195,9 @@ def add_new_milk_entry():
     new_milk_entry_data = request.get_json()
 
     success, message = add_milk_entry(fs_client, new_milk_entry_data)
+
+    if not success:
+        print(message)
 
     return make_response(message, 200 if success else 400)
 
@@ -209,7 +242,8 @@ def route_verify():
         success, message = False, "Invalid Request. No inputs given"
 
     return make_response(
-        message, 200 if success else 404  # JSON if barcode provided. String if not.
+        # JSON if barcode provided. String if not.
+        message, 200 if success else 404
     )
 
 
@@ -240,28 +274,81 @@ def get_update_notifications():
     return make_response(jsonify(notifications), 200)
 
 # Generate milk label
+
+
 @app.route('/preview_milk_label', methods=['GET'], strict_slashes=False)
 def get_milk_label_preview():
     uid = request.args.get('uid')
 
-    milk = retrieve_from_collection(fs_client, collection="milk_entries", mrn_uid=uid)
+    milk = retrieve_from_collection(
+        fs_client, collection="milk_entries", mrn_uid=uid)
     assert len(milk) == 1
     milk = milk[0]
 
-    baby = retrieve_from_collection(fs_client, collection="babies", mrn_uid=milk['baby_mrn'])
+    baby = retrieve_from_collection(
+        fs_client, collection="babies", mrn_uid=milk['baby_mrn'])
     assert len(baby) == 1
     baby = baby[0]
 
-    mother = retrieve_from_collection(fs_client, collection="mothers", mrn_uid=baby['mother_mrn'])
+    mother = retrieve_from_collection(
+        fs_client, collection="mothers", mrn_uid=baby['mother_mrn'])
     assert len(mother) == 1
     mother = mother[0]
 
-    label = get_milk_label((uid, mother['first_name'], baby['last_name'], baby['mrn']))
+    label = get_milk_label((
+        uid,
+        mother['first_name'],
+        baby['last_name'],
+        baby['mrn'],
+        milk['milk_type'],
+        milk['volume_ml'],
+        milk['express_time'],
+        milk['expiration_time'],
+        milk['additives']
+    ))
 
     return make_response(
         label,
         200
     )
 
+# Updates mother, baby, milk entry
+@app.route('/edit', methods=['POST'], strict_slashes=False)
+def update_entry():
+    mother_mrn = request.args.get('mother_mrn')
+    baby_mrn = request.args.get('baby_mrn')
+    milk_uid = request.args.get('milk_uid')
+
+    new_data = request.get_json()
+
+    if mother_mrn:
+        success, message = edit_entry(
+            fs_client, collection_name="mothers", mrn_uid=mother_mrn, new_data=new_data)
+    elif baby_mrn:
+        success, message = edit_entry(
+            fs_client, collection_name="babies", mrn_uid=baby_mrn, new_data=new_data)
+    elif milk_uid:
+        success, message = edit_entry(
+            fs_client, collection_name="milk_entries", mrn_uid=milk_uid, new_data=new_data)
+    else:
+        return make_response('Invalid Request. No inputs given', 400)
+
+    return make_response(message, 200 if success else 400)
+
+# Gets log of history
+@app.route('/history', methods=['GET'], strict_slashes=False)
+def get_history():
+    history_log = retrieve_from_collection(fs_client, collection="history")
+
+    return make_response(jsonify(history_log), 200)
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    # Run thread that checks milks for expirations and logs em
+    milk_checker_thread = Thread(
+        target=check_milk_thread_function, args=(fs_client,))
+    milk_checker_thread.daemon = True
+    milk_checker_thread.start()
+
+    app.run(host='0.0.0.0', port=5001)
+    # app.run(host='0.0.0.0', port=5001, debug=True)
