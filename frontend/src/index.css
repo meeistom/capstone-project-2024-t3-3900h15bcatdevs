@@ -495,14 +495,17 @@ tr {
   margin: 10px 28px;
   border: 1px solid #E9EAEC;
   border-radius: 6px;
+  overflow: hidden;
 }
 .sub-table {
   border-collapse: collapse;
   border-style: hidden;
+  background-color: white;
 }
 
 .sub-table thead {
   z-index: inherit;
+  background-color: #fbdce4;
 }
 
 .sub-table tr {

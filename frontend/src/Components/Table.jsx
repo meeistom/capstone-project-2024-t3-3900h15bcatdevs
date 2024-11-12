@@ -6,7 +6,8 @@ import {
   faTrash,
   faMagnifyingGlass,
   faArrowsRotate,
-  faCaretRight
+  faCaretRight,
+  faCaretDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ViewInfoModal } from "./ViewInfoModal";
@@ -34,7 +35,7 @@ function Table({
       { label: "MRN", key: "mrn" },
       { label: "First Name", key: "first_name" },
       { label: "Last Name", key: "last_name" },
-      { label: "Associate Babies", key: "babies" },
+      { label: "Babies", key: "babies" },
     ],
     viewBaby: [
       { label: "MRN", key: "mrn" },
@@ -113,14 +114,49 @@ function Table({
     }
   }
 
-  const expandMilks = () => {
-    return 1
-  }
 
-  function babyRow () {
+  function babyRow (babyData, index) {
     const [expanded, setExpanded] = React.useState(false);
+    
     return (
       <>
+        {columns.map((column) => (
+          column.key === "mrn" ? (
+            <td key={column.key}>
+                <button 
+                  type="button" 
+                  className="btn btn-sm expand-btn" 
+                  onClick={() => setExpanded(!expanded)}
+                  >
+                    {expanded ? (
+                      <FontAwesomeIcon icon={faCaretDown} />
+                    ) : (
+                      <FontAwesomeIcon icon={faCaretRight} />
+                    )}
+                </button>
+              {babyData[column.key]}
+            </td>
+          ) : viewType === "viewBaby" && column.key === "associated_milks" ? (
+            <td key={column.key}>
+              {(babyData[column.key]).length}
+            </td>
+          ) : (
+            <td key={column.key}>
+              {babyData[column.key]}
+            </td>
+          )
+        ))}
+
+        {expanded && (
+          <tr className={index % 2 === 0 ? "even-row" : "odd-row"} 
+          style={{ outline: "1px solid #E9EAEC"}}
+          >
+            <td colSpan={4}>
+              {milkSubTable(babyData.associated_milks)}
+            </td>
+            <td></td>
+          </tr>
+        )}
       </>
     )
   }
@@ -152,7 +188,7 @@ function Table({
             </table>
           </div>
         ) : (
-          <p>No milks</p>
+          <p style={{ marginLeft: "28px" }}>No milks available</p>
         )}
       </>
     )
@@ -229,29 +265,21 @@ function Table({
                 key={item.uid || item.mrn || index}
                 className={index % 2 === 0 ? "even-row" : "odd-row"}
               >
-                {columns.map((column) =>
-                  // only milk entries(on the home page) will activate a pop up for details when clicking onto an entry
-                  viewType === "viewMilk" ? ( 
-                    <td onClick={() => handlePopUp(item)} key={column.key}>
-                      {item[column.key]}
-                    </td>
-                  ) : viewType === "viewBaby" && column.key === "mrn" ? (
-                    <td key={column.key}>
-                        <button 
-                          type="button" 
-                          className="btn btn-sm expand-btn" 
-                          onClick={() => expandMilks()}>
-                          <FontAwesomeIcon icon={faCaretRight} />
-                        </button>
-                      {item[column.key]}
-                    </td>
-                  ) : viewType === "viewBaby" && column.key === "associated_milks" ? (
-                    <td key={column.key}>
-                      {(item[column.key]).length}
-                    </td>
-                  ) : (
-                    <td key={column.key}>{item[column.key]}</td>
-                  )
+                {viewType === "viewBaby" ? (
+                  <>
+                    {babyRow(item, index)}
+                  </>
+                ) : (
+                  columns.map((column) => (
+                    // only milk entries will activate a pop up for details when clicked
+                    viewType === "viewMilk" ? ( 
+                      <td onClick={() => handlePopUp(item)} key={column.key}>
+                        {item[column.key]}
+                      </td>
+                    ) : (
+                      <td key={column.key}>{item[column.key]}</td>
+                    )
+                  ))
                 )}
                 {viewType === "viewMilk" && ( // only milk entries are deletable
                   <td key="delete-button">
@@ -267,14 +295,18 @@ function Table({
                     </Button>
                   </td>
                 )}
+                {/* {viewType === "viewMother" && (console.log(item))} */}
               </tr>
-              {viewType === "viewBaby" && (
-                <tr className={index % 2 === 0 ? "even-row" : "odd-row"}>
+              {/* {viewType === "viewBaby" && (
+                <tr className={index % 2 === 0 ? "even-row" : "odd-row"} 
+                style={{ outline: "1px solid #E9EAEC"}}
+                >
                   <td colSpan={4}>
                     {milkSubTable(item.associated_milks)}
                   </td>
+                  <td></td>
                 </tr>
-              )}
+              )} */}
             </>
             ))
           ) : (
