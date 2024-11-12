@@ -17,7 +17,7 @@ def retrieve_from_collection(
     Returns:
         list: List of mother objects.
     """
-    assert collection in collection_names
+    assert collection in all_collection_names
 
     collection_stream = firestore_client.collection(collection).stream()
 
@@ -49,40 +49,6 @@ def retrieve_from_collection(
             baby['mother_name'] = get_mother_name(firestore_client, baby_mrn=baby['mrn'])
 
     return return_list
-
-
-def retrieve_milk_entries(
-    firestore_client, field: str = None, search_value: str = None, order: str = "DESC"
-) -> list:
-    """
-    Gets milk entries from the database by field specified matches, otherwise returns all in descending order from creation
-
-    Args:
-        firestore_client (Firestore Client): Firestore Client object.
-        field (str): Field to search in milk entry objects.
-        search_value (str): Value to search for in the field.
-        order (str): Order to return the results in.
-
-    Returns:
-        list: Milk entries with the specified uid or all milk entries if no selection.
-    """
-    if field:
-        assert is_valid_data_field("milk_entries", field)
-
-    milk_entries_collection = firestore_client.collection("milk_entries").stream()
-
-    milk_entries_list = []
-    for milk_doc in milk_entries_collection:
-        if field == "uid" and milk_doc.id != search_value:
-            continue
-
-        milk_entries_list.append(milk_doc.to_dict())
-
-    # Sorts for returning most recently created first
-    milk_entries_list.sort(key=lambda x: x["created_at"], reverse=(order == "DESC"))
-
-    return milk_entries_list
-
 
 def get_mother_name(firestore_client, baby_mrn: str) -> str:
     """
@@ -119,3 +85,22 @@ def get_baby_names(firestore_client, mother_mrn: str) -> list:
         baby_names.append(baby_document['first_name'] + ' ' + baby_document['last_name'])
 
     return baby_names
+
+def get_full_name(firestore_client, mrn: str) -> Tuple[bool, str]:
+    """
+    Gets the full name of a mother/baby from the database given their MRN.
+    """
+    # Ensures that mrn exists
+    exists, collection_name = exists_in_db(firestore_client, mrn_uid=mrn)
+    if not exists:
+        return False, "MRN does not exist in mothers or babies collections"
+    
+    # Ensures that mrn is in mothers or babies
+    if collection_name not in ['mothers', 'babies']:
+        return False, "MRN does not exist in mothers or babies collections"
+    
+    # Gets the full name
+    document = firestore_client.collection(collection_name).document(mrn).get().to_dict()
+    return True, document['first_name'] + ' ' + document['last_name']
+
+        
