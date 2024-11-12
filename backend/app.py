@@ -14,6 +14,7 @@ from firebase.verify import *
 from firebase.notify import *
 from firebase.search import *
 from firebase.expiration_handler import *
+from firebase.edit import *
 
 from labels.labels import *
 
@@ -301,11 +302,28 @@ def get_milk_label_preview():
         200
     )
 
-# Update mother, baby, milk entry
+# Updates mother, baby, milk entry
 @app.route('/update', methods=['POST'], strict_slashes=False)
 def update_entry():
+    mother_mrn = request.args.get('mother_mrn')
+    baby_mrn = request.args.get('baby_mrn')
+    milk_uid = request.args.get('milk_uid')
+
     new_data = request.get_json()
 
+    if mother_mrn:
+        success, message = edit_entry(
+            fs_client, collection_name="mothers", mrn_uid=mother_mrn, new_data=new_data)
+    elif baby_mrn:
+        success, message = edit_entry(
+            fs_client, collection_name="babies", mrn_uid=baby_mrn, new_data=new_data)
+    elif milk_uid:
+        success, message = edit_entry(
+            fs_client, collection_name="milk_entries", mrn_uid=milk_uid, new_data=new_data)
+    else:
+        return make_response('Invalid Request. No inputs given', 400)
+
+    return make_response(message, 200 if success else 400)
 
 # Gets log of history
 @app.route('/history', methods=['GET'], strict_slashes=False)
