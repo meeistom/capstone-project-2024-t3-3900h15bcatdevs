@@ -3,10 +3,11 @@ import { ViewInfoForm } from "./ViewInfoForm";
 import { Modal } from "./Modal";
 import Button from "react-bootstrap/Button";
 import { URL } from "../constants";
+import axios from "axios";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../index.css";
-import { toUnix, dateTimeToString, unixToTimeStr, unixToDatetimeLocal } from "../Utils/utils";
+import { toUnix, dateTimeToString, unixToDatetimeLocal } from "../Utils/utils";
 
 export { ViewInfoModal };
 
@@ -20,27 +21,30 @@ function ViewInfoModal({ info, closeModal }) {
   const [storageLocation, setStorageLocation] = useState(info.storage_location);
   const [additive, setAdditive] = useState(info.additives);
 
-  const handleSave = () => {
-    // const updatedInfo = {
-    //   baby_mrn: info.baby_mrn,
-    //   baby_name: info.baby_name,
-    //   express_time: expressDate,
-    //   expiration_time: expiryDate,
-    //   extra_notes: notes,
-    //   milk_type: milkType,
-    //   storage_type: storageType,
-    //   additives: additive,
-    // };
+  const handleSave = async () => {
+    const updatedInfo = {
+      milk_uid: info.uid,
+      baby_mrn: info.baby_mrn,
+      express_time: toUnix(expressDate),
+      expiration_time: toUnix(expiryDate),
+      extra_notes: notes,
+      milk_type: milkType,
+      storage_type: storageType,
+      storage_location: storageLocation,
+      additives: additive,
+      volume_ml: info.volume_ml,
+    };
 
-    fetch(`${URL}/add_milk_entry`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
+    console.log(updatedInfo);
+    axios
+      .post(`${URL}/edit?milk_uid=${info.uid}`, updatedInfo)
+      .then((response) => {
+        console.log(`Milk Entry updated:`, response.data);
         setIsEditing(false);
         closeModal(true);
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.log("Error editing milk entry:", error);
       });
   };
 
