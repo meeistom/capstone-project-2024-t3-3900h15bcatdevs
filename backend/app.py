@@ -277,5 +277,10 @@ def get_milk_label_preview():
         200
     )
 
+# Update mother, baby, milk entry
+@app.route('/update', methods=['POST'], strict_slashes=False)
+def update_entry():
+    new_data = request.get_json()
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
