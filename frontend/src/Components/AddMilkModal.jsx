@@ -17,7 +17,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
   const [modalVersion, setModalVersion] = useState(version);
   const [expiryDate, setExpiryDate] = useState("");
   const [expressDate, setExpressDate] = useState("");
-  const [milkType, setMilkType] = useState("EHM");
+  const [milkType, setMilkType] = useState("ehm");
   const [storageType, setStorageType] = useState("fridge");
   const [notes, setNotes] = useState("");
   const [additive, setAdditive] = useState("none");
@@ -26,6 +26,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState(null);
   const [footer, setFooter] = useState(null);
+  const [labelPrint, setLabelPrint] = useState("");
 
   useEffect(() => {
     if (scannerInputRef.current) {
@@ -76,7 +77,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     }
   };
 
-  const handleSubmitMilkInfo = async() => {
+  const handleSubmitMilkInfo = async () => {
     const bottleDetails = {
       milk_type: milkType,
       express_time: new Date(expressDate).getTime() / 1000,
@@ -88,17 +89,32 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       extra_notes: notes,
       additives: additive,
     };
+    console.log(bottleDetails);
     axios
       .post(`${URL}/add_milk_entry`, bottleDetails)
       .then((response) => {
         console.log(`Bottle details added: ${response}`, response.data);
         addMilk(response.data);
-        setModalVersion("addMilk4");
+        return response.data.uid;
+      })
+      .then(async (uid) => {
+        await generateLabel(uid);
       })
       .catch((error) => {
         console.log("Error posting bottle details:", error);
         alert("Failed to add bottle details. Please try again.");
       });
+  };
+
+  const generateLabel = async (uid) => {
+    const url = `${URL}/preview_milk_label?uid=${uid}`;
+    try {
+      await axios.get(url).then((res) => {
+        setLabelPrint(res.data);
+      });
+    } catch (e) {
+      console.error("Error generating label", e);
+    }
   };
 
   const printImage = () => {
@@ -134,6 +150,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     milkType,
     storageType,
     notes,
+    labelPrint,
   ];
 
   // Handles which version of modal is rendered
@@ -195,9 +212,11 @@ function AddMilkModal({ addMilk, closeModal, version }) {
         );
         break;
       case "addMilk3":
+        console.log(labelPrint)
         setTitle("Sticker Preview");
         setBody(
           <>
+            {labelPrint}
             <img src={`data:image/png;base64,${labelPrint}`} />
           </>
         );

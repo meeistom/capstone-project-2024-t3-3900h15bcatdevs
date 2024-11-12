@@ -43,7 +43,7 @@ function Table({
     ],
     viewLog: [
       { label: "Event", key: "type" },
-      { label: "Timestamp", key: "timestamp" },
+      { label: "Timestamp", key: "timestamp_str" },
       { label: "Message", key: "message" },
     ],
   };
@@ -181,6 +181,8 @@ function Table({
                     <td onClick={() => handlePopUp(item)} key={column.key}>
                       {item[column.key]}
                     </td>
+                  ) : viewType === "viewLog" ? (
+                    <td key={column.key}>{item[column.key]}</td>
                   ) : (
                     <td key={column.key}>{item[column.key]}</td>
                   )

@@ -43,7 +43,6 @@ function AddMilkForm({
                   className="form-select form-select-sm"
                   onChange={(e) => setMilkType(e.target.value)}
                   value={milkType}
-                  defaultValue="ehm"
                 >
                   <option value="ehm">EHM</option>
                   <option value="pdhm">PDHM</option>
@@ -58,8 +57,7 @@ function AddMilkForm({
                   id="additive-type"
                   className="form-select form-select-sm"
                   defaultValue="none"
-                  onChange={(e) => {console.log("Selected Additive:", e.target.value);
-                    setAdditive(e.target.value);}}
+                  onChange={(e) => {setAdditive(e.target.value)}}
                 >
                   <option value="none">None</option>
                   <option value="humavant6">Humavant+6</option>
@@ -76,7 +74,6 @@ function AddMilkForm({
                 <Form.Select
                   id="milk-storage"
                   className="form-select form-select-sm"
-                  defaultValue="fridge"
                   onChange={(e) => setStorageType(e.target.value)}
                   value={storageType}
                 >

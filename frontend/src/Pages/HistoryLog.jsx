@@ -21,7 +21,7 @@ function HistoryLog() {
       }
       const result = await response.json();
       result.forEach((entry) => {
-        entry.timestamp = unixToTimeStr(entry.timestamp);
+        entry.timestamp_str = unixToTimeStr(entry.timestamp);
       });
       const reversed = [...result].reverse();
       setData(reversed);
@@ -30,7 +30,6 @@ function HistoryLog() {
     } catch (error) {
       console.log(error);
     } finally {
-      console.log(data)
       setLoading(false);
     }
   };
