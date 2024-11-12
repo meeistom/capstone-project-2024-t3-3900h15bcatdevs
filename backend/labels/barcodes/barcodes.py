@@ -67,37 +67,3 @@ def scale_data_matrix(data_matrix: str, scale: int) -> str:
     data_matrix = data_matrix.replace(f'width="{new_size}px"', f'width="{new_size}px" viewBox="0 0 {size} {size}"')
 
     return data_matrix
-
-
-# Testing stuff
-if __name__ == '__main__':
-    # try:
-    #     generate_barcode(1234, 'code-128')
-    # except Exception as e:
-    #     print(e)
-
-    # try:
-    #     generate_barcode(1234, 'data-matrix')
-    # except Exception as e:
-    #     print(e)
-
-    # try:
-    #     generate_barcode('1234', 'asdf')
-    # except Exception as e:
-    #     print(e)
-
-    # try:
-    #     generate_barcode(1234, 1234)
-    # except Exception as e:
-    #     print(e)
-
-    # dm = generate_barcode('123456', 'data-matrix')
-    # bar = generate_barcode('1234', 'code-128')
-    # print(dm)
-    # print(bar)
-
-    # print(scale_data_matrix(dm, 3))
-    print(generate_code_128('0'))
-    dm = generate_data_matrix('0')
-
-    scale_data_matrix(dm, 'a')
