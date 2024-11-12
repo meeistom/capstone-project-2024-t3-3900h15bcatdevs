@@ -35,6 +35,7 @@ function Register() {
   const [expressDate, setExpressDate] = useState("");
   const [notes, setNotes] = useState("");
   const [milkType, setMilkType] = useState("ehm");
+  const [additive, setAdditive] = useState("none");
   const [storageType, setStorageType] = useState("fridge");
   const [labelPrint, setLabelPrint] = useState("");
 
@@ -87,7 +88,9 @@ function Register() {
 
   const printImage = () => {
     const printWindow = window.open("", "_blank");
-    printWindow.document.write(labelPrint);
+    printWindow.document.write(
+      `<img src="data:image/png;base64,${labelPrint}" />`
+    );
     printWindow.document.close();
     printWindow.print();
   };
@@ -158,6 +161,7 @@ function Register() {
     notes,
     milkType,
     storageType,
+    additive,
   ];
 
   useEffect(() => {
@@ -165,7 +169,6 @@ function Register() {
       try {
         if (checked.momPage) await submitMomInfo();
         if (checked.babyPage) await submitBabyInfo();
-        // if (checked.milkPage) await submitMilkInfo();
       } catch (error) {
         console.error("Error during submission:", error);
       }
@@ -182,6 +185,7 @@ function Register() {
         volume_ml: 100,
         baby_mrn: babyMRN,
         extra_notes: notes,
+        additives: additive,
       };
       setRenderedPage(
         <PreviewGeneratedLabel
@@ -239,6 +243,8 @@ function Register() {
             setMilkType={setMilkType}
             storageType={storageType}
             setStorageType={setStorageType}
+            additive={additive}
+            setAdditive={setAdditive}
           />
         );
         break;
@@ -256,6 +262,7 @@ function Register() {
             notes={notes}
             milkType={milkType}
             storageType={storageType}
+            additive={additive}
             checked={checked}
           />
         );

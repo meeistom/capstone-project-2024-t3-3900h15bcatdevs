@@ -87,7 +87,8 @@ function Home() {
     setDeleteEntry(entry);
   };
 
-  const handleDeleteMilk = (uid) => {
+  const handleDeleteMilk = (uid, reason, notes) => {
+    console.log(reason, notes);
     axios
       .delete(`${URL}/delete_milk_entry?uid=${uid}`)
       .then((_) => {

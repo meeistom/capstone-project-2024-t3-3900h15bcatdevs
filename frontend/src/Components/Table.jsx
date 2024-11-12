@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ViewInfoModal } from "./ViewInfoModal";
-import { URL } from "../constants.jsx";
+import { URL } from "../constants";
 
 export { Table };
 
@@ -62,6 +62,7 @@ function Table({
     setOpenEntryModal(true);
     console.log(entry);
   };
+
   const handleClosePopUp = () => {
     setInfo(null);
     setOpenEntryModal(false);
@@ -186,12 +187,16 @@ function Table({
                 )}
                 {viewType === "viewMilk" && ( // only milk entries are deletable
                   <td key="delete-button">
-                    <button className="dlt-btn">
+                    <Button
+                      variant="link"
+                      id={`dlt-${item.uid}`}
+                      className="dlt-btn"
+                    >
                       <FontAwesomeIcon
                         onClick={() => deleteMilk(item)}
                         icon={faTrash}
                       />
-                    </button>
+                    </Button>
                   </td>
                 )}
               </tr>
