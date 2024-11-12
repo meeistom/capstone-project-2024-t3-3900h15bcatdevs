@@ -49,16 +49,13 @@ app.register_blueprint(swaggerui_blueprint)
 def passes():
     return 'Ni hao'
 
-# Homepage shows the formatted milks as default
-# Fetches & formats milks with mother and baby info
 
-
+# Homepage shows all babies including all their associated milks
 @app.route("/home", methods=["GET"], strict_slashes=False)
-def default_home_milks():
-
-    success, home_page_milks = get_home_page_formatted_milks(fs_client)
-
-    return make_response(jsonify(home_page_milks), 200 if success else 400)
+def get_babies_and_milks():
+    success, baby_data = get_babies_associated_milks(fs_client)
+    
+    return make_response(jsonify(baby_data), 200 if success else 400)
 
 
 # Fetches all mothers as a list, or fetches mother object by MRN if provided
@@ -76,6 +73,15 @@ def get_mother():
     )
 
 
+# View Milks fetches all milks and formats with mother and baby info
+@app.route("/view_milks", methods=["GET"], strict_slashes=False)
+def default_home_milks():
+
+    success, home_page_milks = get_formatted_milks(fs_client)
+
+    return make_response(jsonify(home_page_milks), 200 if success else 400)
+
+
 # Fetches all babies as a list, or fetches baby object by MRN if provided
 @app.route("/babies", methods=["GET"], strict_slashes=False)
 def get_baby():
@@ -89,17 +95,7 @@ def get_baby():
         400 if mrn and len(baby_data) == 0 else 200,
     )
 
-# Fetches all babies including all their associated milks
-@app.route("/home1", methods=["GET"], strict_slashes=False)
-def get_babies_and_milks():
-    baby_data = get_babies_associated_milks(fs_client)
     
-    return make_response(
-        jsonify(baby_data),
-        200,
-    )
-    
-
 #  Fetches all milk entries as a list and returns it in order (default is DESC), or fetches milk entry object by UID
 @app.route("/milk_entries", methods=["GET"], strict_slashes=False)
 def get_milk_entry():

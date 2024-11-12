@@ -32,7 +32,7 @@ function Home() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${URL}/home1`);
+      const response = await fetch(`${URL}/home`);
       if (!response.ok) {
         throw new Error("Having errors fetching milk details");
       }

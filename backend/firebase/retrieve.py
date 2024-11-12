@@ -86,45 +86,6 @@ def get_baby_names(firestore_client, mother_mrn: str) -> list:
 
     return baby_names
 
-def get_babies_associated_milks(firestore_client) -> list:
-    """
-    Returns a list of babies with an extra field that includes a list of their 
-    associated milk entries
-    
-    Args:
-        firestore_client (Firestore Client): Firestore Client object.
-
-    Returns:
-        list: All babies with associated milks.
-    """
-    baby_list = retrieve_from_collection(firestore_client, collection="babies")
-    milk_entries = retrieve_from_collection(firestore_client, collection="milk_entries")
-    
-    for milk_entry in milk_entries:
-        # Get mother details, should always have a valid mother mrn
-        mother_doc = retrieve_from_collection(firestore_client, collection='mothers', mrn_uid=milk_entry['mother_mrn'])
-
-        assert len(mother_doc) == 1
-        mother_doc = mother_doc[0]
-
-        # Get baby details, should always have a valid baby mrn
-        baby_doc = retrieve_from_collection(firestore_client, collection="babies", mrn_uid=milk_entry['baby_mrn'])
-
-        assert len(baby_doc) == 1
-        baby_doc = baby_doc[0]
-
-        milk_entry['mother_name'] = mother_doc['first_name'] + ' ' + mother_doc['last_name']
-        milk_entry['baby_name'] = baby_doc['first_name'] + ' ' + baby_doc['last_name'] if baby_doc else ""
-        
-        for baby in baby_list:
-            if "associated_milks" not in baby:
-                baby['associated_milks'] = []
-            
-            if milk_entry['baby_mrn'] == baby['mrn']:
-                baby['associated_milks'].append(milk_entry)
-    # associated_milks = retrieve_milk_entries(firestore_client, "baby_mrn", baby['mrn'], "DESC")
-        
-    return baby_list
 def get_full_name(firestore_client, mrn: str) -> Tuple[bool, str]:
     """
     Gets the full name of a mother/baby from the database given their MRN.
@@ -143,3 +104,29 @@ def get_full_name(firestore_client, mrn: str) -> Tuple[bool, str]:
     return True, document['first_name'] + ' ' + document['last_name']
 
         
+def get_formatted_milks(firestore_client) -> Tuple[bool, list]:
+    '''
+    Milks for the view_milk page are formatted with mother and baby names.
+    This is separate to the pure get milk entries function.
+
+    Args: 
+        firestore_client (Firestore Client): Firestore Client Object
+
+    Returns:
+        bool: True if success, False if failure
+        list: List of formatted milk entries
+    '''
+    milk_entries = retrieve_from_collection(firestore_client, "milk_entries")
+
+    if len(milk_entries) == 0:
+        return False, []
+
+    for milk_entry in milk_entries:
+        # Get mother & baby names, should always have a valid mrns
+        mother_name = get_full_name(firestore_client, mrn=milk_entry['mother_mrn'])
+        baby_name = get_full_name(firestore_client, mrn=milk_entry['baby_mrn'])
+
+        milk_entry['mother_name'] = mother_name
+        milk_entry['baby_name'] = baby_name
+
+    return True, milk_entries
