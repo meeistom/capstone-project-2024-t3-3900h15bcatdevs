@@ -66,7 +66,7 @@ describe("user add milk bottle happy path", () => {
 
     cy.get("button[name='preview-sticker']").click();
 
-    cy.get(".body").find("svg").should("exist");
+    cy.get(".body").find("img").should("exist");
   });
 
   it("should not submit form if not all fields are valid", () => {
@@ -77,7 +77,7 @@ describe("user add milk bottle happy path", () => {
 
     cy.get("button[name='preview-sticker']").click();
 
-    cy.get(".body").find("svg").should("not.exist");
+    cy.get(".body").find("img").should("not.exist");
   });
 
   it("should have a confirmation page of the milk submission", () => {
@@ -102,7 +102,7 @@ describe("user add milk bottle happy path", () => {
     cy.get("#expiry-date").should("have.value", expiryDate);
 
     cy.get("button[name='preview-sticker']").click();
-    cy.get(".body").find("svg").should("exist");
+    cy.get(".body").find("img").should("exist");
 
     cy.get("button[name='confirm-and-print']").click();
     cy.get('img[alt="Confirmation Icon"]').should("exist");

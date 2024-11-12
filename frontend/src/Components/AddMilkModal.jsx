@@ -5,7 +5,6 @@ import { Modal } from "./Modal.jsx";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import confirmCheck from "../Assets/confirm-check.png";
-import sticker from "../Assets/milk1_label.png";
 import scanner from "../Assets/scanner.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../index.css";
@@ -22,6 +21,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
   const [milkType, setMilkType] = useState("ehm");
   const [storageType, setStorageType] = useState("fridge");
   const [notes, setNotes] = useState("");
+  const [additive, setAdditive] = useState("none");
   const [motherData, setMotherData] = useState(null);
   const [babyData, setBabyData] = useState(null);
   const [title, setTitle] = useState("");
@@ -89,6 +89,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       volume_ml: 50,
       baby_mrn: babyData.mrn,
       extra_notes: notes,
+      additives: additive,
     };
     console.log(bottleDetails);
     axios
@@ -120,7 +121,9 @@ function AddMilkModal({ addMilk, closeModal, version }) {
 
   const printImage = () => {
     const printWindow = window.open("", "_blank");
-    printWindow.document.write(labelPrint);
+    printWindow.document.write(
+      `<img src="data:image/png;base64,${labelPrint}" />`
+    );
     printWindow.document.close();
     printWindow.print();
   };
@@ -183,6 +186,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
               setMilkType={setMilkType}
               setStorageType={setStorageType}
               setNotes={setNotes}
+              setAdditive={setAdditive}
             />
           </>
         );
@@ -205,7 +209,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
         setTitle("Sticker Preview");
         setBody(
           <>
-            <div dangerouslySetInnerHTML={{ __html: labelPrint }} />
+            <img src={`data:image/png;base64,${labelPrint}`} />
           </>
         );
         setFooter(
