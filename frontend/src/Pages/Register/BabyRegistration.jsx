@@ -1,7 +1,7 @@
 import { React, useEffect } from 'react';
+import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../index.css';
-import Form from 'react-bootstrap/Form';
 
 export { BabyRegistration };
 

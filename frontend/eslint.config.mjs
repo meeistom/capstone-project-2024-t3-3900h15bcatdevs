@@ -12,7 +12,9 @@ export default [
       'react/prop-types': 'off'
     }
   },
-  { files: ['**/*.{js,mjs,cjs,jsx}'] },
+  {
+    files: ['**/*.{js,mjs,cjs,jsx}']
+  },
   { languageOptions: { globals: globals.browser } },
   {
     files: ['**/*.{cy.js,test.js}'],
