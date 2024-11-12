@@ -2,25 +2,42 @@ import React from "react";
 
 export { ViewInfoForm };
 
-function ViewInfoForm({ info, isEditing, onChange }) {
-  const express_time = new Date(info.express_time * 1000).toISOString().slice(0, 16);
-  const expiration_time = new Date(info.expiration_time * 1000).toISOString().slice(0, 16);
-  const create_time = new Date(info.created_at * 1000).toISOString().slice(0, 16);
+function ViewInfoForm({
+  babyMRN,
+  babyName,
+  created,
+  expressDate,
+  setExpressDate,
+  expiryDate,
+  setExpiryDate,
+  notes,
+  setNotes,
+  milkType,
+  setMilkType,
+  storageType,
+  setStorageType,
+  storageLocation,
+  setStorageLocation,
+  additive,
+  setAdditive,
+  isEditing,
+  uid,
+}) {
   return (
     <>
       <div className="container text-center">
-        <span>Created at {create_time}</span>
+        <span>Created at {created}</span>
         <div className="container text-start">
           <h5 className="mt-4 mb-2">Patient Details</h5>
           <div className="row row-cols-2 info-section">
             <div className="col">Baby name:</div>
             <div className="col">
-              {info.baby_name}
+              {babyName}
               <br />
             </div>
             <div className="col">Baby MRN:</div>
             <div className="col">
-              {info.baby_mrn}
+              {babyMRN}
               <br />
             </div>
           </div>
@@ -29,37 +46,36 @@ function ViewInfoForm({ info, isEditing, onChange }) {
             <div className="col">Expressed time</div>
             <div>
               <input
+                readOnly={!isEditing}
+                value={expressDate}
+                onChange={(e) => setExpressDate(e.target.value)}
                 className="form-control"
                 type="datetime-local"
-                readOnly={!isEditing}
-                value={express_time}
-                onChange={(e) => onChange({ ...info, express_time: e.target.value })}
               />
             </div>
             <div className="col">Expiration time</div>
             <div>
               <input
+                readOnly={!isEditing}
+                value={expiryDate}
+                onChange={(e) => setExpiryDate(e.target.value)}
                 className="form-control"
                 type="datetime-local"
-                readOnly={!isEditing}
-                value={expiration_time}
-                onChange={(e) => onChange({ ...info, expiration_time: e.target.value })}
               />
             </div>
           </div>
           <div className="row row-cols-2 info-section">
             <div>
-              <label htmlFor={`${info.uid}-milk-type`} className="form-label">
+              <label htmlFor={`${uid}-milk-type`} className="form-label">
                 Milk Type
               </label>
             </div>
             <div>
               <select
-                id={`${info.uid}-milk-type`}
                 disabled={!isEditing}
                 className="form-select form-select-sm"
-                value={info.milk_type}
-                onChange={(e) => onChange({ ...info, milk_type: e.target.value })}
+                value={milkType}
+                onChange={(e) => setMilkType(e.target.value)}
               >
                 <option value="ehm">EHM</option>
                 <option value="pdhm">PDHM</option>
@@ -69,16 +85,16 @@ function ViewInfoForm({ info, isEditing, onChange }) {
               </select>
             </div>
             <div>
-              <label htmlFor={`${info.uid}-additive`} className="form-label">
+              <label htmlFor={`${uid}-additive`} className="form-label">
                 Additive Type
               </label>
             </div>
             <div>
               <select
-                id={`${info.uid}-additive`}
-                disabled
+                disabled={!isEditing}
                 className="form-select form-select-sm"
-                defaultValue={`${info.additives}`}
+                value={additive}
+                onChange={(e) => setAdditive(e.target.value)}
               >
                 <option value="none">None</option>
                 <option value="humavant6">Humavant+6</option>
@@ -88,39 +104,34 @@ function ViewInfoForm({ info, isEditing, onChange }) {
                 <option value="beneprotein">Beneprotein</option>
               </select>
             </div>
-          </div>
-          <div>
             <div>
-              <label htmlFor={`${info.uid}-storage-type`} className="form-label">
+              <label htmlFor={`${uid}-storage-type`} className="form-label">
                 Storage Type
               </label>
             </div>
             <div>
               <select
-                id={`${info.uid}-storage-type`}
                 disabled={!isEditing}
                 className="form-select form-select-sm"
-                value={info.storage_type}
-                onChange={(e) => onChange({ ...info, storage_type: e.target.value })}
+                value={storageType}
+                onChange={(e) => setStorageType(e.target.value)}
               >
                 <option value="fridge">Fridge</option>
                 <option value="fresh">Fresh</option>
                 <option value="defrost">Defrost</option>
               </select>
             </div>
-          </div>
-          <div className="row row-cols-2 info-section">
             <div className="col">Storage Location</div>
             <div className="col">
               {isEditing ? (
                 <input
                   type="text"
-                  value={info.storage_location}
-                  onChange={(e) => onChange({ ...info, storage_location: e.target.value })}
+                  value={storageLocation}
                   className="form-control"
+                  onChange={(e) => setStorageLocation(e.target.value)}
                 />
               ) : (
-                <>{info.storage_location}</>
+                <>{storageLocation}</>
               )}
             </div>
           </div>
@@ -129,11 +140,10 @@ function ViewInfoForm({ info, isEditing, onChange }) {
           </label>
           <textarea
             className="form-control"
-            id="milk-notes"
             rows="3"
-            value={info.extra_notes}
+            value={notes}
             disabled={!isEditing}
-            onChange={(e) => onChange({ ...info, extra_notes: e.target.value })}
+            onChange={(e) => setNotes(e.target.value)}
           ></textarea>
         </div>
       </div>
