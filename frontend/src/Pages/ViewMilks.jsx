@@ -6,12 +6,11 @@ import { Navibar } from "../Components/Navibar";
 import { AddMilkModal } from "../Components/AddMilkModal";
 import { Table } from "../Components/Table";
 import { DeleteMilkModal } from "../Components/DeleteMilkModal";
-import { Notifications } from "../Components/Notifications";
 import { URL } from "../constants";
 
-export { Home };
+export { ViewMilks };
 
-function Home() {
+function ViewMilks() {
   const [openModal, setOpenModal] = useState(false);
   const [data, setData] = useState(null);
   const [displayData, setDisplayData] = useState(null);
@@ -19,27 +18,17 @@ function Home() {
   const [error, setError] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleteEntry, setDeleteEntry] = useState(null);
-  const [notificationData, setNotificationData] = useState(null);
-
-  const fetchNotifications = async () => {
-    try {
-      const response = await axios.get(`${URL}/notifications`);
-      setNotificationData(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${URL}/home1`);
+      const response = await fetch(`${URL}/home`);
       if (!response.ok) {
         throw new Error("Having errors fetching milk details");
       }
       const result = await response.json();
       setData(result);
       setDisplayData(result);
-      localStorage.setItem("myBabyData", JSON.stringify(result));
+      localStorage.setItem("myMilkData", JSON.stringify(result));
     } catch (error) {
       setError(error);
     } finally {
@@ -48,14 +37,13 @@ function Home() {
   };
 
   useEffect(() => {
-    const cachedData = localStorage.getItem("myBabyData");
+    const cachedData = localStorage.getItem("myMilkData");
     if (cachedData) {
       setData(JSON.parse(cachedData));
       setDisplayData(JSON.parse(cachedData));
       setLoading(false);
     }
     fetchData();
-    fetchNotifications();
   }, []);
 
   const handleRefreshAfterAdd = (newMilk) => {
@@ -98,18 +86,18 @@ function Home() {
 
   return (
     <>
-      <section id="Home">
+      <section id="view_milks">
         <Navibar />
         <div className="home-container">
           <div className="page-container">
-            <h1 className="page-title">List of Patients</h1>
-            <p>Total Number of Patients: {data.length}</p>
+            <h1 className="page-title">List of Milk Entries</h1>
+            <p>Total Number of Milk Entries: {data.length}</p>
             <Table
               deleteMilk={handleConfirmDelete}
               displayData={displayData}
               setDisplayData={setDisplayData}
               setOpenModal={setOpenModal}
-              viewType="viewBaby"
+              viewType="viewMilk"
             />
           </div>
           {openModal && (
@@ -125,12 +113,6 @@ function Home() {
               closeModal={setConfirmDelete}
               deleteMilk={handleDeleteMilk}
             />
-          )}
-          {notificationData && (
-            <Notifications
-              notifData={notificationData}
-              confirmDelete={handleConfirmDelete}
-            ></Notifications>
           )}
         </div>
       </section>

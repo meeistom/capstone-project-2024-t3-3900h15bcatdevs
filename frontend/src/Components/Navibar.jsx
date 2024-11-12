@@ -8,9 +8,9 @@ import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { faHouse} from "@fortawesome/free-solid-svg-icons";
 import { faPersonDress } from "@fortawesome/free-solid-svg-icons";
-import { faBaby } from "@fortawesome/free-solid-svg-icons";
+import { faPrescriptionBottle } from "@fortawesome/free-solid-svg-icons";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
@@ -30,8 +30,8 @@ function Navibar() {
     navigate("/view_mothers");
   };
 
-  const goToBabies = () => {
-    navigate("/view_babies");
+  const goToMilks = () => {
+    navigate("/view_milks");
   };
 
   const goToRegister = () => {
@@ -60,8 +60,8 @@ function Navibar() {
             <Nav.Link data-testid="nav-mothers" onClick={goToMothers}>
               <FontAwesomeIcon icon={faPersonDress} /> View Mothers
             </Nav.Link>
-            <Nav.Link data-testid="nav-babies" onClick={goToBabies}>
-              <FontAwesomeIcon icon={faBaby} /> View Babies
+            <Nav.Link data-testid="nav-milks" onClick={goToMilks}>
+              <FontAwesomeIcon icon={faPrescriptionBottle} /> View Milks
             </Nav.Link>
             <Nav.Link data-testid="nav-register" onClick={goToRegister}>
               <FontAwesomeIcon icon={faPaperPlane} /> Register

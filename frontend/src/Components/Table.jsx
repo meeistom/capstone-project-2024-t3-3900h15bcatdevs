@@ -117,35 +117,39 @@ function Table({
 
   function babyRow (babyData, index) {
     const [expanded, setExpanded] = React.useState(false);
-    
+
     return (
       <>
-        {columns.map((column) => (
-          column.key === "mrn" ? (
-            <td key={column.key}>
-                <button 
-                  type="button" 
-                  className="btn btn-sm expand-btn" 
-                  onClick={() => setExpanded(!expanded)}
-                  >
-                    {expanded ? (
-                      <FontAwesomeIcon icon={faCaretDown} />
-                    ) : (
-                      <FontAwesomeIcon icon={faCaretRight} />
-                    )}
-                </button>
-              {babyData[column.key]}
-            </td>
-          ) : viewType === "viewBaby" && column.key === "associated_milks" ? (
-            <td key={column.key}>
-              {(babyData[column.key]).length}
-            </td>
-          ) : (
-            <td key={column.key}>
-              {babyData[column.key]}
-            </td>
-          )
-        ))}
+        <tr
+          className={index % 2 === 0 ? "even-row" : "odd-row"}
+        >
+          {columns.map((column) => (
+            column.key === "mrn" ? (
+              <td key={column.key}>
+                  <button 
+                    type="button" 
+                    className="btn btn-sm expand-btn" 
+                    onClick={() => setExpanded(!expanded)}
+                    >
+                      {expanded ? (
+                        <FontAwesomeIcon icon={faCaretDown} />
+                      ) : (
+                        <FontAwesomeIcon icon={faCaretRight} />
+                      )}
+                  </button>
+                {babyData[column.key]}
+              </td>
+            ) : column.key === "associated_milks" ? (
+              <td key={column.key}>
+                {(babyData[column.key]).length}
+              </td>
+            ) : (
+              <td key={column.key}>
+                {babyData[column.key]}
+              </td>
+            )
+          ))}
+        </tr>
 
         {expanded && (
           <tr className={index % 2 === 0 ? "even-row" : "odd-row"} 
@@ -176,10 +180,23 @@ function Table({
               </thead>
               <tbody>
                 {associated_milks.map((item, index) => (
-                  <tr>
+                  <tr onClick={() => handlePopUp(item)}>
                     {milk_columns.map((column) => (
                       <td key={column.key}>
                           {item[column.key]}
+                          {/* {column.key === "storage_type" && (
+                            <Button
+                              variant="link"
+                              id={`dlt-${item.uid}`}
+                              className="dlt-btn"
+                              style={{ marginLeft: "50px"}}
+                            >
+                              <FontAwesomeIcon
+                                onClick={() => deleteMilk(item)}
+                                icon={faTrash}
+                              />
+                            </Button>
+                          )} */}
                       </td>
                     ))}
                   </tr>
@@ -231,7 +248,7 @@ function Table({
                       <FontAwesomeIcon icon={faArrowsRotate} />
                     </button>
                     </div>
-                    {viewType === "viewMilk" && (
+                    {(viewType === "viewMilk" || viewType === "viewBaby") && (
                       <Button id="scan-btn" onClick={() => setOpenModal(true)}> 
                         <FontAwesomeIcon icon={faPlus} /> New Milk Entry
                       </Button>
@@ -259,54 +276,45 @@ function Table({
         <tbody>
           {displayData.length > 0 ? (
             displayData.map((item, index) => (
-              // make the entry colours alternate
               <>
-              <tr
-                key={item.uid || item.mrn || index}
-                className={index % 2 === 0 ? "even-row" : "odd-row"}
-              >
-                {viewType === "viewBaby" ? (
-                  <>
-                    {babyRow(item, index)}
-                  </>
-                ) : (
-                  columns.map((column) => (
-                    // only milk entries will activate a pop up for details when clicked
-                    viewType === "viewMilk" ? ( 
-                      <td onClick={() => handlePopUp(item)} key={column.key}>
-                        {item[column.key]}
-                      </td>
-                    ) : (
-                      <td key={column.key}>{item[column.key]}</td>
-                    )
-                  ))
-                )}
-                {viewType === "viewMilk" && ( // only milk entries are deletable
-                  <td key="delete-button">
-                    <Button
-                      variant="link"
-                      id={`dlt-${item.uid}`}
-                      className="dlt-btn"
-                    >
-                      <FontAwesomeIcon
-                        onClick={() => deleteMilk(item)}
-                        icon={faTrash}
-                      />
-                    </Button>
-                  </td>
-                )}
-                {/* {viewType === "viewMother" && (console.log(item))} */}
-              </tr>
-              {/* {viewType === "viewBaby" && (
-                <tr className={index % 2 === 0 ? "even-row" : "odd-row"} 
-                style={{ outline: "1px solid #E9EAEC"}}
+              {viewType === "viewBaby" ? (
+                <>
+                  {babyRow(item, index)}
+                </>
+              ) : (
+                // make the entry colours alternate
+                <>
+                <tr
+                  key={item.uid || item.mrn || index}
+                  className={index % 2 === 0 ? "even-row" : "odd-row"}
                 >
-                  <td colSpan={4}>
-                    {milkSubTable(item.associated_milks)}
-                  </td>
-                  <td></td>
+                  {columns.map((column) => (
+                      // only milk entries will activate a pop up when clicked
+                      viewType === "viewMilk" ? ( 
+                        <td onClick={() => handlePopUp(item)} key={column.key}>
+                          {item[column.key]}
+                        </td>
+                      ) : (
+                        <td key={column.key}>{item[column.key]}</td>
+                      )
+                    ))}
+                  {viewType === "viewMilk" && ( // only milk entries are deletable
+                    <td key="delete-button">
+                      <Button
+                        variant="link"
+                        id={`dlt-${item.uid}`}
+                        className="dlt-btn"
+                      >
+                        <FontAwesomeIcon
+                          onClick={() => deleteMilk(item)}
+                          icon={faTrash}
+                        />
+                      </Button>
+                    </td>
+                  )}
                 </tr>
-              )} */}
+                </>
+              )}
             </>
             ))
           ) : (

@@ -15,8 +15,8 @@ describe("navigate pages flow", () => {
   });
 
   it("should navigate to the view babies page successfully", () => {
-    cy.get('[data-testid="nav-babies"]').click();
-    cy.url().should("include", "/view_babies");
+    cy.get('[data-testid="nav-milks"]').click();
+    cy.url().should("include", "/view_milks");
   });
 
   it("should navigate to the register page successfully", () => {
