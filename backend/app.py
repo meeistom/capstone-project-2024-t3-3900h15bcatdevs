@@ -303,7 +303,7 @@ def get_milk_label_preview():
     )
 
 # Updates mother, baby, milk entry
-@app.route('/update', methods=['POST'], strict_slashes=False)
+@app.route('/edit', methods=['POST'], strict_slashes=False)
 def update_entry():
     mother_mrn = request.args.get('mother_mrn')
     baby_mrn = request.args.get('baby_mrn')
