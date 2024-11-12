@@ -3,7 +3,6 @@ from labels.barcodes.barcodes import generate_barcode, scale_data_matrix
 from datetime import datetime
 import imgkit
 import base64
-from io import BytesIO
 
 # Paths
 # required_info_path = './labels/assets/template/required_info.txt'
@@ -12,6 +11,14 @@ optional_info_path = './labels/assets/template/optional_info.txt'
 font_path = './labels/assets/cour.ttf'
 
 def get_milk_label(info_tuple: tuple) -> str:
+    '''
+    Get the milk label as a Base64 encoded string.
+    
+    Args:
+        info_tuple (tuple): A tuple containing the information to be printed on the label
+        
+    Returns:
+        (str): The Base64 encoded label.'''
     uid, bo_name, sure_name, baby_mrn, milk_type, volume, prepared_date, expiry_date, additives = info_tuple
 
     optional = convert_info_to_html(fill_info(optional_info_path, {

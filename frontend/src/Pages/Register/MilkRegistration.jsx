@@ -19,6 +19,8 @@ function MilkRegistration({
   setMilkType,
   storageType,
   setStorageType,
+  additive,
+  setAdditive,
 }) {
   return (
     <>
@@ -42,9 +44,28 @@ function MilkRegistration({
                   >
                     <option value="ehm">HII</option>
                     <option value="pdhm">PDHM</option>
-                    <option value="humavant6">Humavant 6</option>
-                    <option value="Cream">Cream</option>
-                    <option value="HMF">HMF</option>
+                    <option value="formula">Formula</option>
+                  </Form.Select>
+                </div>
+                <div className="col">
+                  <Form.Label
+                    htmlFor="additive-type"
+                    className="register-form-label"
+                  >
+                    Additive Type
+                  </Form.Label>
+                  <Form.Select
+                    id="additive-type"
+                    className="form-select form-select-sm"
+                    value={additive}
+                    onChange={(e) => setAdditive(e.target.value)}
+                  >
+                    <option value="none">None</option>
+                    <option value="humavant6">Humavant+6</option>
+                    <option value="prenanfm85">Pre Nan FM85</option>
+                    <option value="nanoptipropowder">Nan Optipro Powder</option>
+                    <option value="neocate powder">Neocate Powder</option>
+                    <option value="beneprotein">Beneprotein</option>
                   </Form.Select>
                 </div>
                 <div className="col">
@@ -62,6 +83,7 @@ function MilkRegistration({
                     <option value="defrost">Defrost</option>
                   </Form.Select>
                 </div>
+                <div className="col"></div>
                 <div className="col">
                   <Form.Label htmlFor="express-date" className="register-form-label">
                     Expressed Date*

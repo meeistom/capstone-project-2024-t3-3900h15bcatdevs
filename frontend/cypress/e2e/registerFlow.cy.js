@@ -170,7 +170,7 @@ describe("register flow", () => {
     cy.get("#next-btn").click();
     cy.get("#next-btn").click();
 
-    cy.get(".body").find("svg").should("exist");
+    cy.get(".body").find("img").should("exist");
   });
 
   it("should be able to print the generated label", () => {

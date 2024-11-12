@@ -17,6 +17,7 @@ function ConfirmDetails({
   notes,
   milkType,
   storageType,
+  additive,
   checked,
 }) {
   return (
@@ -55,6 +56,7 @@ function ConfirmDetails({
               </div>
               <div className="bottom-layer">
                 <div>Milk Type: {milkType.toUpperCase()}</div>
+                <div>Additive Type: {additive.toUpperCase()}</div>
                 <div>Storage Type: {storageType.toUpperCase()}</div>
                 {notes !== "" && <div className="notes">Notes: {notes}</div>}
               </div>
