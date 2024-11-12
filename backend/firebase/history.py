@@ -41,7 +41,7 @@ def log_event(firestore_client, event_type: str, data: dict) -> bool:
     if event_type == "Baby Registered":
         baby_name = f"{data['first_name']} {data['last_name']}"
     elif event_type == "Milk Expiration":
-        baby_name = get_full_name(firestore_client, mrn=data["baby_mrn"])
+        _, baby_name = get_full_name(firestore_client, mrn=data["baby_mrn"])
     elif event_type in ["Milk Added", "Milk Deleted"]:
         baby_name = data["baby_name"]
 

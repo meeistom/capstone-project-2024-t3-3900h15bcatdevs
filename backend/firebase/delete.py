@@ -2,6 +2,7 @@ from firebase.error_check import *
 from firebase.history import log_event
 from typing import Tuple
 from firebase.retrieve import get_full_name
+from firebase_admin import firestore
 
 def delete_document(
     firestore_client,
@@ -44,7 +45,7 @@ def delete_document(
             # Remove the milk entry from the mother
             mother_doc = firestore_client.collection("mothers").document(document["mother_mrn"])
             mother_doc.update({
-                "milk_entries": firestore_client.ArrayRemove([document["uid"]])
+                "milk_entries": firestore.ArrayRemove([document["uid"]])
             })
 
             # Log milk deleted event if the document was a milk entry

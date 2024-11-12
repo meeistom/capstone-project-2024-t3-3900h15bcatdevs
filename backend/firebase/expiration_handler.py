@@ -41,6 +41,6 @@ def check_milk_thread_function(firestore_client):
             milk_doc = milk_entries_collection.document(milk_entry.id)
             milk_doc.update({"expired": True})
 
-        print(f"(MILK EXPIRATION CHECKER) Milk checks finished!")
+        print(f"(MILK EXPIRATION CHECKER) Milk checks finished!", flush=True)
 
         time.sleep(CHECK_INTERVAL)
