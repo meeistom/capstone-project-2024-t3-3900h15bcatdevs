@@ -1,5 +1,5 @@
 from firebase.error_check import *
-from firebase.history import log_milk_deleted_event
+from firebase.history import log_event
 from typing import Tuple
 from firebase.retrieve import get_full_name
 
@@ -52,7 +52,7 @@ def delete_document(
             _, baby_name = get_full_name(firestore_client, document["baby_mrn"])
             document['mother_name'] = mother_name
             document['baby_name'] = baby_name
-            event_success = log_milk_deleted_event(firestore_client, data=document)
+            event_success = log_event(firestore_client, event_type="Milk Deleted", data=document)
             if not event_success:
                 print("(HISTORY) Error logging Milk Added event")
     

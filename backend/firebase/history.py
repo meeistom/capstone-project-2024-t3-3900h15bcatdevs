@@ -1,6 +1,6 @@
 from firebase.error_check import *
 from firebase_admin import firestore
-from firebase.retrieve import get_mother_name
+from firebase.retrieve import get_mother_name, get_full_name
 
 # event_object = {
 #     "type": str,
@@ -10,9 +10,14 @@ from firebase.retrieve import get_mother_name
 # }
 
 
-def log_milk_added_event(firestore_client, data: dict) -> bool:
+def log_event(firestore_client, event_type: str, data: dict) -> bool:
     """
-    Formats and logs an event to the database: Milk Added.
+    Formats and logs event of the following types to the database:
+    - Milk Added
+    - Milk Expiration
+    - Milk Deleted
+    - Baby Registered
+    - Verification
 
     Args:
         firestore_client: Firestore client
@@ -21,120 +26,54 @@ def log_milk_added_event(firestore_client, data: dict) -> bool:
     Returns:
         True if successful, False otherwise
     """
-    mother_name = data["mother_name"]
-    baby_name = data["baby_name"]
-    milk_added_event_data = {
-        "type": "Milk Added",
-        "message": f"Milk from Mother {mother_name} for Baby {baby_name} added to MilkGuard",
-        "details": data,
-        "timestamp": int(datetime.now().timestamp()),
-    }
+    if event_type not in event_types:
+        print("(HISTORY) Invalid event type received")
+        return False
 
-    return log_event(firestore_client, milk_added_event_data)
+    # Get mother name
+    if event_type == "Milk Expiration":
+        mother_name = get_mother_name(
+            firestore_client, baby_mrn=data["baby_mrn"])
+    elif event_type in ["Milk Added", "Milk Deleted", "Baby Registered"]:
+        mother_name = data["mother_name"]
 
-def log_milk_deleted_event(firestore_client, data: dict) -> bool:
-    """
-    Formats and logs an event to the database: Milk Deleted.
+    # Baby name
+    if event_type == "Baby Registered":
+        baby_name = f"{data['first_name']} {data['last_name']}"
+    elif event_type == "Milk Expiration":
+        baby_name = get_full_name(firestore_client, mrn=data["baby_mrn"])
+    elif event_type in ["Milk Added", "Milk Deleted"]:
+        baby_name = data["baby_name"]
 
-    Args:
-        firestore_client: Firestore client
-        data: Json data containing data to be logged
+    # Build message
+    if event_type == "Verification":
+        if "error" in data:
+            message = data["error"]
+        elif not data["match"]:
+            message = "FAIL - Mismatched Milk UID & Baby MRN scans"
+        elif data["expired"]:
+            message = "FAIL - Milk Expired"  # Milk and baby match
+        else:
+            message = "SUCCESS - Milk & Baby Match"
+    elif event_type in ["Milk Added", "Milk Deleted"]:
+        message = f"Milk from Mother {mother_name} for Baby {baby_name} {'added to' if event_type == 'Milk Added' else 'deleted from '} MilkGuard"
+    elif event_type == "Milk Expiration":
+        message = f"Milk {data['uid']} from Mother {mother_name} for Baby {baby_name} expired"
+    elif event_type == "Baby Registered":
+        message = f"Baby {baby_name} of Mother {mother_name} registered"
 
-    Returns:
-        True if successful, False otherwise
-    """
-    mother_name = data["mother_name"]
-    baby_name = data["baby_name"]
-    milk_deleted_event_data = {
-        "type": "Milk Deleted",
-        "message": f"Milk from Mother {mother_name} for Baby {baby_name} deleted from MilkGuard",
-        "details": data,
-        "timestamp": int(datetime.now().timestamp()),
-    }
-    return log_event(firestore_client, milk_deleted_event_data)
-
-
-def log_milk_expiration_event(firestore_client, data: dict) -> Tuple[bool, str]:
-    """
-    Formats and logs an event to the database: Milk Expiration.
-
-    Args:
-        firestore_client: Firestore client
-        data: Json data containing data to be logged
-
-    Returns:
-        True if successful, False otherwise
-    """
-    mother_name = get_mother_name(firestore_client, data["baby_mrn"])
-    baby_document = (
-        firestore_client.collection("babies").document(data["baby_mrn"]).get().to_dict()
-    )
-    baby_name = baby_document["first_name"] + " " + baby_document["last_name"]
-    milk_expiration_event_data = {
-        "type": "Milk Expiration",
-        "message": f"Milk {data['uid']} from Mother {mother_name} for Baby {baby_name} expired.",
-        "details": data,
-        "timestamp": int(datetime.now().timestamp()),
-    }
-    return log_event(firestore_client, milk_expiration_event_data)
-
-
-def log_verification_event(firestore_client, data: dict) -> bool:
-    """
-    Formats and logs an event to the database: Verification.
-
-    Args:
-        firestore_client: Firestore client
-        data: Json data containing data to be logged
-
-    Returns:
-        True if successful, False otherwise
-    """
-    if "error" in data:
-        message = data["error"]
-    elif not data["match"]:
-        message = "FAIL - Mismatched Milk UID & Baby MRN scans"
-    elif data["expired"]:
-        message = "FAIL - Milk Expired"  # Milk and baby match
-    else:
-        message = "SUCCESS - Milk & Baby Match"
-
-    verification_event_data = {
-        "type": "Verification",
+    # Build event data
+    event_data = {
+        "type": event_type,
         "message": message,
         "details": data,
         "timestamp": int(datetime.now().timestamp()),
     }
 
-    return log_event(firestore_client, verification_event_data)
+    return log_event_to_firebase(firestore_client, event_data=event_data)
 
 
-def log_baby_registered_event(firestore_client, data: dict) -> bool:
-    """
-    Formats and logs an event to the database: Baby Registered.
-
-    Args:
-        firestore_client: Firestore client
-        data: Json data containing data to be logged
-
-    Returns:
-        True if successful, False otherwise
-    """
-    baby_name = f"{data['first_name']} {data['last_name']}"
-    mother_name = data["mother_name"]
-    message = f"Baby {baby_name} ({data['mrn']}) of Mother {mother_name} registered"
-
-    baby_added_event_data = {
-        "type": "Baby Registered",
-        "message": message,
-        "details": data,
-        "timestamp": int(datetime.now().timestamp()),
-    }
-
-    return log_event(firestore_client, baby_added_event_data)
-
-
-def log_event(firestore_client, event_data: dict) -> bool:
+def log_event_to_firebase(firestore_client, event_data: dict) -> bool:
     """
     Generic adds event object to history database collection
 
@@ -149,7 +88,6 @@ def log_event(firestore_client, event_data: dict) -> bool:
     if not is_valid_event_data(event_data):
         print("(HISTORY) Invalid event data")
         return False
-
     try:
         # Get event id
         stats_collection = firestore_client.collection("stats")
@@ -165,7 +103,7 @@ def log_event(firestore_client, event_data: dict) -> bool:
         # Add event to history collection
         history_collection = firestore_client.collection("history")
         history_collection.document(new_event_id).set(event_data)
-        
+
         # Increment counter on database
         stats_collection.document("counters").update(
             {"event_counter": firestore.Increment(1)}

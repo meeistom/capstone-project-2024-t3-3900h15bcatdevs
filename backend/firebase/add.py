@@ -3,7 +3,7 @@ from firebase.retrieve import *
 from typing import Tuple
 from firebase_admin import firestore
 from firebase.milk_uid_generator import get_new_milk_uid
-from firebase.history import log_baby_registered_event, log_milk_added_event
+from firebase.history import log_event
 from datetime import datetime
 
 
@@ -83,7 +83,7 @@ def add_baby(firestore_client, baby_json_data: dict) -> Tuple[bool, str]:
             + " "
             + mother_document["last_name"]
         )
-        event_err = log_baby_registered_event(firestore_client, new_baby_entry)
+        event_err = log_event(firestore_client, event_type="Baby Registered", data=new_baby_entry)
         if not event_err:
             print("(HISTORY) Error logging Baby Registered event")
 
@@ -174,7 +174,7 @@ def add_milk_entry(firestore_client, milk_entry_json_data: dict) -> Tuple[bool, 
     )
 
     # Log event to history
-    event_err = log_milk_added_event(firestore_client, home_page_milk_entry)
+    event_err = log_event(firestore_client, event_type="Milk Added", data=home_page_milk_entry)
     if not event_err:
         print("(HISTORY) Error logging Milk Added event")
 

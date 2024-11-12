@@ -1,5 +1,5 @@
 from firebase.error_check import *
-from firebase.history import log_verification_event
+from firebase.history import log_event
 from firebase.retrieve import get_full_name
 
 def verify(firestore_client, barcode: str) -> Tuple[bool, dict]:
@@ -69,7 +69,7 @@ def verify_feed(firestore_client, milk_uid: str, baby_mrn: str) -> Tuple[bool, d
         ret_json['milk_owner_baby_name'] = mismatch_baby_name
 
     # Log verification event
-    event_err = log_verification_event(firestore_client, ret_json)
+    event_err = log_event(firestore_client, event_type="Verification", data=ret_json)
     if not event_err:
         print("(HISTORY) Error logging Verification event")
 

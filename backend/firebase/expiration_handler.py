@@ -1,5 +1,5 @@
 from firebase.error_check import *
-from firebase.history import log_milk_expiration_event
+from firebase.history import log_event
 import time
 
 
@@ -27,7 +27,7 @@ def check_milk_thread_function(firestore_client):
             # Milk has just expired, but not yet flagged as expired, then its just expired
 
             # Log the milk thing event
-            event_err = log_milk_expiration_event(firestore_client, milk_entry_data)
+            event_err = log_event(firestore_client, event_type="Milk Expiration", data=milk_entry_data)
             if not event_err:
                 print("(MILK EXPIRATION CHECKER) Error logging event", flush=True)
 
