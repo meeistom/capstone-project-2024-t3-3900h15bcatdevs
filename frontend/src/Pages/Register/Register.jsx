@@ -161,6 +161,7 @@ function Register() {
     notes,
     milkType,
     storageType,
+    additive,
   ];
 
   useEffect(() => {
@@ -168,7 +169,6 @@ function Register() {
       try {
         if (checked.momPage) await submitMomInfo();
         if (checked.babyPage) await submitBabyInfo();
-        // if (checked.milkPage) await submitMilkInfo();
       } catch (error) {
         console.error("Error during submission:", error);
       }
@@ -262,6 +262,7 @@ function Register() {
             notes={notes}
             milkType={milkType}
             storageType={storageType}
+            additive={additive}
             checked={checked}
           />
         );
