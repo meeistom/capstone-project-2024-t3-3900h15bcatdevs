@@ -27,7 +27,8 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
       { label: "MRN", key: "mrn" },
       { label: "First Name", key: "first_name" },
       { label: "Last Name", key: "last_name"},
-      { label: "Mother", key: "mother_mrn" }
+      { label: "Mother", key: "mother_mrn" },
+      { label: "Number of Milks", key: "associated_milks"}
     ],
     "viewLog": [
       { label: "Log ID", key: "logId" },
@@ -47,6 +48,7 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
     setOpenEntryModal(true);
     console.log(entry);
   }
+  
   const handleClosePopUp = () => {
     setInfo(null);
     setOpenEntryModal(false);
@@ -118,7 +120,7 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
               ) : 
               column.key === "mrn" && viewType === "viewBaby" ? (
                 <th style={{paddingLeft: "35px"}} key={column.key}>{column.label}</th>
-              ) : (
+              ) :  (
                 <th key={column.key}>{column.label}</th>
               )
             ))}
@@ -135,20 +137,25 @@ function Table({ deleteMilk, data, setOpenModal, viewType }) {
                     <td onClick={() => handlePopUp(item)} key={column.key}>
                       {item[column.key]}
                     </td>
-                  ) : (
+                  ) : viewType === "viewBaby" && column.key === "mrn" ? (
                     <td key={column.key}>
-                      {viewType === "viewBaby" && column.key === "mrn" && (
                         <button 
                           type="button" 
                           className="btn btn-sm expand-btn" 
-                          onClick={() => expandMilks(item[mrn])}
-                        >
+                          onClick={() => expandMilks()}>
                           <FontAwesomeIcon icon={faCaretRight} />
                         </button>
-                      )}
                       {item[column.key]}
                     </td>
-                  )
+                  ) : viewType === "viewBaby" && column.key === "associated_milks" ? (
+                    <td key={column.key}>
+                      {(item[column.key]).length}
+                    </td>
+                  ) : (
+                    <td key={column.key}>
+                      {item[column.key]}
+                    </td>
+                  ) 
                 ))}
                 {viewType === "viewMilk" && ( // only milk entries are deletable
                   <td key="delete-button">

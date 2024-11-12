@@ -13,7 +13,7 @@ function ViewBabies() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${URL}/babies`);
+      const response = await fetch(`${URL}/home1`);
       if (!response.ok) {
         throw new Error('Having errors fetching baby details');
       }
