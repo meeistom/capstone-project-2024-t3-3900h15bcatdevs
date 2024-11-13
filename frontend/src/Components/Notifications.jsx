@@ -35,8 +35,10 @@ function Notifications({ notifData, confirmDelete }) {
 
   return (
     <div className="notifications-outer-container">
-      <div className="title-box">Notifications</div>
-      <div className="subtitle-2">Total Notifications: {notifData.length}</div>
+      <h1 className="m-0">Notifications</h1>
+      <div className="subtitle-2">
+        <p className="py-2 fs-5 m-0"> Total Notifications: {notifData.length}</p>
+      </div>
       <div className="notifications-inner-container">
         {notifData.map((notif) => (
           <div className="notification" key={`${notif.uid}-notif-id`}>
