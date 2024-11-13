@@ -13,12 +13,7 @@ function AddMilkForm({
   setExpressDate,
   expiryDate,
   setExpiryDate,
-  notes,
   setNotes,
-  milkType,
-  setMilkType,
-  storageType,
-  setStorageType,
   setAdditive,
 }) {
   return (
@@ -38,7 +33,7 @@ function AddMilkForm({
                 <Form.Label htmlFor="milk-type" className="form-label">
                   Milk Type*
                 </Form.Label>
-                <Form.Select id="milk-type" className="form-select form-select-sm" value={milkType} onChange={(e) => setMilkType(e.target.value)}>
+                <Form.Select id="milk-type" className="form-select form-select-sm" defaultValue="ehm">
                   <option value="ehm">EHM</option>
                   <option value="pdhm">PDHM</option>
                   <option value="formula">Formula</option>
@@ -68,10 +63,10 @@ function AddMilkForm({
                 <Form.Label htmlFor="milk-storage" className="form-label">
                   Storage Type*
                 </Form.Label>
-                <Form.Select id="milk-storage" className="form-select form-select-sm" value={storageType} onChange={(e) => {setStorageType(e.target.value)}}>
+                <Form.Select id="milk-storage" className="form-select form-select-sm" defaultValue="option-fridge">
+                  <option value="fridge">Fridge</option>
                   <option value="fresh">Fresh</option>
-                  <option value="frozen">Freezer</option>
-                  <option value="defrosted">Defrosted</option>
+                  <option value="defrost">Defrost</option>
                 </Form.Select>
               </div>
               <div className="col"></div>
@@ -114,7 +109,6 @@ function AddMilkForm({
             className="form-control"
             id="milk-notes"
             rows="3"
-            placeholder={notes}
             onChange={(e) => setNotes(e.target.value)}
           ></textarea>
         </div>

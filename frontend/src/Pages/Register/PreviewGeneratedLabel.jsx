@@ -31,14 +31,15 @@ function PreviewGeneratedLabel({ milkInfo, milkChecked, setLabelPrint }) {
   }, [uid]);
 
   const generateLabel = async () => {
-    console.log(uid);
-
-    const url = `${URL}/preview_milk_label?uid=${uid}`;
+    const url = `${URL}/preview_milk_label`;
     try {
-      await axios.get(url).then((res) => {
-        setLabel(`data:image/png;base64,${res.data}`);
-        setLabelPrint(res.data);
+      const response = await axios.get(url, {
+        params: {
+          milk: JSON.stringify(milkInfo),
+        },
       });
+      setLabel(`data:image/png;base64,${response.data}`);
+      setLabelPrint(response.data);
     } catch (e) {
       console.error('Error generating label', e);
     }

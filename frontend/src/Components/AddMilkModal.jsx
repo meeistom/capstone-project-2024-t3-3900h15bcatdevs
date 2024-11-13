@@ -90,21 +90,32 @@ function AddMilkModal({ addMilk, closeModal, version }) {
         addMilk(response.data);
         return response.data.uid;
       })
-      .then(async (uid) => {
-        await generateLabel(uid);
-      })
       .catch((error) => {
         console.log('Error posting bottle details:', error);
         alert('Failed to add bottle details. Please try again.');
       });
   };
 
-  const generateLabel = async (uid) => {
-    const url = `${URL}/preview_milk_label?uid=${uid}`;
+  const generateLabel = async () => {
+    const url = `${URL}/preview_milk_label`;
+    const milk = {
+      milk_type: milkType,
+      express_time: new Date(expressDate).getTime() / 1000,
+      expiration_time: new Date(expiryDate).getTime() / 1000,
+      storage_type: storageType,
+      storage_location: 'level 1',
+      volume_ml: 50,
+      baby_mrn: babyData.mrn,
+      extra_notes: notes,
+      additives: additive
+    };
     try {
-      await axios.get(url).then((res) => {
-        setLabelPrint(res.data);
+      const response = await axios.get(url, {
+        params: {
+          milk: JSON.stringify(milk),
+        },
       });
+      setLabelPrint(response.data);
     } catch (e) {
       console.error('Error generating label', e);
     }
@@ -117,10 +128,11 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     printWindow.print();
   };
 
-  const handleCheckInput = () => {
+  const handleCheckInput = async () => {
     if (!expiryDate || !expressDate) {
       alert('Please fill in all relevant information');
     } else {
+      await generateLabel();
       setModalVersion("addMilk3");
     }
   };
