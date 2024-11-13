@@ -17,7 +17,7 @@ def generate_barcode(data: str, format: Literal['code-128', 'data-matrix']) -> s
     
     # Check that the data is a string
     if type(data) != str:
-        raise ValueError(f'data is of type {type(data)}, but expected {str}')
+        raise TypeError(f'data is of type {type(data)}, but expected {str}')
     
     # Generate the barcode and catch errors
     try:
@@ -49,6 +49,12 @@ def scale_data_matrix(data_matrix: str, scale: int) -> str:
         (str): The scaled Data Matrix
     '''
 
+    if type(data_matrix) != str:
+        raise TypeError(f'data_matrix is of type {type(data_matrix)}, but expected {str}')
+    
+    if type(scale) != int:
+        raise TypeError(f'scale is of type {type(scale)}, but expected {int}')
+
     i = data_matrix.find('height') + 8 # 8 gets you to the first digit of the pixel value: `height="12px"`
     
     size = ''
@@ -61,33 +67,3 @@ def scale_data_matrix(data_matrix: str, scale: int) -> str:
     data_matrix = data_matrix.replace(f'width="{new_size}px"', f'width="{new_size}px" viewBox="0 0 {size} {size}"')
 
     return data_matrix
-
-
-# Testing stuff
-if __name__ == '__main__':
-    try:
-        generate_barcode(1234, 'code-128')
-    except Exception as e:
-        print(e)
-
-    try:
-        generate_barcode(1234, 'data-matrix')
-    except Exception as e:
-        print(e)
-
-    try:
-        generate_barcode('1234', 'asdf')
-    except Exception as e:
-        print(e)
-
-    try:
-        generate_barcode(1234, 1234)
-    except Exception as e:
-        print(e)
-
-    dm = generate_barcode('123456', 'data-matrix')
-    bar = generate_barcode('1234', 'code-128')
-    print(dm)
-    print(bar)
-
-    print(scale_data_matrix(dm, 3))

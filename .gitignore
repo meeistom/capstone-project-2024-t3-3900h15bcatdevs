@@ -6,5 +6,6 @@ backend/labels/__pycache__/
 backend/.key/*
 backend/__pycache__/
 backend/labels/barcodes/__pycache__/
+backend/.pytest_cache
 .DS_*
 key_*
