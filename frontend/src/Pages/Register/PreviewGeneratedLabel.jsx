@@ -35,8 +35,8 @@ function PreviewGeneratedLabel({ milkInfo, milkChecked, setLabelPrint }) {
     try {
       const response = await axios.get(url, {
         params: {
-          milk: JSON.stringify(milkInfo),
-        },
+          milk: JSON.stringify(milkInfo)
+        }
       });
       setLabel(`data:image/png;base64,${response.data}`);
       setLabelPrint(response.data);

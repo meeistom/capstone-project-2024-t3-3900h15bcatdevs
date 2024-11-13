@@ -12,7 +12,7 @@ export const dateTimeToString = (dateTime) => {
 export const unixToTimeStr = (unixTime) => {
   const date = new Date(unixTime * 1000);
   return date.toLocaleString();
-}
+};
 export const getCurrentDateTime = () => {
   const date = new Date();
   date.setDate(date.getDate());

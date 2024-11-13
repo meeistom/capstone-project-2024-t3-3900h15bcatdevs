@@ -40,10 +40,10 @@ function Home() {
       const result = await response.json();
       result.forEach((entry) => {
         entry.express_time_str = unixToTimeStr(entry.express_time);
-      }); 
+      });
       result.forEach((entry) => {
         entry.expiration_time_str = unixToTimeStr(entry.expiration_time);
-      }); 
+      });
       setData(result);
       setDisplayData(result);
       localStorage.setItem('myMilkData', JSON.stringify(result));
@@ -67,8 +67,8 @@ function Home() {
 
   const handleRefreshAfterAdd = (newMilk) => {
     const updatedData = [newMilk, ...data];
-    newMilk.express_time_str = unixToTimeStr(newMilk.express_time)
-    newMilk.expiration_time_str = unixToTimeStr(newMilk.expiration_time)
+    newMilk.express_time_str = unixToTimeStr(newMilk.express_time);
+    newMilk.expiration_time_str = unixToTimeStr(newMilk.expiration_time);
     setData(updatedData);
     setDisplayData(updatedData);
     localStorage.setItem('myMilkData', JSON.stringify(updatedData));
@@ -98,7 +98,7 @@ function Home() {
 
     axios
       .delete(`${URL}/delete_milk_entry?uid=${uid}`, { data: reasonData })
-      .then((_) => {
+      .then(() => {
         const updatedData = data.filter((item) => item.uid !== uid);
         setData(updatedData);
         setDisplayData(updatedData);

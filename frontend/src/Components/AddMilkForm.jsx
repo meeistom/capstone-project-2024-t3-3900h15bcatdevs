@@ -1,8 +1,8 @@
-import React from "react";
-import Form from "react-bootstrap/Form";
+import React from 'react';
+import Form from 'react-bootstrap/Form';
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../index.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../index.css';
 
 export { AddMilkForm };
 
@@ -14,7 +14,7 @@ function AddMilkForm({
   expiryDate,
   setExpiryDate,
   setNotes,
-  setAdditive,
+  setAdditive
 }) {
   return (
     <div className="form-container w-100">
@@ -33,7 +33,10 @@ function AddMilkForm({
                 <Form.Label htmlFor="milk-type" className="form-label">
                   Milk Type*
                 </Form.Label>
-                <Form.Select id="milk-type" className="form-select form-select-sm" defaultValue="ehm">
+                <Form.Select
+                  id="milk-type"
+                  className="form-select form-select-sm"
+                  defaultValue="ehm">
                   <option value="ehm">EHM</option>
                   <option value="pdhm">PDHM</option>
                   <option value="formula">Formula</option>
@@ -47,8 +50,9 @@ function AddMilkForm({
                   id="additive-type"
                   className="form-select form-select-sm"
                   defaultValue="none"
-                  onChange={(e) => {setAdditive(e.target.value)}}
-                >
+                  onChange={(e) => {
+                    setAdditive(e.target.value);
+                  }}>
                   <option value="none">None</option>
                   <option value="prenanfm85">Pre Nan FM85</option>
                   <option value="humavant6">Humavant+6</option>
@@ -63,7 +67,10 @@ function AddMilkForm({
                 <Form.Label htmlFor="milk-storage" className="form-label">
                   Storage Type*
                 </Form.Label>
-                <Form.Select id="milk-storage" className="form-select form-select-sm" defaultValue="option-fridge">
+                <Form.Select
+                  id="milk-storage"
+                  className="form-select form-select-sm"
+                  defaultValue="option-fridge">
                   <option value="fridge">Fridge</option>
                   <option value="fresh">Fresh</option>
                   <option value="defrost">Defrost</option>
@@ -109,8 +116,7 @@ function AddMilkForm({
             className="form-control"
             id="milk-notes"
             rows="3"
-            onChange={(e) => setNotes(e.target.value)}
-          ></textarea>
+            onChange={(e) => setNotes(e.target.value)}></textarea>
         </div>
       </Form>
     </div>

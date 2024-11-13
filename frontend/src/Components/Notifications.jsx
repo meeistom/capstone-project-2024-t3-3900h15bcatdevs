@@ -31,35 +31,29 @@ function Notifications({ notifData, confirmDelete }) {
     return <>{message}</>;
   };
 
-    return (
+  return (
     <div className="notifications-outer-container">
-      <div className="title-box">
-        Notifications
-      </div>
-      <div className="subtitle-2">
-        Total Notifications: {notifData.length}
-      </div>
+      <div className="title-box">Notifications</div>
+      <div className="subtitle-2">Total Notifications: {notifData.length}</div>
       <div className="notifications-inner-container">
-        {notifData.map(notif => (
+        {notifData.map((notif) => (
           <div className="notification" key={`${notif.uid}-notif-id`}>
             <div className="content">
-              Milk {notif.uid} for baby {notif.baby_name} 
-              {notif.expired == false ? " will expire in " : " expired "}
+              Milk {notif.uid} for baby {notif.baby_name}
+              {notif.expired == false ? ' will expire in ' : ' expired '}
               {getExpiryMessage(
-                notif.expired, 
-                Math.abs(notif.days_expiry), 
+                notif.expired,
+                Math.abs(notif.days_expiry),
                 Math.abs(notif.hours_expiry)
               )}
               <br></br>
               {notif.expired && (
-                <p className="discard-btn" onClick={() => 
-                  confirmDelete(notif)}>discard
+                <p className="discard-btn" onClick={() => confirmDelete(notif)}>
+                  discard
                 </p>
               )}
             </div>
-            <div className=
-            {notif.expired == false ? "near-expiry-status" : "expired-status"}>
-            </div>
+            <div className={notif.expired == false ? 'near-expiry-status' : 'expired-status'}></div>
           </div>
         ))}
       </div>

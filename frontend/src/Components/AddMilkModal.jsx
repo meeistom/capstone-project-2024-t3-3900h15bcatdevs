@@ -88,7 +88,6 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       .then((response) => {
         console.log(`Bottle details added: ${response}`, response.data);
         addMilk(response.data);
-        return response.data.uid;
       })
       .catch((error) => {
         console.log('Error posting bottle details:', error);
@@ -112,8 +111,8 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     try {
       const response = await axios.get(url, {
         params: {
-          milk: JSON.stringify(milk),
-        },
+          milk: JSON.stringify(milk)
+        }
       });
       setLabelPrint(response.data);
     } catch (e) {
@@ -133,16 +132,16 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       alert('Please fill in all relevant information');
     } else {
       await generateLabel();
-      setModalVersion("addMilk3");
+      setModalVersion('addMilk3');
     }
   };
 
-  const handlePrintAndMovePage = async() => {
+  const handlePrintAndMovePage = async () => {
     try {
       await handleSubmitMilkInfo();
       printImage();
     } catch (error) {
-      console.error("Error submitting milk info:", error);
+      console.error('Error submitting milk info:', error);
     } finally {
       setModalVersion('addMilk4');
     }
