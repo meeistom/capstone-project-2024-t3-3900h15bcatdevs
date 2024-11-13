@@ -55,7 +55,8 @@ function ViewMilks() {
 
   const handleRefreshAfterAdd = (newMilk) => {
     const updatedData = [newMilk, ...data];
-
+    newMilk.express_time_str = unixToTimeStr(newMilk.express_time);
+    newMilk.expiration_time_str = unixToTimeStr(newMilk.expiration_time);
     setData(updatedData);
     setDisplayData(updatedData);
     localStorage.setItem("myMilkData", JSON.stringify(updatedData));

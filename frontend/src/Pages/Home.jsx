@@ -66,6 +66,8 @@ function Home() {
   }, []);
 
   const handleRefreshAfterAdd = (newMilk) => {
+    newMilk.express_time_str = unixToTimeStr(newMilk.express_time);
+    newMilk.expiration_time_str = unixToTimeStr(newMilk.expiration_time);
     const updatedData = data.map((baby) => 
       baby.mrn === newMilk.baby_mrn ? {...baby, associated_milks: [...baby.associated_milks, newMilk]} : baby
     );
@@ -99,8 +101,13 @@ function Home() {
     axios
       .delete(`${URL}/delete_milk_entry?uid=${uid}`, { data: reasonData })
       .then((_) => {
-        const updatedData = baby.mrn === newMilk.baby_mrn ? {...baby, associated_milks: [...baby.associated_milks, newMilk]} : baby
-        data.filter((item) => item.uid !== uid);
+        // const updatedData = baby.mrn === newMilk.baby_mrn ? {...baby, associated_milks: [...baby.associated_milks, newMilk]} : baby
+        const updatedData = data.map((entry) => 
+          (entry.associated_milks).filter((milk) => 
+            milk.uid !== uid
+          )
+        );
+        // const updatedData = data.filter((item) => item.uid !== uid);
         setData(updatedData);
         setDisplayData(updatedData);
         localStorage.setItem("myBabyData", JSON.stringify(updatedData));

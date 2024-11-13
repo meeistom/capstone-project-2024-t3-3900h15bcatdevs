@@ -45,8 +45,8 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
     ],
     viewBabyMilk: [
       { label: "milk ID", key: "uid" },
-      { label: "Express time", key: "express_time" },
-      { label: "Expiration time", key: "expiration_time"},
+      { label: "Express time", key: "express_time_str" },
+      { label: "Expiration time", key: "expiration_time_str"},
       { label: "Storage Type", key: "storage_type"},
     ]
   };
