@@ -112,18 +112,23 @@ You may encounter test failures due to mismatched snapshots. If the component de
 
 Please run tests when working on the backend. Please update tests if needed.
 
-To run tests navigate to the folder which holds the test file and run:
+To run tests navigate to the `./backend` folder and first reset the database. Make sure that in `db_control.py` you use the first key, `cred = credentials.Certificate('./.key/key.json')`, since we don't want to override data in the main database. Run the following command:
 
+```plain
+python db_control.py
 ```
+
+Then to run tests, use:
+
+```plain
 pytest
 ```
 
 This will automatically detect Python files with the prefix `test_` and run them.
 
-- To run the `test_labels.py` file in `./backend/labels` you will need to change the file paths as described within the file.
-  - You will also have to have `wkhtmltopdf` installed in your environment. It is easiest to do this in WSL with the commands:
+- To run the `test_labels.py` file you will need to have `wkhtmltopdf` installed in your environment. It is easiest to do this in WSL with the commands:
 
-    ```plain
-    sudo apt update
-    sudo apt install -y wkhtmltopdf
-    ```
+  ```plain
+  sudo apt update
+  sudo apt install -y wkhtmltopdf
+  ```

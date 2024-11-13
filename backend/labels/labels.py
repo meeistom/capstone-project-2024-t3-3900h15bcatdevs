@@ -6,8 +6,8 @@ import base64
 
 # Paths
 # required_info_path = './labels/assets/template/required_info.txt'
-required_info_path = './labels/assets/template/required_info_modified.txt' # USE `./assets/template/required_info_modified.txt` WHEN TESTING
-optional_info_path = './labels/assets/template/optional_info.txt' # USE `./assets/template/optional_info.txt` WHEN TESTING
+required_info_path = './labels/assets/template/required_info_modified.txt'
+optional_info_path = './labels/assets/template/optional_info.txt'
 # font_path = './labels/assets/cour.ttf'
 
 def get_milk_label(info_tuple: tuple) -> str:

@@ -41,11 +41,17 @@ def delete_document(
             print(f"DELETE DOCUMENT: An error occurred while deleting data: {e}")
             return False, "Failed to delete document"
         
-        if collection_name == "milk_entries":
+        if collection_name == "babies":
+            mother_doc = firestore_client.collection("mothers").document(document["mother_mrn"])
+            mother_doc.update({
+                "babies": firestore.ArrayRemove([mrn_uid])
+            })
+        
+        elif collection_name == "milk_entries":
             # Remove the milk entry from the mother
             mother_doc = firestore_client.collection("mothers").document(document["mother_mrn"])
             mother_doc.update({
-                "milk_entries": firestore.ArrayRemove([document["uid"]])
+                "milks": firestore.ArrayRemove([document["uid"]])
             })
 
             # Log milk deleted event if the document was a milk entry
