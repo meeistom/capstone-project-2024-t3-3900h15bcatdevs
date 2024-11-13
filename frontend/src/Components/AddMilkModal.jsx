@@ -36,7 +36,6 @@ function AddMilkModal({ addMilk, closeModal, version }) {
 
   const getBabyDetails = async (barcode) => {
     const url = `${URL}/babies?mrn=${barcode}`;
-    console.log(url);
     try {
       const response = await axios.get(url);
       setBabyData(response.data);
@@ -51,7 +50,6 @@ function AddMilkModal({ addMilk, closeModal, version }) {
 
   const getMotherDetails = async (mother_mrn) => {
     const url = `${URL}/mothers?mrn=${mother_mrn}`;
-    console.log(url);
     try {
       const response = await axios.get(url);
       setMotherData(response.data);
@@ -90,10 +88,6 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       .then((response) => {
         console.log(`Bottle details added: ${response}`, response.data);
         addMilk(response.data);
-        return response.data.uid;
-      })
-      .then(async (uid) => {
-        await generateLabel(uid);
       })
       .catch((error) => {
         console.log('Error posting bottle details:', error);
@@ -101,12 +95,26 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       });
   };
 
-  const generateLabel = async (uid) => {
-    const url = `${URL}/preview_milk_label?uid=${uid}`;
+  const generateLabel = async () => {
+    const url = `${URL}/preview_milk_label`;
+    const milk = {
+      milk_type: milkType,
+      express_time: new Date(expressDate).getTime() / 1000,
+      expiration_time: new Date(expiryDate).getTime() / 1000,
+      storage_type: storageType,
+      storage_location: 'level 1',
+      volume_ml: 50,
+      baby_mrn: babyData.mrn,
+      extra_notes: notes,
+      additives: additive
+    };
     try {
-      await axios.get(url).then((res) => {
-        setLabelPrint(res.data);
+      const response = await axios.get(url, {
+        params: {
+          milk: JSON.stringify(milk)
+        }
       });
+      setLabelPrint(response.data);
     } catch (e) {
       console.error('Error generating label', e);
     }
@@ -119,18 +127,24 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     printWindow.print();
   };
 
-  const handleCheckInput = () => {
+  const handleCheckInput = async () => {
     if (!expiryDate || !expressDate) {
       alert('Please fill in all relevant information');
     } else {
-      handleSubmitMilkInfo();
+      await generateLabel();
       setModalVersion('addMilk3');
     }
   };
 
   const handlePrintAndMovePage = async () => {
-    setModalVersion('addMilk4');
-    printImage();
+    try {
+      await handleSubmitMilkInfo();
+      printImage();
+    } catch (error) {
+      console.error('Error submitting milk info:', error);
+    } finally {
+      setModalVersion('addMilk4');
+    }
   };
 
   const useEffectDependencies = [
@@ -172,6 +186,11 @@ function AddMilkModal({ addMilk, closeModal, version }) {
             <AddMilkForm
               babyData={babyData}
               motherData={motherData}
+              expiryDate={expiryDate}
+              expressDate={expressDate}
+              milkType={milkType}
+              storageType={storageType}
+              notes={notes}
               setExpressDate={setExpressDate}
               setExpiryDate={setExpiryDate}
               setMilkType={setMilkType}
