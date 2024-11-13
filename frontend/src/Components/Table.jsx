@@ -184,14 +184,15 @@ function Table({
               </thead>
               <tbody>
                 {associated_milks.map((item, index) => (
-                  <tr>
+                  <tr key={item.uid}>
                     {milk_columns.map((column) => (
                       <td key={column.key} onClick={() => handlePopUp(item)}>
                           {item[column.key]}
                       </td>
                     ))}
-                    <td style={{ padding: "8px 0" }}>
-                    <Button
+                    <td style={{ padding: "8px 0" }}
+                      key="delete-btn">
+                        <Button
                           variant="link"
                           id={`dlt-${item.uid}`}
                           className="dlt-btn"
@@ -298,6 +299,8 @@ function Table({
                         <td onClick={() => handlePopUp(item)} key={column.key}>
                           {item[column.key]}
                         </td>
+                      ) : column.key === "babies" ? (
+                        <td key={column.key}>{item[column.key].join(", ")}</td>
                       ) : (
                         <td key={column.key}>{item[column.key]}</td>
                       )
