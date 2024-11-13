@@ -1,5 +1,4 @@
 import { React, useEffect, useState } from 'react';
-import { submitMilk } from '../../Utils/submitMilk';
 import { URL } from '../../constants';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,27 +7,14 @@ import '../../index.css';
 export { PreviewGeneratedLabel };
 
 function PreviewGeneratedLabel({ milkInfo, milkChecked, setLabelPrint }) {
-  const [uid, setUid] = useState('');
   const [label, setLabel] = useState('');
-
-  useEffect(() => {
-    const setupMilk = async () => {
-      await submitMilk(milkInfo, setUid);
-    };
-    if (milkChecked) {
-      setupMilk();
-    }
-  }, []);
 
   useEffect(() => {
     const setupLabel = async () => {
       if (milkChecked) await generateLabel();
     };
-    if (uid !== '') {
-      setupLabel();
-      console.log(uid, 'after generating label');
-    }
-  }, [uid]);
+    setupLabel();
+  }, []);
 
   const generateLabel = async () => {
     const url = `${URL}/preview_milk_label`;

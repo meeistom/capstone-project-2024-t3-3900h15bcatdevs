@@ -26,7 +26,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     additives: 'none'
   });
   const [motherData, setMotherData] = useState(null);
-  const [babyMrn, setBabyMrn] = useState(null);
+  const [babyData, setBabyData] = useState(null);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState(null);
   const [footer, setFooter] = useState(null);
@@ -42,7 +42,10 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     const url = `${URL}/babies?mrn=${barcode}`;
     try {
       const response = await axios.get(url);
-      setBabyMrn(response.data.mrn);
+      const mrn = response.data.mrn;
+      const first_name = response.data.first_name;
+      const last_name = response.data.last_name;
+      setBabyData({ mrn, first_name, last_name });
       console.log('Baby data fetched:', response.data);
       return response.data;
     } catch (error) {
@@ -85,7 +88,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       storage_type: milkForm.storage_type,
       storage_location: 'level 1',
       volume_ml: 50,
-      baby_mrn: babyMrn,
+      baby_mrn: babyData.mrn,
       extra_notes: milkForm.extra_notes,
       additives: milkForm.additives
     };
@@ -104,21 +107,23 @@ function AddMilkModal({ addMilk, closeModal, version }) {
 
   const generateLabel = async () => {
     const url = `${URL}/preview_milk_label`;
-    const milk = {
+    const milkInfo = {
+      first_name: babyData.first_name,
+      last_name: babyData.last_name,
       milk_type: milkForm.milk_type,
       express_time: toUnix(milkForm.express_time),
       expiration_time: toUnix(milkForm.expiration_time),
       storage_type: milkForm.storage_type,
       storage_location: 'level 1',
       volume_ml: 50,
-      baby_mrn: babyMrn,
+      mrn: babyData.mrn,
       extra_notes: milkForm.extra_notes,
       additives: milkForm.additives
     };
     try {
       const response = await axios.get(url, {
         params: {
-          milk: JSON.stringify(milk)
+          milk: JSON.stringify(milkInfo)
         }
       });
       setLabelPrint(response.data);
@@ -181,7 +186,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
         setBody(
           <>
             <AddMilkForm
-              babyMrn={babyMrn}
+              babyMrn={babyData.mrn}
               motherData={motherData}
               milkForm={milkForm}
               setMilkForm={setMilkForm}
