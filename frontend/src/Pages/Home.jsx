@@ -80,10 +80,17 @@ function Home() {
   };
 
   const handleDeleteMilk = (uid, reason, notes) => {
-    console.log(reason, notes);
+    let reasonData = {};
+
+    if (reason === 'other') {
+      reasonData = { notes };
+    } else {
+      reasonData = { reason };
+    }
+
     axios
-      .delete(`${URL}/delete_milk_entry?uid=${uid}`)
-      .then(() => {
+      .delete(`${URL}/delete_milk_entry?uid=${uid}`, { data: reasonData })
+      .then((_) => {
         const updatedData = data.filter((item) => item.uid !== uid);
         setData(updatedData);
         setDisplayData(updatedData);

@@ -20,3 +20,10 @@ export const addDaysToDateTime = (dateTime, days) => {
   date.setDate(date.getDate() + days);
   return date.toISOString().slice(0, 16);
 };
+
+export const unixToDatetimeLocal = (unixTime) => {
+  const date = new Date(unixTime * 1000);
+  const formattedDate = date.toISOString().slice(0, 16);
+
+  return formattedDate;
+};

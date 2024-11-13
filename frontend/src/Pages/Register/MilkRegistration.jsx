@@ -72,9 +72,11 @@ function MilkRegistration({
                       value={milkForm.additive}
                       onChange={(e) => handleChange(e, 'additive')}>
                       <option value="none">None</option>
-                      <option value="humavant6">Humavant+6</option>
                       <option value="prenanfm85">Pre Nan FM85</option>
+                      <option value="humavant6">Humavant+6</option>
+                      <option value="HumavantCream ">Humavant Cream </option>
                       <option value="nanoptipropowder">Nan Optipro Powder</option>
+                      <option value="PeptiJuniorpowder ">Pepti Junior powder </option>
                       <option value="neocate powder">Neocate Powder</option>
                       <option value="beneprotein">Beneprotein</option>
                     </Form.Select>
