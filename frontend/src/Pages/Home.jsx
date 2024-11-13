@@ -59,11 +59,12 @@ function Home() {
   }, []);
 
   const handleRefreshAfterAdd = (newMilk) => {
-    const updatedData = data.map((baby) => baby.mrn === newMilk.baby_mrn ? {...baby, assoiciated_milks: [...baby.assoiciated_milks, newMilk]} : baby );
-    console.log(updatedData)
+    const updatedData = data.map((baby) => 
+      baby.mrn === newMilk.baby_mrn ? {...baby, associated_milks: [...baby.associated_milks, newMilk]} : baby
+    );
     setData(updatedData);
     setDisplayData(updatedData);
-    localStorage.setItem("myMilkData", JSON.stringify(updatedData));
+    localStorage.setItem("myBabyData", JSON.stringify(updatedData));
   };
 
   if (loading) {
@@ -87,7 +88,7 @@ function Home() {
         const updatedData = data.filter((item) => item.uid !== uid);
         setData(updatedData);
         setDisplayData(updatedData);
-        localStorage.setItem("myMilkData", JSON.stringify(updatedData));
+        localStorage.setItem("myBabyData", JSON.stringify(updatedData));
         setConfirmDelete(false);
       })
       .catch((error) => {
@@ -102,8 +103,8 @@ function Home() {
         <Navibar />
         <div className="home-container">
           <div className="page-container">
-            <h1 className="page-title">List of Patients</h1>
-            <p>Total Number of Patients: {data.length}</p>
+            <h1 className="page-title">List of Babies</h1>
+            <p>Total Number of Babies: {data.length}</p>
             <Table
               deleteMilk={handleConfirmDelete}
               displayData={displayData}
