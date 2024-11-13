@@ -164,7 +164,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
             <table className='sub-table'>
               <thead>
               {milk_columns.map((column) => (
-                <th key={`${column.key}`}
+                <th key={column.key}
                   colSpan={column.key === "storage_type" ? 2 : 1}
                 >
                   {column.label}
@@ -180,7 +180,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
                           {item[column.key]}
                       </td>
                     ))}
-                    <td className="dlt-container"
+                    <td className='dlt-container'
                       key="delete-btn">
                         <Button
                           variant="link"
@@ -199,7 +199,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
             </table>
           </div>
         ) : (
-          <div className="empty-sub-table">No milks available</div>
+          <div className='empty-sub-table'>No milks available</div>
         )}
       </>
     )
@@ -260,7 +260,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
                   {column.label}
                 </th>
               ) :  (
-                <th key={`${column.mrn}${column.key}`}>{column.label}</th>
+                <th key={column.key}>{column.label}</th>
               )
             ))}
           </tr>

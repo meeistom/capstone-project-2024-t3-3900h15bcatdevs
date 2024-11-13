@@ -7,6 +7,7 @@ import { AddMilkModal } from "../Components/AddMilkModal";
 import { Table } from "../Components/Table";
 import { DeleteMilkModal } from "../Components/DeleteMilkModal";
 import { URL } from "../constants";
+import { unixToTimeStr } from '../Utils/utils.jsx';
 
 export { ViewMilks };
 
@@ -26,6 +27,12 @@ function ViewMilks() {
         throw new Error("Having errors fetching milk details");
       }
       const result = await response.json();
+      result.forEach((entry) => {
+        entry.express_time_str = unixToTimeStr(entry.express_time);
+      });
+      result.forEach((entry) => {
+        entry.expiration_time_str = unixToTimeStr(entry.expiration_time);
+      });
       setData(result);
       setDisplayData(result);
       localStorage.setItem("myMilkData", JSON.stringify(result));

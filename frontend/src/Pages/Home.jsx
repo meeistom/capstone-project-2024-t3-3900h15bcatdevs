@@ -8,6 +8,7 @@ import { Table } from '../Components/Table';
 import { DeleteMilkModal } from '../Components/DeleteMilkModal';
 import { Notifications } from '../Components/Notifications';
 import { URL } from '../constants';
+import { unixToTimeStr } from '../Utils/utils.jsx';
 
 export { Home };
 
@@ -37,6 +38,12 @@ function Home() {
         throw new Error('Having errors fetching milk details');
       }
       const result = await response.json();
+      result.forEach((entry) => {
+        entry.associated_milks.forEach((milk) => {
+          milk.express_time_str = unixToTimeStr(milk.express_time);
+          milk.expiration_time_str = unixToTimeStr(milk.expiration_time);
+        })})
+      // const result = await response.json();
       setData(result);
       setDisplayData(result);
       localStorage.setItem("myBabyData", JSON.stringify(result));
