@@ -174,7 +174,7 @@ function VerifyFeed() {
       );
       break;
   }
-  console.log(display);
+
   return (
     <>
       <section id="Home">

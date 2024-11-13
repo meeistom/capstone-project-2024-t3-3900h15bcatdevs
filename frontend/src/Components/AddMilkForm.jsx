@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../index.css';
+import { addDaysToDateTime, getCurrentDateTime } from '../Utils/utils';
 
 export { AddMilkForm };
 
@@ -83,6 +84,7 @@ function AddMilkForm({
                 </Form.Label>
                 <input
                   value={expressDate}
+                  min={getCurrentDateTime()}
                   onChange={(e) => {
                     setExpressDate(e.target.value);
                   }}
@@ -97,6 +99,7 @@ function AddMilkForm({
                 </Form.Label>
                 <input
                   value={expiryDate}
+                  min={expressDate ? addDaysToDateTime(expressDate, 1) : getCurrentDateTime()}
                   onChange={(e) => {
                     setExpiryDate(e.target.value);
                   }}
