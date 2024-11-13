@@ -5,6 +5,7 @@ export {Notifications};
 function Notifications({ notifData, confirmDelete }) {
 
   const getExpiryMessage = (expired, days_expired, hours_expired) => {
+    
     let message = "";
 
     // Add days
@@ -25,6 +26,10 @@ function Notifications({ notifData, confirmDelete }) {
       message += `${hours_expired} hours`;
     }
 
+    if (hours_expired === 0) {
+      message += "less than an hour"
+    }
+
     if (expired === true) {
       message += " ago";
     }
@@ -41,7 +46,7 @@ function Notifications({ notifData, confirmDelete }) {
           <div className="notification">
             <div className="content">
               Milk {notif.uid} for baby {notif.baby_name} 
-              {notif.expired == false ? " will expire in " : " expired "}
+              {notif.expired === false ? " will expire in " : " expired "}
               {getExpiryMessage(
                 notif.expired, 
                 Math.abs(notif.days_expiry), 
@@ -55,7 +60,7 @@ function Notifications({ notifData, confirmDelete }) {
               )}
             </div>
             <div className=
-            {notif.expired == false ? "near-expiry-status" : "expired-status"}>
+            {notif.expired === false ? "near-expiry-status" : "expired-status"}>
             </div>
           </div>
         </>
