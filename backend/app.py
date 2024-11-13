@@ -205,6 +205,9 @@ def delete_mother_by_mrn():
 
     success, message = delete_document(fs_client, mother_mrn=mrn)
 
+    if not success:
+        print(message)
+
     return make_response(message, 200 if success else 500)
 
 
@@ -215,6 +218,9 @@ def delete_baby_by_mrn():
 
     success, message = delete_document(fs_client, baby_mrn=mrn)
 
+    if not success:
+        print(message)
+
     return make_response(message, 200 if success else 500)
 
 
@@ -222,8 +228,12 @@ def delete_baby_by_mrn():
 @app.route("/delete_milk_entry", methods=["DELETE"])
 def delete_milk_entry_by_uid():
     uid = request.args.get("uid")
+    reason_data = request.get_json()
 
-    success, message = delete_document(fs_client, milk_entry_uid=uid)
+    success, message = delete_document(fs_client, milk_entry_uid=uid, extra_data=reason_data)
+
+    if not success:
+        print(message)
 
     return make_response(message, 200 if success else 500)
 

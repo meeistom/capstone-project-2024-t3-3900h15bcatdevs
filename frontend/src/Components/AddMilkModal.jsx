@@ -1,33 +1,32 @@
-import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import { AddMilkForm } from "./AddMilkForm.jsx";
-import { Modal } from "./Modal.jsx";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import confirmCheck from "../Assets/confirm-check.png";
-import scanner from "../Assets/scanner.png";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../index.css";
-import { URL } from "../constants.jsx";
+import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { AddMilkForm } from './AddMilkForm.jsx';
+import { Modal } from './Modal.jsx';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import confirmCheck from '../Assets/confirm-check.png';
+import scanner from '../Assets/scanner.png';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../index.css';
+import { URL } from '../constants.jsx';
 
 export { AddMilkModal };
 
 function AddMilkModal({ addMilk, closeModal, version }) {
   const scannerInputRef = useRef(null);
   const [modalVersion, setModalVersion] = useState(version);
-  const [scannedValue, setScannedValue] = useState(0);
-  const [expiryDate, setExpiryDate] = useState("");
-  const [expressDate, setExpressDate] = useState("");
-  const [milkType, setMilkType] = useState("ehm");
-  const [storageType, setStorageType] = useState("fridge");
-  const [notes, setNotes] = useState("");
-  const [additive, setAdditive] = useState("none");
+  const [expiryDate, setExpiryDate] = useState('');
+  const [expressDate, setExpressDate] = useState('');
+  const [milkType, setMilkType] = useState('ehm');
+  const [storageType, setStorageType] = useState('fridge');
+  const [notes, setNotes] = useState('');
+  const [additive, setAdditive] = useState('none');
   const [motherData, setMotherData] = useState(null);
   const [babyData, setBabyData] = useState(null);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState('');
   const [body, setBody] = useState(null);
   const [footer, setFooter] = useState(null);
-  const [labelPrint, setLabelPrint] = useState("");
+  const [labelPrint, setLabelPrint] = useState('');
 
   useEffect(() => {
     if (scannerInputRef.current) {
@@ -41,13 +40,11 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     try {
       const response = await axios.get(url);
       setBabyData(response.data);
-      console.log("Baby data fetched:", response.data);
+      console.log('Baby data fetched:', response.data);
       return response.data;
     } catch (error) {
-      console.log("Error fetching baby data:", error);
-      alert(
-        "Failed to fetch baby details with corresponding barcode. Please try again."
-      );
+      console.log('Error fetching baby data:', error);
+      alert('Failed to fetch baby details with corresponding barcode. Please try again.');
       return null;
     }
   };
@@ -58,19 +55,15 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     try {
       const response = await axios.get(url);
       setMotherData(response.data);
-      console.log("Mother data fetched:", response.data);
-      setModalVersion("addMilk2");
+      console.log('Mother data fetched:', response.data);
+      setModalVersion('addMilk2');
     } catch (error) {
-      console.log("Error fetching Mother data:", error);
-      alert(
-        "Failed to fetch mother details with corresponding mrn. Please try again."
-      );
+      console.log('Error fetching Mother data:', error);
+      alert('Failed to fetch mother details with corresponding mrn. Please try again.');
     }
   };
   const handleInput = async (event) => {
     const barcode = event.target.value;
-    console.log(barcode);
-    setScannedValue(barcode);
     if (barcode.length === 4) {
       const babyDetails = await getBabyDetails(barcode);
       if (babyDetails && babyDetails.mother_mrn) {
@@ -85,11 +78,11 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       express_time: new Date(expressDate).getTime() / 1000,
       expiration_time: new Date(expiryDate).getTime() / 1000,
       storage_type: storageType,
-      storage_location: "level 1",
+      storage_location: 'level 1',
       volume_ml: 50,
       baby_mrn: babyData.mrn,
       extra_notes: notes,
-      additives: additive,
+      additives: additive
     };
     console.log(bottleDetails);
     axios
@@ -103,8 +96,8 @@ function AddMilkModal({ addMilk, closeModal, version }) {
         await generateLabel(uid);
       })
       .catch((error) => {
-        console.log("Error posting bottle details:", error);
-        alert("Failed to add bottle details. Please try again.");
+        console.log('Error posting bottle details:', error);
+        alert('Failed to add bottle details. Please try again.');
       });
   };
 
@@ -115,30 +108,28 @@ function AddMilkModal({ addMilk, closeModal, version }) {
         setLabelPrint(res.data);
       });
     } catch (e) {
-      console.error("Error generating label", e);
+      console.error('Error generating label', e);
     }
   };
 
   const printImage = () => {
-    const printWindow = window.open("", "_blank");
-    printWindow.document.write(
-      `<img src="data:image/png;base64,${labelPrint}" />`
-    );
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`<img src="data:image/png;base64,${labelPrint}" />`);
     printWindow.document.close();
     printWindow.print();
   };
 
   const handleCheckInput = () => {
     if (!expiryDate || !expressDate) {
-      alert("Please fill in all relevant information");
+      alert('Please fill in all relevant information');
     } else {
       handleSubmitMilkInfo();
-      setModalVersion("addMilk3");
+      setModalVersion('addMilk3');
     }
   };
 
   const handlePrintAndMovePage = async () => {
-    setModalVersion("addMilk4");
+    setModalVersion('addMilk4');
     printImage();
   };
 
@@ -149,13 +140,13 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     milkType,
     storageType,
     notes,
-    labelPrint,
+    labelPrint
   ];
 
   // Handles which version of modal is rendered
   useEffect(() => {
     switch (modalVersion) {
-      case "addMilk1":
+      case 'addMilk1':
         setTitle("Please scan the baby's barcode");
         setBody(
           <>
@@ -172,10 +163,10 @@ function AddMilkModal({ addMilk, closeModal, version }) {
             <img src={scanner} alt="scanner" className="mt-4" />
           </>
         );
-        setFooter("Waiting for scan...");
+        setFooter('Waiting for scan...');
         break;
-      case "addMilk2":
-        setTitle("Confirm Information");
+      case 'addMilk2':
+        setTitle('Confirm Information');
         setBody(
           <>
             <AddMilkForm
@@ -195,18 +186,14 @@ function AddMilkModal({ addMilk, closeModal, version }) {
             <Button onClick={() => closeModal(false)} variant="outline-primary">
               Cancel
             </Button>
-            <Button
-              name="preview-sticker"
-              onClick={handleCheckInput}
-              variant="primary"
-            >
+            <Button name="preview-sticker" onClick={handleCheckInput} variant="primary">
               Preview Sticker
             </Button>
           </div>
         );
         break;
-      case "addMilk3":
-        setTitle("Sticker Preview");
+      case 'addMilk3':
+        setTitle('Sticker Preview');
         setBody(
           <>
             <img src={`data:image/png;base64,${labelPrint}`} />
@@ -214,32 +201,24 @@ function AddMilkModal({ addMilk, closeModal, version }) {
         );
         setFooter(
           <div id="btn-group">
-            <Button
-              onClick={() => setModalVersion("addMilk2")}
-              variant="outline-primary"
-            >
+            <Button onClick={() => setModalVersion('addMilk2')} variant="outline-primary">
               Back to Edit
             </Button>
             <Button
               name="confirm-and-print"
               onClick={() => handlePrintAndMovePage()}
-              variant="primary"
-            >
+              variant="primary">
               Confirm and Print
             </Button>
           </div>
         );
         break;
-      case "addMilk4":
-        setTitle("Milk Added Successfully");
+      case 'addMilk4':
+        setTitle('Milk Added Successfully');
         setBody(
           <div className="milk-confirmed d-flex justify-content-center align-items-center flex-column text-center gap-3">
             <p>Milk from the Mother was added. You may close the pop up now.</p>
-            <img
-              src={confirmCheck}
-              alt="Confirmation Icon"
-              className="confirm-img mt-5"
-            />
+            <img src={confirmCheck} alt="Confirmation Icon" className="confirm-img mt-5" />
           </div>
         );
         setFooter(

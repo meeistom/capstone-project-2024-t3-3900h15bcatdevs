@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../index.css";
-import axios from "axios";
-import { Navibar } from "../Components/Navibar";
-import { AddMilkModal } from "../Components/AddMilkModal";
-import { Table } from "../Components/Table";
-import { DeleteMilkModal } from "../Components/DeleteMilkModal";
-import { Notifications } from "../Components/Notifications";
-import { URL } from "../constants";
+import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../index.css';
+import axios from 'axios';
+import { Navibar } from '../Components/Navibar';
+import { AddMilkModal } from '../Components/AddMilkModal';
+import { Table } from '../Components/Table';
+import { DeleteMilkModal } from '../Components/DeleteMilkModal';
+import { Notifications } from '../Components/Notifications';
+import { URL } from '../constants';
 
 export { Home };
 
@@ -34,7 +34,7 @@ function Home() {
     try {
       const response = await fetch(`${URL}/home`);
       if (!response.ok) {
-        throw new Error("Having errors fetching milk details");
+        throw new Error('Having errors fetching milk details');
       }
       const result = await response.json();
       setData(result);
@@ -81,9 +81,16 @@ function Home() {
   };
 
   const handleDeleteMilk = (uid, reason, notes) => {
-    console.log(reason, notes);
+    let reasonData = {};
+
+    if (reason === 'other') {
+      reasonData = { notes };
+    } else {
+      reasonData = { reason };
+    }
+
     axios
-      .delete(`${URL}/delete_milk_entry?uid=${uid}`)
+      .delete(`${URL}/delete_milk_entry?uid=${uid}`, { data: reasonData })
       .then((_) => {
         const updatedData = data.filter((item) => item.uid !== uid);
         setData(updatedData);
@@ -130,8 +137,7 @@ function Home() {
           {notificationData && (
             <Notifications
               notifData={notificationData}
-              confirmDelete={handleConfirmDelete}
-            ></Notifications>
+              confirmDelete={handleConfirmDelete}></Notifications>
           )}
         </div>
       </section>

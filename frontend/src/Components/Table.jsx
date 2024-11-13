@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
+import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
 import {
   faPlus,
   faFilter,
@@ -15,21 +15,15 @@ import { URL } from "../constants";
 
 export { Table };
 
-function Table({
-  deleteMilk,
-  displayData,
-  setDisplayData,
-  setOpenModal,
-  viewType,
-}) {
+function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType }) {
   const viewConfigs = {
     viewMilk: [
-      { label: "milk ID", key: "uid" },
-      { label: "Baby", key: "baby_name" },
-      { label: "Mother", key: "mother_name" },
-      { label: "Express time", key: "express_time" },
-      { label: "Expiration time", key: "expiration_time" },
-      { label: "Storage Type", key: "storage_type" },
+      { label: 'milk ID', key: 'uid' },
+      { label: 'Baby', key: 'baby_name' },
+      { label: 'Mother', key: 'mother_name' },
+      { label: 'Express time', key: 'express_time' },
+      { label: 'Expiration time', key: 'expiration_time' },
+      { label: 'Storage Type', key: 'storage_type' }
     ],
     viewMother: [
       { label: "MRN", key: "mrn" },
@@ -59,7 +53,7 @@ function Table({
   const columns = viewConfigs[viewType] || [];
   const [openEntryModal, setOpenEntryModal] = useState(false);
   const [info, setInfo] = useState(null);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
 
   const handlePopUp = (entry) => {
     setInfo(entry);
@@ -76,44 +70,40 @@ function Table({
     console.log(searchValue);
     let result;
     try {
-      console.log("Quering backend");
+      console.log('Quering backend');
       const response = await fetch(`${URL}/search?keyword=${searchValue}`);
       if (!response.ok) {
-        throw new Error("Could not find relative entry with such keyword");
+        throw new Error('Could not find relative entry with such keyword');
       }
       result = await response.json();
     } catch (error) {
-      setError(error);
+      console.error(error);
     } finally {
       if (result) {
         console.log(result);
         switch (viewType) {
-          case "viewMilk":
+          case 'viewMilk': {
             result = result.milk_entries;
             const milk_uids = result.map((entry) => entry.uid);
-            setDisplayData(
-              displayData.filter((entry) => milk_uids.includes(entry.uid))
-            );
+            setDisplayData(displayData.filter((entry) => milk_uids.includes(entry.uid)));
             break;
-          case "viewMother":
+          }
+          case 'viewMother': {
             result = result.mothers;
             const mother_ids = result.map((entry) => entry.mrn);
-            setDisplayData(
-              displayData.filter((entry) => mother_ids.includes(entry.mrn))
-            );
+            setDisplayData(displayData.filter((entry) => mother_ids.includes(entry.mrn)));
             break;
-          case "viewBaby":
+          }
+          case 'viewBaby': {
             result = result.babies;
             const baby_ids = result.map((entry) => entry.mrn);
-            setDisplayData(
-              displayData.filter((entry) => baby_ids.includes(entry.mrn))
-            );
+            setDisplayData(displayData.filter((entry) => baby_ids.includes(entry.mrn)));
             break;
+          }
         }
       }
     }
   }
-
 
   function babyRow (babyData, index) {
     const [expanded, setExpanded] = React.useState(false);
@@ -333,6 +323,8 @@ function Table({
         <ViewInfoModal
           info={info}
           closeModal={handleClosePopUp}
+          displayData={displayData}
+          setDisplayData={setDisplayData}
           version={viewType}
         />
       )}

@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Navibar } from "../Components/Navibar";
-import axios from "axios";
-import { URL } from "../constants";
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Navibar } from '../Components/Navibar';
 
 export { HistoryLog };
 
 function HistoryLog() {
   // const [milkEntries, setMilkEntries] = useState([]);
-
 
   // // Fetch milk entries from the server
   // useEffect(() => {
@@ -31,7 +28,7 @@ function HistoryLog() {
   //             entry.mother = motherResponse.data;
   //             setMilkEntries(currentEntries => {
   //               // Find the current entry and update it with mother data
-  //               const updatedEntries = currentEntries.map(e => 
+  //               const updatedEntries = currentEntries.map(e =>
   //                 e.uid === entry.uid ? {...e, mother: motherResponse.data} : e
   //               );
   //               return updatedEntries;
@@ -49,7 +46,6 @@ function HistoryLog() {
 
   return (
     <>
-  
       <section id="Home">
         <Navibar />
         log
