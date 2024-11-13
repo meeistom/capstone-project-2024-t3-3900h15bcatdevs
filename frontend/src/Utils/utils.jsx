@@ -4,9 +4,21 @@ export const toUnix = (dateTime) => {
 };
 
 export const dateTimeToString = (dateTime) => {
-  const [date, time] = dateTime.split("T");
-  const [year, month, day] = date.split("-");
+  const [date, time] = dateTime.split('T');
+  const [year, month, day] = date.split('-');
   return `${day}/${month}/${year} ${time}`;
+};
+
+export const getCurrentDateTime = () => {
+  const date = new Date();
+  date.setDate(date.getDate());
+  return date.toISOString().slice(0, 16);
+};
+
+export const addDaysToDateTime = (dateTime, days) => {
+  const date = new Date(dateTime);
+  date.setDate(date.getDate() + days);
+  return date.toISOString().slice(0, 16);
 };
 
 export const unixToDatetimeLocal = (unixTime) => {

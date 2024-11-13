@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../index.css";
-import axios from "axios";
-import { Navibar } from "../Components/Navibar";
-import { AddMilkModal } from "../Components/AddMilkModal";
-import { Table } from "../Components/Table";
-import { DeleteMilkModal } from "../Components/DeleteMilkModal";
-import { Notifications } from "../Components/Notifications";
-import { URL } from "../constants";
+import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../index.css';
+import axios from 'axios';
+import { Navibar } from '../Components/Navibar';
+import { AddMilkModal } from '../Components/AddMilkModal';
+import { Table } from '../Components/Table';
+import { DeleteMilkModal } from '../Components/DeleteMilkModal';
+import { Notifications } from '../Components/Notifications';
+import { URL } from '../constants';
 
 export { Home };
 
@@ -34,12 +34,12 @@ function Home() {
     try {
       const response = await fetch(`${URL}/home`);
       if (!response.ok) {
-        throw new Error("Having errors fetching milk details");
+        throw new Error('Having errors fetching milk details');
       }
       const result = await response.json();
       setData(result);
       setDisplayData(result);
-      localStorage.setItem("myMilkData", JSON.stringify(result));
+      localStorage.setItem('myMilkData', JSON.stringify(result));
     } catch (error) {
       setError(error);
     } finally {
@@ -48,7 +48,7 @@ function Home() {
   };
 
   useEffect(() => {
-    const cachedData = localStorage.getItem("myMilkData");
+    const cachedData = localStorage.getItem('myMilkData');
     if (cachedData) {
       setData(JSON.parse(cachedData));
       setDisplayData(JSON.parse(cachedData));
@@ -63,7 +63,7 @@ function Home() {
 
     setData(updatedData);
     setDisplayData(updatedData);
-    localStorage.setItem("myMilkData", JSON.stringify(updatedData));
+    localStorage.setItem('myMilkData', JSON.stringify(updatedData));
   };
 
   if (loading) {
@@ -82,7 +82,7 @@ function Home() {
   const handleDeleteMilk = (uid, reason, notes) => {
     let reasonData = {};
 
-    if (reason === "other") {
+    if (reason === 'other') {
       reasonData = { notes };
     } else {
       reasonData = { reason };
@@ -94,7 +94,7 @@ function Home() {
         const updatedData = data.filter((item) => item.uid !== uid);
         setData(updatedData);
         setDisplayData(updatedData);
-        localStorage.setItem("myMilkData", JSON.stringify(updatedData));
+        localStorage.setItem('myMilkData', JSON.stringify(updatedData));
         setConfirmDelete(false);
       })
       .catch((error) => {
@@ -136,8 +136,7 @@ function Home() {
           {notificationData && (
             <Notifications
               notifData={notificationData}
-              confirmDelete={handleConfirmDelete}
-            ></Notifications>
+              confirmDelete={handleConfirmDelete}></Notifications>
           )}
         </div>
       </section>
