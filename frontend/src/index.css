@@ -436,6 +436,10 @@ th, td {
   text-align: left;
 }
 
+.mrn-th {
+  padding-left: 35px;
+}
+
 .table-header-block {
   width: 100%;
 }
@@ -510,6 +514,22 @@ tr {
 
 .sub-table tr {
   border: 1px solid #E9EAEC;
+}
+
+.empty-sub-table {
+  margin-left: 28px;
+}
+
+.sub-table .outline {
+  outline: 1px solid #E9EAEC;
+}
+
+.sub-table .dlt-btn {
+  padding: 0;
+}
+
+.sub-table .dlt-container {
+  padding: 8px 0;
 }
 
 /* page content style */

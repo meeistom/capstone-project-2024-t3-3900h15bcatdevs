@@ -152,8 +152,7 @@ function Table({
         </tr>
 
         {expanded && (
-          <tr className={index % 2 === 0 ? "even-row" : "odd-row"} 
-          style={{ outline: "1px solid #E9EAEC"}}
+          <tr className={index % 2 === 0 ? "even-row" : "odd-row"} outline
           >
             <td colSpan={4}>
               {milkSubTable(babyData.associated_milks)}
@@ -174,7 +173,7 @@ function Table({
             <table className='sub-table'>
               <thead>
               {milk_columns.map((column) => (
-                <th key={column.key}
+                <th key={`${column.key}`}
                   colSpan={column.key === "storage_type" ? 2 : 1}
                 >
                   {column.label}
@@ -190,13 +189,12 @@ function Table({
                           {item[column.key]}
                       </td>
                     ))}
-                    <td style={{ padding: "8px 0" }}
+                    <td className="dlt-container"
                       key="delete-btn">
                         <Button
                           variant="link"
                           id={`dlt-${item.uid}`}
                           className="dlt-btn"
-                          style={{ padding: "0" }}
                         >
                           <FontAwesomeIcon
                             onClick={() => deleteMilk(item)}
@@ -210,7 +208,7 @@ function Table({
             </table>
           </div>
         ) : (
-          <p style={{ marginLeft: "28px" }}>No milks available</p>
+          <div className="empty-sub-table">No milks available</div>
         )}
       </>
     )
@@ -264,16 +262,16 @@ function Table({
             <tr>
             {columns.map((column) => (
               column.key === "storage_type" ? ( 
-                <th colSpan={2} key={column.key}>
+                <th colSpan={2} key={`${column.mrn}${column.key}`}>
                   {column.label}
                 </th>
               ) : 
               column.key === "mrn" && viewType === "viewBaby" ? (
-                <th style={{paddingLeft: "35px"}} key={column.key}>
+                <th className="mrn-th" key={`${column.mrn}${column.key}`}>
                   {column.label}
                 </th>
               ) :  (
-                <th key={column.key}>{column.label}</th>
+                <th key={`${column.mrn}${column.key}`}>{column.label}</th>
               )
             ))}
           </tr>
