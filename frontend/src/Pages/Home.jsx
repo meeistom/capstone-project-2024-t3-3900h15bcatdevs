@@ -59,8 +59,8 @@ function Home() {
   }, []);
 
   const handleRefreshAfterAdd = (newMilk) => {
-    const updatedData = [newMilk, ...data];
-
+    const updatedData = data.map((baby) => baby.mrn === newMilk.baby_mrn ? {...baby, assoiciated_milks: [...baby.assoiciated_milks, newMilk]} : baby );
+    console.log(updatedData)
     setData(updatedData);
     setDisplayData(updatedData);
     localStorage.setItem("myMilkData", JSON.stringify(updatedData));
