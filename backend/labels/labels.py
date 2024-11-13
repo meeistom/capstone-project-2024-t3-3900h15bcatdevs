@@ -32,16 +32,16 @@ def get_milk_label(info_tuple: tuple) -> str:
         if type(info_tuple[i]) != str:
             raise TypeError(f'info_tuple[{i}] is of type {type(info_tuple[i])}, but expected {str}')
     
-    # for i in range(5, 8):
-    #     if type(info_tuple[i]) != int:
-    #         raise TypeError(f'info_tuple[{i}] is of type {type(info_tuple[i])}, but expected {int}')
+    for i in range(5, 8):
+        if type(info_tuple[i]) != int:
+            raise TypeError(f'info_tuple[{i}] is of type {type(info_tuple[i])}, but expected {int}')
         
-    # if type(info_tuple[8]) != list:
-    #     raise TypeError(f'info_tuple[{8}] is of type {type(info_tuple[8])}, but expected {list})')
-    # else:
-    #     for i in range(len(info_tuple[8])):
-    #         if type(info_tuple[8][i]) != str:
-    #             raise  TypeError(f'info_tuple[8][{i}] is of type {type(info_tuple[8][i])}, but expected {str}')
+    if type(info_tuple[8]) != list:
+        raise TypeError(f'info_tuple[{8}] is of type {type(info_tuple[8])}, but expected {list})')
+    else:
+        for i in range(len(info_tuple[8])):
+            if type(info_tuple[8][i]) != str:
+                raise  TypeError(f'info_tuple[8][{i}] is of type {type(info_tuple[8][i])}, but expected {str}')
 
     uid, bo_name, sure_name, baby_mrn, milk_type, volume, prepared_date, expiry_date, additives = info_tuple
 
