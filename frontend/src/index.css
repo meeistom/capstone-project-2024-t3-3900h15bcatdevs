@@ -514,3 +514,7 @@ thead tr {
 .edit-popup {
   color: var(--editPopup);
 }
+
+.modal-small {
+  height: 60%;
+}

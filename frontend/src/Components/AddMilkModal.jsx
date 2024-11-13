@@ -242,6 +242,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
         title={title}
         body={body}
         footer={footer}
+        size={'small'}
         closeModal={closeModal}
       />
     </>
