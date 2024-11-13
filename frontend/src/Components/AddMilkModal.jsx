@@ -60,6 +60,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       alert('Failed to fetch mother details with corresponding mrn. Please try again.');
     }
   };
+
   const handleInput = async (event) => {
     const barcode = event.target.value;
     if (barcode.length === 4) {

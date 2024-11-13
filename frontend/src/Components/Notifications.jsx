@@ -50,10 +50,10 @@ function Notifications({ notifData, confirmDelete }) {
                 Math.abs(notif.days_expiry),
                 Math.abs(notif.hours_expiry)
               )}
-              <br></br>
+              <br />
               {notif.expired && (
                 <p className="discard-btn" onClick={() => confirmDelete(notif)}>
-                  discard
+                  Discard
                 </p>
               )}
             </div>

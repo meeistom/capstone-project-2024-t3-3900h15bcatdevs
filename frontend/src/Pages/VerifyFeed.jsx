@@ -6,6 +6,7 @@ import scanner from '../Assets/scanner.png';
 import confirmCheck from '../Assets/confirm-check.png';
 import axios from 'axios';
 import { URL } from '../constants';
+import { Button, Form } from 'react-bootstrap';
 
 export { VerifyFeed };
 
@@ -17,16 +18,15 @@ function VerifyFeed() {
   const [babyCheck, setBabyCheck] = useState(<span className={'empty-check'}></span>);
   const [milkBarcode, setMilkBarcode] = useState('');
   const [babyBarcode, setBabyBarcode] = useState('');
-
+  const [promptType, setPromptType] = useState('scan');
+  const [alertMessage, setAlertMessage] = useState('');
+  const [filter, setFilter] = useState('');
+  const [display, setDisplay] = useState('verification-display');
   const [promptMessage, setPromptMessage] = useState(
     'Please scan the barcode on the baby or milk.'
   );
-  const [promptType, setPromptType] = useState('scan');
-  let promptPage;
 
-  const [alertMessage, setAlertMessage] = useState('');
-  const [filter, setFilter] = useState('');
-  const [display, setDisplay] = useState('none');
+  let promptPage;
 
   useEffect(() => {
     if (scannerInputRef.current) {
@@ -105,7 +105,7 @@ function VerifyFeed() {
     try {
       await axios.delete(url);
     } catch (error) {
-      openAlert('Error removing milk from the system.');
+      openAlert('Error removing milk from the system.', error);
     }
   };
 
@@ -116,7 +116,7 @@ function VerifyFeed() {
       (milkBarcode === '' && scannedValue.length >= 6)
     ) {
       // Sets scanner input to empty again
-      document.getElementById('scanner-input').value = '';
+      scannerInputRef.current.value = '';
 
       // Checks if scanned barcode is valid, verifies match
       await checkBarcode(scannedValue);
@@ -129,12 +129,12 @@ function VerifyFeed() {
 
   const closeAlert = () => {
     setFilter('');
-    setDisplay('none');
+    setDisplay('verification-display');
   };
 
   const openAlert = (message) => {
     setAlertMessage(message);
-    setFilter('blur(2px)');
+    setFilter('verification-filter');
     setDisplay('');
   };
 
@@ -145,12 +145,14 @@ function VerifyFeed() {
           <div className="subtitle">{promptMessage}</div>
           <img className="img" src={scanner}></img>
           <div className="text">Waiting for scan...</div>
-          <input
-            type="text"
-            id="scanner-input"
-            className="scanner-input"
+          <Form.Control
+            type="number"
+            name="scanner-input"
+            className="scanner-input text-center align-self-center"
             ref={scannerInputRef}
-            onChange={handleInput}></input>
+            onChange={handleInput}
+            autoFocus
+          />
         </>
       );
       break;
@@ -159,30 +161,26 @@ function VerifyFeed() {
         <>
           <div>
             <div className="subtitle">Verification Complete!</div>
-            <div className="text" style={{ marginTop: '10px' }}>
-              Feed has been recorded.
-            </div>
+            <div className="text mt-2">Feed has been recorded.</div>
           </div>
-          <button
-            type="button"
-            className="btn btn-primary home-button"
+          <Button
+            variant="primary"
             name="return-home"
+            className="align-self-center"
             onClick={goToHome}>
             Return Home
-          </button>
+          </Button>
         </>
       );
       break;
   }
-
+  console.log(display);
   return (
     <>
       <section id="Home">
         <Navibar />
         <div id="verify-alert" className="alert-container">
-          <div
-            className="alert alert-danger alert-popup alert-dismissable fade show"
-            style={{ display }}>
+          <div className={`alert alert-danger alert-popup alert-dismissable fade show ${display}`}>
             <h4 className="alert-heading">Error</h4>
             <button
               type="button"
@@ -193,8 +191,8 @@ function VerifyFeed() {
             <div className="text">{alertMessage}</div>
           </div>
         </div>
-        <div className="verification-page" style={{ filter }}>
-          <div className="title">Verify Feed</div>
+        <div className={`verification-page ${filter}`}>
+          <h1 className="title text-center">Verify Feed</h1>
           <div className="checkbox-container">
             <div className="checkbox">
               <div>{babyCheck}</div>

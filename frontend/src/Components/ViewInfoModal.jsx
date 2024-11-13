@@ -79,7 +79,7 @@ function ViewInfoModal({ info, closeModal, displayData, setDisplayData }) {
         />
       }
       footer={
-        <div id="btn-group" className="info-btn-group">
+        <div id="btn-group" className="m-4">
           <Button onClick={() => closeModal(false)} variant="outline-primary">
             Close
           </Button>

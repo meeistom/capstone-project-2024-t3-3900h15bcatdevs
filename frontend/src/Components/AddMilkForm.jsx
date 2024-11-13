@@ -17,7 +17,7 @@ function AddMilkForm({
   setAdditive
 }) {
   return (
-    <div className="form-container w-100">
+    <div className="form-container w-100 mt-2">
       <div className="form-mother-detail align-self-start">
         <h5>Patient Details</h5>
         <p className="m-0">
