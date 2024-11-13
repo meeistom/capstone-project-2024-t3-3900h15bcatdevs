@@ -38,6 +38,7 @@ function Home() {
         throw new Error('Having errors fetching milk details');
       }
       const result = await response.json();
+      console.log(result)
       result.forEach((entry) => {
         entry.associated_milks.forEach((milk) => {
           milk.express_time_str = unixToTimeStr(milk.express_time);
@@ -48,7 +49,7 @@ function Home() {
       setDisplayData(result);
       localStorage.setItem("myBabyData", JSON.stringify(result));
     } catch (error) {
-      setError(error);
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -101,12 +102,10 @@ function Home() {
     axios
       .delete(`${URL}/delete_milk_entry?uid=${uid}`, { data: reasonData })
       .then((_) => {
-        // const updatedData = baby.mrn === newMilk.baby_mrn ? {...baby, associated_milks: [...baby.associated_milks, newMilk]} : baby
         const updatedData = data.map((entry) => ({
           ...entry,
           associated_milks: entry.associated_milks.filter((milk) => milk.uid !== uid)
         }));
-        // const updatedData = data.filter((item) => item.uid !== uid);
         setData(updatedData);
         setDisplayData(updatedData);
         localStorage.setItem("myBabyData", JSON.stringify(updatedData));

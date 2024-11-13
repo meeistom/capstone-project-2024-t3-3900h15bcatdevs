@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { ViewInfoForm } from "./ViewInfoForm";
-import { Modal } from "./Modal";
-import Button from "react-bootstrap/Button";
-import { URL } from "../constants";
-import axios from "axios";
+import React, { useState } from 'react';
+import { ViewInfoForm } from './ViewInfoForm';
+import { Modal } from './Modal';
+import Button from 'react-bootstrap/Button';
+import { URL } from '../constants';
+import axios from 'axios';
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../index.css";
-import { toUnix, dateTimeToString, unixToDatetimeLocal } from "../Utils/utils";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../index.css';
+import { toUnix, dateTimeToString, unixToDatetimeLocal } from '../Utils/utils';
 
 export { ViewInfoModal };
 
@@ -32,27 +32,29 @@ function ViewInfoModal({ info, closeModal, displayData, setDisplayData }) {
       storage_type: storageType,
       storage_location: storageLocation,
       additives: additive,
-      volume_ml: info.volume_ml,
+      volume_ml: info.volume_ml
     };
 
     console.log(updatedInfo);
     axios
       .post(`${URL}/edit?milk_uid=${info.uid}`, updatedInfo)
       .then((response) => {
-        const updatedData = displayData.map((item) => (item.uid === info.uid ? { ...item, ...updatedInfo } : item));
+        const updatedData = displayData.map((item) =>
+          item.uid === info.uid ? { ...item, ...updatedInfo } : item
+        );
         console.log(`Milk Entry updated:`, response.data);
         setDisplayData(updatedData);
         setIsEditing(false);
       })
       .catch((error) => {
-        console.log("Error editing milk entry:", error);
+        console.log('Error editing milk entry:', error);
       });
   };
 
   return (
     <Modal
       id={info.uid || info.mrn}
-      title={isEditing ? "Edit Milk Entry" : `Milk ID #${info.uid}`}
+      title={isEditing ? 'Edit Milk Entry' : `Milk ID #${info.uid}`}
       body={
         <ViewInfoForm
           created={dateTimeToString(unixToDatetimeLocal(info.created_at))}
@@ -82,7 +84,7 @@ function ViewInfoModal({ info, closeModal, displayData, setDisplayData }) {
             Close
           </Button>
           <Button onClick={() => (isEditing ? handleSave() : setIsEditing(true))} variant="primary">
-            {isEditing ? "Save" : "Edit"}
+            {isEditing ? 'Save' : 'Edit'}
           </Button>
         </div>
       }

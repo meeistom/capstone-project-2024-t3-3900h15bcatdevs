@@ -54,6 +54,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
   const [openEntryModal, setOpenEntryModal] = useState(false);
   const [info, setInfo] = useState(null);
   const [searchValue, setSearchValue] = useState('');
+  const [data] = useState(displayData);
 
   const handlePopUp = (entry) => {
     setInfo(entry);
@@ -319,13 +320,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
         </tbody>
       </table>
       {openEntryModal && (
-        <ViewInfoModal
-          info={info}
-          closeModal={handleClosePopUp}
-          displayData={displayData}
-          setDisplayData={setDisplayData}
-          version={viewType}
-        />
+        <ViewInfoModal info={info} closeModal={handleClosePopUp} version={viewType} />
       )}
     </div>
   );

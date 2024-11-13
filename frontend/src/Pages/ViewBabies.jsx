@@ -4,22 +4,22 @@ import { Navibar } from '../Components/Navibar';
 import { Table } from '../Components/Table';
 import { URL } from '../constants';
 
-export { ViewMothers };
+export { ViewBabies };
 
-function ViewMothers() {
+function ViewBabies() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${URL}/mothers`);
+      const response = await fetch(`${URL}/babies`);
       if (!response.ok) {
-        throw new Error('Having errors fetching mother details');
+        throw new Error('Having errors fetching baby details');
       }
       const result = await response.json();
       setData(result);
-      localStorage.setItem('myMotherData', JSON.stringify(result));
+      localStorage.setItem('myBabyData', JSON.stringify(result));
     } catch (error) {
       setError(error);
     } finally {
@@ -28,7 +28,7 @@ function ViewMothers() {
   };
 
   useEffect(() => {
-    const cachedData = localStorage.getItem('myMotherData');
+    const cachedData = localStorage.getItem('myBabyData');
     if (cachedData) {
       setData(JSON.parse(cachedData));
       setLoading(false);
@@ -43,20 +43,19 @@ function ViewMothers() {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-
   return (
     <>
-      <section id="viewMother">
+      <section id="viewBaby">
         <Navibar />
         <div className="page-container">
-          <h1 className="page-title">Mothers</h1>
-          <p>Total number of mothers: {data.length}</p>
+          <h1 className="page-title">Babies</h1>
+          <p>Total number of babies: {data.length}</p>
           <Table
             delete={null}
             displayData={data}
             setDisplayData={setData}
             setOpenModal={null}
-            viewType="viewMother"
+            viewType="viewBaby"
           />
         </div>
       </section>
