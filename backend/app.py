@@ -1,3 +1,4 @@
+import json
 from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -15,6 +16,7 @@ from firebase.notify import *
 from firebase.search import *
 from firebase.expiration_handler import *
 from firebase.edit import *
+from firebase.milk_uid_generator import get_new_milk_uid_placeholder
 
 from labels.labels import *
 
@@ -199,6 +201,9 @@ def delete_mother_by_mrn():
 
     success, message = delete_document(fs_client, mother_mrn=mrn)
 
+    if not success:
+        print(message)
+
     return make_response(message, 200 if success else 500)
 
 
@@ -209,6 +214,9 @@ def delete_baby_by_mrn():
 
     success, message = delete_document(fs_client, baby_mrn=mrn)
 
+    if not success:
+        print(message)
+
     return make_response(message, 200 if success else 500)
 
 
@@ -216,8 +224,12 @@ def delete_baby_by_mrn():
 @app.route("/delete_milk_entry", methods=["DELETE"])
 def delete_milk_entry_by_uid():
     uid = request.args.get("uid")
+    reason_data = request.get_json()
 
-    success, message = delete_document(fs_client, milk_entry_uid=uid)
+    success, message = delete_document(fs_client, milk_entry_uid=uid, extra_data=reason_data)
+
+    if not success:
+        print(message)
 
     return make_response(message, 200 if success else 500)
 
@@ -268,26 +280,24 @@ def get_update_notifications():
 
 @app.route('/preview_milk_label', methods=['GET'], strict_slashes=False)
 def get_milk_label_preview():
-    uid = request.args.get('uid')
+    # get milk uid generated
+    success, uid = get_new_milk_uid_placeholder(fs_client)
+    if not success:
+        return jsonify({"error": "Stats document error"}), 400
+    
+    # get milk entry info
+    try:
+        milk = json.loads(request.args.get("milk"))
+    except (TypeError, json.JSONDecodeError):
+        return jsonify({"error": "Invalid milk data"}), 400
 
-    milk = retrieve_from_collection(
-        fs_client, collection="milk_entries", mrn_uid=uid)
-    assert len(milk) == 1
-    milk = milk[0]
-
-    baby = retrieve_from_collection(
-        fs_client, collection="babies", mrn_uid=milk['baby_mrn'])
-    assert len(baby) == 1
+    # get baby info
+    baby = retrieve_from_collection(fs_client, collection="babies", mrn_uid=milk['baby_mrn'])
+    assert(len(baby) == 1)
     baby = baby[0]
-
-    mother = retrieve_from_collection(
-        fs_client, collection="mothers", mrn_uid=baby['mother_mrn'])
-    assert len(mother) == 1
-    mother = mother[0]
-
     label = get_milk_label((
         uid,
-        mother['first_name'],
+        baby['first_name'],
         baby['last_name'],
         baby['mrn'],
         milk['milk_type'],
@@ -297,10 +307,7 @@ def get_milk_label_preview():
         milk['additives']
     ))
 
-    return make_response(
-        label,
-        200
-    )
+    return make_response(label, 200)
 
 # Updates mother, baby, milk entry
 @app.route('/edit', methods=['POST'], strict_slashes=False)

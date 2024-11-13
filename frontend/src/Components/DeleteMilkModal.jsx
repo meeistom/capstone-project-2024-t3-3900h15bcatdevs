@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import React, { useState } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../index.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../index.css';
 
 export { DeleteMilkModal };
 
 function DeleteMilkModal({ closeModal, entry, deleteMilk }) {
-  const [reason, setReason] = useState("expired");
-  const [notes, setNotes] = useState("");
+  const [reason, setReason] = useState('expired');
+  const [notes, setNotes] = useState('');
 
   return (
     <Modal
@@ -18,28 +18,23 @@ function DeleteMilkModal({ closeModal, entry, deleteMilk }) {
       onHide={() => closeModal(false)}
       centered
       backdrop="static"
-      id={`${entry.uid}-deletion-modal`}
-    >
+      id={`${entry.uid}-deletion-modal`}>
       <Modal.Header closeButton>
         <Modal.Title>Deletion Confirmation</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <p>
-          Milk #{entry.uid} belongs to: <br /> {entry.baby_name}, baby of{" "}
-          {entry.mother_name}
+          Milk #{entry.uid} belongs to: <br /> {entry.baby_name}, baby of {entry.mother_name}
         </p>
         <Form.Group controlId="milk-removal-reason">
           <Form.Label>Reason for milk removal*</Form.Label>
-          <Form.Select
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
-          >
+          <Form.Select value={reason} onChange={(e) => setReason(e.target.value)}>
             <option value="expired">Expired</option>
             <option value="discharged">Baby discharged</option>
             <option value="other">Other</option>
           </Form.Select>
         </Form.Group>
-        {reason === "other" && (
+        {reason === 'other' && (
           <Form.Group controlId="removal-notes" className="pt-2">
             <Form.Label>Notes*</Form.Label>
             <Form.Control
@@ -55,16 +50,14 @@ function DeleteMilkModal({ closeModal, entry, deleteMilk }) {
         <Button
           variant="outline-secondary"
           id="close-dlt-milk-modal"
-          onClick={() => closeModal(false)}
-        >
+          onClick={() => closeModal(false)}>
           Close
         </Button>
         <Button
           variant="danger"
           id="confirm-dlt-milk-btn"
-          disabled={reason === "other" && notes === ""}
-          onClick={() => deleteMilk(entry.uid, reason, notes)}
-        >
+          disabled={reason === 'other' && notes === ''}
+          onClick={() => deleteMilk(entry.uid, reason, notes)}>
           Delete
         </Button>
       </Modal.Footer>

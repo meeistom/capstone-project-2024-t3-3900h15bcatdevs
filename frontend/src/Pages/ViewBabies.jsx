@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Navibar } from "../Components/Navibar";
-import { Table } from "../Components/Table";
-import { URL } from "../constants";
+import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Navibar } from '../Components/Navibar';
+import { Table } from '../Components/Table';
+import { URL } from '../constants';
 
 export { ViewBabies };
 
@@ -15,11 +15,11 @@ function ViewBabies() {
     try {
       const response = await fetch(`${URL}/babies`);
       if (!response.ok) {
-        throw new Error("Having errors fetching baby details");
+        throw new Error('Having errors fetching baby details');
       }
       const result = await response.json();
       setData(result);
-      localStorage.setItem("myBabyData", JSON.stringify(result));
+      localStorage.setItem('myBabyData', JSON.stringify(result));
     } catch (error) {
       setError(error);
     } finally {
@@ -28,7 +28,7 @@ function ViewBabies() {
   };
 
   useEffect(() => {
-    const cachedData = localStorage.getItem("myBabyData");
+    const cachedData = localStorage.getItem('myBabyData');
     if (cachedData) {
       setData(JSON.parse(cachedData));
       setLoading(false);
@@ -45,7 +45,7 @@ function ViewBabies() {
   }
   return (
     <>
-      <section id="Home">
+      <section id="viewBaby">
         <Navibar />
         <div className="page-container">
           <h1 className="page-title">Babies</h1>

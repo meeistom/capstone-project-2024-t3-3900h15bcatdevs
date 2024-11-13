@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Navibar } from "../Components/Navibar";
-import { useNavigate } from "react-router-dom";
-import scanner from "../Assets/scanner.png";
-import confirmCheck from "../Assets/confirm-check.png";
-import axios from "axios";
-import { URL } from "../constants";
+import React, { useEffect, useRef, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Navibar } from '../Components/Navibar';
+import { useNavigate } from 'react-router-dom';
+import scanner from '../Assets/scanner.png';
+import confirmCheck from '../Assets/confirm-check.png';
+import axios from 'axios';
+import { URL } from '../constants';
 
 export { VerifyFeed };
 
@@ -13,24 +13,20 @@ function VerifyFeed() {
   const navigate = useNavigate();
   const scannerInputRef = useRef(null);
 
-  const [milkCheck, setMilkCheck] = useState(
-    <span className={"empty-check"}></span>
-  );
-  const [babyCheck, setBabyCheck] = useState(
-    <span className={"empty-check"}></span>
-  );
-  const [milkBarcode, setMilkBarcode] = useState("");
-  const [babyBarcode, setBabyBarcode] = useState("");
+  const [milkCheck, setMilkCheck] = useState(<span className={'empty-check'}></span>);
+  const [babyCheck, setBabyCheck] = useState(<span className={'empty-check'}></span>);
+  const [milkBarcode, setMilkBarcode] = useState('');
+  const [babyBarcode, setBabyBarcode] = useState('');
 
   const [promptMessage, setPromptMessage] = useState(
-    "Please scan the barcode on the baby or milk."
+    'Please scan the barcode on the baby or milk.'
   );
-  const [promptType, setPromptType] = useState("scan");
+  const [promptType, setPromptType] = useState('scan');
   let promptPage;
 
-  const [alertMessage, setAlertMessage] = useState("");
-  const [filter, setFilter] = useState("");
-  const [display, setDisplay] = useState("none");
+  const [alertMessage, setAlertMessage] = useState('');
+  const [filter, setFilter] = useState('');
+  const [display, setDisplay] = useState('none');
 
   useEffect(() => {
     if (scannerInputRef.current) {
@@ -45,27 +41,25 @@ function VerifyFeed() {
       const barcodeInfo = response.data;
 
       // If baby barcode is scanned, save barcode
-      if (barcodeInfo.collection == "babies") {
+      if (barcodeInfo.collection == 'babies') {
         setBabyBarcode(barcode);
-        if (milkBarcode == "") {
+        if (milkBarcode == '') {
           setBabyCheck(<img className="img" src={confirmCheck}></img>);
-          setPromptMessage("Please scan the barcode on the milk.");
+          setPromptMessage('Please scan the barcode on the milk.');
         } else {
           // check for match
           await checkMatch(milkBarcode, barcode);
         }
 
         // If milk barcode is scanned, check if expired, else save barcode
-      } else if (barcodeInfo.collection == "milk_entries") {
+      } else if (barcodeInfo.collection == 'milk_entries') {
         if (barcodeInfo.expired == true) {
-          openAlert(
-            `Milk ${barcode} expired at ${barcodeInfo.expiration_time}.`
-          );
+          openAlert(`Milk ${barcode} expired at ${barcodeInfo.expiration_time}.`);
         } else {
           setMilkBarcode(barcode);
-          if (babyBarcode == "") {
+          if (babyBarcode == '') {
             setMilkCheck(<img className="img" src={confirmCheck}></img>);
-            setPromptMessage("Please scan the barcode on the baby.");
+            setPromptMessage('Please scan the barcode on the baby.');
           } else {
             await checkMatch(barcode, babyBarcode);
           }
@@ -73,25 +67,23 @@ function VerifyFeed() {
 
         // If a mother barcode is scanned raise error
       } else {
-        openAlert(
-          "Mother barcode scanned. Please scan a valid milk or baby barcode."
-        );
+        openAlert('Mother barcode scanned. Please scan a valid milk or baby barcode.');
       }
     } catch (error) {
       // If barcode not found in system raise error
-      openAlert("Barcode not found.");
+      openAlert('Barcode not found.');
     }
   };
 
   const checkMatch = async (milk_barcode, baby_barcode) => {
     const url = `${URL}/verify_feed?milk_uid=${milk_barcode}&baby_mrn=${baby_barcode}`;
     try {
-      const response = await axios.get(url);
+      await axios.get(url);
 
       // If milk and baby match, go to confirmation
       setMilkCheck(<img className="img" src={confirmCheck}></img>);
       setBabyCheck(<img className="img" src={confirmCheck}></img>);
-      setPromptType("confirmation");
+      setPromptType('confirmation');
       deleteMilk(milk_barcode);
     } catch (error) {
       // If mismatch
@@ -113,15 +105,18 @@ function VerifyFeed() {
     try {
       await axios.delete(url);
     } catch (error) {
-      openAlert("Error removing milk from the system.");
+      openAlert('Error removing milk from the system.');
     }
   };
 
   const handleInput = async () => {
     const scannedValue = scannerInputRef.current.value;
-    if (scannedValue.length >= 4) {
+    if (
+      (babyBarcode === '' && scannedValue.length >= 4) ||
+      (milkBarcode === '' && scannedValue.length >= 6)
+    ) {
       // Sets scanner input to empty again
-      document.getElementById("scanner-input").value = "";
+      document.getElementById('scanner-input').value = '';
 
       // Checks if scanned barcode is valid, verifies match
       await checkBarcode(scannedValue);
@@ -129,22 +124,22 @@ function VerifyFeed() {
   };
 
   const goToHome = () => {
-    navigate("/");
+    navigate('/');
   };
 
   const closeAlert = () => {
-    setFilter("");
-    setDisplay("none");
+    setFilter('');
+    setDisplay('none');
   };
 
   const openAlert = (message) => {
     setAlertMessage(message);
-    setFilter("blur(2px)");
-    setDisplay("");
+    setFilter('blur(2px)');
+    setDisplay('');
   };
 
   switch (promptType) {
-    case "scan":
+    case 'scan':
       promptPage = (
         <>
           <div className="subtitle">{promptMessage}</div>
@@ -155,17 +150,16 @@ function VerifyFeed() {
             id="scanner-input"
             className="scanner-input"
             ref={scannerInputRef}
-            onChange={handleInput}
-          ></input>
+            onChange={handleInput}></input>
         </>
       );
       break;
-    case "confirmation":
+    case 'confirmation':
       promptPage = (
         <>
           <div>
             <div className="subtitle">Verification Complete!</div>
-            <div className="text" style={{ marginTop: "10px" }}>
+            <div className="text" style={{ marginTop: '10px' }}>
               Feed has been recorded.
             </div>
           </div>
@@ -173,8 +167,7 @@ function VerifyFeed() {
             type="button"
             className="btn btn-primary home-button"
             name="return-home"
-            onClick={goToHome}
-          >
+            onClick={goToHome}>
             Return Home
           </button>
         </>
@@ -189,15 +182,13 @@ function VerifyFeed() {
         <div id="verify-alert" className="alert-container">
           <div
             className="alert alert-danger alert-popup alert-dismissable fade show"
-            style={{ display }}
-          >
+            style={{ display }}>
             <h4 className="alert-heading">Error</h4>
             <button
               type="button"
               name="close-alert"
               className="btn-close alert-close"
-              onClick={closeAlert}
-            ></button>
+              onClick={closeAlert}></button>
             <hr></hr>
             <div className="text">{alertMessage}</div>
           </div>
