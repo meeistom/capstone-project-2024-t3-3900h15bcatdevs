@@ -51,7 +51,6 @@ function AddMilkForm({
                   className="form-select form-select-sm"
                   defaultValue="none"
                   onChange={(e) => {
-                    console.log('Selected Additive:', e.target.value);
                     setAdditive(e.target.value);
                   }}>
                   <option value="none">None</option>

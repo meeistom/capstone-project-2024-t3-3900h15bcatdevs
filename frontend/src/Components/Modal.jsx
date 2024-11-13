@@ -14,10 +14,12 @@ function Modal({ id, title, body, footer, size, closeModal }) {
   return (
     <>
       <div
+        onClick={() => closeModal(false)}
         id={id}
         className="modal-background position-fixed d-flex justify-content-center align-items-center w-100 h-100">
         <div
-          className={`modal-container position-relative bg-white rounded-3 shadow-lg d-flex flex-column p-4 ${modalSizeClass}`}>
+          className={`modal-container position-relative bg-white rounded-3 shadow-lg d-flex flex-column p-4 drop-from-top ${modalSizeClass}`}
+          onClick={(e) => e.stopPropagation()}>
           <div className="modal-close-btn d-flex justify-content-end">
             <Button
               variant="link"

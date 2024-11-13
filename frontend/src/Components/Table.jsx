@@ -19,8 +19,8 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
       { label: 'milk ID', key: 'uid' },
       { label: 'Baby', key: 'baby_name' },
       { label: 'Mother', key: 'mother_name' },
-      { label: 'Express time', key: 'express_time' },
-      { label: 'Expiration time', key: 'expiration_time' },
+      { label: 'Express time', key: 'express_time_str' },
+      { label: 'Expiration time', key: 'expiration_time_str' },
       { label: 'Storage Type', key: 'storage_type' }
     ],
     viewMother: [
@@ -36,15 +36,16 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
       { label: 'Mother', key: 'mother_mrn' }
     ],
     viewLog: [
-      { label: 'Log ID', key: 'logId' },
-      { label: 'Timestamp', key: 'timestamp' },
-      { label: 'Event', key: 'event' }
+      { label: 'Event', key: 'type' },
+      { label: 'Timestamp', key: 'timestamp_str' },
+      { label: 'Message', key: 'message' }
     ]
   };
   const columns = viewConfigs[viewType] || [];
   const [openEntryModal, setOpenEntryModal] = useState(false);
   const [info, setInfo] = useState(null);
   const [searchValue, setSearchValue] = useState('');
+  const [data] = useState(displayData);
 
   const handlePopUp = (entry) => {
     setInfo(entry);
@@ -62,35 +63,36 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
     let result;
     try {
       console.log('Quering backend');
-      const response = await fetch(`${URL}/search?keyword=${searchValue}`);
+      let response;
+      switch (viewType) {
+        case 'viewMilk':
+          response = await fetch(`${URL}/milk_entries/search?keyword=${searchValue}`);
+          break;
+        case 'viewMother':
+          response = await fetch(`${URL}/mothers/search?keyword=${searchValue}`);
+          break;
+        case 'viewBaby':
+          response = await fetch(`${URL}/babies/search?keyword=${searchValue}`);
+          break;
+      }
       if (!response.ok) {
         throw new Error('Could not find relative entry with such keyword');
       }
       result = await response.json();
     } catch (error) {
-      console.error(error);
+      console.log(error);
     } finally {
       if (result) {
         console.log(result);
         switch (viewType) {
           case 'viewMilk': {
-            result = result.milk_entries;
             const milk_uids = result.map((entry) => entry.uid);
             setDisplayData(displayData.filter((entry) => milk_uids.includes(entry.uid)));
             break;
           }
-          case 'viewMother': {
-            result = result.mothers;
-            const mother_ids = result.map((entry) => entry.mrn);
-            setDisplayData(displayData.filter((entry) => mother_ids.includes(entry.mrn)));
+          default:
+            setDisplayData(result);
             break;
-          }
-          case 'viewBaby': {
-            result = result.babies;
-            const baby_ids = result.map((entry) => entry.mrn);
-            setDisplayData(displayData.filter((entry) => baby_ids.includes(entry.mrn)));
-            break;
-          }
         }
       }
     }
@@ -113,7 +115,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
                     value={searchValue}
                     type="text"
                     className="form-control"
-                    placeholder="Seach..."
+                    placeholder="Search..."
                     aria-describedby="button-search"
                   />
                   <button
@@ -124,7 +126,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                   </button>
                   <button
-                    onClick={() => setDisplayData(displayData)}
+                    onClick={() => setDisplayData(data)}
                     className="btn btn-outline-secondary">
                     <FontAwesomeIcon icon={faArrowsRotate} />
                   </button>
@@ -162,6 +164,8 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
                     <td onClick={() => handlePopUp(item)} key={column.key}>
                       {item[column.key]}
                     </td>
+                  ) : viewType === 'viewLog' ? (
+                    <td key={column.key}>{item[column.key]}</td>
                   ) : (
                     <td key={column.key}>{item[column.key]}</td>
                   )
@@ -183,13 +187,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
         </tbody>
       </table>
       {openEntryModal && (
-        <ViewInfoModal
-          info={info}
-          closeModal={handleClosePopUp}
-          displayData={displayData}
-          setDisplayData={setDisplayData}
-          version={viewType}
-        />
+        <ViewInfoModal info={info} closeModal={handleClosePopUp} version={viewType} />
       )}
     </div>
   );

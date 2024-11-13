@@ -1,21 +1,21 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Button from "react-bootstrap/Button";
-import "bootstrap/dist/css/bootstrap.min.css";
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Button from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse } from "@fortawesome/free-solid-svg-icons";
-import { faPersonDress } from "@fortawesome/free-solid-svg-icons";
-import { faBaby } from "@fortawesome/free-solid-svg-icons";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
-import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import { faPersonDress } from '@fortawesome/free-solid-svg-icons';
+import { faBaby } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
-import "../index.css";
+import '../index.css';
 
 export { Navibar };
 
@@ -23,27 +23,27 @@ function Navibar() {
   const navigate = useNavigate();
 
   const goToHome = () => {
-    navigate("/");
+    navigate('/');
   };
 
   const goToMothers = () => {
-    navigate("/view_mothers");
+    navigate('/view_mothers');
   };
 
   const goToBabies = () => {
-    navigate("/view_babies");
+    navigate('/view_babies');
   };
 
   const goToRegister = () => {
-    navigate("/register");
+    navigate('/register');
   };
 
   const goToHistory = () => {
-    navigate("/history_log");
+    navigate('/history_log');
   };
 
   const goToVerify = () => {
-    navigate("/verify_feed");
+    navigate('/verify_feed');
   };
 
   return (

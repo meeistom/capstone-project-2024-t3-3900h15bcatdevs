@@ -29,6 +29,19 @@ body {
   font-size: 30px;
 }
 
+@keyframes drop-from-top {
+  from {
+    transform: translateY(-100vh);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.drop-from-top {
+  animation: drop-from-top 0.3s;
+}
+
 /* Modal styling */
 .modal-background {
   left: 0;
@@ -41,6 +54,7 @@ body {
   width: 35.1rem;
   height: 39rem;
   overflow: auto;
+  z-index: 10;
 }
 
 .modal-container .title {
@@ -509,6 +523,10 @@ thead tr {
 /* Home Page Styling */
 .home-container {
   gap: 1rem;
+}
+
+Button:hover {
+  scale: 1.05;
 }
 
 .edit-popup {
