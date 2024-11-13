@@ -112,7 +112,9 @@ You may encounter test failures due to mismatched snapshots. If the component de
 
 Please run tests when working on the backend. Please update tests if needed.
 
-To run tests navigate to the `./backend` folder and first reset the database. Make sure that in `db_control.py` you use the first key, `cred = credentials.Certificate('./.key/key.json')`, since we don't want to override data in the main database. Run the following command:
+To run tests navigate to the `./backend` folder and first reset the database.
+**Make sure that in `db_control.py` you use the first key, `cred = credentials.Certificate('./.key/key.json')`, since we don't want to override data in the main database.**
+Run the following command:
 
 ```plain
 python db_control.py
