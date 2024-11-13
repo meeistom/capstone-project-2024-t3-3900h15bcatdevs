@@ -120,6 +120,12 @@ Run the following command:
 python db_control.py
 ```
 
+You can find the code coverage by running the following. Run `db_control.py` again before doing so.
+
+```plain
+pytest --cov
+```
+
 Then to run tests, use:
 
 ```plain
