@@ -2,8 +2,6 @@ from labels import *
 from labels.barcodes.barcodes import *
 import pytest
 
-# I SHOULD PROBABLY CHANGE THESE TESTS SO I TEST FOR SPECIFIC VALUES INSTEAD OF JUST TYPES
-
 required_info_path = './assets/template/required_info_modified.txt'
 optional_info_path = './assets/template/optional_info.txt'
 
