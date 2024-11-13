@@ -9,6 +9,7 @@ def delete_document(
     mother_mrn: str = None,
     baby_mrn: str = None,
     milk_entry_uid: str = None,
+    extra_data: dict = None
 ) -> Tuple[bool, str]:
     """
     Deletes a document from the database
@@ -47,6 +48,10 @@ def delete_document(
             mother_doc.update({
                 "milk_entries": firestore.ArrayRemove([document["uid"]])
             })
+
+            # Get the reason from the input data
+            if extra_data and "reason" in extra_data:
+                document['delete_reason'] = extra_data["reason"]
 
             # Log milk deleted event if the document was a milk entry
             _, mother_name = get_full_name(firestore_client, document["mother_mrn"])
