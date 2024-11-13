@@ -54,7 +54,7 @@ function PreviewGeneratedLabel({ milkInfo, milkChecked, setLabelPrint }) {
         <div className="body d-flex flex-column justify-content-between fs-5">
           {milkChecked && (
             <>
-              <img src={`data:image/png;base64,${label}`} />
+              <img src={label} />
             </>
           )}
           {!milkChecked && (
