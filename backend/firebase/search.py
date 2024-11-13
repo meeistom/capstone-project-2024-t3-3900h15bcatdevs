@@ -2,7 +2,7 @@ from firebase.error_check import *
 from firebase.retrieve import *
 
 
-def search_by_keyword(firestore_client, collection: str, keyword: str) -> dict:
+def search_by_keyword(firestore_client, collection: str, keyword: str) -> list:
     """
     Gets any matches from the database by a keyword. Returns a dict of collection name and lists of relevant documents
 
@@ -11,7 +11,7 @@ def search_by_keyword(firestore_client, collection: str, keyword: str) -> dict:
         keyword (str): Keyword to search for in the database.
 
     Returns:
-        dict: Dictionary of collection name and lists of relevant documents
+        list: List of collection name and lists of relevant documents
     """
     # Check if collection exists
     assert collection in all_collection_names
