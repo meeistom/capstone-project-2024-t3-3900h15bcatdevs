@@ -1,13 +1,15 @@
 from firebase.error_check import *
-from firebase.history import log_milk_deleted_event
+from firebase.history import log_event
 from typing import Tuple
 from firebase.retrieve import get_full_name
+from firebase_admin import firestore
 
 def delete_document(
     firestore_client,
     mother_mrn: str = None,
     baby_mrn: str = None,
     milk_entry_uid: str = None,
+    extra_data: dict = None
 ) -> Tuple[bool, str]:
     """
     Deletes a document from the database
@@ -40,13 +42,23 @@ def delete_document(
             print(f"DELETE DOCUMENT: An error occurred while deleting data: {e}")
             return False, "Failed to delete document"
         
-        # Log milk deleted event if the document was a milk entry
         if collection_name == "milk_entries":
+            # Remove the milk entry from the mother
+            mother_doc = firestore_client.collection("mothers").document(document["mother_mrn"])
+            mother_doc.update({
+                "milk_entries": firestore.ArrayRemove([document["uid"]])
+            })
+
+            # Get the reason from the input data
+            if extra_data and "reason" in extra_data:
+                document['delete_reason'] = extra_data["reason"]
+
+            # Log milk deleted event if the document was a milk entry
             _, mother_name = get_full_name(firestore_client, document["mother_mrn"])
             _, baby_name = get_full_name(firestore_client, document["baby_mrn"])
             document['mother_name'] = mother_name
             document['baby_name'] = baby_name
-            event_success = log_milk_deleted_event(firestore_client, data=document)
+            event_success = log_event(firestore_client, event_type="Milk Deleted", data=document)
             if not event_success:
                 print("(HISTORY) Error logging Milk Added event")
     

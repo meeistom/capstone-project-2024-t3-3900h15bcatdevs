@@ -38,12 +38,7 @@ function AddMilkForm({
                 <Form.Label htmlFor="milk-type" className="form-label">
                   Milk Type*
                 </Form.Label>
-                <Form.Select
-                  id="milk-type"
-                  className="form-select form-select-sm"
-                  onChange={(e) => setMilkType(e.target.value)}
-                  value={milkType}
-                >
+                <Form.Select id="milk-type" className="form-select form-select-sm" value={milkType} onChange={(e) => setMilkType(e.target.value)}>
                   <option value="ehm">EHM</option>
                   <option value="pdhm">PDHM</option>
                   <option value="formula">Formula</option>
@@ -60,9 +55,11 @@ function AddMilkForm({
                   onChange={(e) => {setAdditive(e.target.value)}}
                 >
                   <option value="none">None</option>
-                  <option value="humavant6">Humavant+6</option>
                   <option value="prenanfm85">Pre Nan FM85</option>
+                  <option value="humavant6">Humavant+6</option>
+                  <option value="HumavantCream">Humavant Cream</option>
                   <option value="nanoptipropowder">Nan Optipro Powder</option>
+                  <option value="PeptiJuniorpowder">Pepti Junior powder</option>
                   <option value="neocate powder">Neocate Powder</option>
                   <option value="beneprotein">Beneprotein</option>
                 </Form.Select>
@@ -71,15 +68,10 @@ function AddMilkForm({
                 <Form.Label htmlFor="milk-storage" className="form-label">
                   Storage Type*
                 </Form.Label>
-                <Form.Select
-                  id="milk-storage"
-                  className="form-select form-select-sm"
-                  onChange={(e) => setStorageType(e.target.value)}
-                  value={storageType}
-                >
-                  <option value="fridge">Fridge</option>
+                <Form.Select id="milk-storage" className="form-select form-select-sm" value={storageType} onChange={(e) => {setStorageType(e.target.value)}}>
                   <option value="fresh">Fresh</option>
-                  <option value="defrost">Defrost</option>
+                  <option value="frozen">Freezer</option>
+                  <option value="defrosted">Defrosted</option>
                 </Form.Select>
               </div>
               <div className="col"></div>

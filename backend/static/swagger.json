@@ -153,7 +153,11 @@
                         "storage_location": "Room 3",
                         "storage_type": "cupboard",
                         "uid": "000000",
-                        "volume_ml": 63
+                        "volume_ml": 63,
+                        "additives": [
+                          "something",
+                          "something_else"
+                        ]
                     }
                   }
                 ]
@@ -620,7 +624,8 @@
                   "storage_location": { "type": "string" },
                   "volume_ml": { "type": "integer" },
                   "baby_mrn": { "type": "string" },
-                  "extra_notes": { "type": "string" }
+                  "extra_notes": { "type": "string" },
+                  "additives": { "type": "array" }
                 }
               },
               "example": {
@@ -656,7 +661,8 @@
                     "uid": { "type": "string" },
                     "volume_ml": { "type": "integer" },
                     "mother_name": { "type": "string" },
-                    "baby_name": { "type": "string" }
+                    "baby_name": { "type": "string" },
+                    "additives": { "type": "array" }
                   }
                 },
                 "example": {
@@ -672,7 +678,8 @@
                   "uid": "000200",
                   "volume_ml": 78,
                   "mother_name": "Hong Lin",
-                  "baby_name": "Hey Lin" 
+                  "baby_name": "Hey Lin",
+                  "additives": ["stuff", "more stuff"]
                 }
               }
             }
@@ -939,6 +946,97 @@
           },
           "400": {
             "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/edit": {
+      "post": {
+        "tags": [
+          "edit"
+        ],
+        "summary": "Updates an existing milk entry",
+        "description": "Updates an existing milk entry with update provided data and milk uid",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "milk_type": { "type": "string" },
+                  "express_time": { "type": "integer" },
+                  "expiration_time": { "type": "integer" },
+                  "storage_type": { "type": "string" },
+                  "storage_location": { "type": "string" },
+                  "volume_ml": { "type": "integer" },
+                  "baby_mrn": { "type": "string" },
+                  "extra_notes": { "type": "string" },
+                  "additives": { "type": "array" }
+                }
+              },
+              "example": {
+                "milk_type": "ehm",
+                "express_time": 1730782380,
+                "expiration_time": 1731041580,
+                "storage_type": "fridge",
+                "storage_location": "level 1",
+                "volume_ml": 50,
+                "baby_mrn": "0000",
+                "extra_notes": "bruh",
+                "additives": ["updated additive"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully added milk entry. Returns milk object for use with homepage, with mother and baby names included.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "baby_mrn": { "type": "string" },
+                    "created_at": { "type": "integer" },
+                    "expiration_time": { "type": "integer" },
+                    "express_time": { "type": "integer" },
+                    "extra_notes": { "type": "string" },
+                    "milk_type": { "type": "string" },
+                    "mother_mrn": { "type": "string" },
+                    "storage_location": { "type": "string" },
+                    "storage_type": { "type": "string" },
+                    "uid": { "type": "string" },
+                    "volume_ml": { "type": "integer" },
+                    "mother_name": { "type": "string" },
+                    "baby_name": { "type": "string" }
+                  }
+                },
+                "example": {
+                  "baby_mrn": "0000",
+                  "created_at": 1902839819,
+                  "expiration_time": 237482734874,
+                  "express_time": 237482734874,
+                  "extra_notes": "",
+                  "milk_type": "ehm",
+                  "mother_mrn": "0000",
+                  "storage_location": "fridge",
+                  "storage_type": "frozen",
+                  "uid": "000200",
+                  "volume_ml": 78,
+                  "mother_name": "Hong Lin",
+                  "baby_name": "Hey Lin" 
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad data provided.",
+            "content": {
+              "text/plain": {
+                "schema": { "type": "string" },
+                "example": "Only editing milk entries is supported | MRN/UID does not exist | Invalid request data fields | Expiration time cannot be before current time | Error updating document"
+              }
+            }
           }
         }
       }

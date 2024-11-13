@@ -1,38 +1,35 @@
 import React from 'react';
 
-export {Notifications};
+export { Notifications };
 
 function Notifications({ notifData, confirmDelete }) {
-
   const getExpiryMessage = (expired, days_expired, hours_expired) => {
-    let message = "";
+    let message = '';
 
     // Add days
     if (days_expired === 1) {
-      message += "1 day";
+      message += '1 day';
     } else if (days_expired > 1) {
-      message +=`${days_expired} days`;
+      message += `${days_expired} days`;
     }
 
     if (days_expired !== 0 && hours_expired !== 0) {
-      message += " and ";
+      message += ' and ';
     }
 
     // Add hours
     if (hours_expired === 1) {
-      message += "1 hour";
+      message += '1 hour';
     } else if (hours_expired > 1) {
       message += `${hours_expired} hours`;
     }
 
     if (expired === true) {
-      message += " ago";
+      message += ' ago';
     }
 
-    return (
-      <>{message}</>
-    )
-  }
+    return <>{message}</>;
+  };
 
     return (
     <div className="notifications-outer-container">
@@ -67,6 +64,5 @@ function Notifications({ notifData, confirmDelete }) {
         ))}
       </div>
     </div>
-  )  
+  );
 }
-

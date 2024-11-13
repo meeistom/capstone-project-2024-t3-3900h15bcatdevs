@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Navibar } from "../Components/Navibar";
-import { Table } from "../Components/Table";
+import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Navibar } from '../Components/Navibar';
+import { Table } from '../Components/Table';
 import { URL } from "../constants";
 import { unixToTimeStr } from "../Utils/utils.jsx";
 
@@ -28,6 +28,7 @@ function HistoryLog() {
       setDisplayData(reversed);
       localStorage.setItem("myLog", JSON.stringify(reversed));
     } catch (error) {
+      setError(error);
       console.log(error);
     } finally {
       setLoading(false);
