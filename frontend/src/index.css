@@ -6,6 +6,7 @@
   --brandHover: #efe0f8;
   --navTextColor: #fff;
   --textColor: #000;
+  --editPopup: #efe0f8;
 }
 
 body {
@@ -519,4 +520,8 @@ thead tr {
 /* Home Page Styling */
 .home-container {
   display: flex;
+}
+
+.edit-popup {
+  color: var(--editPopup);
 }
