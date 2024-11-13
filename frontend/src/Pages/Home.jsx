@@ -102,11 +102,10 @@ function Home() {
       .delete(`${URL}/delete_milk_entry?uid=${uid}`, { data: reasonData })
       .then((_) => {
         // const updatedData = baby.mrn === newMilk.baby_mrn ? {...baby, associated_milks: [...baby.associated_milks, newMilk]} : baby
-        const updatedData = data.map((entry) => 
-          (entry.associated_milks).filter((milk) => 
-            milk.uid !== uid
-          )
-        );
+        const updatedData = data.map((entry) => ({
+          ...entry,
+          associated_milks: entry.associated_milks.filter((milk) => milk.uid !== uid)
+        }));
         // const updatedData = data.filter((item) => item.uid !== uid);
         setData(updatedData);
         setDisplayData(updatedData);
