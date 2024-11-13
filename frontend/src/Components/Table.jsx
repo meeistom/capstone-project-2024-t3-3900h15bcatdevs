@@ -1,25 +1,13 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
-import {
-  faPlus,
-  faFilter,
-  faTrash,
-  faMagnifyingGlass,
-  faArrowsRotate,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faFilter, faTrash, faMagnifyingGlass, faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ViewInfoModal } from "./ViewInfoModal";
 import { URL } from "../constants";
 
 export { Table };
 
-function Table({
-  deleteMilk,
-  displayData,
-  setDisplayData,
-  setOpenModal,
-  viewType,
-}) {
+function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType }) {
   const viewConfigs = {
     viewMilk: [
       { label: "milk ID", key: "uid" },
@@ -82,23 +70,17 @@ function Table({
           case "viewMilk":
             result = result.milk_entries;
             const milk_uids = result.map((entry) => entry.uid);
-            setDisplayData(
-              displayData.filter((entry) => milk_uids.includes(entry.uid))
-            );
+            setDisplayData(displayData.filter((entry) => milk_uids.includes(entry.uid)));
             break;
           case "viewMother":
             result = result.mothers;
             const mother_ids = result.map((entry) => entry.mrn);
-            setDisplayData(
-              displayData.filter((entry) => mother_ids.includes(entry.mrn))
-            );
+            setDisplayData(displayData.filter((entry) => mother_ids.includes(entry.mrn)));
             break;
           case "viewBaby":
             result = result.babies;
             const baby_ids = result.map((entry) => entry.mrn);
-            setDisplayData(
-              displayData.filter((entry) => baby_ids.includes(entry.mrn))
-            );
+            setDisplayData(displayData.filter((entry) => baby_ids.includes(entry.mrn)));
             break;
         }
       }
@@ -118,9 +100,7 @@ function Table({
                 <div className="search-bar input-group">
                   <input
                     onChange={(e) => setSearchValue(e.target.value)}
-                    onKeyDown={(e) =>
-                      e.key === "Enter" ? handleSearch() : null
-                    }
+                    onKeyDown={(e) => (e.key === "Enter" ? handleSearch() : null)}
                     value={searchValue}
                     type="text"
                     className="form-control"
@@ -135,10 +115,7 @@ function Table({
                   >
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                   </button>
-                  <button
-                    onClick={() => setDisplayData(displayData)}
-                    className="btn btn-outline-secondary"
-                  >
+                  <button onClick={() => setDisplayData(displayData)} className="btn btn-outline-secondary">
                     <FontAwesomeIcon icon={faArrowsRotate} />
                   </button>
                 </div>
@@ -166,10 +143,7 @@ function Table({
           {displayData.length > 0 ? (
             displayData.map((item, index) => (
               // make the entry colours alternate
-              <tr
-                key={item.uid || item.mrn || index}
-                className={index % 2 === 0 ? "even-row" : "odd-row"}
-              >
+              <tr key={item.uid || item.mrn || index} className={index % 2 === 0 ? "even-row" : "odd-row"}>
                 {columns.map((column) =>
                   // only milk entries(on the home page) will activate a pop up for details when clicking onto an entry
                   viewType === "viewMilk" ? (
@@ -182,15 +156,8 @@ function Table({
                 )}
                 {viewType === "viewMilk" && ( // only milk entries are deletable
                   <td key="delete-button">
-                    <Button
-                      variant="link"
-                      id={`dlt-${item.uid}`}
-                      className="dlt-btn"
-                    >
-                      <FontAwesomeIcon
-                        onClick={() => deleteMilk(item)}
-                        icon={faTrash}
-                      />
+                    <Button variant="link" id={`dlt-${item.uid}`} className="dlt-btn">
+                      <FontAwesomeIcon onClick={() => deleteMilk(item)} icon={faTrash} />
                     </Button>
                   </td>
                 )}
@@ -207,6 +174,8 @@ function Table({
         <ViewInfoModal
           info={info}
           closeModal={handleClosePopUp}
+          displayData={displayData}
+          setDisplayData={setDisplayData}
           version={viewType}
         />
       )}
