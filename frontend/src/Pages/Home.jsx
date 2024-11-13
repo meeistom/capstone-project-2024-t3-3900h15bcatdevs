@@ -92,7 +92,8 @@ function Home() {
     axios
       .delete(`${URL}/delete_milk_entry?uid=${uid}`, { data: reasonData })
       .then((_) => {
-        const updatedData = data.filter((item) => item.uid !== uid);
+        const updatedData = baby.mrn === newMilk.baby_mrn ? {...baby, associated_milks: [...baby.associated_milks, newMilk]} : baby
+        data.filter((item) => item.uid !== uid);
         setData(updatedData);
         setDisplayData(updatedData);
         localStorage.setItem("myBabyData", JSON.stringify(updatedData));

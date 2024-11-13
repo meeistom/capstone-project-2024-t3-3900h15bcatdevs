@@ -21,8 +21,8 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
       { label: 'milk ID', key: 'uid' },
       { label: 'Baby', key: 'baby_name' },
       { label: 'Mother', key: 'mother_name' },
-      { label: 'Express time', key: 'express_time' },
-      { label: 'Expiration time', key: 'expiration_time' },
+      { label: 'Express time', key: 'express_time_str' },
+      { label: 'Expiration time', key: 'expiration_time_str' },
       { label: 'Storage Type', key: 'storage_type' }
     ],
     viewMother: [
@@ -39,11 +39,11 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
       { label: "Number of Milks", key: "associated_milks"},
     ],
     viewLog: [
-      { label: "Log ID", key: "logId" },
-      { label: "Timestamp", key: "timestamp" },
-      { label: "Event", key: "event" },
+      { label: 'Event', key: 'type' },
+      { label: 'Timestamp', key: 'timestamp_str' },
+      { label: 'Message', key: 'message' }
     ],
-    "viewBabyMilk": [
+    viewBabyMilk: [
       { label: "milk ID", key: "uid" },
       { label: "Express time", key: "express_time" },
       { label: "Expiration time", key: "expiration_time"},
@@ -71,39 +71,40 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
     let result;
     try {
       console.log('Quering backend');
-      const response = await fetch(`${URL}/search?keyword=${searchValue}`);
+      let response;
+      switch (viewType) {
+        case 'viewMilk':
+          response = await fetch(`${URL}/milk_entries/search?keyword=${searchValue}`);
+          break;
+        case 'viewMother':
+          response = await fetch(`${URL}/mothers/search?keyword=${searchValue}`);
+          break;
+        case 'viewBaby':
+          response = await fetch(`${URL}/babies/search?keyword=${searchValue}`);
+          break;
+      }
       if (!response.ok) {
         throw new Error('Could not find relative entry with such keyword');
       }
       result = await response.json();
     } catch (error) {
-      console.error(error);
+      console.log(error);
     } finally {
       if (result) {
         console.log(result);
         switch (viewType) {
           case 'viewMilk': {
-            result = result.milk_entries;
             const milk_uids = result.map((entry) => entry.uid);
             setDisplayData(displayData.filter((entry) => milk_uids.includes(entry.uid)));
             break;
           }
-          case 'viewMother': {
-            result = result.mothers;
-            const mother_ids = result.map((entry) => entry.mrn);
-            setDisplayData(displayData.filter((entry) => mother_ids.includes(entry.mrn)));
+          default:
+            setDisplayData(result);
             break;
-          }
-          case 'viewBaby': {
-            result = result.babies;
-            const baby_ids = result.map((entry) => entry.mrn);
-            setDisplayData(displayData.filter((entry) => baby_ids.includes(entry.mrn)));
-            break;
-          }
         }
       }
     }
-  }
+  };
 
   function babyRow (babyData, index) {
     const [expanded, setExpanded] = React.useState(false);
@@ -217,9 +218,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
                   <div className="search-bar input-group">
                     <input
                       onChange={(e) => setSearchValue(e.target.value)}
-                      onKeyDown={(e) =>
-                        e.key === "Enter" ? handleSearch() : null
-                      }
+                      onKeyDown={(e) => e.key === "Enter" ? handleSearch() : null}
                       value={searchValue}
                       type="text"
                       className="form-control"
@@ -251,13 +250,13 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
             </tr>
             <tr>
             {columns.map((column) => (
-              column.key === "storage_type" ? ( 
+              column.key === 'storage_type' ? ( 
                 <th colSpan={2} key={`${column.mrn}${column.key}`}>
                   {column.label}
                 </th>
               ) : 
-              column.key === "mrn" && viewType === "viewBaby" ? (
-                <th className="mrn-th" key={`${column.mrn}${column.key}`}>
+              column.key === 'mrn' && viewType === 'viewBaby' ? (
+                <th className='mrn-th' key={`${column.mrn}${column.key}`}>
                   {column.label}
                 </th>
               ) :  (
@@ -270,7 +269,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
           {displayData.length > 0 ? (
             displayData.map((item, index) => (
               <>
-              {viewType === "viewBaby" ? (
+              {viewType === 'viewBaby' ? (
                 <>
                   {babyRow(item, index)}
                 </>
