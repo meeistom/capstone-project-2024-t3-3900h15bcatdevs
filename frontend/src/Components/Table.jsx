@@ -41,7 +41,7 @@ function Table({
       { label: "MRN", key: "mrn" },
       { label: "First Name", key: "first_name" },
       { label: "Last Name", key: "last_name"},
-      { label: "Mother", key: "mother_mrn" },
+      { label: "Mother", key: "mother_name" },
       { label: "Number of Milks", key: "associated_milks"},
     ],
     viewLog: [
@@ -174,31 +174,35 @@ function Table({
             <table className='sub-table'>
               <thead>
               {milk_columns.map((column) => (
-                <th key={column.key}>{column.label}</th>
+                <th key={column.key}
+                  colSpan={column.key === "storage_type" ? 2 : 1}
+                >
+                  {column.label}
+                </th>
               )
             )}
               </thead>
               <tbody>
                 {associated_milks.map((item, index) => (
-                  <tr onClick={() => handlePopUp(item)}>
+                  <tr>
                     {milk_columns.map((column) => (
-                      <td key={column.key}>
+                      <td key={column.key} onClick={() => handlePopUp(item)}>
                           {item[column.key]}
-                          {/* {column.key === "storage_type" && (
-                            <Button
-                              variant="link"
-                              id={`dlt-${item.uid}`}
-                              className="dlt-btn"
-                              style={{ marginLeft: "50px"}}
-                            >
-                              <FontAwesomeIcon
-                                onClick={() => deleteMilk(item)}
-                                icon={faTrash}
-                              />
-                            </Button>
-                          )} */}
                       </td>
                     ))}
+                    <td style={{ padding: "8px 0" }}>
+                    <Button
+                          variant="link"
+                          id={`dlt-${item.uid}`}
+                          className="dlt-btn"
+                          style={{ padding: "0" }}
+                        >
+                          <FontAwesomeIcon
+                            onClick={() => deleteMilk(item)}
+                            icon={faTrash}
+                          />
+                        </Button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

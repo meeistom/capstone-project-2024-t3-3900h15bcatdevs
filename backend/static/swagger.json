@@ -13,15 +13,11 @@
   "tags": [
     {
       "name": "home",
-      "description": "API endpoint related to home page of \"milk_entries\" object"
+      "description": "API endpoint related to home page of \"formatted_babies_and_milks\" object"
     },
     {
       "name": "mothers",
       "description": "API endpoints related to \"mothers\" collection"
-    },
-    {
-      "name": "babies",
-      "description": "API endpoints related to \"babies\" collection"
     },
     {
       "name": "milk_entries",
@@ -46,47 +42,99 @@
         "tags": [
           "home"
         ],
-        "summary": "Displays the formated homepage.",
-        "description": "Returns a list of formated milk_entries objects with mother/baby mrn and name",
+        "summary": "Displays the formatted homepage.",
+        "description": "Returns a list of babies including a list of their associated milks",
         "responses": {
           "200": {
             "description": "Successfully returned homepage formatted milks.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Home Formatted Milk Entries"
+                  "$ref": "#/components/schemas/Formatted Babies and Milk"
                 },
                 "example": [
                   {
-                  "baby_mrn": "0000",
-                  "baby_name": "Mei Lin",
-                  "created_at": 1730866439,
-                  "expiration_time": 1730866500,
-                  "express_time": 1730866380,
-                  "extra_notes": "",
-                  "milk_type": "ehm",
-                  "mother_mrn": "0000",
-                  "mother_name": "Hong Lin",
-                  "storage_location": "level 1",
-                  "storage_type": "fridge",
-                  "uid": "000028",
-                  "volume_ml": 50
-                  },
-                  {
-                  "baby_mrn": "0012",
-                  "baby_name": "Hey Lin",
-                  "created_at": 1730866439,
-                  "expiration_time": 1730866500,
-                  "express_time": 1730866380,
-                  "extra_notes": "",
-                  "milk_type": "ehm",
-                  "mother_mrn": "0000",
-                  "mother_name": "Hong Lin",
-                  "storage_location": "level 1",
-                  "storage_type": "fridge",
-                  "uid": "000029",
-                  "volume_ml": 82
-                  }
+                    "associated_milks": [
+                        {
+                            "additives": [
+                                "cream",
+                                "humavant6"
+                            ],
+                            "baby_mrn": "1215",
+                            "baby_name": "Laverne Holyard",
+                            "created_at": 1731419470,
+                            "expiration_time": 1732021200,
+                            "expired": false,
+                            "express_time": 1726645730,
+                            "extra_notes": "",
+                            "milk_type": "defrosted",
+                            "mother_mrn": "5146",
+                            "mother_name": "Gianina McIllrick",
+                            "storage_location": "Room 3",
+                            "storage_type": "fridge",
+                            "uid": "000001",
+                            "volume_ml": 13
+                        }
+                    ],
+                    "first_name": "Laverne",
+                    "last_name": "Holyard",
+                    "mother_mrn": "5146",
+                    "mother_name": "Gianina McIllrick",
+                    "mrn": "1215"
+                },
+                {
+                    "associated_milks": [],
+                    "first_name": "Siouxie",
+                    "last_name": "O'Sculley",
+                    "mother_mrn": "8220",
+                    "mother_name": "Anastassia Pele",
+                    "mrn": "3391"
+                },
+                {
+                    "associated_milks": [
+                        {
+                            "additives": [
+                                "humavant6"
+                            ],
+                            "baby_mrn": "3712",
+                            "baby_name": "Corri Willsmore",
+                            "created_at": 1731419472,
+                            "expiration_time": 1732021200,
+                            "expired": false,
+                            "express_time": 1727332287,
+                            "extra_notes": "",
+                            "milk_type": "fresh",
+                            "mother_mrn": "4852",
+                            "mother_name": "Charlene Sarle",
+                            "storage_location": "Room 3",
+                            "storage_type": "freezer",
+                            "uid": "000008",
+                            "volume_ml": 32
+                        },
+                        {
+                            "additives": [],
+                            "baby_mrn": "3712",
+                            "baby_name": "Corri Willsmore",
+                            "created_at": 1731419470,
+                            "expiration_time": 1732021200,
+                            "expired": false,
+                            "express_time": 1713098062,
+                            "extra_notes": "lorem",
+                            "milk_type": "frozen",
+                            "mother_mrn": "4852",
+                            "mother_name": "Charlene Sarle",
+                            "storage_location": "Room 2",
+                            "storage_type": "freezer",
+                            "uid": "000003",
+                            "volume_ml": 20
+                        }
+                    ],
+                    "first_name": "Corri",
+                    "last_name": "Willsmore",
+                    "mother_mrn": "4852",
+                    "mother_name": "Charlene Sarle",
+                    "mrn": "3712"
+                },
                 ]
               }
             }
@@ -100,6 +148,7 @@
             }
           }
         }
+      }
       }
     },
     "/history": {
@@ -600,6 +649,86 @@
           },
           "400": {
             "description": "Bad request. No milk entries found in system."
+          }
+        }
+      }
+    },
+    "/milks": {
+      "get": {
+        "tags": [
+          "milk_entries"
+        ],
+        "summary": "Displays formatted milk page.",
+        "description": "Returns a list of formated milk_entries objects with mother/baby mrn and name",
+        "responses": {
+          "200": {
+            "description": "Successfully returned formatted milks.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Formatted Milk Entries"
+                },
+                "example": [
+                  {
+                    "additives": "neocate powder",
+                    "baby_mrn": "4697",
+                    "baby_name": [
+                        true,
+                        "Clarisse Willsmore"
+                    ],
+                    "created_at": 1731419472,
+                    "expiration_time": 1731664800,
+                    "expired": false,
+                    "express_time": 1716546360,
+                    "extra_notes": "check again",
+                    "milk_type": "Cream",
+                    "milk_uid": "000007",
+                    "mother_mrn": "5587",
+                    "mother_name": [
+                        true,
+                        "Harley Crocetto"
+                    ],
+                    "storage_location": "Room 2",
+                    "storage_type": "defrost",
+                    "uid": "000007",
+                    "volume_ml": 35
+                },
+                {
+                    "additives": [
+                        "humavant6"
+                    ],
+                    "baby_mrn": "3712",
+                    "baby_name": [
+                        true,
+                        "Corri Willsmore"
+                    ],
+                    "created_at": 1731419472,
+                    "expiration_time": 1732021200,
+                    "expired": false,
+                    "express_time": 1727332287,
+                    "extra_notes": "",
+                    "milk_type": "fresh",
+                    "mother_mrn": "4852",
+                    "mother_name": [
+                        true,
+                        "Charlene Sarle"
+                    ],
+                    "storage_location": "Room 3",
+                    "storage_type": "freezer",
+                    "uid": "000008",
+                    "volume_ml": 32
+                }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "No milks found in system.",
+            "content": {
+              "application/json": {
+                "example": []
+              }
+            }
           }
         }
       }
@@ -1182,7 +1311,7 @@
           }
         }
       },
-      "Home Formatted Milk Entries": {
+      "Formatted Milks": {
         "type": "object",
         "properties": {
           "baby_mrn": {
@@ -1239,6 +1368,35 @@
           "volume_ml": {
             "type": "integer",
             "description": "Volume of the milk in milliliters."
+          }
+        }
+      }, 
+      "Formatted Babies and Milks": {
+        "type": "object",
+        "properties": {
+          "associated_milks": {
+            "type": "List",
+            "description": "List of associated milks"
+          },
+          "first_name": {
+            "type": "string",
+            "description": "Baby's first name"
+          },
+          "last_name": {
+            "type": "string",
+            "description": "Baby's last name"
+          },
+          "mother_mrn": {
+            "type": "string",
+            "description": "Mother's mrn"
+          },
+          "mother_name": {
+            "type": "string",
+            "description": "Mother's name"
+          },
+          "mrn": {
+            "type": "string",
+            "description": "Baby's mrn"
           }
         }
       }

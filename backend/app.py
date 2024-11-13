@@ -9,7 +9,7 @@ from firebase.add import *
 from firebase.delete import *
 from firebase.retrieve import *
 from firebase.error_check import *
-from firebase.home_milk_page import *
+from firebase.home_page import *
 from firebase.verify import *
 from firebase.notify import *
 from firebase.search import *
@@ -73,8 +73,8 @@ def get_mother():
     )
 
 
-# View Milks fetches all milks and formats with mother and baby info
-@app.route("/view_milks", methods=["GET"], strict_slashes=False)
+# Fetches all milks and formats with mother and baby info
+@app.route("/milks", methods=["GET"], strict_slashes=False)
 def default_home_milks():
 
     success, home_page_milks = get_formatted_milks(fs_client)
@@ -95,7 +95,7 @@ def get_baby():
         400 if mrn and len(baby_data) == 0 else 200,
     )
 
-    
+
 #  Fetches all milk entries as a list and returns it in order (default is DESC), or fetches milk entry object by UID
 @app.route("/milk_entries", methods=["GET"], strict_slashes=False)
 def get_milk_entry():

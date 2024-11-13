@@ -21,7 +21,7 @@ function ViewMilks() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${URL}/view_milks`);
+      const response = await fetch(`${URL}/milks`);
       if (!response.ok) {
         throw new Error("Having errors fetching milk details");
       }
