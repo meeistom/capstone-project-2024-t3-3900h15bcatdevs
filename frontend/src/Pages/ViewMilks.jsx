@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../index.css";
-import axios from "axios";
-import { Navibar } from "../Components/Navibar";
-import { AddMilkModal } from "../Components/AddMilkModal";
-import { Table } from "../Components/Table";
-import { DeleteMilkModal } from "../Components/DeleteMilkModal";
-import { URL } from "../constants";
+import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../index.css';
+import axios from 'axios';
+import { Navibar } from '../Components/Navibar';
+import { AddMilkModal } from '../Components/AddMilkModal';
+import { Table } from '../Components/Table';
+import { DeleteMilkModal } from '../Components/DeleteMilkModal';
+import { URL } from '../constants';
 import { unixToTimeStr } from '../Utils/utils.jsx';
 
 export { ViewMilks };
@@ -22,9 +22,9 @@ function ViewMilks() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${URL}/milks`);
+      const response = await fetch(`${URL}/view_milks`);
       if (!response.ok) {
-        throw new Error("Having errors fetching milk details");
+        throw new Error('Having errors fetching milk details');
       }
       const result = await response.json();
       result.forEach((entry) => {
@@ -35,16 +35,16 @@ function ViewMilks() {
       });
       setData(result);
       setDisplayData(result);
-      localStorage.setItem("myMilkData", JSON.stringify(result));
+      localStorage.setItem('myMilkData', JSON.stringify(result));
     } catch (error) {
-      setError(error);
+      console.log(error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    const cachedData = localStorage.getItem("myMilkData");
+    const cachedData = localStorage.getItem('myMilkData');
     if (cachedData) {
       setData(JSON.parse(cachedData));
       setDisplayData(JSON.parse(cachedData));
@@ -59,7 +59,7 @@ function ViewMilks() {
     newMilk.expiration_time_str = unixToTimeStr(newMilk.expiration_time);
     setData(updatedData);
     setDisplayData(updatedData);
-    localStorage.setItem("myMilkData", JSON.stringify(updatedData));
+    localStorage.setItem('myMilkData', JSON.stringify(updatedData));
   };
 
   if (loading) {
@@ -76,14 +76,21 @@ function ViewMilks() {
   };
 
   const handleDeleteMilk = (uid, reason, notes) => {
-    console.log(reason, notes);
+    let reasonData = {};
+
+    if (reason === 'other') {
+      reasonData = { notes };
+    } else {
+      reasonData = { reason };
+    }
+
     axios
-      .delete(`${URL}/delete_milk_entry?uid=${uid}`)
-      .then((_) => {
+      .delete(`${URL}/delete_milk_entry?uid=${uid}`, { data: reasonData })
+      .then(() => {
         const updatedData = data.filter((item) => item.uid !== uid);
         setData(updatedData);
         setDisplayData(updatedData);
-        localStorage.setItem("myMilkData", JSON.stringify(updatedData));
+        localStorage.setItem('myMilkData', JSON.stringify(updatedData));
         setConfirmDelete(false);
       })
       .catch((error) => {
@@ -96,33 +103,31 @@ function ViewMilks() {
     <>
       <section id="view_milks">
         <Navibar />
-        <div className="home-container">
-          <div className="page-container">
-            <h1 className="page-title">List of Milk Entries</h1>
-            <p>Total Number of Milk Entries: {data.length}</p>
-            <Table
-              deleteMilk={handleConfirmDelete}
-              displayData={displayData}
-              setDisplayData={setDisplayData}
-              setOpenModal={setOpenModal}
-              viewType="viewMilk"
-            />
-          </div>
-          {openModal && (
-            <AddMilkModal
-              addMilk={handleRefreshAfterAdd}
-              closeModal={setOpenModal}
-              version="addMilk1"
-            />
-          )}
-          {confirmDelete && (
-            <DeleteMilkModal
-              entry={deleteEntry}
-              closeModal={setConfirmDelete}
-              deleteMilk={handleDeleteMilk}
-            />
-          )}
+        <div className="page-container">
+          <h1 className="page-title">List of Milk Entries</h1>
+          <p>Total Number of Milk Entries: {data.length}</p>
+          <Table
+            deleteMilk={handleConfirmDelete}
+            displayData={displayData}
+            setDisplayData={setDisplayData}
+            setOpenModal={setOpenModal}
+            viewType="viewMilk"
+          />
         </div>
+        {openModal && (
+          <AddMilkModal
+            addMilk={handleRefreshAfterAdd}
+            closeModal={setOpenModal}
+            version="addMilk1"
+          />
+        )}
+        {confirmDelete && (
+          <DeleteMilkModal
+            entry={deleteEntry}
+            closeModal={setConfirmDelete}
+            deleteMilk={handleDeleteMilk}
+          />
+        )}
       </section>
     </>
   );
