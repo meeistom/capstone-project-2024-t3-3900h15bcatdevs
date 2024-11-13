@@ -107,3 +107,23 @@ npm run test
 ```
 
 You may encounter test failures due to mismatched snapshots. If the component design has been changed, enter `u` in watch mode.
+
+## Backend
+
+Please run tests when working on the backend. Please update tests if needed.
+
+To run tests navigate to the folder which holds the test file and run:
+
+```
+pytest
+```
+
+This will automatically detect Python files with the prefix `test_` and run them.
+
+- To run the `test_labels.py` file in `./backend/labels` you will need to change the file paths as described within the file.
+  - You will also have to have `wkhtmltopdf` installed in your environment. It is easiest to do this in WSL with the commands:
+
+    ```plain
+    sudo apt update
+    sudo apt install -y wkhtmltopdf
+    ```
