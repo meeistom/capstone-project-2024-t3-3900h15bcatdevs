@@ -117,13 +117,8 @@ To run tests navigate to the `./backend` folder and first reset the database.
 Run the following command:
 
 ```plain
-python db_control.py
-```
-
-You can find the code coverage by running the following. Run `db_control.py` again before doing so.
-
-```plain
-pytest --cov
+python db_cont
+rol.py
 ```
 
 Then to run tests, use:
@@ -140,3 +135,9 @@ This will automatically detect Python files with the prefix `test_` and run them
   sudo apt update
   sudo apt install -y wkhtmltopdf
   ```
+
+You can find the code coverage by running the following. Run `db_control.py` again before doing so.
+
+```plain
+pytest --cov
+```
