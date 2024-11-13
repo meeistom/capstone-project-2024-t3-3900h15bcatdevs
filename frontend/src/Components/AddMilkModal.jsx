@@ -9,20 +9,23 @@ import scanner from '../Assets/scanner.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../index.css';
 import { URL } from '../constants.jsx';
+import { toUnix } from '../Utils/utils.jsx';
 
 export { AddMilkModal };
 
 function AddMilkModal({ addMilk, closeModal, version }) {
   const scannerInputRef = useRef(null);
   const [modalVersion, setModalVersion] = useState(version);
-  const [expiryDate, setExpiryDate] = useState('');
-  const [expressDate, setExpressDate] = useState('');
-  const [milkType, setMilkType] = useState('ehm');
-  const [storageType, setStorageType] = useState('fridge');
-  const [notes, setNotes] = useState('');
-  const [additive, setAdditive] = useState('none');
+  const [milkForm, setMilkForm] = useState({
+    milk_type: 'ehm',
+    storage_type: 'fridge',
+    expiration_time: '',
+    express_time: '',
+    extra_notes: '',
+    additives: 'none'
+  });
   const [motherData, setMotherData] = useState(null);
-  const [babyData, setBabyData] = useState(null);
+  const [babyMrn, setBabyMrn] = useState(null);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState(null);
   const [footer, setFooter] = useState(null);
@@ -38,7 +41,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     const url = `${URL}/babies?mrn=${barcode}`;
     try {
       const response = await axios.get(url);
-      setBabyData(response.data);
+      setBabyMrn(response.data.mrn);
       console.log('Baby data fetched:', response.data);
       return response.data;
     } catch (error) {
@@ -52,7 +55,9 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     const url = `${URL}/mothers?mrn=${mother_mrn}`;
     try {
       const response = await axios.get(url);
-      setMotherData(response.data);
+      const first_name = response.data.first_name;
+      const last_name = response.data.last_name;
+      setMotherData({ first_name, last_name });
       console.log('Mother data fetched:', response.data);
       setModalVersion('addMilk2');
     } catch (error) {
@@ -73,15 +78,15 @@ function AddMilkModal({ addMilk, closeModal, version }) {
 
   const handleSubmitMilkInfo = async () => {
     const bottleDetails = {
-      milk_type: milkType,
-      express_time: new Date(expressDate).getTime() / 1000,
-      expiration_time: new Date(expiryDate).getTime() / 1000,
-      storage_type: storageType,
+      milk_type: milkForm.milk_type,
+      express_time: toUnix(milkForm.express_time),
+      expiration_time: toUnix(milkForm.expiration_time),
+      storage_type: milkForm.storage_type,
       storage_location: 'level 1',
       volume_ml: 50,
-      baby_mrn: babyData.mrn,
-      extra_notes: notes,
-      additives: additive
+      baby_mrn: babyMrn,
+      extra_notes: milkForm.extra_notes,
+      additives: milkForm.additives
     };
     console.log(bottleDetails);
     axios
@@ -99,15 +104,15 @@ function AddMilkModal({ addMilk, closeModal, version }) {
   const generateLabel = async () => {
     const url = `${URL}/preview_milk_label`;
     const milk = {
-      milk_type: milkType,
-      express_time: new Date(expressDate).getTime() / 1000,
-      expiration_time: new Date(expiryDate).getTime() / 1000,
-      storage_type: storageType,
+      milk_type: milkForm.milk_type,
+      express_time: toUnix(milkForm.express_time),
+      expiration_time: toUnix(milkForm.expiration_time),
+      storage_type: milkForm.storage_type,
       storage_location: 'level 1',
       volume_ml: 50,
-      baby_mrn: babyData.mrn,
-      extra_notes: notes,
-      additives: additive
+      baby_mrn: babyMrn,
+      extra_notes: milkForm.extra_notes,
+      additives: milkForm.additives
     };
     try {
       const response = await axios.get(url, {
@@ -129,7 +134,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
   };
 
   const handleCheckInput = async () => {
-    if (!expiryDate || !expressDate) {
+    if (!milkForm.expiration_time || !milkForm.express_time) {
       alert('Please fill in all relevant information');
     } else {
       await generateLabel();
@@ -147,16 +152,6 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       setModalVersion('addMilk4');
     }
   };
-
-  const useEffectDependencies = [
-    modalVersion,
-    expressDate,
-    expiryDate,
-    milkType,
-    storageType,
-    notes,
-    labelPrint
-  ];
 
   // Handles which version of modal is rendered
   useEffect(() => {
@@ -185,19 +180,10 @@ function AddMilkModal({ addMilk, closeModal, version }) {
         setBody(
           <>
             <AddMilkForm
-              babyData={babyData}
+              babyMrn={babyMrn}
               motherData={motherData}
-              expiryDate={expiryDate}
-              expressDate={expressDate}
-              milkType={milkType}
-              storageType={storageType}
-              notes={notes}
-              setExpressDate={setExpressDate}
-              setExpiryDate={setExpiryDate}
-              setMilkType={setMilkType}
-              setStorageType={setStorageType}
-              setNotes={setNotes}
-              setAdditive={setAdditive}
+              milkForm={milkForm}
+              setMilkForm={setMilkForm}
             />
           </>
         );
@@ -253,7 +239,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
         );
         break;
     }
-  }, useEffectDependencies);
+  }, [modalVersion, milkForm, labelPrint]);
 
   return (
     <>
