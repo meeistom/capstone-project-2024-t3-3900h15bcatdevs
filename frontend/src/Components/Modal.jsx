@@ -1,11 +1,11 @@
-import React from "react";
-import Button from "react-bootstrap/Button";
+import React from 'react';
+import Button from 'react-bootstrap/Button';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../index.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../index.css';
 
 export { Modal };
 
@@ -14,16 +14,14 @@ function Modal({ id, title, body, footer, closeModal }) {
     <>
       <div
         id={id}
-        className="modal-background position-fixed d-flex justify-content-center align-items-center w-100 h-100"
-      >
-        <div className="modal-container position-relative bg-white rounded-3 shadow-lg d-flex flex-column p-4">
+        className="modal-background position-fixed d-flex justify-content-center align-items-center w-100 h-100">
+        <div className="modal-container position-relative bg-white rounded-3 shadow-lg d-flex flex-column p-4 h-75">
           <div className="modal-close-btn d-flex justify-content-end">
             <Button
               variant="link"
               name="close-modal"
               aria-label="close-modal"
-              onClick={() => closeModal(false)}
-            >
+              onClick={() => closeModal(false)}>
               <FontAwesomeIcon className="close-btn" icon={faXmark} />
             </Button>
           </div>

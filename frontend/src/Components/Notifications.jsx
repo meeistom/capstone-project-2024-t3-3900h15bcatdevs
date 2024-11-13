@@ -1,4 +1,6 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../index.css';
 
 export { Notifications };
 
@@ -46,7 +48,7 @@ function Notifications({ notifData, confirmDelete }) {
             <br></br>
             {notif.expired && (
               <p className="discard-btn" onClick={() => confirmDelete(notif)}>
-                discard
+                Discard
               </p>
             )}
           </div>
@@ -58,8 +60,10 @@ function Notifications({ notifData, confirmDelete }) {
 
   return (
     <div className="notifications-outer-container">
-      <div className="title-box">Notifications</div>
-      <div className="subtitle-2">Total Notifications: {notifData.length}</div>
+      <h1 className="m-0">Notifications</h1>
+      <div className="subtitle-2">
+        <p className="py-2 fs-5 m-0"> Total Notifications: {notifData.length}</p>
+      </div>
       <div className="notifications-inner-container">{displayNotifications()}</div>
     </div>
   );

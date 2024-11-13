@@ -330,19 +330,9 @@ input::-webkit-inner-spin-button {
 
 /* Notifications */
 .notifications-outer-container {
-  padding: 20px;
-  height: 80.8vh;
-  width: 25vw;
+  width: 25%;
   display: flex;
   flex-direction: column;
-}
-
-.notifications-outer-container .title-box {
-  font-size: 2.2rem;
-  display: flex;
-  gap: 7px;
-  height: 40px;
-  padding-top: 2px;
 }
 
 .notifications-outer-container .subtitle-1 {
@@ -351,10 +341,7 @@ input::-webkit-inner-spin-button {
 }
 
 .notifications-outer-container .subtitle-2 {
-  font-size: 0.8rem;
   color: #8c8c8c;
-  margin-top: 12px;
-  margin-bottom: 3px;
 }
 
 .notifications-inner-container {
@@ -490,10 +477,8 @@ thead tr {
 .page-container {
   display: flex;
   flex-direction: column;
-  margin-top: 3vh;
-  margin-left: 2vw;
   width: 70vw;
-  height: 75vh;
+  height: 80vh;
 }
 
 .page-title {
@@ -523,7 +508,7 @@ thead tr {
 }
 /* Home Page Styling */
 .home-container {
-  display: flex;
+  gap: 1rem;
 }
 
 .edit-popup {

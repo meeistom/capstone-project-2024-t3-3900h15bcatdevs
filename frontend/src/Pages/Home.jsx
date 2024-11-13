@@ -90,7 +90,7 @@ function Home() {
 
     axios
       .delete(`${URL}/delete_milk_entry?uid=${uid}`, { data: reasonData })
-      .then((_) => {
+      .then(() => {
         const updatedData = data.filter((item) => item.uid !== uid);
         setData(updatedData);
         setDisplayData(updatedData);
@@ -107,10 +107,10 @@ function Home() {
     <>
       <section id="Home">
         <Navibar />
-        <div className="home-container">
+        <div className="home-container d-flex flex-row p-5 justify-content-between">
           <div className="page-container">
             <h1 className="page-title">List of Milk Entries</h1>
-            <p>Total Number of Milk Entries: {data.length}</p>
+            <p className="py-2 fs-5">Total Number of Milk Entries: {data.length}</p>
             <Table
               deleteMilk={handleConfirmDelete}
               displayData={displayData}
