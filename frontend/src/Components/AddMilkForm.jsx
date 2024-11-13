@@ -1,8 +1,8 @@
-import React from "react";
-import Form from "react-bootstrap/Form";
+import React from 'react';
+import Form from 'react-bootstrap/Form';
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../index.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../index.css';
 
 export { AddMilkForm };
 
@@ -14,7 +14,7 @@ function AddMilkForm({
   expiryDate,
   setExpiryDate,
   setNotes,
-  setAdditive,
+  setAdditive
 }) {
   return (
     <div className="form-container w-100">
@@ -36,8 +36,7 @@ function AddMilkForm({
                 <Form.Select
                   id="milk-type"
                   className="form-select form-select-sm"
-                  defaultValue="ehm"
-                >
+                  defaultValue="ehm">
                   <option value="ehm">EHM</option>
                   <option value="pdhm">PDHM</option>
                   <option value="formula">Formula</option>
@@ -51,13 +50,15 @@ function AddMilkForm({
                   id="additive-type"
                   className="form-select form-select-sm"
                   defaultValue="none"
-                  onChange={(e) => {console.log("Selected Additive:", e.target.value);
-                    setAdditive(e.target.value);}}
-                >
+                  onChange={(e) => {
+                    setAdditive(e.target.value);
+                  }}>
                   <option value="none">None</option>
-                  <option value="humavant6">Humavant+6</option>
                   <option value="prenanfm85">Pre Nan FM85</option>
+                  <option value="humavant6">Humavant+6</option>
+                  <option value="HumavantCream">Humavant Cream</option>
                   <option value="nanoptipropowder">Nan Optipro Powder</option>
+                  <option value="PeptiJuniorpowder">Pepti Junior powder</option>
                   <option value="neocate powder">Neocate Powder</option>
                   <option value="beneprotein">Beneprotein</option>
                 </Form.Select>
@@ -69,8 +70,7 @@ function AddMilkForm({
                 <Form.Select
                   id="milk-storage"
                   className="form-select form-select-sm"
-                  defaultValue="option-fridge"
-                >
+                  defaultValue="option-fridge">
                   <option value="fridge">Fridge</option>
                   <option value="fresh">Fresh</option>
                   <option value="defrost">Defrost</option>
@@ -116,8 +116,7 @@ function AddMilkForm({
             className="form-control"
             id="milk-notes"
             rows="3"
-            onChange={(e) => setNotes(e.target.value)}
-          ></textarea>
+            onChange={(e) => setNotes(e.target.value)}></textarea>
         </div>
       </Form>
     </div>

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Navibar } from "../Components/Navibar";
-import { Table } from "../Components/Table";
-import { URL } from "../constants";
+import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Navibar } from '../Components/Navibar';
+import { Table } from '../Components/Table';
+import { URL } from '../constants';
 
 export { ViewMothers };
 
@@ -15,11 +15,11 @@ function ViewMothers() {
     try {
       const response = await fetch(`${URL}/mothers`);
       if (!response.ok) {
-        throw new Error("Having errors fetching mother details");
+        throw new Error('Having errors fetching mother details');
       }
       const result = await response.json();
       setData(result);
-      localStorage.setItem("myMotherData", JSON.stringify(result));
+      localStorage.setItem('myMotherData', JSON.stringify(result));
     } catch (error) {
       setError(error);
     } finally {
@@ -28,7 +28,7 @@ function ViewMothers() {
   };
 
   useEffect(() => {
-    const cachedData = localStorage.getItem("myMotherData");
+    const cachedData = localStorage.getItem('myMotherData');
     if (cachedData) {
       setData(JSON.parse(cachedData));
       setLoading(false);
@@ -46,7 +46,7 @@ function ViewMothers() {
 
   return (
     <>
-      <section id="Home">
+      <section id="viewMother">
         <Navibar />
         <div className="page-container">
           <h1 className="page-title">Mothers</h1>
