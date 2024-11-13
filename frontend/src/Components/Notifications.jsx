@@ -31,7 +31,7 @@ function Notifications({ notifData, confirmDelete }) {
     return <>{message}</>;
   };
 
-  function displayNotifications() {
+  const displayNotifications = () => {
     return notifData.map((notif) => (
       <>
         <div className="notification">
@@ -54,7 +54,7 @@ function Notifications({ notifData, confirmDelete }) {
         </div>
       </>
     ));
-  }
+  };
 
   return (
     <div className="notifications-outer-container">

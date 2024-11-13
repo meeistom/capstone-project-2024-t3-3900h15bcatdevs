@@ -122,15 +122,6 @@ function Register() {
     }
   };
 
-  const useEffectDependencies = [
-    selectedPages,
-    currentPage,
-    momForm,
-    babyForm,
-    milkForm,
-    validForm
-  ];
-
   useEffect(() => {
     setValidForm(Object.values(checked).some((value) => value));
   }, [checked]);
@@ -219,7 +210,7 @@ function Register() {
         setupPreview();
         break;
     }
-  }, useEffectDependencies);
+  }, [selectedPages, currentPage, momForm, babyForm, milkForm, validForm]);
 
   return (
     <>

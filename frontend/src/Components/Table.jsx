@@ -68,7 +68,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
       }
       result = await response.json();
     } catch (error) {
-      setError(error);
+      console.error(error);
     } finally {
       if (result) {
         console.log(result);
@@ -168,15 +168,8 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
                 )}
                 {viewType === 'viewMilk' && ( // only milk entries are deletable
                   <td key="delete-button">
-                    <Button
-                      variant="link"
-                      id={`dlt-${item.uid}`}
-                      className="dlt-btn"
-                    >
-                      <FontAwesomeIcon
-                        onClick={() => deleteMilk(item)}
-                        icon={faTrash}
-                      />
+                    <Button variant="link" id={`dlt-${item.uid}`} className="dlt-btn">
+                      <FontAwesomeIcon onClick={() => deleteMilk(item)} icon={faTrash} />
                     </Button>
                   </td>
                 )}
