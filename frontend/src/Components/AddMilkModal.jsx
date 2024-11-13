@@ -36,7 +36,6 @@ function AddMilkModal({ addMilk, closeModal, version }) {
 
   const getBabyDetails = async (barcode) => {
     const url = `${URL}/babies?mrn=${barcode}`;
-    console.log(url);
     try {
       const response = await axios.get(url);
       setBabyData(response.data);
@@ -53,7 +52,6 @@ function AddMilkModal({ addMilk, closeModal, version }) {
 
   const getMotherDetails = async (mother_mrn) => {
     const url = `${URL}/mothers?mrn=${mother_mrn}`;
-    console.log(url);
     try {
       const response = await axios.get(url);
       setMotherData(response.data);
@@ -212,11 +210,9 @@ function AddMilkModal({ addMilk, closeModal, version }) {
         );
         break;
       case "addMilk3":
-        console.log(labelPrint)
         setTitle("Sticker Preview");
         setBody(
           <>
-            {labelPrint}
             <img src={`data:image/png;base64,${labelPrint}`} />
           </>
         );

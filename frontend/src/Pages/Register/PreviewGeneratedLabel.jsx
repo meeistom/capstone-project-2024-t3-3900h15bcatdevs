@@ -31,8 +31,6 @@ function PreviewGeneratedLabel({ milkInfo, milkChecked, setLabelPrint }) {
   }, [uid]);
 
   const generateLabel = async () => {
-    console.log(uid);
-
     const url = `${URL}/preview_milk_label?uid=${uid}`;
     try {
       await axios.get(url).then((res) => {
