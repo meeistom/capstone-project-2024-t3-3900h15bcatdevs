@@ -4,9 +4,11 @@ exports[`should match snapshot 1`] = `
 <div
   className="modal-background position-fixed d-flex justify-content-center align-items-center w-100 h-100"
   id="test"
+  onClick={[Function]}
 >
   <div
-    className="modal-container position-relative bg-white rounded-3 shadow-lg d-flex flex-column p-4"
+    className="modal-container position-relative bg-white rounded-3 shadow-lg d-flex flex-column p-4 drop-from-top modal-small"
+    onClick={[Function]}
   >
     <div
       className="modal-close-btn d-flex justify-content-end"
