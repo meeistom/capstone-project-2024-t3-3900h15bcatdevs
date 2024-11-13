@@ -1,15 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
 import { AddMilkForm } from './AddMilkForm.jsx';
 import { Modal } from './Modal.jsx';
+import { toUnix } from '../Utils/utils.jsx';
+import { URL } from '../constants.jsx';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import axios from 'axios';
+
 import confirmCheck from '../Assets/confirm-check.png';
 import scanner from '../Assets/scanner.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../index.css';
-import { URL } from '../constants.jsx';
-import { toUnix } from '../Utils/utils.jsx';
 
 export { AddMilkModal };
 

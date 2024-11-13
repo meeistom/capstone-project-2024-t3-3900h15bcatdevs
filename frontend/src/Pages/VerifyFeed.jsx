@@ -101,9 +101,10 @@ function VerifyFeed() {
   };
 
   const deleteMilk = async (milkBarcode) => {
+    const reasonData = { reason: 'milk fed' };
     const url = `${URL}/delete_milk_entry?uid=${milkBarcode}`;
     try {
-      await axios.delete(url);
+      await axios.delete(url, { data: { reasonData } });
     } catch (error) {
       openAlert('Error removing milk from the system.', error);
     }
