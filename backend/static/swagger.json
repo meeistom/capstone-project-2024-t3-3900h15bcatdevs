@@ -13,11 +13,15 @@
   "tags": [
     {
       "name": "home",
-      "description": "API endpoint related to home page of \"formatted_babies_and_milks\" object"
+      "description": "API endpoint related to home page of \"home_formatted_baby_entries\" object"
     },
     {
       "name": "mothers",
       "description": "API endpoints related to \"mothers\" collection"
+    },
+    {
+      "name": "babies",
+      "description": "API endpoints related to \"babies\" collection"
     },
     {
       "name": "milk_entries",
@@ -43,104 +47,59 @@
           "home"
         ],
         "summary": "Displays the formatted homepage.",
-        "description": "Returns a list of babies including a list of their associated milks",
+        "description": "Returns a list of baby objects including a list of all their milks",
         "responses": {
           "200": {
             "description": "Successfully returned homepage formatted milks.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Formatted Babies and Milk"
+                  "$ref": "#/components/schemas/Home-Formatted-Baby-Entry"
                 },
                 "example": [
                   {
                     "associated_milks": [
-                        {
-                            "additives": [
-                                "cream",
-                                "humavant6"
-                            ],
-                            "baby_mrn": "1215",
-                            "baby_name": "Laverne Holyard",
-                            "created_at": 1731419470,
-                            "expiration_time": 1732021200,
-                            "expired": false,
-                            "express_time": 1726645730,
-                            "extra_notes": "",
-                            "milk_type": "defrosted",
-                            "mother_mrn": "5146",
-                            "mother_name": "Gianina McIllrick",
-                            "storage_location": "Room 3",
-                            "storage_type": "fridge",
-                            "uid": "000001",
-                            "volume_ml": 13
-                        }
+                      {
+                        "additives": [
+                          "cream",
+                          "humavant6"
+                        ],
+                        "baby_mrn": "1215",
+                        "baby_name": "Laverne Holyard",
+                        "created_at": 1731419470,
+                        "expiration_time": 1732021200,
+                        "expired": false,
+                        "express_time": 1726645730,
+                        "extra_notes": "",
+                        "milk_type": "defrosted",
+                        "mother_mrn": "5146",
+                        "mother_name": "Gianina McIllrick",
+                        "storage_location": "Room 3",
+                        "storage_type": "fridge",
+                        "uid": "000001",
+                        "volume_ml": 13
+                      }
                     ],
                     "first_name": "Laverne",
                     "last_name": "Holyard",
                     "mother_mrn": "5146",
                     "mother_name": "Gianina McIllrick",
                     "mrn": "1215"
-                },
-                {
+                  },
+                  {
                     "associated_milks": [],
                     "first_name": "Siouxie",
-                    "last_name": "O'Sculley",
+                    "last_name": "Siouxie",
                     "mother_mrn": "8220",
                     "mother_name": "Anastassia Pele",
                     "mrn": "3391"
-                },
-                {
-                    "associated_milks": [
-                        {
-                            "additives": [
-                                "humavant6"
-                            ],
-                            "baby_mrn": "3712",
-                            "baby_name": "Corri Willsmore",
-                            "created_at": 1731419472,
-                            "expiration_time": 1732021200,
-                            "expired": false,
-                            "express_time": 1727332287,
-                            "extra_notes": "",
-                            "milk_type": "fresh",
-                            "mother_mrn": "4852",
-                            "mother_name": "Charlene Sarle",
-                            "storage_location": "Room 3",
-                            "storage_type": "freezer",
-                            "uid": "000008",
-                            "volume_ml": 32
-                        },
-                        {
-                            "additives": [],
-                            "baby_mrn": "3712",
-                            "baby_name": "Corri Willsmore",
-                            "created_at": 1731419470,
-                            "expiration_time": 1732021200,
-                            "expired": false,
-                            "express_time": 1713098062,
-                            "extra_notes": "lorem",
-                            "milk_type": "frozen",
-                            "mother_mrn": "4852",
-                            "mother_name": "Charlene Sarle",
-                            "storage_location": "Room 2",
-                            "storage_type": "freezer",
-                            "uid": "000003",
-                            "volume_ml": 20
-                        }
-                    ],
-                    "first_name": "Corri",
-                    "last_name": "Willsmore",
-                    "mother_mrn": "4852",
-                    "mother_name": "Charlene Sarle",
-                    "mrn": "3712"
-                },
+                  }
                 ]
               }
             }
           },
           "400": {
-            "description": "No milks found in system.",
+            "description": "No Babies found in system.",
             "content": {
               "application/json": {
                 "example": []
@@ -148,7 +107,6 @@
             }
           }
         }
-      }
       }
     },
     "/history": {
@@ -166,10 +124,18 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "type": {"type": "string"},
-                    "message": {"type": "string"},
-                    "details": {"type": "object"},
-                    "timestamp": {"type": "integer"}
+                    "type": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "details": {
+                      "type": "object"
+                    },
+                    "timestamp": {
+                      "type": "integer"
+                    }
                   }
                 },
                 "example": [
@@ -189,24 +155,24 @@
                     "timestamp": 1731255192,
                     "type": "Milk Added",
                     "details": {
-                        "baby_mrn": "5675",
-                        "baby_name": "Lori Coat",
-                        "created_at": 1731255192,
-                        "expiration_time": 1732021200,
-                        "expired": false,
-                        "express_time": 1696417646,
-                        "extra_notes": "id luctus",
-                        "milk_type": "fresh",
-                        "mother_mrn": "6361",
-                        "mother_name": "Lynelle Bentote",
-                        "storage_location": "Room 3",
-                        "storage_type": "cupboard",
-                        "uid": "000000",
-                        "volume_ml": 63,
-                        "additives": [
-                          "something",
-                          "something_else"
-                        ]
+                      "baby_mrn": "5675",
+                      "baby_name": "Lori Coat",
+                      "created_at": 1731255192,
+                      "expiration_time": 1732021200,
+                      "expired": false,
+                      "express_time": 1696417646,
+                      "extra_notes": "id luctus",
+                      "milk_type": "fresh",
+                      "mother_mrn": "6361",
+                      "mother_name": "Lynelle Bentote",
+                      "storage_location": "Room 3",
+                      "storage_type": "cupboard",
+                      "uid": "000000",
+                      "volume_ml": 63,
+                      "additives": [
+                        "something",
+                        "something_else"
+                      ]
                     }
                   }
                 ]
@@ -234,6 +200,9 @@
           }
         ],
         "responses": {
+          "400": {
+            "description": "Bad request. No mothers found in system."
+          },
           "200 (list)": {
             "description": "No parameters. List of all mother objects returned.",
             "content": {
@@ -241,9 +210,15 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "mrn": { "type": "string" },
-                    "first_name": { "type": "string" },
-                    "last_name": { "type": "string" },
+                    "mrn": {
+                      "type": "string"
+                    },
+                    "first_name": {
+                      "type": "string"
+                    },
+                    "last_name": {
+                      "type": "string"
+                    },
                     "babies": {
                       "type": "array",
                       "description": "List of baby names",
@@ -292,9 +267,15 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "mrn": { "type": "string" },
-                    "first_name": { "type": "string" },
-                    "last_name": { "type": "string" },
+                    "mrn": {
+                      "type": "string"
+                    },
+                    "first_name": {
+                      "type": "string"
+                    },
+                    "last_name": {
+                      "type": "string"
+                    },
                     "babies": {
                       "type": "array",
                       "description": "List of baby names",
@@ -326,9 +307,6 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request. No mothers found in system."
           }
         }
       }
@@ -346,9 +324,15 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "mrn": { "type": "string" },
-                  "first_name": { "type": "string" },
-                  "last_name": { "type": "string" }
+                  "mrn": {
+                    "type": "string"
+                  },
+                  "first_name": {
+                    "type": "string"
+                  },
+                  "last_name": {
+                    "type": "string"
+                  }
                 }
               },
               "example": {
@@ -367,7 +351,9 @@
             "description": "Bad data provided.",
             "content": {
               "text/plain": {
-                "schema": { "type": "string" },
+                "schema": {
+                  "type": "string"
+                },
                 "example": "Invalid mother data | Mother already exists | A firebase error occurred."
               }
             }
@@ -400,7 +386,9 @@
             "description": "Bad data provided.",
             "content": {
               "text/plain": {
-                "schema": { "type": "string" },
+                "schema": {
+                  "type": "string"
+                },
                 "example": "No MRN/UID given OR MRN/UID {mrn_uid} does not exist in collection 'mothers'"
               }
             }
@@ -426,6 +414,9 @@
           }
         ],
         "responses": {
+          "400": {
+            "description": "Bad request. No babies found in system."
+          },
           "200 (list)": {
             "description": "No parameters. List of all baby objects returned.",
             "content": {
@@ -433,11 +424,21 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "first_name": { "type": "string" },
-                    "last_name": { "type": "string" },
-                    "mrn": { "type": "string" },
-                    "mother_mrn": { "type": "string" },
-                    "mother_name": { "type": "string" }
+                    "first_name": {
+                      "type": "string"
+                    },
+                    "last_name": {
+                      "type": "string"
+                    },
+                    "mrn": {
+                      "type": "string"
+                    },
+                    "mother_mrn": {
+                      "type": "string"
+                    },
+                    "mother_name": {
+                      "type": "string"
+                    }
                   }
                 },
                 "example": [
@@ -466,11 +467,21 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "first_name": { "type": "string" },
-                    "last_name": { "type": "string" },
-                    "mrn": { "type": "string" },
-                    "mother_mrn": { "type": "string" },
-                    "mother_name": { "type": "string" }
+                    "first_name": {
+                      "type": "string"
+                    },
+                    "last_name": {
+                      "type": "string"
+                    },
+                    "mrn": {
+                      "type": "string"
+                    },
+                    "mother_mrn": {
+                      "type": "string"
+                    },
+                    "mother_name": {
+                      "type": "string"
+                    }
                   }
                 },
                 "example": {
@@ -482,9 +493,6 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request. No babies found in system."
           }
         }
       }
@@ -500,7 +508,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Babies"
+                "$ref": "#/components/schemas/Baby"
               },
               "example": {
                 "first_name": "Mei",
@@ -519,7 +527,9 @@
             "description": "Bad data provided.",
             "content": {
               "text/plain": {
-                "schema": { "type": "string" },
+                "schema": {
+                  "type": "string"
+                },
                 "example": "Invalid baby data | Mother does not exist | Baby already exists | A firebase error occurred."
               }
             }
@@ -552,7 +562,9 @@
             "description": "Bad data provided.",
             "content": {
               "text/plain": {
-                "schema": { "type": "string" },
+                "schema": {
+                  "type": "string"
+                },
                 "example": "No MRN/UID given OR MRN/UID {mrn_uid} does not exist in collection 'babies'"
               }
             }
@@ -586,12 +598,15 @@
           }
         ],
         "responses": {
+          "400": {
+            "description": "Bad request. No milk entries found in system."
+          },
           "200 (list)": {
             "description": "No parameters. List of all milk entry objects returned.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Milk Entries"
+                  "$ref": "#/components/schemas/Milk-Entry"
                 },
                 "example": [
                   {
@@ -629,7 +644,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Milk Entries"
+                  "$ref": "#/components/schemas/Milk-Entry"
                 },
                 "example": {
                   "baby_mrn": "0000",
@@ -646,87 +661,42 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request. No milk entries found in system."
           }
         }
       }
     },
-    "/milks": {
+    "/view_milks": {
       "get": {
         "tags": [
           "milk_entries"
         ],
-        "summary": "Displays formatted milk page.",
-        "description": "Returns a list of formated milk_entries objects with mother/baby mrn and name",
+        "summary": "Displays all milks formatted",
+        "description": "Displays all milk entries with mother name and baby name",
         "responses": {
           "200": {
             "description": "Successfully returned formatted milks.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Formatted Milk Entries"
+                  "$ref": "#/components/schemas/Formatted-Milk-Entry"
                 },
                 "example": [
                   {
-                    "additives": "neocate powder",
-                    "baby_mrn": "4697",
-                    "baby_name": [
-                        true,
-                        "Clarisse Willsmore"
-                    ],
-                    "created_at": 1731419472,
-                    "expiration_time": 1731664800,
-                    "expired": false,
-                    "express_time": 1716546360,
-                    "extra_notes": "check again",
-                    "milk_type": "Cream",
-                    "milk_uid": "000007",
-                    "mother_mrn": "5587",
-                    "mother_name": [
-                        true,
-                        "Harley Crocetto"
-                    ],
-                    "storage_location": "Room 2",
-                    "storage_type": "defrost",
-                    "uid": "000007",
-                    "volume_ml": 35
-                },
-                {
-                    "additives": [
-                        "humavant6"
-                    ],
-                    "baby_mrn": "3712",
-                    "baby_name": [
-                        true,
-                        "Corri Willsmore"
-                    ],
-                    "created_at": 1731419472,
-                    "expiration_time": 1732021200,
-                    "expired": false,
-                    "express_time": 1727332287,
+                    "baby_mrn": "0000",
+                    "baby_name": "Mei Lin",
+                    "created_at": 1730866439,
+                    "expiration_time": 1730866500,
+                    "express_time": 1730866380,
                     "extra_notes": "",
-                    "milk_type": "fresh",
-                    "mother_mrn": "4852",
-                    "mother_name": [
-                        true,
-                        "Charlene Sarle"
-                    ],
-                    "storage_location": "Room 3",
-                    "storage_type": "freezer",
-                    "uid": "000008",
-                    "volume_ml": 32
-                }
+                    "milk_type": "ehm",
+                    "mother_mrn": "0000",
+                    "mother_name": "Hong Lin",
+                    "storage_location": "level 1",
+                    "storage_type": "fridge",
+                    "uid": "000028",
+                    "volume_ml": 50
+                  }
                 ]
-              }
-            }
-          },
-          "400": {
-            "description": "No milks found in system.",
-            "content": {
-              "application/json": {
-                "example": []
               }
             }
           }
@@ -746,15 +716,33 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "milk_type": { "type": "string" },
-                  "express_time": { "type": "integer" },
-                  "expiration_time": { "type": "integer" },
-                  "storage_type": { "type": "string" },
-                  "storage_location": { "type": "string" },
-                  "volume_ml": { "type": "integer" },
-                  "baby_mrn": { "type": "string" },
-                  "extra_notes": { "type": "string" },
-                  "additives": { "type": "array" }
+                  "milk_type": {
+                    "type": "string"
+                  },
+                  "express_time": {
+                    "type": "integer"
+                  },
+                  "expiration_time": {
+                    "type": "integer"
+                  },
+                  "storage_type": {
+                    "type": "string"
+                  },
+                  "storage_location": {
+                    "type": "string"
+                  },
+                  "volume_ml": {
+                    "type": "integer"
+                  },
+                  "baby_mrn": {
+                    "type": "string"
+                  },
+                  "extra_notes": {
+                    "type": "string"
+                  },
+                  "additives": {
+                    "type": "array"
+                  }
                 }
               },
               "example": {
@@ -778,20 +766,48 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "baby_mrn": { "type": "string" },
-                    "created_at": { "type": "integer" },
-                    "expiration_time": { "type": "integer" },
-                    "express_time": { "type": "integer" },
-                    "extra_notes": { "type": "string" },
-                    "milk_type": { "type": "string" },
-                    "mother_mrn": { "type": "string" },
-                    "storage_location": { "type": "string" },
-                    "storage_type": { "type": "string" },
-                    "uid": { "type": "string" },
-                    "volume_ml": { "type": "integer" },
-                    "mother_name": { "type": "string" },
-                    "baby_name": { "type": "string" },
-                    "additives": { "type": "array" }
+                    "baby_mrn": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "integer"
+                    },
+                    "expiration_time": {
+                      "type": "integer"
+                    },
+                    "express_time": {
+                      "type": "integer"
+                    },
+                    "extra_notes": {
+                      "type": "string"
+                    },
+                    "milk_type": {
+                      "type": "string"
+                    },
+                    "mother_mrn": {
+                      "type": "string"
+                    },
+                    "storage_location": {
+                      "type": "string"
+                    },
+                    "storage_type": {
+                      "type": "string"
+                    },
+                    "uid": {
+                      "type": "string"
+                    },
+                    "volume_ml": {
+                      "type": "integer"
+                    },
+                    "mother_name": {
+                      "type": "string"
+                    },
+                    "baby_name": {
+                      "type": "string"
+                    },
+                    "additives": {
+                      "type": "array"
+                    }
                   }
                 },
                 "example": {
@@ -808,7 +824,10 @@
                   "volume_ml": 78,
                   "mother_name": "Hong Lin",
                   "baby_name": "Hey Lin",
-                  "additives": ["stuff", "more stuff"]
+                  "additives": [
+                    "stuff",
+                    "more stuff"
+                  ]
                 }
               }
             }
@@ -817,7 +836,9 @@
             "description": "Bad data provided.",
             "content": {
               "text/plain": {
-                "schema": { "type": "string" },
+                "schema": {
+                  "type": "string"
+                },
                 "example": "Invalid milk entry data | Baby does not exist | Stats document error | A firebase error occurred."
               }
             }
@@ -850,7 +871,9 @@
             "description": "Bad data provided.",
             "content": {
               "text/plain": {
-                "schema": { "type": "string" },
+                "schema": {
+                  "type": "string"
+                },
                 "example": "No MRN/UID given OR MRN/UID {mrn_uid} does not exist in collection 'milk_entries'"
               }
             }
@@ -876,6 +899,17 @@
           }
         ],
         "responses": {
+          "404": {
+            "description": "Barcode does not represent a registered MRN or a milk entry UID",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "'Invalid Request. No inputs given' OR { 'collection': 'name' }"
+              }
+            }
+          },
           "200 (mothers & babies)": {
             "description": "Barcode represents a mother or a baby mrn.",
             "content": {
@@ -883,7 +917,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "collection": { "type": "string" }
+                    "collection": {
+                      "type": "string"
+                    }
                   }
                 },
                 "example": {
@@ -899,9 +935,15 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "collection": { "type": "string" },
-                    "expired": { "type": "boolean" },
-                    "expiration_time": { "type": "integer" }
+                    "collection": {
+                      "type": "string"
+                    },
+                    "expired": {
+                      "type": "boolean"
+                    },
+                    "expiration_time": {
+                      "type": "integer"
+                    }
                   }
                 },
                 "example": {
@@ -909,15 +951,6 @@
                   "expired": false,
                   "expiration_time": 19028391823
                 }
-              }
-            }
-          },
-          "404": {
-            "description": "Barcode does not represent a registered MRN or a milk entry UID",
-            "content": {
-              "text/plain": {
-                "schema": { "type": "string" },
-                "example": "'Invalid Request. No inputs given' OR { 'collection': 'name' }"
               }
             }
           }
@@ -957,9 +990,15 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "match": { "type": "boolean" },
-                    "expired": { "type": "boolean" },
-                    "expiration_time": { "type": "integer" }
+                    "match": {
+                      "type": "boolean"
+                    },
+                    "expired": {
+                      "type": "boolean"
+                    },
+                    "expiration_time": {
+                      "type": "integer"
+                    }
                   }
                 },
                 "example": {
@@ -977,9 +1016,15 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "match": { "type": "boolean" },
-                    "mismatch_baby_name": { "type": "string" },
-                    "milk_owner_baby_name": { "type": "string" }
+                    "match": {
+                      "type": "boolean"
+                    },
+                    "mismatch_baby_name": {
+                      "type": "string"
+                    },
+                    "milk_owner_baby_name": {
+                      "type": "string"
+                    }
                   }
                 },
                 "example": {
@@ -997,7 +1042,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": { "type": "string" }
+                    "error": {
+                      "type": "string"
+                    }
                   }
                 },
                 "example": {
@@ -1065,7 +1112,7 @@
                 "schema": {
                   "type": "string"
                 },
-                "examples": {
+                "example": {
                   "html": {
                     "value": "<div class=\"milk-label\" style=\"display: flex; gap: 10px; font-family: monospace;\">\n<div style=\"display: flex; flex-direction: column;\">\n<div class=\"info\">\n<p>Holyard</p>\n<p>b/o Gianina</p>\n<p>MRN 1215</p>\n<p>Initial 1_____ Initial 2_____</p>\n</div>\n<div>\n<?xml version=\"1.0\" encoding=\"utf-8\" ?><svg baseProfile=\"tiny\" version=\"1.2\" height=\"48px\" width=\"48px\" viewBox=\"0 0 12 12\" style=\"background-color:#FFF\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:ev=\"http://www.w3.org/2001/xml-events\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"><path d=\"M1,1.5 h1m1,0h1m1,0h1m1,0h1m1,0h1m1,0m-10,1h2m2,0h1m1,0h4m-10,1h1m4,0h2m3,0m-10,1h1m1,0h1m2,0h1m1,0h1m1,0h1m-10,1h1m1,0h2m2,0h1m3,0m-10,1h1m2,0h2m3,0h2m-10,1h1m1,0h1m2,0h2m1,0h1m1,0m-10,1h2m1,0h1m2,0h1m2,0h1m-10,1h3m1,0h2m4,0m-10,1h10m-10,1\" stroke=\"#000\" stroke-width=\"1\"/></svg><p>000024</p>\n</div>\n</div>\n<div class=\"info\">\n<p>EHM/PDHM    expressed/defrosted</p>\n<p>PDHM batch#__________________________________</p>\n<p>        date____________time____________am/pm</p>\n<p>expired date____________time____________am/pm</p>\n<p>Humavant 6/Cream/HMF</p>\n<p>Humavant batch#______________________________</p>\n<p>expired date____________time____________am/pm</p>\n</div>\n</div>\n"
                   }
@@ -1092,15 +1139,33 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "milk_type": { "type": "string" },
-                  "express_time": { "type": "integer" },
-                  "expiration_time": { "type": "integer" },
-                  "storage_type": { "type": "string" },
-                  "storage_location": { "type": "string" },
-                  "volume_ml": { "type": "integer" },
-                  "baby_mrn": { "type": "string" },
-                  "extra_notes": { "type": "string" },
-                  "additives": { "type": "array" }
+                  "milk_type": {
+                    "type": "string"
+                  },
+                  "express_time": {
+                    "type": "integer"
+                  },
+                  "expiration_time": {
+                    "type": "integer"
+                  },
+                  "storage_type": {
+                    "type": "string"
+                  },
+                  "storage_location": {
+                    "type": "string"
+                  },
+                  "volume_ml": {
+                    "type": "integer"
+                  },
+                  "baby_mrn": {
+                    "type": "string"
+                  },
+                  "extra_notes": {
+                    "type": "string"
+                  },
+                  "additives": {
+                    "type": "array"
+                  }
                 }
               },
               "example": {
@@ -1112,7 +1177,9 @@
                 "volume_ml": 50,
                 "baby_mrn": "0000",
                 "extra_notes": "bruh",
-                "additives": ["updated additive"]
+                "additives": [
+                  "updated additive"
+                ]
               }
             }
           }
@@ -1125,19 +1192,45 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "baby_mrn": { "type": "string" },
-                    "created_at": { "type": "integer" },
-                    "expiration_time": { "type": "integer" },
-                    "express_time": { "type": "integer" },
-                    "extra_notes": { "type": "string" },
-                    "milk_type": { "type": "string" },
-                    "mother_mrn": { "type": "string" },
-                    "storage_location": { "type": "string" },
-                    "storage_type": { "type": "string" },
-                    "uid": { "type": "string" },
-                    "volume_ml": { "type": "integer" },
-                    "mother_name": { "type": "string" },
-                    "baby_name": { "type": "string" }
+                    "baby_mrn": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "integer"
+                    },
+                    "expiration_time": {
+                      "type": "integer"
+                    },
+                    "express_time": {
+                      "type": "integer"
+                    },
+                    "extra_notes": {
+                      "type": "string"
+                    },
+                    "milk_type": {
+                      "type": "string"
+                    },
+                    "mother_mrn": {
+                      "type": "string"
+                    },
+                    "storage_location": {
+                      "type": "string"
+                    },
+                    "storage_type": {
+                      "type": "string"
+                    },
+                    "uid": {
+                      "type": "string"
+                    },
+                    "volume_ml": {
+                      "type": "integer"
+                    },
+                    "mother_name": {
+                      "type": "string"
+                    },
+                    "baby_name": {
+                      "type": "string"
+                    }
                   }
                 },
                 "example": {
@@ -1153,7 +1246,7 @@
                   "uid": "000200",
                   "volume_ml": 78,
                   "mother_name": "Hong Lin",
-                  "baby_name": "Hey Lin" 
+                  "baby_name": "Hey Lin"
                 }
               }
             }
@@ -1162,7 +1255,9 @@
             "description": "Bad data provided.",
             "content": {
               "text/plain": {
-                "schema": { "type": "string" },
+                "schema": {
+                  "type": "string"
+                },
                 "example": "Only editing milk entries is supported | MRN/UID does not exist | Invalid request data fields | Expiration time cannot be before current time | Error updating document"
               }
             }
@@ -1173,7 +1268,7 @@
   },
   "components": {
     "schemas": {
-      "Mothers": {
+      "Mother": {
         "type": "object",
         "properties": {
           "babies": {
@@ -1204,7 +1299,7 @@
           }
         }
       },
-      "Babies": {
+      "Baby": {
         "type": "object",
         "properties": {
           "first_name": {
@@ -1225,7 +1320,7 @@
           }
         }
       },
-      "Milk Entries": {
+      "Milk-Entry": {
         "type": "object",
         "properties": {
           "baby_mrn": {
@@ -1311,9 +1406,74 @@
           }
         }
       },
-      "Formatted Milks": {
+      "Formatted-Milk-Entry": {
         "type": "object",
         "properties": {
+          "additives": {
+            "type": "array",
+            "description": "List of additives in the milk"
+          },
+          "baby_mrn": {
+            "type": "string",
+            "description": "Baby's mrn"
+          },
+          "baby_name": {
+            "type": "string",
+            "description": "Baby's name"
+          },
+          "created_at": {
+            "type": "integer",
+            "description": "Timestamp indicating when the record was created (in Unix time)"
+          },
+          "expiration_time": {
+            "type": "integer",
+            "description": "Expiration time of the milk (in Unix time)"
+          },
+          "express_time": {
+            "type": "integer",
+            "description": "Time when the milk was expressed (in Unix time)"
+          },
+          "extra_notes": {
+            "type": "string",
+            "description": "Additional notes or special instructions related to the milk"
+          },
+          "milk_type": {
+            "type": "string",
+            "description": "Type of milk"
+          },
+          "mother_mrn": {
+            "type": "string",
+            "description": "Mother's mrn"
+          },
+          "mother_name": {
+            "type": "string",
+            "description": "Mother's name"
+          },
+          "storage_location": {
+            "type": "string",
+            "description": "Location where the milk is stored (e.g., room 1)"
+          },
+          "storage_type": {
+            "type": "string",
+            "description": "Type where the milk is stored (e.g., fridge, freezer)"
+          },
+          "uid": {
+            "type": "string",
+            "description": "Unique identifier for the milk entry"
+          },
+          "volume_ml": {
+            "type": "integer",
+            "description": "Volume of milk in milliliters"
+          }
+        }
+      },
+      "Home-Formatted-Baby-Entry": {
+        "type": "object",
+        "properties": {
+          "associated_milks": {
+            "type": "array",
+            "description": "List of baby's milks as formatted milk entries."
+          },
           "baby_mrn": {
             "type": "string",
             "description": "Unique identifier for the milk entry."
@@ -1368,35 +1528,6 @@
           "volume_ml": {
             "type": "integer",
             "description": "Volume of the milk in milliliters."
-          }
-        }
-      }, 
-      "Formatted Babies and Milks": {
-        "type": "object",
-        "properties": {
-          "associated_milks": {
-            "type": "List",
-            "description": "List of associated milks"
-          },
-          "first_name": {
-            "type": "string",
-            "description": "Baby's first name"
-          },
-          "last_name": {
-            "type": "string",
-            "description": "Baby's last name"
-          },
-          "mother_mrn": {
-            "type": "string",
-            "description": "Mother's mrn"
-          },
-          "mother_name": {
-            "type": "string",
-            "description": "Mother's name"
-          },
-          "mrn": {
-            "type": "string",
-            "description": "Baby's mrn"
           }
         }
       }
