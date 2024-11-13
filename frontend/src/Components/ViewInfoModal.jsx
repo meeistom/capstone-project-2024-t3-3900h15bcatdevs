@@ -11,7 +11,7 @@ import { toUnix, dateTimeToString, unixToDatetimeLocal } from "../Utils/utils";
 
 export { ViewInfoModal };
 
-function ViewInfoModal({ info, closeModal }) {
+function ViewInfoModal({ info, closeModal, displayData, setDisplayData }) {
   const [isEditing, setIsEditing] = useState(false);
   const [expressDate, setExpressDate] = useState(unixToDatetimeLocal(info.express_time));
   const [expiryDate, setExpiryDate] = useState(unixToDatetimeLocal(info.expiration_time));
@@ -39,9 +39,10 @@ function ViewInfoModal({ info, closeModal }) {
     axios
       .post(`${URL}/edit?milk_uid=${info.uid}`, updatedInfo)
       .then((response) => {
+        const updatedData = displayData.map((item) => (item.uid === info.uid ? { ...item, ...updatedInfo } : item));
         console.log(`Milk Entry updated:`, response.data);
+        setDisplayData(updatedData);
         setIsEditing(false);
-        closeModal(true);
       })
       .catch((error) => {
         console.log("Error editing milk entry:", error);
