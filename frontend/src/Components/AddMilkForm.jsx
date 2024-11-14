@@ -75,9 +75,9 @@ function AddMilkForm({ babyMrn, motherData, milkForm, setMilkForm }) {
                   onChange={(e) => {
                     handleChange(e, 'storage_type');
                   }}>
-                  <option value="fridge">Fridge</option>
                   <option value="fresh">Fresh</option>
-                  <option value="defrost">Defrost</option>
+                  <option value="frozen">Frozen</option>
+                  <option value="defrosted">Defrosted</option>
                 </Form.Select>
               </div>
               <div className="col"></div>
