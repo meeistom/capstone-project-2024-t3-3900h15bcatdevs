@@ -51,7 +51,7 @@ function ViewMothers() {
         <div className="view-mothers d-flex flex-row p-5 justify-content-center">
           <div className="page-container">
             <h1 className="page-title">List of Mothers</h1>
-            <p>Total number of mothers: {data.length}</p>
+            <p className="py-2 fs-5 subtitle-2">Total number of mothers: {data.length}</p>
             <Table
               delete={null}
               displayData={data}

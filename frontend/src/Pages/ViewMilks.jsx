@@ -106,7 +106,7 @@ function ViewMilks() {
         <div className="viewmilk-page d-flex flex-row p-5 justify-content-center">
           <div className="page-container">
             <h1 className="page-title">List of Milk Entries</h1>
-            <p>Total Number of Milk Entries: {data.length}</p>
+            <p className="py-2 fs-5 subtitle-2">Total Number of Milk Entries: {data.length}</p>
             <Table
               deleteMilk={handleConfirmDelete}
               displayData={displayData}
