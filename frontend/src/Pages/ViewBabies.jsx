@@ -47,16 +47,18 @@ function ViewBabies() {
     <>
       <section id="viewBaby">
         <Navibar />
-        <div className="page-container">
-          <h1 className="page-title">Babies</h1>
-          <p>Total number of babies: {data.length}</p>
-          <Table
-            delete={null}
-            displayData={data}
-            setDisplayData={setData}
-            setOpenModal={null}
-            viewType="viewBaby"
-          />
+        <div className="babies d-flex flex-row p-5 justify-content-center">
+          <div className="page-container">
+            <h1 className="page-title">Babies</h1>
+            <p className="py-2 fs-5 subtitle-2">Total number of babies: {data.length}</p>
+            <Table
+              delete={null}
+              displayData={data}
+              setDisplayData={setData}
+              setOpenModal={null}
+              viewType="viewBaby"
+            />
+          </div>
         </div>
       </section>
     </>

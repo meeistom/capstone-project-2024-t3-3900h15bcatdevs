@@ -164,6 +164,8 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
                     <td onClick={() => handlePopUp(item)} key={column.key}>
                       {item[column.key]}
                     </td>
+                  ) : column.key === 'babies' ? (
+                    <td key={column.key}>{item[column.key].join(', ')}</td>
                   ) : viewType === 'viewLog' ? (
                     <td key={column.key}>{item[column.key]}</td>
                   ) : (

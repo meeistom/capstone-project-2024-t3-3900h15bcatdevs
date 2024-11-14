@@ -26,6 +26,10 @@ function Notifications({ notifData, confirmDelete }) {
       message += `${hours_expired} hours`;
     }
 
+    if (hours_expired === 0) {
+      message += 'less than an hour';
+    }
+
     if (expired === true) {
       message += ' ago';
     }
