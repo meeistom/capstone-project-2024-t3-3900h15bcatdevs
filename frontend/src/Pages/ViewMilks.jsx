@@ -103,31 +103,33 @@ function ViewMilks() {
     <>
       <section id="view_milks">
         <Navibar />
-        <div className="page-container">
-          <h1 className="page-title">List of Milk Entries</h1>
-          <p>Total Number of Milk Entries: {data.length}</p>
-          <Table
-            deleteMilk={handleConfirmDelete}
-            displayData={displayData}
-            setDisplayData={setDisplayData}
-            setOpenModal={setOpenModal}
-            viewType="viewMilk"
-          />
+        <div className="viewmilk-page d-flex flex-row p-5 justify-content-center">
+          <div className="page-container">
+            <h1 className="page-title">List of Milk Entries</h1>
+            <p>Total Number of Milk Entries: {data.length}</p>
+            <Table
+              deleteMilk={handleConfirmDelete}
+              displayData={displayData}
+              setDisplayData={setDisplayData}
+              setOpenModal={setOpenModal}
+              viewType="viewMilk"
+            />
+          </div>
+          {openModal && (
+            <AddMilkModal
+              addMilk={handleRefreshAfterAdd}
+              closeModal={setOpenModal}
+              version="addMilk1"
+            />
+          )}
+          {confirmDelete && (
+            <DeleteMilkModal
+              entry={deleteEntry}
+              closeModal={setConfirmDelete}
+              deleteMilk={handleDeleteMilk}
+            />
+          )}
         </div>
-        {openModal && (
-          <AddMilkModal
-            addMilk={handleRefreshAfterAdd}
-            closeModal={setOpenModal}
-            version="addMilk1"
-          />
-        )}
-        {confirmDelete && (
-          <DeleteMilkModal
-            entry={deleteEntry}
-            closeModal={setConfirmDelete}
-            deleteMilk={handleDeleteMilk}
-          />
-        )}
       </section>
     </>
   );
