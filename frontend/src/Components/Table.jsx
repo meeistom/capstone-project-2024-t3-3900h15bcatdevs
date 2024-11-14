@@ -223,7 +223,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
                       value={searchValue}
                       type="text"
                       className="form-control"
-                      placeholder="Seach..."
+                      placeholder="Search..."
                       aria-describedby="button-search"
                     />
                     <button

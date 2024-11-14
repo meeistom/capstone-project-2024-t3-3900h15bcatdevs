@@ -92,9 +92,9 @@ function MilkRegistration({
                       className="form-select form-select-sm"
                       value={milkForm.storage_type}
                       onChange={(e) => handleChange(e, 'storage_type')}>
-                      <option value="fridge">Fridge</option>
                       <option value="fresh">Fresh</option>
-                      <option value="defrost">Defrost</option>
+                      <option value="frozen">Frozen</option>
+                      <option value="defrosted">Defrosted</option>
                     </Form.Select>
                   </Form.Group>
                 </div>
