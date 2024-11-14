@@ -57,16 +57,18 @@ function HistoryLog() {
     <>
       <section id="history">
         <Navibar />
-        <div className="page-container">
-          <h1 className="page-title">History Log</h1>
-          <p>Total number of actions: {data.length}</p>
-          <Table
-            deleteMilk={null}
-            displayData={displayData}
-            setDisplayData={setDisplayData}
-            setOpenModal={null}
-            viewType="viewLog"
-          />
+        <div className="history-container d-flex flex-row p-5 justify-content-center">
+          <div className="page-container">
+            <h1 className="page-title">History Log</h1>
+            <p className="py-2 fs-5 subtitle-2">Total number of actions: {data.length}</p>
+            <Table
+              deleteMilk={null}
+              displayData={displayData}
+              setDisplayData={setDisplayData}
+              setOpenModal={null}
+              viewType="viewLog"
+            />
+          </div>
         </div>
       </section>
     </>

@@ -298,19 +298,19 @@ def get_milk_label_preview():
         return jsonify({"error": "Invalid milk data"}), 400
 
     # get baby info
-    baby = retrieve_from_collection(fs_client, collection="babies", mrn_uid=milk['baby_mrn'])
-    assert(len(baby) == 1)
-    baby = baby[0]
+    # baby = retrieve_from_collection(fs_client, collection="babies", mrn_uid=milk['baby_mrn'])
+    # assert(len(baby) == 1)
+    # baby = baby[0]
     label = get_milk_label((
         uid,
-        baby['first_name'],
-        baby['last_name'],
-        baby['mrn'],
+        milk['first_name'],
+        milk['last_name'],
+        milk['mrn'],
         milk['milk_type'],
         milk['volume_ml'],
         milk['express_time'],
         milk['expiration_time'],
-        milk['additives']
+        [milk['additives']]
     ))
 
     return make_response(label, 200)

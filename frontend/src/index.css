@@ -7,6 +7,11 @@
   --navTextColor: #fff;
   --textColor: #000;
   --editPopup: #efe0f8;
+  --verifyEmpty: #b4b4b4;
+  --secondaryText: #8c8c8c;
+  --borderColor: #e9eaec;
+  --secondaryBackground: #f7f9fd;
+  --deleteIcon: #464f60;
 }
 
 body {
@@ -16,7 +21,7 @@ body {
 
 .navbar {
   z-index: 100;
-  background-image: linear-gradient(to bottom right, #7f48a3, #502e66);
+  background-image: linear-gradient(to bottom right, var(--brandColor), var(--brandDark));
 }
 
 .navbar .nav-link {
@@ -51,7 +56,7 @@ body {
 }
 
 .modal-container {
-  width: 35.1rem;
+  width: 35rem;
   height: 39rem;
   overflow: auto;
   z-index: 10;
@@ -136,11 +141,11 @@ input::-webkit-inner-spin-button {
 }
 
 .register-selection-container .checkbox-container {
-  gap: 100px;
+  gap: 6rem;
 }
 
 .register-selection-container .uncheck {
-  background-color: #ffffff;
+  background-color: var(--navTextColor);
   border-color: var(--brandColor);
   color: var(--brandColor);
   font-size: xx-large;
@@ -150,7 +155,7 @@ input::-webkit-inner-spin-button {
 .register-selection-container .uncheck:hover {
   background-color: var(--brandColor);
   border-color: var(--brandColor);
-  color: #ffffff;
+  color: var(--navTextColor);
   font-size: xx-large;
   text-align: center;
 }
@@ -159,7 +164,7 @@ input::-webkit-inner-spin-button {
   background-color: var(--brandColor) !important;
   border-color: var(--brandColor) !important;
   font-size: xx-large;
-  color: #ffffff;
+  color: var(--navTextColor);
   text-align: center;
 }
 
@@ -174,7 +179,7 @@ input::-webkit-inner-spin-button {
 }
 
 .next-button-container {
-  gap: 10px;
+  gap: 1rem;
 }
 
 .register-details-container {
@@ -183,7 +188,7 @@ input::-webkit-inner-spin-button {
   justify-items: baseline;
   text-align: center;
   margin-top: 5%;
-  width: 400px;
+  width: 25rem;
 }
 
 .register-form-label {
@@ -231,9 +236,12 @@ input::-webkit-inner-spin-button {
   z-index: 1;
 }
 
-.verification-page .title {
-  font-size: 2.5rem;
-  text-align: center;
+.verification-filter {
+  filter: blur(2px);
+}
+
+.verification-display {
+  display: none !important;
 }
 
 .verification-page .subtitle {
@@ -243,10 +251,7 @@ input::-webkit-inner-spin-button {
 }
 
 .verification-page .scanner-input {
-  border: 1;
   width: 15%;
-  align-self: center;
-  text-align: center;
 }
 
 .verification-page .text {
@@ -257,22 +262,22 @@ input::-webkit-inner-spin-button {
 .checkbox-container {
   display: flex;
   justify-content: center;
-  column-gap: 50px;
+  column-gap: 3rem;
 }
 
 .checkbox-container .checkbox {
   display: flex;
   flex-direction: column;
-  row-gap: 10px;
+  row-gap: 0.5rem;
 }
 
 .empty-check {
-  height: 80px;
-  width: 80px;
+  min-height: 80px;
+  min-width: 80px;
   border-radius: 50%;
   display: inline-block;
-  border: solid 5px;
-  color: #b4b4b4;
+  border: solid 0.3rem;
+  color: var(--verifyEmpty);
 }
 
 .checkbox-container .text {
@@ -288,7 +293,7 @@ input::-webkit-inner-spin-button {
 .prompt-container {
   display: flex;
   flex-direction: column;
-  row-gap: 30px;
+  row-gap: 3rem;
 }
 
 .prompt-container .img {
@@ -297,15 +302,12 @@ input::-webkit-inner-spin-button {
 }
 
 .prompt-container .home-button {
-  width: 140px;
   align-self: center;
-  margin-top: 25px;
 }
 
 /* Add Milk Form */
-
 .form-container .col {
-  margin-top: 10px;
+  margin-top: 0.8rem;
 }
 
 #btn-group {
@@ -344,50 +346,36 @@ input::-webkit-inner-spin-button {
 
 /* Notifications */
 .notifications-outer-container {
-  padding: 20px;
-  height: 80.8vh;
-  width: 25vw;
+  width: 25%;
   display: flex;
   flex-direction: column;
-}
-
-.notifications-outer-container .title-box {
-  font-size: 2.2rem;
-  display: flex;
-  gap: 7px;
-  height: 40px;
-  padding-top: 2px;
-}
-
-.notifications-outer-container .subtitle-1 {
-  font-size: 0.8rem;
-  padding-top: 24.7px;
 }
 
 .notifications-outer-container .subtitle-2 {
-  font-size: 0.8rem;
-  color: #8c8c8c;
-  margin-top: 12px;
-  margin-bottom: 3px;
+  color: var(--secondaryText);
+}
+
+.subtitle-2 {
+  color: var(--secondaryText);
 }
 
 .notifications-inner-container {
-  border: 2px solid #e9eaec;
-  border-radius: 10px;
+  border: 0.1rem solid var(--borderColor);
+  border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  padding: 8px;
+  gap: 0.5rem;
+  padding: 0.5rem;
   overflow: auto;
   height: 100%;
 }
 
 .notification {
   display: flex;
-  background-color: #f7f9fd;
+  background-color: var(--secondaryBackground);
   padding: 12px;
   border-radius: 8px;
-  border: 1.7px solid #e9eaec;
+  border: 1.7px solid var(--borderColor);
   gap: 8px;
 }
 
@@ -400,8 +388,8 @@ input::-webkit-inner-spin-button {
 }
 
 .notification .expired-status {
-  height: 30px;
-  width: 30px;
+  min-height: 30px;
+  min-width: 30px;
   background-color: #fbdce4;
   border-radius: 50%;
   border: 3px solid #d14363;
@@ -409,8 +397,8 @@ input::-webkit-inner-spin-button {
 }
 
 .notification .near-expiry-status {
-  height: 30px;
-  width: 30px;
+  min-height: 30px;
+  min-width: 30px;
   background-color: #fdf3e6;
   border-radius: 50%;
   border: 3px solid #b9772b;
@@ -434,13 +422,13 @@ input::-webkit-inner-spin-button {
 .table-container {
   border-radius: 10px;
   height: 100%;
-  border: 2px solid #e9eaec;
+  border: 2px solid var(--borderColor);
   overflow: auto;
 }
 
 table {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 0.5rem;
   border-collapse: collapse;
 }
 
@@ -452,7 +440,7 @@ thead {
 
 th,
 td {
-  padding: 8px;
+  padding: 0.5rem;
   text-align: left;
 }
 
@@ -476,16 +464,16 @@ td {
 }
 
 .sort-btn {
-  padding: 5px 12 px;
+  padding: 0.5rem 1rem;
   margin: 1%;
   font-size: small;
-  border: 1px solid #c3c6cd;
+  border: 0.1rem solid var(--borderColor);
 }
 
 .dlt-btn {
   border: none;
   background: none;
-  color: #464f60;
+  color: var(--deleteIcon);
 }
 
 .expand-btn {
@@ -499,7 +487,7 @@ td {
 }
 
 thead tr {
-  background-color: #f7f9fd;
+  background-color: var(--secondaryBackground);
 }
 
 tr {
@@ -507,11 +495,11 @@ tr {
 }
 
 .even-row {
-  background-color: white;
+  background-color: var(--navTextColor);
 }
 
 .odd-row {
-  background-color: #f7f9fd;
+  background-color: var(--secondaryBackground);
 }
 
 /* Milk Sub Table Style */
@@ -556,10 +544,8 @@ tr {
 .page-container {
   display: flex;
   flex-direction: column;
-  margin-top: 3vh;
-  margin-left: 2vw;
   width: 70vw;
-  height: 75vh;
+  height: 80vh;
 }
 
 .page-title {
@@ -572,14 +558,11 @@ tr {
   padding: 0;
 }
 
-/* Info modal */
-.info-btn-group {
-  margin: 15px;
-}
-
 /* Info form */
-.info-section {
-  margin-bottom: 10px;
+.info-section,
+.info-section .form-label {
+  margin-bottom: 0.6rem;
+  align-items: center;
 }
 
 /* Delete modal */
@@ -587,9 +570,10 @@ tr {
   width: 40vw;
   height: 30vh;
 }
+
 /* Home Page Styling */
 .home-container {
-  display: flex;
+  gap: 1rem;
 }
 
 Button:hover {
@@ -598,4 +582,8 @@ Button:hover {
 
 .edit-popup {
   color: var(--editPopup);
+}
+
+.modal-small {
+  height: 65%;
 }

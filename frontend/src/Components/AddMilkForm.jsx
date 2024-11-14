@@ -1,29 +1,29 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
+import { addDaysToDateTime, getCurrentDateTime } from '../Utils/utils';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../index.css';
 
 export { AddMilkForm };
 
-function AddMilkForm({
-  babyData,
-  motherData,
-  expressDate,
-  setExpressDate,
-  expiryDate,
-  setExpiryDate,
-  setNotes,
-  setAdditive
-}) {
+function AddMilkForm({ babyMrn, motherData, milkForm, setMilkForm }) {
+  const handleChange = (e, name) => {
+    const value = e.target.value;
+    setMilkForm((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   return (
-    <div className="form-container w-100">
+    <div className="form-container w-100 mt-2">
       <div className="form-mother-detail align-self-start">
         <h5>Patient Details</h5>
         <p className="m-0">
           Baby of Mother: {motherData.first_name} {motherData.last_name}
         </p>
-        <p className="m-0">Baby MRN: {babyData.mrn}</p>
+        <p className="m-0">Baby MRN: {babyMrn}</p>
       </div>
       <Form name="add-milk-form">
         <div className="form-milk-detail mb-3">
@@ -36,7 +36,8 @@ function AddMilkForm({
                 <Form.Select
                   id="milk-type"
                   className="form-select form-select-sm"
-                  defaultValue="ehm">
+                  value={milkForm.milk_type}
+                  onChange={(e) => handleChange(e, 'milk_type')}>
                   <option value="ehm">EHM</option>
                   <option value="pdhm">PDHM</option>
                   <option value="formula">Formula</option>
@@ -49,9 +50,9 @@ function AddMilkForm({
                 <Form.Select
                   id="additive-type"
                   className="form-select form-select-sm"
-                  defaultValue="none"
+                  value={milkForm.additives}
                   onChange={(e) => {
-                    setAdditive(e.target.value);
+                    handleChange(e, 'additives');
                   }}>
                   <option value="none">None</option>
                   <option value="prenanfm85">Pre Nan FM85</option>
@@ -70,7 +71,10 @@ function AddMilkForm({
                 <Form.Select
                   id="milk-storage"
                   className="form-select form-select-sm"
-                  defaultValue="option-fridge">
+                  value={milkForm.storage_type}
+                  onChange={(e) => {
+                    handleChange(e, 'storage_type');
+                  }}>
                   <option value="fridge">Fridge</option>
                   <option value="fresh">Fresh</option>
                   <option value="defrost">Defrost</option>
@@ -82,9 +86,10 @@ function AddMilkForm({
                   Express Date*
                 </Form.Label>
                 <input
-                  value={expressDate}
+                  value={milkForm.express_time}
+                  min={getCurrentDateTime()}
                   onChange={(e) => {
-                    setExpressDate(e.target.value);
+                    handleChange(e, 'express_time');
                   }}
                   className="form-control"
                   id="express-date"
@@ -96,9 +101,14 @@ function AddMilkForm({
                   Expiry Date*
                 </Form.Label>
                 <input
-                  value={expiryDate}
+                  value={milkForm.expiration_time}
+                  min={
+                    milkForm.express_time
+                      ? addDaysToDateTime(milkForm.express_time, 1)
+                      : getCurrentDateTime()
+                  }
                   onChange={(e) => {
-                    setExpiryDate(e.target.value);
+                    handleChange(e, 'expiration_time');
                   }}
                   className="form-control"
                   id="expiry-date"
@@ -116,7 +126,8 @@ function AddMilkForm({
             className="form-control"
             id="milk-notes"
             rows="3"
-            onChange={(e) => setNotes(e.target.value)}></textarea>
+            value={milkForm.notes}
+            onChange={(e) => handleChange(e, 'extra_notes')}></textarea>
         </div>
       </Form>
     </div>

@@ -2,9 +2,14 @@ backend/volumes/*
 node_modules
 backend/database/__pycache__/
 backend/firebase/__pycache__/
+backend/firebase/tests/__pycache__/
 backend/labels/__pycache__/
+backend/labels/barcodes/tests/__pycache__/
+backend/labels/tests/__pycache__/
 backend/.key/*
 backend/__pycache__/
-backend/labels/barcodes/__pycache__/*
+backend/labels/barcodes/__pycache__/
+backend/.pytest_cache
+backend/.coverage
 .DS_*
 key_*

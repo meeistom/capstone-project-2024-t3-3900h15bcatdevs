@@ -27,7 +27,7 @@ function Home() {
       const response = await axios.get(`${URL}/notifications`);
       setNotificationData(response.data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -49,7 +49,7 @@ function Home() {
       setDisplayData(result);
       localStorage.setItem("myBabyData", JSON.stringify(result));
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -112,7 +112,6 @@ function Home() {
         setConfirmDelete(false);
       })
       .catch((error) => {
-        console.error(error);
         setError(error);
       });
   };
@@ -121,10 +120,10 @@ function Home() {
     <>
       <section id="Home">
         <Navibar />
-        <div className="home-container">
+        <div className="home-container d-flex flex-row p-5 justify-content-between">
           <div className="page-container">
             <h1 className="page-title">List of Babies</h1>
-            <p>Total Number of Babies: {data.length}</p>
+            <p className="py-2 fs-5 subtitle-2">Total Number of Babies: {data.length}</p>
             <Table
               deleteMilk={handleConfirmDelete}
               displayData={displayData}
