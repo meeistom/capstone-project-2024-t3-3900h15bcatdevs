@@ -60,9 +60,9 @@ function Navibar() {
             <Nav.Link data-testid="nav-mothers" onClick={goToMothers}>
               <FontAwesomeIcon icon={faPersonDress} /> View Mothers
             </Nav.Link>
-            <Nav.Link data-testid="nav-milks" onClick={goToMilks}>
+            {/* <Nav.Link data-testid="nav-milks" onClick={goToMilks}>
               <FontAwesomeIcon icon={faPrescriptionBottle} /> View Milks
-            </Nav.Link>
+            </Nav.Link> */}
             <Nav.Link data-testid="nav-register" onClick={goToRegister}>
               <FontAwesomeIcon icon={faPaperPlane} /> Register
             </Nav.Link>

@@ -31,19 +31,32 @@ function ViewInfoModal({ info, closeModal, displayData, setDisplayData }) {
       milk_type: milkType,
       storage_type: storageType,
       storage_location: storageLocation,
-      additives: additive,
+      additives: [additive],
       volume_ml: info.volume_ml
     };
 
-    console.log(updatedInfo);
+    console.log(`before change: ${displayData}`);
     axios
       .post(`${URL}/edit?milk_uid=${info.uid}`, updatedInfo)
       .then((response) => {
-        const updatedData = displayData.map((item) =>
-          item.uid === info.uid ? { ...item, ...updatedInfo } : item
-        );
         console.log(`Milk Entry updated:`, response.data);
-        setDisplayData(updatedData);
+        console.log(info);
+        displayData.map((baby) => {
+          if (baby.mrn === updatedInfo.baby_mrn) {
+            const milks = baby.associated_milks;
+            milks.map((milk) => {
+              if (milk.uid === updatedInfo.milk_uid) {
+                console.log("milk updated");
+                milk.milk_type = updatedInfo.milk_type;
+                milk.storage_type = updatedInfo.storage_type;
+                milk.storage_location = updatedInfo.storage_location;
+                milk.express_time = updatedInfo.express_time;
+                milk.expiration_time = updatedInfo.expiration_time;
+                milk.extra_notes = updatedInfo.extra_notes;
+              }
+            }) 
+          }
+        })
         setIsEditing(false);
       })
       .catch((error) => {

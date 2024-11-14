@@ -113,9 +113,9 @@ function ViewInfoForm({
                 className="form-select form-select-sm"
                 value={storageType}
                 onChange={(e) => setStorageType(e.target.value)}>
-                <option value="fridge">Fridge</option>
                 <option value="fresh">Fresh</option>
-                <option value="defrost">Defrost</option>
+                <option value="frozen">Frozen</option>
+                <option value="defrosted">Defrosted</option>
               </select>
             </div>
             <div className="col">Storage Location</div>
