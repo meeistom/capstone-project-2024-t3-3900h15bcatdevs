@@ -43,6 +43,19 @@ body {
   }
 }
 
+@keyframes slide-from-right {
+  from {
+    transform: translateX(100vh);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.slide-from-right {
+  animation: slide-from-right 0.5s;
+}
+
 .drop-from-top {
   animation: drop-from-top 0.3s;
 }

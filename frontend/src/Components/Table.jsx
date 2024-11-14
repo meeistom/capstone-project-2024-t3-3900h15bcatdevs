@@ -99,7 +99,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
   };
 
   return (
-    <div className="table-container">
+    <div className="table-container slide-from-right">
       <table>
         <thead>
           <tr className="table-header-block">
