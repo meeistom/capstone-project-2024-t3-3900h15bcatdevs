@@ -9,7 +9,8 @@ import '../index.css';
 
 export { Modal };
 
-function Modal({ id, title, body, footer, closeModal }) {
+function Modal({ id, title, body, footer, size, closeModal }) {
+  const modalSizeClass = size === 'large' ? 'h-75' : 'modal-small';
   return (
     <>
       <div
@@ -17,7 +18,7 @@ function Modal({ id, title, body, footer, closeModal }) {
         id={id}
         className="modal-background position-fixed d-flex justify-content-center align-items-center w-100 h-100">
         <div
-          className="modal-container position-relative bg-white rounded-3 shadow-lg d-flex flex-column p-4 drop-from-top"
+          className={`modal-container position-relative bg-white rounded-3 shadow-lg d-flex flex-column p-4 drop-from-top ${modalSizeClass}`}
           onClick={(e) => e.stopPropagation()}>
           <div className="modal-close-btn d-flex justify-content-end">
             <Button

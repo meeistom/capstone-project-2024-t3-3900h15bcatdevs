@@ -48,8 +48,16 @@ function Register() {
 
   const navigate = useNavigate();
 
-  const goToHome = () => {
-    navigate('/');
+  const goToHome = async () => {
+    try {
+      if (checked.momPage) await submitMomInfo();
+      if (checked.babyPage) await submitBabyInfo();
+      if (checked.milkPage) await submitMilkInfo();
+    } catch (error) {
+      console.error('Error during submission:', error);
+    } finally {
+      navigate('/');
+    }
   };
 
   const nextPageToVisit = () => {
@@ -122,30 +130,60 @@ function Register() {
     }
   };
 
+  const submitMilkInfo = async () => {
+    const bottleDetails = {
+      milk_type: milkForm.milk_type,
+      express_time: toUnix(milkForm.express_time),
+      expiration_time: toUnix(milkForm.expiration_time),
+      storage_type: milkForm.storage_type,
+      storage_location: 'level 1',
+      volume_ml: 50,
+      baby_mrn: babyForm.mrn,
+      extra_notes: milkForm.extra_notes,
+      additives: milkForm.additive
+    };
+    console.log(bottleDetails);
+    axios
+      .post(`${URL}/add_milk_entry`, bottleDetails)
+      .then((response) => {
+        console.log(`Bottle details added: ${response}`, response.data);
+      })
+      .catch((error) => {
+        console.log('Error posting bottle details:', error);
+        alert('Failed to add bottle details. Please try again.');
+      });
+  };
+
   useEffect(() => {
     setValidForm(Object.values(checked).some((value) => value));
   }, [checked]);
 
   useEffect(() => {
-    const submitDataInOrder = async () => {
-      try {
-        if (checked.momPage) await submitMomInfo();
-        if (checked.babyPage) await submitBabyInfo();
-      } catch (error) {
-        console.error('Error during submission:', error);
-      }
-    };
-
-    const setupPreview = async () => {
-      await submitDataInOrder();
+    if (selectedPages[currentPage] === 'prePage') {
+      setRegisterStarted(false);
+    }
+    if (selectedPages[currentPage] === 'confirm') {
+      setValidForm(true);
+      setRenderedPage(
+        <ConfirmDetails
+          momForm={momForm}
+          babyForm={babyForm}
+          milkForm={milkForm}
+          checked={checked}
+        />
+      );
+    }
+    if (selectedPages[currentPage] === 'preview') {
       const milkInfo = {
+        first_name: babyForm.first_name,
+        last_name: babyForm.last_name,
         milk_type: milkForm.milk_type,
         express_time: toUnix(milkForm.express_time),
         expiration_time: toUnix(milkForm.expiration_time),
         storage_type: milkForm.storage_type,
         storage_location: milkForm.storage_type,
         volume_ml: 100,
-        baby_mrn: babyForm.mrn,
+        mrn: babyForm.mrn,
         additives: milkForm.additive,
         extra_notes: milkForm.extra_notes
       };
@@ -156,61 +194,46 @@ function Register() {
           setLabelPrint={setLabelPrint}
         />
       );
-    };
-
-    switch (selectedPages[currentPage]) {
-      case 'prePage':
-        setRegisterStarted(false);
-        break;
-      case 'momPage':
-        setRenderedPage(
-          <MotherRegistration
-            momForm={momForm}
-            setMomForm={setMomForm}
-            setValidForm={setValidForm}
-          />
-        );
-        break;
-      case 'babyPage':
-        setRenderedPage(
-          <BabyRegistration
-            momChecked={checked.momPage}
-            momForm={momForm}
-            setMomForm={setMomForm}
-            babyForm={babyForm}
-            setBabyForm={setBabyForm}
-            setValidForm={setValidForm}
-          />
-        );
-        break;
-      case 'milkPage':
-        setRenderedPage(
-          <MilkRegistration
-            babyChecked={checked.babyPage}
-            babyForm={babyForm}
-            setBabyForm={setBabyForm}
-            milkForm={milkForm}
-            setMilkForm={setMilkForm}
-            setValidForm={setValidForm}
-          />
-        );
-        break;
-      case 'confirm':
-        setValidForm(true);
-        setRenderedPage(
-          <ConfirmDetails
-            momForm={momForm}
-            babyForm={babyForm}
-            milkForm={milkForm}
-            checked={checked}
-          />
-        );
-        break;
-      case 'preview':
-        setupPreview();
-        break;
     }
-  }, [selectedPages, currentPage, momForm, babyForm, milkForm, validForm]);
+  }, [selectedPages, currentPage]);
+
+  useEffect(() => {
+    if (selectedPages[currentPage] === 'momPage') {
+      setRenderedPage(
+        <MotherRegistration momForm={momForm} setMomForm={setMomForm} setValidForm={setValidForm} />
+      );
+    }
+  }, [selectedPages, currentPage, momForm, validForm]);
+
+  useEffect(() => {
+    if (selectedPages[currentPage] === 'babyPage') {
+      setRenderedPage(
+        <BabyRegistration
+          momChecked={checked.momPage}
+          momForm={momForm}
+          setMomForm={setMomForm}
+          babyForm={babyForm}
+          setBabyForm={setBabyForm}
+          setValidForm={setValidForm}
+        />
+      );
+    }
+  }, [selectedPages, currentPage, momForm, babyForm, validForm]);
+
+  useEffect(() => {
+    if (selectedPages[currentPage] === 'milkPage') {
+      setRenderedPage(
+        <MilkRegistration
+          babyChecked={checked.babyPage}
+          babyForm={babyForm}
+          setBabyForm={setBabyForm}
+          milkForm={milkForm}
+          setMilkForm={setMilkForm}
+          setValidForm={setValidForm}
+        />
+      );
+    }
+  }, [selectedPages, currentPage, milkForm, babyForm, validForm]);
 
   return (
     <>
@@ -298,7 +321,7 @@ function Register() {
                       )}
 
                       <Button name="return-home" variant="primary" size="lg" onClick={goToHome}>
-                        Return Home
+                        Confirm and Return Home
                       </Button>
                     </>
                   )}
