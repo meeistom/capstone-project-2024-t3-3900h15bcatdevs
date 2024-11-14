@@ -304,7 +304,7 @@ def get_milk_label_preview():
         milk['volume_ml'],
         milk['express_time'],
         milk['expiration_time'],
-        milk['additives']
+        [milk['additives']]
     ))
 
     return make_response(label, 200)

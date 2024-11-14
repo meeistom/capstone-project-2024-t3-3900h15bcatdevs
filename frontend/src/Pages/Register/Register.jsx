@@ -321,7 +321,7 @@ function Register() {
                       )}
 
                       <Button name="return-home" variant="primary" size="lg" onClick={goToHome}>
-                        Return Home
+                        Confirm and Return Home
                       </Button>
                     </>
                   )}
