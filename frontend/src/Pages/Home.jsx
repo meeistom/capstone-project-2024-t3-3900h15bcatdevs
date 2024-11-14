@@ -8,7 +8,7 @@ import { Table } from '../Components/Table';
 import { DeleteMilkModal } from '../Components/DeleteMilkModal';
 import { Notifications } from '../Components/Notifications';
 import { URL } from '../constants';
-import { unixToTimeStr } from '../Utils/utils.jsx';
+import { toUnix, dateTimeToString, unixToDatetimeLocal } from '../Utils/utils';
 
 export { Home };
 
@@ -41,8 +41,8 @@ function Home() {
       console.log(result)
       result.forEach((entry) => {
         entry.associated_milks.forEach((milk) => {
-          milk.express_time_str = unixToTimeStr(milk.express_time);
-          milk.expiration_time_str = unixToTimeStr(milk.expiration_time);
+          milk.express_time_str = dateTimeToString(unixToDatetimeLocal(milk.express_time));
+          milk.expiration_time_str = dateTimeToString(unixToDatetimeLocal(milk.expiration_time));
         })})
       // const result = await response.json();
       setData(result);
@@ -67,8 +67,8 @@ function Home() {
   }, []);
 
   const handleRefreshAfterAdd = (newMilk) => {
-    newMilk.express_time_str = unixToTimeStr(newMilk.express_time);
-    newMilk.expiration_time_str = unixToTimeStr(newMilk.expiration_time);
+    newMilk.express_time_str = dateTimeToString(unixToDatetimeLocal(newMilk.express_time));
+    newMilk.expiration_time_str = dateTimeToString(unixToDatetimeLocal(newMilk.expiration_time));
     const updatedData = data.map((baby) => 
       baby.mrn === newMilk.baby_mrn ? {...baby, associated_milks: [...baby.associated_milks, newMilk]} : baby
     );
