@@ -55,6 +55,8 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
   const [info, setInfo] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const [data] = useState(displayData);
+  const [expanded, setExpanded] =  useState(new Array(displayData.length).fill(0));
+  // const [expanded, setExpanded] = React.useState(false);
 
   const handlePopUp = (entry) => {
     setInfo(entry);
@@ -107,8 +109,14 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
     }
   };
 
+  function expandFunction (index) {
+    let newArray = [...expanded];
+    newArray[index] = !expanded[index];
+    setExpanded(newArray);
+  }
+
   function babyRow (babyData, index) {
-    const [expanded, setExpanded] = React.useState(false);
+    // const [expanded, setExpanded] = React.useState(false);
 
     return (
       <>
@@ -121,9 +129,10 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
                   <button 
                     type="button" 
                     className="btn btn-sm expand-btn" 
-                    onClick={() => setExpanded(!expanded)}
+                    // onClick={() => setExpanded(!expanded)}
+                    onClick={() => expandFunction(index)}
                     >
-                      {expanded ? (
+                      {expanded[index] ? (
                         <FontAwesomeIcon icon={faCaretDown} />
                       ) : (
                         <FontAwesomeIcon icon={faCaretRight} />
@@ -143,7 +152,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
           ))}
         </tr>
 
-        {expanded && (
+        {expanded[index] ? (
           <tr className={index % 2 === 0 ? "even-row" : "odd-row"} outline
           >
             <td colSpan={4}>
@@ -151,7 +160,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
             </td>
             <td></td>
           </tr>
-        )}
+        ): (<div></div>)}
       </>
     )
   }
