@@ -1,4 +1,5 @@
 import React from 'react';
+import { additiveOptions } from '../constants';
 
 export { ViewInfoForm };
 
@@ -23,17 +24,6 @@ function ViewInfoForm({
   isEditing,
   uid
 }) {
-  const options = [
-    { value: 'none', label: 'None' },
-    { value: 'prenanfm85', label: 'Pre Nan FM85' },
-    { value: 'humavant6', label: 'Humavant+6' },
-    { value: 'HumavantCream', label: 'Humavant Cream' },
-    { value: 'nanoptipropowder', label: 'Nan Optipro Powder' },
-    { value: 'PeptiJuniorpowder', label: 'Pepti Junior Powder' },
-    { value: 'neocate powder', label: 'Neocate Powder' },
-    { value: 'beneprotein', label: 'Beneprotein' }
-  ];
-
   const handleAdditiveChange = (value) => {
     if (value === 'none') {
       setAdditive(['none']);
@@ -110,8 +100,8 @@ function ViewInfoForm({
               </label>
             </div>
             <div>
-              <div className="mt-1">
-                {options.map((option) => (
+              <div id={`${uid}-additive`} className="mt-1">
+                {additiveOptions.map((option) => (
                   <div key={option.value}>
                     <label className="form-label">
                       <input

@@ -239,6 +239,12 @@ input::-webkit-inner-spin-button {
   flex-direction: column;
 }
 
+.register-details-container .register-additives {
+  font-size: initial;
+  text-align: left;
+  color: initial;
+}
+
 /* Verification Styling */
 
 .verification-page {
@@ -518,7 +524,7 @@ tr {
 /* Milk Sub Table Style */
 .sub-table-container {
   margin: 10px 28px;
-  border: 1px solid #E9EAEC;
+  border: 1px solid #e9eaec;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -534,7 +540,7 @@ tr {
 }
 
 .sub-table tr {
-  border: 1px solid #E9EAEC;
+  border: 1px solid #e9eaec;
 }
 
 .empty-sub-table {
@@ -542,7 +548,7 @@ tr {
 }
 
 .sub-table .outline {
-  outline: 1px solid #E9EAEC;
+  outline: 1px solid #e9eaec;
 }
 
 .sub-table .dlt-btn {

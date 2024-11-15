@@ -40,7 +40,7 @@ function Register() {
     express_time: '',
     expiration_time: '',
     storage_type: 'fridge',
-    additive: 'none',
+    additives: ['none'],
     extra_notes: ''
   });
   const [labelPrint, setLabelPrint] = useState('');
@@ -140,7 +140,7 @@ function Register() {
       volume_ml: 50,
       baby_mrn: babyForm.mrn,
       extra_notes: milkForm.extra_notes,
-      additives: milkForm.additive
+      additives: milkForm.additives
     };
     console.log(bottleDetails);
     axios
@@ -184,7 +184,7 @@ function Register() {
         storage_location: milkForm.storage_type,
         volume_ml: 100,
         mrn: babyForm.mrn,
-        additives: milkForm.additive,
+        additives: milkForm.additives,
         extra_notes: milkForm.extra_notes
       };
       setRenderedPage(

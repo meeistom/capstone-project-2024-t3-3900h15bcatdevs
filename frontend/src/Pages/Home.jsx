@@ -8,14 +8,13 @@ import { Table } from '../Components/Table';
 import { DeleteMilkModal } from '../Components/DeleteMilkModal';
 import { Notifications } from '../Components/Notifications';
 import { URL } from '../constants';
-import { toUnix, dateTimeToString, unixToDatetimeLocal } from '../Utils/utils';
+import { dateTimeToString, unixToDatetimeLocal } from '../Utils/utils';
 
 export { Home };
 
 function Home() {
   const [openModal, setOpenModal] = useState(false);
   const [data, setData] = useState(null);
-  const [displayData, setDisplayData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -38,16 +37,14 @@ function Home() {
         throw new Error('Having errors fetching milk details');
       }
       const result = await response.json();
-      console.log(result)
       result.forEach((entry) => {
         entry.associated_milks.forEach((milk) => {
           milk.express_time_str = dateTimeToString(unixToDatetimeLocal(milk.express_time));
           milk.expiration_time_str = dateTimeToString(unixToDatetimeLocal(milk.expiration_time));
-        })})
-      // const result = await response.json();
+        });
+      });
       setData(result);
-      setDisplayData(result);
-      localStorage.setItem("myBabyData", JSON.stringify(result));
+      localStorage.setItem('myBabyData', JSON.stringify(result));
     } catch (error) {
       console.error(error);
     } finally {
@@ -56,10 +53,9 @@ function Home() {
   };
 
   useEffect(() => {
-    const cachedData = localStorage.getItem("myBabyData");
+    const cachedData = localStorage.getItem('myBabyData');
     if (cachedData) {
       setData(JSON.parse(cachedData));
-      setDisplayData(JSON.parse(cachedData));
       setLoading(false);
     }
     fetchData();
@@ -67,14 +63,16 @@ function Home() {
   }, []);
 
   const handleRefreshAfterAdd = (newMilk) => {
+    console.log('milk added');
     newMilk.express_time_str = dateTimeToString(unixToDatetimeLocal(newMilk.express_time));
     newMilk.expiration_time_str = dateTimeToString(unixToDatetimeLocal(newMilk.expiration_time));
-    const updatedData = data.map((baby) => 
-      baby.mrn === newMilk.baby_mrn ? {...baby, associated_milks: [...baby.associated_milks, newMilk]} : baby
+    const updatedData = data.map((baby) =>
+      baby.mrn === newMilk.baby_mrn
+        ? { ...baby, associated_milks: [...baby.associated_milks, newMilk] }
+        : baby
     );
     setData(updatedData);
-    setDisplayData(updatedData);
-    localStorage.setItem("myBabyData", JSON.stringify(updatedData));
+    localStorage.setItem('myBabyData', JSON.stringify(updatedData));
   };
 
   if (loading) {
@@ -92,7 +90,6 @@ function Home() {
 
   const handleDeleteMilk = (uid, reason, notes) => {
     let reasonData = {};
-
     if (reason === 'other') {
       reasonData = { notes };
     } else {
@@ -101,14 +98,13 @@ function Home() {
 
     axios
       .delete(`${URL}/delete_milk_entry?uid=${uid}`, { data: reasonData })
-      .then((_) => {
+      .then(() => {
         const updatedData = data.map((entry) => ({
           ...entry,
           associated_milks: entry.associated_milks.filter((milk) => milk.uid !== uid)
         }));
         setData(updatedData);
-        setDisplayData(updatedData);
-        localStorage.setItem("myBabyData", JSON.stringify(updatedData));
+        localStorage.setItem('myBabyData', JSON.stringify(updatedData));
         setConfirmDelete(false);
       })
       .catch((error) => {
@@ -126,8 +122,8 @@ function Home() {
             <p className="py-2 fs-5 subtitle-2">Total Number of Babies: {data.length}</p>
             <Table
               deleteMilk={handleConfirmDelete}
-              displayData={displayData}
-              setDisplayData={setDisplayData}
+              displayData={data}
+              setDisplayData={setData}
               setOpenModal={setOpenModal}
               viewType="viewBaby"
             />

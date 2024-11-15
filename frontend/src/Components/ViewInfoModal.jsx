@@ -37,15 +37,12 @@ function ViewInfoModal({ info, closeModal, displayData }) {
 
     axios
       .post(`${URL}/edit?milk_uid=${info.uid}`, updatedInfo)
-      .then((response) => {
-        console.log(`Milk Entry updated:`, response.data);
-        console.log(info);
+      .then(() => {
         displayData.map((baby) => {
           if (baby.mrn === updatedInfo.baby_mrn) {
             const milks = baby.associated_milks;
             milks.map((milk) => {
               if (milk.uid === updatedInfo.milk_uid) {
-                console.log('milk updated');
                 milk.milk_type = updatedInfo.milk_type;
                 milk.storage_type = updatedInfo.storage_type;
                 milk.storage_location = updatedInfo.storage_location;
@@ -60,7 +57,7 @@ function ViewInfoModal({ info, closeModal, displayData }) {
         setIsEditing(false);
       })
       .catch((error) => {
-        console.log('Error editing milk entry:', error);
+        console.error('Error editing milk entry:', error);
       });
   };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import {
   faPlus,
@@ -55,6 +55,10 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
   const [searchValue, setSearchValue] = useState('');
   const [expanded, setExpanded] = useState(new Array(displayData.length).fill(0));
   const [data, setData] = useState(displayData);
+
+  useEffect(() => {
+    setData(displayData);
+  }, displayData);
 
   const handlePopUp = (entry) => {
     setInfo(entry);

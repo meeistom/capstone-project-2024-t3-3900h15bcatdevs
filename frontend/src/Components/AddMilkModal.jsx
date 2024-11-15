@@ -23,7 +23,7 @@ function AddMilkModal({ addMilk, closeModal, version }) {
     expiration_time: '',
     express_time: '',
     extra_notes: '',
-    additives: 'none'
+    additives: ['none']
   });
   const [motherData, setMotherData] = useState(null);
   const [babyData, setBabyData] = useState(null);

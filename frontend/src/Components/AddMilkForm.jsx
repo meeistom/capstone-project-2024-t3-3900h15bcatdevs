@@ -1,7 +1,7 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
 import { addDaysToDateTime, getCurrentDateTime } from '../Utils/utils';
-
+import { additiveOptions } from '../constants';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../index.css';
 
@@ -14,6 +14,25 @@ function AddMilkForm({ babyMrn, motherData, milkForm, setMilkForm }) {
       ...prev,
       [name]: value
     }));
+  };
+
+  const handleAdditiveChange = (value) => {
+    setMilkForm((prev) => {
+      const currentAdditives = prev.additives || [];
+      let updatedAdditives;
+
+      if (value === 'none') {
+        updatedAdditives = ['none'];
+      } else {
+        updatedAdditives = currentAdditives.includes(value)
+          ? currentAdditives.filter((item) => item !== value)
+          : [...currentAdditives.filter((item) => item !== 'none'), value];
+      }
+      return {
+        ...prev,
+        additives: updatedAdditives
+      };
+    });
   };
 
   return (
@@ -44,43 +63,26 @@ function AddMilkForm({ babyMrn, motherData, milkForm, setMilkForm }) {
                 </Form.Select>
               </div>
               <div className="col">
-                <Form.Label htmlFor="additive-type" className="form-label">
+                <Form.Label htmlFor="additives-type" className="form-label">
                   Additive Type
                 </Form.Label>
-                <Form.Select
-                  id="additive-type"
-                  className="form-select form-select-sm"
-                  value={milkForm.additives}
-                  onChange={(e) => {
-                    handleChange(e, 'additives');
-                  }}>
-                  <option value="none">None</option>
-                  <option value="prenanfm85">Pre Nan FM85</option>
-                  <option value="humavant6">Humavant+6</option>
-                  <option value="HumavantCream">Humavant Cream</option>
-                  <option value="nanoptipropowder">Nan Optipro Powder</option>
-                  <option value="PeptiJuniorpowder">Pepti Junior powder</option>
-                  <option value="neocate powder">Neocate Powder</option>
-                  <option value="beneprotein">Beneprotein</option>
-                </Form.Select>
+                <div className="mt-1" id="additive-types">
+                  {additiveOptions.map((option) => (
+                    <div key={option.value}>
+                      <label className="form-label">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value={option.value}
+                          checked={milkForm.additives.includes(option.value)}
+                          onChange={() => handleAdditiveChange(option.value)}
+                        />
+                        {option.label}
+                      </label>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="col">
-                <Form.Label htmlFor="milk-storage" className="form-label">
-                  Storage Type*
-                </Form.Label>
-                <Form.Select
-                  id="milk-storage"
-                  className="form-select form-select-sm"
-                  value={milkForm.storage_type}
-                  onChange={(e) => {
-                    handleChange(e, 'storage_type');
-                  }}>
-                  <option value="fresh">Fresh</option>
-                  <option value="frozen">Frozen</option>
-                  <option value="defrosted">Defrosted</option>
-                </Form.Select>
-              </div>
-              <div className="col"></div>
               <div className="col">
                 <Form.Label htmlFor="express-date" className="form-label">
                   Express Date*
