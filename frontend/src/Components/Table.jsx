@@ -195,10 +195,7 @@ function Table({ deleteMilk, displayData, setDisplayData, setOpenModal, viewType
           <tr className="table-header-block">
             <td colSpan="100%">
               <div className="table-header">
-                <button className="btn btn-outline-secondary sort-btn">
-                  <FontAwesomeIcon icon={faFilter} />
-                </button>
-                <div className="search-bar input-group">
+                <div className="search-bar input-group ms-3 mt-3">
                   <input
                     onChange={(e) => setSearchValue(e.target.value.trim().toLowerCase())}
                     onKeyDown={(e) => (e.key === 'Enter' ? handleSearch() : null)}
