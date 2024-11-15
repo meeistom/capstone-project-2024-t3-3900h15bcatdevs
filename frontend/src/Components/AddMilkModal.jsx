@@ -46,10 +46,9 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       const first_name = response.data.first_name;
       const last_name = response.data.last_name;
       setBabyData({ mrn, first_name, last_name });
-      console.log('Baby data fetched:', response.data);
       return response.data;
     } catch (error) {
-      console.log('Error fetching baby data:', error);
+      console.error('Error fetching baby data:', error);
       alert('Failed to fetch baby details with corresponding barcode. Please try again.');
       return null;
     }
@@ -62,10 +61,9 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       const first_name = response.data.first_name;
       const last_name = response.data.last_name;
       setMotherData({ first_name, last_name });
-      console.log('Mother data fetched:', response.data);
       setModalVersion('addMilk2');
     } catch (error) {
-      console.log('Error fetching Mother data:', error);
+      console.error('Error fetching Mother data:', error);
       alert('Failed to fetch mother details with corresponding mrn. Please try again.');
     }
   };
@@ -92,15 +90,13 @@ function AddMilkModal({ addMilk, closeModal, version }) {
       extra_notes: milkForm.extra_notes,
       additives: milkForm.additives
     };
-    console.log(bottleDetails);
     axios
       .post(`${URL}/add_milk_entry`, bottleDetails)
       .then((response) => {
-        console.log(`Bottle details added: ${response}`, response.data);
         addMilk(response.data);
       })
       .catch((error) => {
-        console.log('Error posting bottle details:', error);
+        console.error('Error posting bottle details:', error);
         alert('Failed to add bottle details. Please try again.');
       });
   };

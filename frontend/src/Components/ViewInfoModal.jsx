@@ -11,7 +11,7 @@ import { toUnix, dateTimeToString, unixToDatetimeLocal } from '../Utils/utils';
 
 export { ViewInfoModal };
 
-function ViewInfoModal({ info, closeModal, displayData, setDisplayData }) {
+function ViewInfoModal({ info, closeModal, displayData }) {
   const [isEditing, setIsEditing] = useState(false);
   const [expressDate, setExpressDate] = useState(unixToDatetimeLocal(info.express_time));
   const [expiryDate, setExpiryDate] = useState(unixToDatetimeLocal(info.expiration_time));
@@ -31,11 +31,10 @@ function ViewInfoModal({ info, closeModal, displayData, setDisplayData }) {
       milk_type: milkType,
       storage_type: storageType,
       storage_location: storageLocation,
-      additives: [additive],
+      additives: additive,
       volume_ml: info.volume_ml
     };
 
-    console.log(`before change: ${displayData}`);
     axios
       .post(`${URL}/edit?milk_uid=${info.uid}`, updatedInfo)
       .then((response) => {
@@ -46,17 +45,18 @@ function ViewInfoModal({ info, closeModal, displayData, setDisplayData }) {
             const milks = baby.associated_milks;
             milks.map((milk) => {
               if (milk.uid === updatedInfo.milk_uid) {
-                console.log("milk updated");
+                console.log('milk updated');
                 milk.milk_type = updatedInfo.milk_type;
                 milk.storage_type = updatedInfo.storage_type;
                 milk.storage_location = updatedInfo.storage_location;
                 milk.express_time = updatedInfo.express_time;
                 milk.expiration_time = updatedInfo.expiration_time;
                 milk.extra_notes = updatedInfo.extra_notes;
+                milk.additives = updatedInfo.additives;
               }
-            }) 
+            });
           }
-        })
+        });
         setIsEditing(false);
       })
       .catch((error) => {
