@@ -297,10 +297,6 @@ def get_milk_label_preview():
     except (TypeError, json.JSONDecodeError):
         return jsonify({"error": "Invalid milk data"}), 400
 
-    # get baby info
-    # baby = retrieve_from_collection(fs_client, collection="babies", mrn_uid=milk['baby_mrn'])
-    # assert(len(baby) == 1)
-    # baby = baby[0]
     label = get_milk_label((
         uid,
         milk['first_name'],
@@ -310,7 +306,7 @@ def get_milk_label_preview():
         milk['volume_ml'],
         milk['express_time'],
         milk['expiration_time'],
-        [milk['additives']]
+        milk['additives']
     ))
 
     return make_response(label, 200)
