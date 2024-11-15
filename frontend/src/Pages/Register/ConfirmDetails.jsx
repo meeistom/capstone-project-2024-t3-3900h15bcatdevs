@@ -42,7 +42,7 @@ function ConfirmDetails({ momForm, babyForm, milkForm, checked }) {
               </div>
               <div className="bottom-layer">
                 <div>Milk Type: {milkForm.milk_type.toUpperCase()}</div>
-                <div>Additive Type: {milkForm.additive.toUpperCase()}</div>
+                <div>Additive Type: {milkForm.additives.join(', ')}</div>
                 <div>Storage Type: {milkForm.storage_type.toUpperCase()}</div>
                 {milkForm.extra_notes !== '' && (
                   <div className="notes">Notes: {milkForm.extra_notes}</div>
