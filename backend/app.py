@@ -10,7 +10,7 @@ from firebase.add import *
 from firebase.delete import *
 from firebase.retrieve import *
 from firebase.error_check import *
-from firebase.home_milk_page import *
+from firebase.home_page import *
 from firebase.verify import *
 from firebase.notify import *
 from firebase.search import *
@@ -51,16 +51,13 @@ app.register_blueprint(swaggerui_blueprint)
 def passes():
     return 'Ni hao'
 
-# Homepage shows the formatted milks as default
-# Fetches & formats milks with mother and baby info
 
-
+# Homepage shows all babies including all their associated milks
 @app.route("/home", methods=["GET"], strict_slashes=False)
-def default_home_milks():
-
-    success, home_page_milks = get_home_page_formatted_milks(fs_client)
-
-    return make_response(jsonify(home_page_milks), 200 if success else 400)
+def get_babies_and_milks():
+    success, baby_data = get_babies_associated_milks(fs_client)
+    
+    return make_response(jsonify(baby_data), 200 if success else 400)
 
 
 # Fetches all mothers as a list, or fetches mother object by MRN if provided
@@ -76,6 +73,15 @@ def get_mother():
             mother_data) == 1 else mother_data),
         400 if mrn and len(mother_data) == 0 else 200,
     )
+
+
+# Fetches all milks and formats with mother and baby info
+@app.route("/milks", methods=["GET"], strict_slashes=False)
+def default_home_milks():
+
+    success, home_page_milks = get_formatted_milks(fs_client)
+
+    return make_response(jsonify(home_page_milks), 200 if success else 400)
 
 
 # Fetches all babies as a list, or fetches baby object by MRN if provided
@@ -291,10 +297,6 @@ def get_milk_label_preview():
     except (TypeError, json.JSONDecodeError):
         return jsonify({"error": "Invalid milk data"}), 400
 
-    # get baby info
-    # baby = retrieve_from_collection(fs_client, collection="babies", mrn_uid=milk['baby_mrn'])
-    # assert(len(baby) == 1)
-    # baby = baby[0]
     label = get_milk_label((
         uid,
         milk['first_name'],
@@ -304,7 +306,7 @@ def get_milk_label_preview():
         milk['volume_ml'],
         milk['express_time'],
         milk['expiration_time'],
-        [milk['additives']]
+        milk['additives']
     ))
 
     return make_response(label, 200)

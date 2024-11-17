@@ -1,4 +1,5 @@
 import React from 'react';
+import { additiveOptions } from '../constants';
 
 export { ViewInfoForm };
 
@@ -23,6 +24,18 @@ function ViewInfoForm({
   isEditing,
   uid
 }) {
+  const handleAdditiveChange = (value) => {
+    if (value === 'none') {
+      setAdditive(['none']);
+    } else {
+      setAdditive((prev) =>
+        prev.includes(value)
+          ? prev.filter((item) => item !== value)
+          : [...prev.filter((item) => item !== 'none'), value]
+      );
+    }
+  };
+
   return (
     <>
       <div className="container text-center">
@@ -87,20 +100,23 @@ function ViewInfoForm({
               </label>
             </div>
             <div>
-              <select
-                disabled={!isEditing}
-                className="form-select form-select-sm"
-                value={additive}
-                onChange={(e) => setAdditive(e.target.value)}>
-                <option value="none">None</option>
-                <option value="prenanfm85">Pre Nan FM85</option>
-                <option value="humavant6">Humavant+6</option>
-                <option value="HumavantCream">Humavant Cream</option>
-                <option value="nanoptipropowder">Nan Optipro Powder</option>
-                <option value="PeptiJuniorpowder">Pepti Junior powder</option>
-                <option value="neocate powder">Neocate Powder</option>
-                <option value="beneprotein">Beneprotein</option>
-              </select>
+              <div id={`${uid}-additive`} className="mt-1">
+                {additiveOptions.map((option) => (
+                  <div key={option.value}>
+                    <label className="form-label">
+                      <input
+                        className="form-check-input"
+                        disabled={!isEditing}
+                        type="checkbox"
+                        value={option.value}
+                        checked={additive.includes(option.value)}
+                        onChange={() => handleAdditiveChange(option.value)}
+                      />
+                      {option.label}
+                    </label>
+                  </div>
+                ))}
+              </div>
             </div>
             <div>
               <label htmlFor={`${uid}-storage-type`} className="form-label">
@@ -113,9 +129,9 @@ function ViewInfoForm({
                 className="form-select form-select-sm"
                 value={storageType}
                 onChange={(e) => setStorageType(e.target.value)}>
-                <option value="fridge">Fridge</option>
                 <option value="fresh">Fresh</option>
-                <option value="defrost">Defrost</option>
+                <option value="frozen">Frozen</option>
+                <option value="defrosted">Defrosted</option>
               </select>
             </div>
             <div className="col">Storage Location</div>

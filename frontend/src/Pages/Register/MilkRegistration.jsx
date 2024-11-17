@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { addDaysToDateTime, getCurrentDateTime } from '../../Utils/utils';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../index.css';
+import { additiveOptions } from '../../constants';
 
 export { MilkRegistration };
 
@@ -28,6 +29,25 @@ function MilkRegistration({
       ...prev,
       mrn: value
     }));
+  };
+
+  const handleAdditiveChange = (value) => {
+    setMilkForm((prev) => {
+      const currentAdditives = prev.additives || [];
+      let updatedAdditives;
+
+      if (value === 'none') {
+        updatedAdditives = ['none'];
+      } else {
+        updatedAdditives = currentAdditives.includes(value)
+          ? currentAdditives.filter((item) => item !== value)
+          : [...currentAdditives.filter((item) => item !== 'none'), value];
+      }
+      return {
+        ...prev,
+        additives: updatedAdditives
+      };
+    });
   };
 
   useEffect(() => {
@@ -66,20 +86,23 @@ function MilkRegistration({
                     <Form.Label htmlFor="additive-type" className="register-form-label">
                       Additive Type
                     </Form.Label>
-                    <Form.Select
-                      id="additive-type"
-                      className="form-select form-select-sm"
-                      value={milkForm.additive}
-                      onChange={(e) => handleChange(e, 'additive')}>
-                      <option value="none">None</option>
-                      <option value="prenanfm85">Pre Nan FM85</option>
-                      <option value="humavant6">Humavant+6</option>
-                      <option value="HumavantCream">Humavant Cream</option>
-                      <option value="nanoptipropowder">Nan Optipro Powder</option>
-                      <option value="PeptiJuniorpowder">Pepti Junior powder</option>
-                      <option value="neocate powder">Neocate Powder</option>
-                      <option value="beneprotein">Beneprotein</option>
-                    </Form.Select>
+                    <div className="mt-1 register-additives" id="additive-types">
+                      {additiveOptions.map((option) => (
+                        <div key={option.value}>
+                          <label htmlFor={option.value} className="form-label">
+                            <input
+                              className="form-check-input"
+                              id={option.value}
+                              type="checkbox"
+                              value={option.value}
+                              checked={milkForm.additives.includes(option.value)}
+                              onChange={() => handleAdditiveChange(option.value)}
+                            />
+                            {option.label}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
                   </Form.Group>
                 </div>
                 <div className="col">
@@ -92,9 +115,9 @@ function MilkRegistration({
                       className="form-select form-select-sm"
                       value={milkForm.storage_type}
                       onChange={(e) => handleChange(e, 'storage_type')}>
-                      <option value="fridge">Fridge</option>
                       <option value="fresh">Fresh</option>
-                      <option value="defrost">Defrost</option>
+                      <option value="frozen">Frozen</option>
+                      <option value="defrosted">Defrosted</option>
                     </Form.Select>
                   </Form.Group>
                 </div>
