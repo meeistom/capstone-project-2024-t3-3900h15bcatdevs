@@ -349,5 +349,5 @@ if __name__ == '__main__':
     milk_checker_thread.daemon = True
     milk_checker_thread.start()
 
-    app.run(host='0.0.0.0', port=5001)
-    # app.run(host='0.0.0.0', port=5001, debug=True)
+    # app.run(host='0.0.0.0', port=5001)
+    app.run(host='0.0.0.0', port=5001, debug=True)
