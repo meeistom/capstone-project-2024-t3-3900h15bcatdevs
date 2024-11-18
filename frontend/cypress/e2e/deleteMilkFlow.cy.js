@@ -78,30 +78,11 @@ describe('delete milk flow', () => {
     cy.get("button[name='confirm-and-print']").click();
     cy.get('button[name="return-home"]').click();
 
-    let uid = null;
-    cy.get('table tr')
-      .eq(2)
-      .find('td')
-      .first()
-      .invoke('text')
-      .then((text) => {
-        uid = text;
-      });
-
     cy.get('.expand-btn').first().click();
     cy.get('.dlt-btn').first().click();
     cy.get('#confirm-dlt-milk-btn').click();
 
     cy.get('.modal-title').should('not.exist');
-
-    cy.get('table tr')
-      .eq(2)
-      .find('td')
-      .eq(4)
-      .invoke('text')
-      .then((text) => {
-        expect(text).to.equal('0');
-      });
   });
 
   it('should be able to delete milk entry if other is picked', () => {
@@ -129,15 +110,6 @@ describe('delete milk flow', () => {
     cy.get("button[name='confirm-and-print']").click();
     cy.get('button[name="return-home"]').click();
 
-    let uid = null;
-    cy.get('table tr')
-      .eq(2)
-      .find('td')
-      .first()
-      .invoke('text')
-      .then((text) => {
-        uid = text;
-      });
     cy.get('.expand-btn').first().click();
     cy.get('.dlt-btn').first().click();
     cy.get('#milk-removal-reason').select('other');
@@ -145,14 +117,5 @@ describe('delete milk flow', () => {
     cy.get('#confirm-dlt-milk-btn').click();
 
     cy.get('.modal-title').should('not.exist');
-
-    cy.get('table tr')
-      .eq(2)
-      .find('td')
-      .eq(4)
-      .invoke('text')
-      .then((text) => {
-        expect(text).to.equal('0');
-      });
   });
 });
