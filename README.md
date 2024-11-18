@@ -112,16 +112,7 @@ You may encounter test failures due to mismatched snapshots. If the component de
 
 Please run tests when working on the backend. Please update tests if needed.
 
-To run tests navigate to the `./backend` folder and first reset the database.
-**Make sure that in `db_control.py` you use the first key, `cred = credentials.Certificate('./.key/key.json')`, since we don't want to override data in the main database.**
-Run the following command:
-
-```plain
-python db_cont
-rol.py
-```
-
-Then to run tests, use:
+To run tests navigate to the `./backend` folder, then use:
 
 ```plain
 pytest
@@ -136,7 +127,7 @@ This will automatically detect Python files with the prefix `test_` and run them
   sudo apt install -y wkhtmltopdf
   ```
 
-You can find the code coverage by running the following. Run `db_control.py` again before doing so.
+You can find the code coverage by running the following.
 
 ```plain
 pytest --cov

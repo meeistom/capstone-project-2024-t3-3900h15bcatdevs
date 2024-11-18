@@ -6,6 +6,7 @@ backend/firebase/tests/__pycache__/
 backend/labels/__pycache__/
 backend/labels/barcodes/tests/__pycache__/
 backend/labels/tests/__pycache__/
+backend/a_tests/__pycache__/
 backend/.key/*
 backend/__pycache__/
 backend/labels/barcodes/__pycache__/

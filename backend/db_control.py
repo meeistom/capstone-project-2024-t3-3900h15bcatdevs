@@ -15,9 +15,10 @@ from datetime import datetime, timedelta
 CONSECUTIVE_MILK_EXPIRY = False
 CONSECUTIVE_MILK_EXPIRY_INTERVAL = timedelta(minutes=1)
 
-cred = credentials.Certificate('./.key/key2.json')
+if not fba._apps:
+    cred = credentials.Certificate(".key/key2.json")
+    fba.initialize_app(cred)
 
-fba.initialize_app(cred)
 fs_client = firestore.client()
 
 def clear_collection(firestore_client, collection_name: str):

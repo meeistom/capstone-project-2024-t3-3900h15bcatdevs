@@ -147,6 +147,7 @@ function VerifyFeed() {
           <Form.Control
             type="text"
             name="scanner-input"
+            id="scanner-input"
             className="scanner-input text-center align-self-center"
             ref={scannerInputRef}
             onChange={handleInput}

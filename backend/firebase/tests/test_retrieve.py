@@ -4,12 +4,10 @@ import firebase_admin as fba
 from firebase_admin import firestore, credentials
 
 if not fba._apps:
-    cred = credentials.Certificate("../.key/key.json") # MIGHT CHANGE TO key2.json WHEN MERGING BUT PROBABLY NOT
+    cred = credentials.Certificate(".key/key2.json")
     fba.initialize_app(cred)
 
 fs_client = firestore.client()
-
-# CLEAR COLLECTIONS USING `db_control.py` BEFORE RUNNING TESTS
 
 def test_retrieve_from_collection():
     # Test 1: Valid parameter values
@@ -20,13 +18,12 @@ def test_retrieve_from_collection():
     assert type(result) == list
     assert len(result) > 0
 
-    # BROKEN TEST RN
-    # result = retrieve_from_collection(
-    #     fs_client,
-    #     'babies',
-    # )
-    # assert type(result) == list
-    # assert len(result) > 0
+    result = retrieve_from_collection(
+        fs_client,
+        'babies',
+    )
+    assert type(result) == list
+    assert len(result) > 0
 
     result = retrieve_from_collection(
         fs_client,
@@ -61,7 +58,7 @@ def test_retrieve_from_collection():
     result = retrieve_from_collection(
         fs_client,
         'milk_entries',
-        '000005'
+        'm005'
     )
     assert type(result) == list
     assert len(result) > 0
@@ -102,7 +99,7 @@ def test_retrieve_from_collection():
     result = retrieve_from_collection(
         fs_client,
         'milk_entries',
-        '111111'
+        'm111'
     )
     assert type(result) == list
     assert len(result) == 0
@@ -125,8 +122,8 @@ def test_get_mother_name():
 def test_get_baby_names():
     # Test 1: Mother mrn exists
     assert get_baby_names(fs_client, '6361') == ['Agnes Baistow', 'Lori Coat']
-    assert get_baby_names(fs_client, '5146') == []
-    assert get_baby_names(fs_client, '5587') == ['Gabbey Sarle']
+    assert get_baby_names(fs_client, '5587') == ['Clarisse Willsmore']
+    assert get_baby_names(fs_client, '2055') == []
 
     # Test 2: Mother mrn does not exist
     assert get_baby_names(fs_client, '0000') == []

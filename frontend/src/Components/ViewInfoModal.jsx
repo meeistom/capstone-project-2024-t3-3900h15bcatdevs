@@ -90,10 +90,13 @@ function ViewInfoModal({ info, closeModal, displayData }) {
       }
       footer={
         <div id="btn-group" className="m-4">
-          <Button onClick={() => closeModal(false)} variant="outline-primary">
+          <Button onClick={() => closeModal(false)} id="close-modal" variant="outline-primary">
             Close
           </Button>
-          <Button onClick={() => (isEditing ? handleSave() : setIsEditing(true))} variant="primary">
+          <Button
+            onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+            id={isEditing ? 'save-btn' : 'edit-btn'}
+            variant="primary">
             {isEditing ? 'Save' : 'Edit'}
           </Button>
         </div>

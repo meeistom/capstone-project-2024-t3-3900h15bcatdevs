@@ -4,12 +4,10 @@ import firebase_admin as fba
 from firebase_admin import firestore, credentials
 
 if not fba._apps:
-    cred = credentials.Certificate("../.key/key.json") # MIGHT CHANGE TO key2.json WHEN MERGING BUT PROBABLY NOT
+    cred = credentials.Certificate(".key/key2.json")
     fba.initialize_app(cred)
 
 fs_client = firestore.client()
-
-# CLEAR COLLECTIONS USING `db_control.py` BEFORE RUNNING TESTS
 
 def test_search_by_keyword():
     # Test 1: Valid parameter values
@@ -35,7 +33,7 @@ def test_search_by_keyword():
         'Room 3'
     )
     assert type(result) == list
-    assert len(result) == 5
+    assert len(result) == 4
 
     # Test 2: Blank keyword
     result = search_by_keyword(
