@@ -5,12 +5,10 @@ import firebase_admin as fba
 from firebase_admin import firestore, credentials
 
 if not fba._apps:
-    cred = credentials.Certificate(".key/key.json") # MIGHT CHANGE TO key2.json WHEN MERGING BUT PROBABLY NOT
+    cred = credentials.Certificate(".key/key2.json")
     fba.initialize_app(cred)
 
 fs_client = firestore.client()
-
-# CLEAR COLLECTIONS USING `db_control.py` BEFORE RUNNING TESTS
 
 def test_add_mother():
     # Test 1: Correct fields

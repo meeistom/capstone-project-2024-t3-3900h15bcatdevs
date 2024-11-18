@@ -4,12 +4,10 @@ import firebase_admin as fba
 from firebase_admin import firestore, credentials
 
 if not fba._apps:
-    cred = credentials.Certificate("../.key/key.json") # MIGHT CHANGE TO key2.json WHEN MERGING BUT PROBABLY NOT
+    cred = credentials.Certificate(".key/key2.json")
     fba.initialize_app(cred)
 
 fs_client = firestore.client()
-
-# CLEAR COLLECTIONS USING `db_control.py` BEFORE RUNNING TESTS
 
 def test_retrieve_from_collection():
     # Test 1: Valid parameter values
@@ -20,13 +18,12 @@ def test_retrieve_from_collection():
     assert type(result) == list
     assert len(result) > 0
 
-    # BROKEN TEST RN
-    # result = retrieve_from_collection(
-    #     fs_client,
-    #     'babies',
-    # )
-    # assert type(result) == list
-    # assert len(result) > 0
+    result = retrieve_from_collection(
+        fs_client,
+        'babies',
+    )
+    assert type(result) == list
+    assert len(result) > 0
 
     result = retrieve_from_collection(
         fs_client,
