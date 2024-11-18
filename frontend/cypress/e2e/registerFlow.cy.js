@@ -99,7 +99,7 @@ describe('register flow', () => {
     const expressDate = '2024-10-31T14:30';
     const expiryDate = '2024-11-01T14:30';
     const milkType = 'pdhm';
-    const storageType = 'fridge';
+    const storageType = 'fresh';
 
     cy.get('#milk-type').select(milkType);
     cy.get('#milk-storage').select(storageType);
@@ -158,7 +158,7 @@ describe('register flow', () => {
     const expressDate = '2024-10-31T14:30';
     const expiryDate = '2024-11-01T14:30';
     const milkType = 'pdhm';
-    const storageType = 'fridge';
+    const storageType = 'fresh';
     const babyMRN = '5049';
 
     cy.get('#milk-type').select(milkType);
@@ -180,7 +180,7 @@ describe('register flow', () => {
     const expressDate = '2024-10-31T14:30';
     const expiryDate = '2024-11-01T14:30';
     const milkType = 'pdhm';
-    const storageType = 'fridge';
+    const storageType = 'fresh';
     const babyMRN = '5049';
 
     cy.get('#milk-type').select(milkType);
