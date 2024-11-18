@@ -72,6 +72,6 @@ def get_new_milk_uid_placeholder(firestore_client) -> Tuple[bool, str]:
         new_uid += 1
 
     # Make the 6 digit zero-padded UID
-    new_uid = str(new_uid).zfill(6)
+    new_uid = f"m{str(new_uid).zfill(3)}"
 
     return True, new_uid
