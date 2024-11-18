@@ -9,6 +9,31 @@ describe('delete milk flow', () => {
   });
 
   it('should open the delete milk modal when delete button pressed', () => {
+    const babyMRN = '1215';
+    const expressDate = '2024-10-31T14:30';
+    const expiryDate = '2024-12-31T14:30';
+    const milkType = 'pdhm';
+    const storageType = 'fresh';
+
+    cy.get('#scan-btn').click();
+    cy.get('input[name="scanner-input"]').type(babyMRN);
+
+    cy.get('#milk-type').select(milkType);
+    cy.get('#milk-storage').select(storageType);
+    cy.get('#express-date').type(expressDate);
+    cy.get('#expiry-date').type(expiryDate);
+
+    cy.get('#milk-type').should('have.value', milkType);
+    cy.get('#milk-storage').should('have.value', storageType);
+    cy.get('#express-date').should('have.value', expressDate);
+    cy.get('#expiry-date').should('have.value', expiryDate);
+
+    cy.get("button[name='preview-sticker']").click();
+    cy.get("button[name='confirm-and-print']").click();
+    cy.get('button[name="return-home"]').click();
+
+    cy.reload();
+
     cy.get('.expand-btn').first().click();
     cy.get('.dlt-btn').first().click();
     cy.get('.modal-title').should('contain', 'Deletion Confirmation');
