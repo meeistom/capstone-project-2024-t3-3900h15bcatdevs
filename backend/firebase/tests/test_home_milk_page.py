@@ -1,4 +1,4 @@
-from ..home_milk_page import *
+from ..home_page import *
 
 import firebase_admin as fba
 from firebase_admin import firestore, credentials

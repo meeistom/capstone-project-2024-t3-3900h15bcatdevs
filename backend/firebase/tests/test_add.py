@@ -173,7 +173,7 @@ def test_add_milk():
         'additives': ['hmf', 'humavant6']
     }
     home_milk_entry = milk_entry
-    home_milk_entry['uid'] = '000010'
+    home_milk_entry['uid'] = 'm010'
     home_milk_entry['baby_name'] = 'test first baby test last baby'
     home_milk_entry['mother_name'] = 'test first mother test last mother'
     result = add_milk_entry(fs_client, milk_entry)
