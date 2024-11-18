@@ -112,10 +112,8 @@ function VerifyFeed() {
 
   const handleInput = async () => {
     const scannedValue = scannerInputRef.current.value;
-    if (
-      (babyBarcode === '' && scannedValue.length >= 4) ||
-      (milkBarcode === '' && scannedValue.length >= 6)
-    ) {
+    console.log(scannedValue);
+    if (scannedValue.length >= 4) {
       // Sets scanner input to empty again
       scannerInputRef.current.value = '';
 
@@ -147,7 +145,7 @@ function VerifyFeed() {
           <img className="img" src={scanner}></img>
           <div className="text">Waiting for scan...</div>
           <Form.Control
-            type="number"
+            type="text"
             name="scanner-input"
             className="scanner-input text-center align-self-center"
             ref={scannerInputRef}
