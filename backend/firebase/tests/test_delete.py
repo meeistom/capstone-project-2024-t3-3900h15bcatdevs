@@ -15,15 +15,15 @@ def test_delete_document():
     # Test 1: Correct fields
     assert delete_document(
         fs_client,
-        mother_mrn='2055',
-        baby_mrn='1215',
+        mother_mrn='2247',
+        baby_mrn='9959',
         milk_entry_uid='m000'
-    ) == (True, f"Successfully deleted document {['2055', '1215', 'm000']}")
+    ) == (True, f"Successfully deleted document {['2247', '9959', 'm000']}")
 
     assert delete_document(
         fs_client,
-        mother_mrn='2247'
-    ) == (True, f"Successfully deleted document {['2247']}")
+        mother_mrn='4487'
+    ) == (True, f"Successfully deleted document {['4487']}")
 
     assert delete_document(
         fs_client,
@@ -37,21 +37,21 @@ def test_delete_document():
 
     assert delete_document(
         fs_client,
-        mother_mrn='2667',
-        baby_mrn='3712',
-    ) == (True, f"Successfully deleted document {['2667', '3712']}")
+        mother_mrn='8017',
+        baby_mrn='7340',
+    ) == (True, f"Successfully deleted document {['8017', '7340']}")
 
     assert delete_document(
         fs_client,
-        mother_mrn='4487',
-        milk_entry_uid='m004' # was '000002' before but caused issue since mother was already deleted - REMOVE THIS COMMENT LATER
-    ) == (True, f"Successfully deleted document {['4487', 'm004']}") # was '000002' before but caused issue since mother was already deleted - REMOVE THIS COMMENT LATER
+        mother_mrn='8220',
+        milk_entry_uid='m002' # was '000002' before but caused issue since mother was already deleted - REMOVE THIS COMMENT LATER
+    ) == (True, f"Successfully deleted document {['8220', 'm002']}") # was '000002' before but caused issue since mother was already deleted - REMOVE THIS COMMENT LATER
 
     assert delete_document(
         fs_client,
-        baby_mrn='4697',
+        baby_mrn='6127',
         milk_entry_uid='m003'
-    ) == (True, f"Successfully deleted document {['4697', 'm003']}")
+    ) == (True, f"Successfully deleted document {['6127', 'm003']}")
 
     # Test 2: No fields given
     assert delete_document(
@@ -61,16 +61,16 @@ def test_delete_document():
     # Test 3: mrn/uid doesn't exist
     assert delete_document(
         fs_client,
-        mother_mrn='2055',
-        baby_mrn='1215',
+        mother_mrn='2247',
+        baby_mrn='9959',
         milk_entry_uid='m000'
-    ) == (False, f"MRN/UID {'2055'} does not exist in collection {'mothers'}")
+    ) == (False, f"MRN/UID {'2247'} does not exist in collection {'mothers'}")
 
     assert delete_document(
         fs_client,
-        baby_mrn='1215',
+        baby_mrn='9959',
         milk_entry_uid='m000'
-    ) == (False, f"MRN/UID {'1215'} does not exist in collection {'babies'}")
+    ) == (False, f"MRN/UID {'9959'} does not exist in collection {'babies'}")
 
     assert delete_document(
         fs_client,

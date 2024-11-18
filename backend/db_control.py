@@ -15,7 +15,7 @@ from datetime import datetime, timedelta
 CONSECUTIVE_MILK_EXPIRY = False
 CONSECUTIVE_MILK_EXPIRY_INTERVAL = timedelta(minutes=1)
 
-cred = credentials.Certificate('./.key/key2.json')
+cred = credentials.Certificate('./.key/key.json')
 
 fba.initialize_app(cred)
 fs_client = firestore.client()

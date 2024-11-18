@@ -470,7 +470,7 @@ def test_exists_in_collection():
     assert exists_in_collection(
         fs_client,
         'milk_entries',
-        '000005'
+        'm005'
     ) == True
 
     assert exists_in_collection(
@@ -495,13 +495,13 @@ def test_exists_in_collection():
     assert exists_in_collection(
         fs_client,
         'milk_entries',
-        '111111'
+        'm111'
     ) == False
 
     assert exists_in_collection(
         fs_client,
         'history',
-        '111111'
+        'm111'
     ) == False
 
     # Test 3: Invalid collection name
@@ -550,7 +550,7 @@ def test_exists_in_db():
 
     assert exists_in_db(
         fs_client,
-        '000005'
+        'm005'
     ) == (True, 'milk_entries')
 
     # Test 2: Non existent mrn/uid
@@ -563,7 +563,7 @@ def test_is_milk_expired():
     # Test 1: Non expired milk
     assert is_milk_expired(
         fs_client,
-        '000010'
+        'm010'
     )[0] == False
 
     # Test 2: Expired milk

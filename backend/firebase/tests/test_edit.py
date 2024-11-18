@@ -16,7 +16,7 @@ def test_edit_entry():
     # Test 1: Correct fields
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -32,7 +32,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -50,7 +50,7 @@ def test_edit_entry():
     # Test 2: Incorrect collection name
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -67,7 +67,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -85,7 +85,7 @@ def test_edit_entry():
     # Test 3: uid does not exist
     assert edit_entry(
         fs_client,
-        '111111',
+        'm111',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -102,7 +102,7 @@ def test_edit_entry():
     # Test 4: Incorrect field names
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milktype': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -118,7 +118,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'expresstime': int(datetime.now().timestamp()),
@@ -134,7 +134,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -150,7 +150,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -166,7 +166,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -182,7 +182,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -198,7 +198,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -214,7 +214,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -230,7 +230,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -247,7 +247,7 @@ def test_edit_entry():
     # Test 5: Missing field names
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'express_time': int(datetime.now().timestamp()),
             'expiration_time': int(datetime.now().timestamp()) + 86400,
@@ -262,7 +262,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'expiration_time': int(datetime.now().timestamp()) + 86400,
@@ -277,7 +277,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -291,7 +291,7 @@ def test_edit_entry():
     ) == (False, "(EDIT) Invalid request data fields")
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -306,7 +306,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -321,7 +321,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -336,7 +336,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -351,7 +351,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -366,7 +366,7 @@ def test_edit_entry():
 
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),
@@ -382,7 +382,7 @@ def test_edit_entry():
     # Test 6: Expiration before current time
     assert edit_entry(
         fs_client,
-        '000010',
+        'm010',
         {
             'milk_type': 'defrosted',
             'express_time': int(datetime.now().timestamp()),

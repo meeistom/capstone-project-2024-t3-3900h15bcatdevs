@@ -61,7 +61,7 @@ def test_retrieve_from_collection():
     result = retrieve_from_collection(
         fs_client,
         'milk_entries',
-        '000005'
+        'm005'
     )
     assert type(result) == list
     assert len(result) > 0
@@ -102,7 +102,7 @@ def test_retrieve_from_collection():
     result = retrieve_from_collection(
         fs_client,
         'milk_entries',
-        '111111'
+        'm111'
     )
     assert type(result) == list
     assert len(result) == 0
@@ -125,8 +125,8 @@ def test_get_mother_name():
 def test_get_baby_names():
     # Test 1: Mother mrn exists
     assert get_baby_names(fs_client, '6361') == ['Agnes Baistow', 'Lori Coat']
-    assert get_baby_names(fs_client, '5146') == []
-    assert get_baby_names(fs_client, '5587') == ['Gabbey Sarle']
+    assert get_baby_names(fs_client, '5587') == ['Clarisse Willsmore']
+    assert get_baby_names(fs_client, '2055') == []
 
     # Test 2: Mother mrn does not exist
     assert get_baby_names(fs_client, '0000') == []

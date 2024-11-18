@@ -11,9 +11,10 @@ fs_client = firestore.client()
 
 # CLEAR COLLECTIONS USING `db_control.py` BEFORE RUNNING TESTS
 
-def test_get_home_page_formatted_milks():
+def test_get_babies_associated_milks():
     # Test 1: Check function works
-    result = get_home_page_formatted_milks(fs_client)
+    result = get_babies_associated_milks(fs_client)
     assert result[0] == True
-    assert result[1][0]['uid'] == '000011'
-    assert result[1][-1]['uid'] == '000002'
+    assert result[1][0]['mrn'] == '1215'
+    assert result[1][-1]['mrn'] == '9172'
+    assert 1 == 1

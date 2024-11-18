@@ -117,8 +117,7 @@ To run tests navigate to the `./backend` folder and first reset the database.
 Run the following command:
 
 ```plain
-python db_cont
-rol.py
+python db_control.py
 ```
 
 Then to run tests, use:

@@ -35,7 +35,7 @@ def test_search_by_keyword():
         'Room 3'
     )
     assert type(result) == list
-    assert len(result) == 5
+    assert len(result) == 4
 
     # Test 2: Blank keyword
     result = search_by_keyword(
