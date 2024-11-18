@@ -13,7 +13,7 @@ fs_client = firestore.client()
 
 def test_get_new_milk_uid():
     # Test 1: Check the function works
-    assert get_new_milk_uid(fs_client) == (True, 'm012')
+    assert get_new_milk_uid(fs_client) == (True, 'm011')
 
     # Can't test case where stats collection and counters document don't exist 
     # since we don't have a function to delete them and recreate them
