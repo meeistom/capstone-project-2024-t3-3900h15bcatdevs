@@ -86,9 +86,11 @@ Run `npm start` in `/frontend`.
 
 ## Frontend
 
-Please run tests when working on the frontend. Please update tests if needed.
+Please run tests when working on the frontend. Please update tests if needed. Run frontend tests in the `./frontend` folder.
 
 ### Cypress (User Flows)
+
+Make sure Docker is running.
 
 To run cypress:
 
@@ -97,6 +99,12 @@ npm run cy:open
 ```
 
 Ensure that backend is also running. Run cypress in Chrome only.
+
+Select e2e testing in the popup, and select Chrome.
+
+If a play button appears, clicking it will run all tests.
+
+Else, you can click on the test files individually to run them.
 
 ### Component Testing
 
