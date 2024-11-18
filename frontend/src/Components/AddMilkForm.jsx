@@ -84,6 +84,23 @@ function AddMilkForm({ babyMrn, motherData, milkForm, setMilkForm }) {
                 </div>
               </div>
               <div className="col">
+                <Form.Group className="d-flex flex-column">
+                  <Form.Label htmlFor="milk-storage" className="register-form-label">
+                    Storage Type*
+                  </Form.Label>
+                  <Form.Select
+                    id="milk-storage"
+                    className="form-select form-select-sm"
+                    value={milkForm.storage_type}
+                    onChange={(e) => handleChange(e, 'storage_type')}>
+                    <option value="fresh">Fresh</option>
+                    <option value="frozen">Frozen</option>
+                    <option value="defrosted">Defrosted</option>
+                  </Form.Select>
+                </Form.Group>
+              </div>
+              <div className="col"></div>
+              <div className="col">
                 <Form.Label htmlFor="express-date" className="form-label">
                   Express Date*
                 </Form.Label>
